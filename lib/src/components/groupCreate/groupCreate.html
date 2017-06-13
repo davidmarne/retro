@@ -1,0 +1,24 @@
+<div class="box">
+  <label class="label">Create a group</label>
+  <div class="field">
+    <p class="control">
+      <input [(ngModel)]="displayName" class="input" type="text" placeholder="Name">
+    </p>
+  </div>
+
+  <div class="field">
+    <p class="control">
+      <textarea [(ngModel)]="description" class="textarea" placeholder="Description"></textarea>
+    </p>
+  </div>
+
+  <div class="field is-grouped">
+    <p class="control">
+      <a class="button is-primary" (click)="submit()">Create</a>
+    </p>
+    <p class="control">
+      <a class="button is-primary" (click)="resetForm()">Cancel</a>
+    </p>
+  </div>
+
+</div>

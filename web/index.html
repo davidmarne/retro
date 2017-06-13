@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      // WARNING: DO NOT set the <base href> like this in production!
+      // Details: https://webdev.dartlang.org/angular/guide/router
+      (function () {
+        // App being served out of web folder (like WebStorm does)?
+        var match = document.location.pathname.match(/^\/[-\w]+\/web\//);
+        var href = match ? match[0] : '/';
+        document.write('<base href="' + href + '" />');
+      }());
+    </script>
+
+    <title>Angular Tour of Heroes</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+
+    <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+    <script src="main.dart" type="application/dart"></script>
+    <script src="packages/browser/dart.js"></script>
+  </head>
+  <body>
+    <app></app>
+  </body>
+</html>

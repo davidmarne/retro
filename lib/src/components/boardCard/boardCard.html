@@ -1,0 +1,9 @@
+<div class="box is-primary">
+  <h3 class="title">{{board.displayName}}</h3>
+  <p>{{board.description}}</p>
+  <br>
+  <p>{{board.startDateStr}} - {{board.endDateStr}}</p>
+  <br>
+  <a class="button is-primary">TODO: Duplicat</a>
+  <a class="button is-primary" [routerLink]="['Board', {'guid': board.groupUid, 'buid': board.uid}]">Go!</a>
+</div>
