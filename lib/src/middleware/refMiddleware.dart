@@ -7,6 +7,7 @@ import 'package:built_value/serializer.dart';
 import 'package:firebase/firebase.dart' as firebase;
 
 import '../state/app.dart';
+import '../state/boards.dart';
 import '../models/group.dart';
 import '../models/board.dart';
 import '../models/user.dart';
@@ -29,9 +30,9 @@ abstract class RefMiddlewareActions extends ReduxActions {
   ActionDispatcher<String> subToGroup;
   ActionDispatcher<Iterable<String>> updateGroupSubs;
   ActionDispatcher<Iterable<String>> updateUserSubs;
-  ActionDispatcher<Iterable<UpdateBoardSubsPayload>> updateBoardSubs;
+  ActionDispatcher<Iterable<BoardPayload>> updateBoardSubs;
   ActionDispatcher<String> subToUser;
-  ActionDispatcher<UpdateBoardSubsPayload> subToBoard;
+  ActionDispatcher<BoardPayload> subToBoard;
   ActionDispatcher<String> unSubToUID;
 
   RefMiddlewareActions._();
@@ -56,17 +57,11 @@ _updateUserSubs(StreamSubManager subMgr) => (MiddlewareApi<App, AppBuilder, AppA
           User.serializer,
         ));
 
-class UpdateBoardSubsPayload {
-  final String guid;
-  final String uid;
-  UpdateBoardSubsPayload(this.guid, this.uid);
-}
-
 _updateBoardSubs(StreamSubManager subMgr) => (MiddlewareApi<App, AppBuilder, AppActions> api,
-        ActionHandler next, Action<Iterable<UpdateBoardSubsPayload>> action) =>
-    action.payload.forEach((UpdateBoardSubsPayload p) => subMgr.add<Board>(
+        ActionHandler next, Action<Iterable<BoardPayload>> action) =>
+    action.payload.forEach((BoardPayload p) => subMgr.add<Board>(
           'boards/${p.guid}/',
-          p.uid,
+          p.buid,
           api.actions.boards.updateBoard,
           Board.serializer,
         ));
@@ -81,10 +76,10 @@ _subToGroup(StreamSubManager subMgr) =>
         );
 
 _subToBoard(StreamSubManager subMgr) => (MiddlewareApi<App, AppBuilder, AppActions> api,
-        ActionHandler next, Action<UpdateBoardSubsPayload> action) =>
+        ActionHandler next, Action<BoardPayload> action) =>
     subMgr.add<Board>(
       'boards/${action.payload.guid}/',
-      action.payload.uid,
+      action.payload.buid,
       api.actions.boards.updateBoard,
       Board.serializer,
     );

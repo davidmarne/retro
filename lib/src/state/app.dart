@@ -16,7 +16,6 @@ part 'app.g.dart';
 /// [AppActions]
 abstract class AppActions extends ReduxActions {
   ActionDispatcher<Null> clear;
-  ActionDispatcher<String> setCurrentBoard;
 
   AuthActions auth;
   BoardsActions boards;
@@ -46,9 +45,6 @@ abstract class App extends BuiltReducer<App, AppBuilder>
   /// [boards]
   Boards get boards;
 
-  ///
-  String get currentBoardUid;
-
   /// [reducer]
   get reducer => _reducer;
 
@@ -58,21 +54,21 @@ abstract class App extends BuiltReducer<App, AppBuilder>
     ..auth = new Auth().toBuilder()
     ..users = new Users().toBuilder()
     ..groups = new Groups().toBuilder()
-    ..boards = new Boards().toBuilder()
-    ..currentBoardUid = "");
+    ..boards = new Boards().toBuilder());
 
   // derived state
   // will only be recomputed when App is rebuilt
 
   @memoized
-  BuiltMap<String, Board> get currentGroupBoardsMap => boards.boardMap[groups.currentGroupUid];
+  BuiltMap<String, Board> get currentGroupBoardsMap => new BuiltMap(new Map<String, Board>.fromIterable(
+    groups.currentGroup.boards.keys.where((buid) => boards.boardMap.containsKey(buid)),
+  value: (buid) {
+    return boards.boardMap[buid];
+  }));
 
   @memoized
   Iterable<Board> get currentGroupBoards =>
       currentGroupBoardsMap == null ? [] : currentGroupBoardsMap.values;
-
-  @memoized
-  Board get currentBoard => currentGroupBoardsMap[currentBoardUid];
 
   @memoized
   Board get mostRecentBoard => currentGroupBoards.length > 0 ? currentGroupBoards.first : null;
@@ -84,8 +80,7 @@ abstract class App extends BuiltReducer<App, AppBuilder>
 
 // combined reducer
 var _reducer = (new ReducerBuilder<App, AppBuilder>()
-      ..add<Null>(AppActionsNames.clear, _clear)
-      ..add<String>(AppActionsNames.setCurrentBoard, _setCurrentBoard))
+      ..add<Null>(AppActionsNames.clear, _clear))
     .build();
 
 // reducers
@@ -94,8 +89,4 @@ _clear(App state, Action<Null> action, AppBuilder builder) => builder
   ..auth = new Auth().toBuilder()
   ..users = new Users().toBuilder()
   ..groups = new Groups().toBuilder()
-  ..boards = new Boards().toBuilder()
-  ..currentBoardUid = "";
-
-_setCurrentBoard(App state, Action<String> action, AppBuilder builder) =>
-    builder..currentBoardUid = action.payload;
+  ..boards = new Boards().toBuilder();

@@ -11,15 +11,14 @@ class _$RefMiddlewareActions extends RefMiddlewareActions {
   ActionDispatcher<String> unSubToUID =
       new ActionDispatcher<String>('RefMiddlewareActions-unSubToUID');
 
-  ActionDispatcher<UpdateBoardSubsPayload> subToBoard =
-      new ActionDispatcher<UpdateBoardSubsPayload>(
-          'RefMiddlewareActions-subToBoard');
+  ActionDispatcher<dynamic> subToBoard =
+      new ActionDispatcher<dynamic>('RefMiddlewareActions-subToBoard');
 
   ActionDispatcher<String> subToUser =
       new ActionDispatcher<String>('RefMiddlewareActions-subToUser');
 
-  ActionDispatcher<Iterable<UpdateBoardSubsPayload>> updateBoardSubs =
-      new ActionDispatcher<Iterable<UpdateBoardSubsPayload>>(
+  ActionDispatcher<Iterable<dynamic>> updateBoardSubs =
+      new ActionDispatcher<Iterable<dynamic>>(
           'RefMiddlewareActions-updateBoardSubs');
 
   ActionDispatcher<Iterable<String>> updateUserSubs =
@@ -49,12 +48,11 @@ class RefMiddlewareActionsNames {
   static ActionName unSubToUID =
       new ActionName<String>('RefMiddlewareActions-unSubToUID');
   static ActionName subToBoard =
-      new ActionName<UpdateBoardSubsPayload>('RefMiddlewareActions-subToBoard');
+      new ActionName<dynamic>('RefMiddlewareActions-subToBoard');
   static ActionName subToUser =
       new ActionName<String>('RefMiddlewareActions-subToUser');
   static ActionName updateBoardSubs =
-      new ActionName<Iterable<UpdateBoardSubsPayload>>(
-          'RefMiddlewareActions-updateBoardSubs');
+      new ActionName<Iterable<dynamic>>('RefMiddlewareActions-updateBoardSubs');
   static ActionName updateUserSubs =
       new ActionName<Iterable<String>>('RefMiddlewareActions-updateUserSubs');
   static ActionName updateGroupSubs =

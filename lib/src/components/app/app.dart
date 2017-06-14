@@ -10,7 +10,7 @@ import '../../store.dart';
     selector: 'app',
     templateUrl: 'app.html',
     directives: const [ROUTER_DIRECTIVES],
-    providers: const [ROUTER_PROVIDERS, StoreService])
+    providers: const [StoreService])
 @RouteConfig(const [
   const Route(
     path: '/dashboard',

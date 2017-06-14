@@ -25,7 +25,7 @@ class ItemCreateComponent {
   String description = "";
 
   void addItem() {
-    var currentBoard = _store.state.currentBoard;
+    var currentBoard = _store.state.boards.currentBoard;
     _store.actions.creation.item(
       new CreateItemPayload(
         currentBoard.groupUid,

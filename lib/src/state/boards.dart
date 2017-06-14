@@ -18,6 +18,8 @@ part 'boards.g.dart';
 abstract class BoardsActions extends ReduxActions {
   ActionDispatcher<Board> updateBoard;
   ActionDispatcher<String> removeBoard;
+  ActionDispatcher<BoardPayload> setCurrentBoard;
+
   ActionDispatcher<AddCategoryPayload> addCategory;
   ActionDispatcher<AddItemPayload> addItem;
 
@@ -29,6 +31,12 @@ abstract class BoardsActions extends ReduxActions {
 ////////////////////
 /// Payloads
 ///////////////////
+
+class BoardPayload {
+  final String guid;
+  final String buid;
+  BoardPayload(this.guid, this.buid);
+}
 
 class AddCategoryPayload {
   final String groupUid;
@@ -52,7 +60,9 @@ class AddItemPayload {
 abstract class Boards extends BuiltReducer<Boards, BoardsBuilder>
     implements Built<Boards, BoardsBuilder> {
   /// [boardMap] contains a map of board.id to Board
-  BuiltMap<String, BuiltMap<String, Board>> get boardMap;
+  BuiltMap<String, Board> get boardMap;
+
+  String get currentBoardUid;
 
   /// [reducer]
   get reducer => _reducer;
@@ -60,6 +70,12 @@ abstract class Boards extends BuiltReducer<Boards, BoardsBuilder>
   // Built value boilerplate
   Boards._();
   factory Boards([updates(BoardsBuilder b)]) => new _$Boards((BoardsBuilder b) => b);
+
+  @memoized
+  Board get currentBoard => boardMap[currentBoardUid];
+
+  @memoized
+  bool get currentBoardIsSet => currentBoardUid != "";
 }
 
 ////////////////////
@@ -69,6 +85,7 @@ abstract class Boards extends BuiltReducer<Boards, BoardsBuilder>
 var _reducer = (new ReducerBuilder<Boards, BoardsBuilder>()
       ..add<Board>(BoardsActionsNames.updateBoard, _updateBoard)
       ..add<String>(BoardsActionsNames.removeBoard, _removeBoard)
+      ..add<BoardPayload>(BoardsActionsNames.setCurrentBoard, _setCurrentBoard)
       ..add<AddCategoryPayload>(BoardsActionsNames.addCategory, _addCategory)
       ..add<AddItemPayload>(BoardsActionsNames.addItem, _addItem))
     .build();
@@ -82,14 +99,14 @@ _updateBoard(Boards state, Action<Board> action, BoardsBuilder builder) =>
 
 _addCategory(Boards state, Action<AddCategoryPayload> action, BoardsBuilder builder) =>
     _updateBoardOnBuilder(
-      builder.boardMap[action.payload.groupUid][action.payload.boardUid].rebuild(
+      builder.boardMap[action.payload.boardUid].rebuild(
           (BoardBuilder b) => b..categories[action.payload.category.uid] = action.payload.category),
       builder,
     );
 
 _addItem(Boards state, Action<AddItemPayload> action, BoardsBuilder builder) =>
     _updateBoardOnBuilder(
-      builder.boardMap[action.payload.groupUid][action.payload.boardUid]
+      builder.boardMap[action.payload.boardUid]
           .rebuild((BoardBuilder b) => b..items[action.payload.item.uid] = action.payload.item),
       builder,
     );
@@ -108,3 +125,6 @@ _updateBoardOnBuilder(Board board, BoardsBuilder builder) {
 
 _removeBoard(Boards state, Action<String> action, BoardsBuilder builder) =>
     builder..boardMap.remove(action.payload);
+
+_setCurrentBoard(Boards state, Action<BoardPayload> action, BoardsBuilder builder) =>
+    builder..currentBoardUid = action.payload.buid;

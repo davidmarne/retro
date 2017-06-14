@@ -5,11 +5,11 @@ import 'package:built_redux/built_redux.dart';
 import '../itemCard/itemCard.dart';
 import '../itemCreate/itemCreate.dart';
 import '../../middleware/creationMiddleware.dart';
-import '../../models/group.dart';
 import '../../models/board.dart';
 import '../../models/item.dart';
 import '../../models/category.dart';
 import '../../state/app.dart';
+import '../../state/boards.dart';
 import '../../store.dart';
 
 const String DEFAULT_CATEGORY_COLOR = '#000000';
@@ -32,14 +32,14 @@ class BoardDashboardComponent implements OnInit {
 
   void ngOnInit() {
     if (guid != _store.state.groups.currentGroupUid) _store.actions.groups.setCurrentGroup(guid);
-    if (buid != _store.state.currentBoardUid) _store.actions.setCurrentBoard(buid);
+    if (buid != _store.state.boards.currentBoardUid) _store.actions.boards.setCurrentBoard(new BoardPayload(guid, buid));
   }
 
   String get guid => _routeParams.get('guid');
 
   String get buid => _routeParams.get('buid');
 
-  Board get board => _store.state.currentBoard;
+  Board get board => _store.state.boards.currentBoard;
 
   Iterable<Item> itemsForCategory(Category c) => board.items.values.where(
         (Item item) => item.categoryUid == c.uid,

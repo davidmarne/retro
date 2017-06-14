@@ -1,0 +1,74 @@
+{
+    "boards": {
+        "$uid(board)" : {
+            "title": "title",
+            "description": "description",
+            "owner": "$uid",
+            "users": {
+                "$uid(user)": true
+            },
+            "sessions": {
+                "$uid(session)": true
+            }
+        }
+    },
+    "join-board-request": {
+        "$uid(board)": { // Board owner can see its join requests.
+            "uid(user)": true
+        }
+    },
+    "sessions": {
+        "$uid(board)": { // permission granted based on user's access to board
+            "$uid(session)": {
+                "startDate": 123456789,
+                "endDate": 123456789,
+                "prev": "$uid(session)",
+                "next": "$uid(session)",
+                "categories" : {
+                    "$uid(category)": {
+                        "items": {
+                            "$uid(item)" : {
+                                "owner": "$uid",
+                                "text": "text",
+                                "date": 123456789,
+                                "votes": {
+                                    "$uid(user)": 123456789
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "categories": {
+        "$uid(board)": { // permission granted based on user's access to board
+            "$uid(category)" : {
+                "title": "title",
+                "description": "description"
+            }
+        }
+    },
+    "notes": {
+        "$uid(board)": { // permission granted based on user's access to board
+            "uid(session)" : {
+                "$uid(note)": {
+                    "owner": "$uid(user)",
+                    "text": "text",
+                    "date": 123456789,
+                    "items": {
+                        "$uid(item)": true
+                    }
+                }
+            }
+        }
+    },
+    "users": {
+        "$uid(user)": {
+            "name": "name",
+            "boards": {
+                "$uid(board)": true
+            }
+        }
+    }
+}

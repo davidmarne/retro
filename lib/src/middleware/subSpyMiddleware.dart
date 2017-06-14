@@ -19,7 +19,7 @@ createSubSpyMiddleware(firebase.Database db) => (new MiddlwareBuilder<App, AppBu
       ..add<firebase.User>(AuthActionsNames.logIn, _onLogin(db))
       ..add<User>(UsersActionsNames.updateUser, _onUpdateUser(db))
       ..add<Group>(GroupsActionsNames.updateGroup, _onUpdateGroup(db))
-      // ..add<String>(AppActionsNames.setCurrentBoard, _onSetCurrentBoard(db))
+      ..add<BoardPayload>(BoardsActionsNames.setCurrentBoard, _onSetCurrentBoard(db))
       ..add<String>(GroupsActionsNames.setCurrentGroup, _onSetCurrentGroup(db)))
     .build();
 
@@ -65,20 +65,18 @@ _onSetCurrentGroup(firebase.Database db) => (
     ) {
       next(action);
       var payload = api.state.groups.currentGroup.boards.keys.map(
-        (String key) => new UpdateBoardSubsPayload(action.payload, key),
+        (String key) => new BoardPayload(action.payload, key),
       );
       api.actions.ref.updateBoardSubs(payload);
     };
 
-// TODO: decide if necessary
 _onSetCurrentBoard(firebase.Database db) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
-      Action<String> action,
+      Action<BoardPayload> action,
     ) {
-      print("SUB WTF  ${action.name} ${action.payload}");
       next(action);
-      api.actions.ref.subToBoard(
-        new UpdateBoardSubsPayload(api.state.currentBoard.groupUid, action.payload),
-      );
+      print("SUB WTF ${action.name} Group:\"${action.payload?.guid}\" Board:\"${action.payload?.buid}\"");
+      api.actions.ref.subToBoard(action.payload);
+      next(action);
     };

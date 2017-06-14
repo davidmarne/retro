@@ -6,5 +6,5 @@ NextActionHandler loggingMiddleware(MiddlewareApi<App, AppBuilder, AppActions> a
           next(action);
           print("Action: ${action.name}");
           print("Payload: ${action.payload}");
-          print("Nex State: ${api.state}");
+          print("Next State: ${api.state}");
         };

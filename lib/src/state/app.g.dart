@@ -14,9 +14,6 @@ class _$AppActions extends AppActions {
   GroupsActions groups = new GroupsActions();
   BoardsActions boards = new BoardsActions();
   AuthActions auth = new AuthActions();
-  ActionDispatcher<String> setCurrentBoard =
-      new ActionDispatcher<String>('AppActions-setCurrentBoard');
-
   ActionDispatcher<Null> clear = new ActionDispatcher<Null>('AppActions-clear');
   factory _$AppActions() => new _$AppActions._();
   _$AppActions._() : super._();
@@ -27,14 +24,11 @@ class _$AppActions extends AppActions {
     groups.syncWithStore(dispatcher);
     boards.syncWithStore(dispatcher);
     auth.syncWithStore(dispatcher);
-    setCurrentBoard.syncWithStore(dispatcher);
     clear.syncWithStore(dispatcher);
   }
 }
 
 class AppActionsNames {
-  static ActionName setCurrentBoard =
-      new ActionName<String>('AppActions-setCurrentBoard');
   static ActionName clear = new ActionName<Null>('AppActions-clear');
 }
 
@@ -52,26 +46,19 @@ class _$App extends App {
   final Groups groups;
   @override
   final Boards boards;
-  @override
-  final String currentBoardUid;
   BuiltMap<String, dynamic> __currentGroupBoardsMap;
   Iterable<dynamic> __currentGroupBoards;
-  dynamic __currentBoard;
   dynamic __mostRecentBoard;
   Iterable<dynamic> __restOfBoards;
 
   factory _$App([void updates(AppBuilder b)]) =>
       (new AppBuilder()..update(updates)).build();
 
-  _$App._(
-      {this.auth, this.users, this.groups, this.boards, this.currentBoardUid})
-      : super._() {
+  _$App._({this.auth, this.users, this.groups, this.boards}) : super._() {
     if (auth == null) throw new ArgumentError.notNull('auth');
     if (users == null) throw new ArgumentError.notNull('users');
     if (groups == null) throw new ArgumentError.notNull('groups');
     if (boards == null) throw new ArgumentError.notNull('boards');
-    if (currentBoardUid == null)
-      throw new ArgumentError.notNull('currentBoardUid');
   }
 
   @override
@@ -81,9 +68,6 @@ class _$App extends App {
   @override
   Iterable<dynamic> get currentGroupBoards =>
       __currentGroupBoards ??= super.currentGroupBoards;
-
-  @override
-  dynamic get currentBoard => __currentBoard ??= super.currentBoard;
 
   @override
   dynamic get mostRecentBoard => __mostRecentBoard ??= super.mostRecentBoard;
@@ -105,16 +89,14 @@ class _$App extends App {
     return auth == other.auth &&
         users == other.users &&
         groups == other.groups &&
-        boards == other.boards &&
-        currentBoardUid == other.currentBoardUid;
+        boards == other.boards;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc($jc(0, auth.hashCode), users.hashCode), groups.hashCode),
-            boards.hashCode),
-        currentBoardUid.hashCode));
+        $jc($jc($jc(0, auth.hashCode), users.hashCode), groups.hashCode),
+        boards.hashCode));
   }
 
   @override
@@ -123,8 +105,7 @@ class _$App extends App {
           ..add('auth', auth)
           ..add('users', users)
           ..add('groups', groups)
-          ..add('boards', boards)
-          ..add('currentBoardUid', currentBoardUid))
+          ..add('boards', boards))
         .toString();
   }
 }
@@ -148,11 +129,6 @@ class AppBuilder implements Builder<App, AppBuilder> {
   BoardsBuilder get boards => _$this._boards ??= new BoardsBuilder();
   set boards(BoardsBuilder boards) => _$this._boards = boards;
 
-  String _currentBoardUid;
-  String get currentBoardUid => _$this._currentBoardUid;
-  set currentBoardUid(String currentBoardUid) =>
-      _$this._currentBoardUid = currentBoardUid;
-
   AppBuilder();
 
   AppBuilder get _$this {
@@ -161,7 +137,6 @@ class AppBuilder implements Builder<App, AppBuilder> {
       _users = _$v.users?.toBuilder();
       _groups = _$v.groups?.toBuilder();
       _boards = _$v.boards?.toBuilder();
-      _currentBoardUid = _$v.currentBoardUid;
       _$v = null;
     }
     return this;
@@ -185,8 +160,7 @@ class AppBuilder implements Builder<App, AppBuilder> {
             auth: auth?.build(),
             users: users?.build(),
             groups: groups?.build(),
-            boards: boards?.build(),
-            currentBoardUid: currentBoardUid);
+            boards: boards?.build());
     replace(result);
     return result;
   }
