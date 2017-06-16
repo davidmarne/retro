@@ -8,9 +8,6 @@ part of refMiddleware;
 // **************************************************************************
 
 class _$RefMiddlewareActions extends RefMiddlewareActions {
-  ActionDispatcher<String> unSubToUID =
-      new ActionDispatcher<String>('RefMiddlewareActions-unSubToUID');
-
   ActionDispatcher<UpdateBoardSubsPayload> subToBoard =
       new ActionDispatcher<UpdateBoardSubsPayload>(
           'RefMiddlewareActions-subToBoard');
@@ -35,7 +32,6 @@ class _$RefMiddlewareActions extends RefMiddlewareActions {
   factory _$RefMiddlewareActions() => new _$RefMiddlewareActions._();
   _$RefMiddlewareActions._() : super._();
   syncWithStore(dispatcher) {
-    unSubToUID.syncWithStore(dispatcher);
     subToBoard.syncWithStore(dispatcher);
     subToUser.syncWithStore(dispatcher);
     updateBoardSubs.syncWithStore(dispatcher);
@@ -46,8 +42,6 @@ class _$RefMiddlewareActions extends RefMiddlewareActions {
 }
 
 class RefMiddlewareActionsNames {
-  static ActionName unSubToUID =
-      new ActionName<String>('RefMiddlewareActions-unSubToUID');
   static ActionName subToBoard =
       new ActionName<UpdateBoardSubsPayload>('RefMiddlewareActions-subToBoard');
   static ActionName subToUser =

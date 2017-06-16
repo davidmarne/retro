@@ -54,11 +54,11 @@ class _$App extends App {
   final Boards boards;
   @override
   final String currentBoardUid;
-  BuiltMap<String, dynamic> __currentGroupBoardsMap;
-  Iterable<dynamic> __currentGroupBoards;
-  dynamic __currentBoard;
-  dynamic __mostRecentBoard;
-  Iterable<dynamic> __restOfBoards;
+  BuiltMap<String, Board> __currentGroupBoardsMap;
+  Iterable<Board> __currentGroupBoards;
+  Board __currentBoard;
+  Board __mostRecentBoard;
+  Iterable<Board> __restOfBoards;
 
   factory _$App([void updates(AppBuilder b)]) =>
       (new AppBuilder()..update(updates)).build();
@@ -75,21 +75,21 @@ class _$App extends App {
   }
 
   @override
-  BuiltMap<String, dynamic> get currentGroupBoardsMap =>
+  BuiltMap<String, Board> get currentGroupBoardsMap =>
       __currentGroupBoardsMap ??= super.currentGroupBoardsMap;
 
   @override
-  Iterable<dynamic> get currentGroupBoards =>
+  Iterable<Board> get currentGroupBoards =>
       __currentGroupBoards ??= super.currentGroupBoards;
 
   @override
-  dynamic get currentBoard => __currentBoard ??= super.currentBoard;
+  Board get currentBoard => __currentBoard ??= super.currentBoard;
 
   @override
-  dynamic get mostRecentBoard => __mostRecentBoard ??= super.mostRecentBoard;
+  Board get mostRecentBoard => __mostRecentBoard ??= super.mostRecentBoard;
 
   @override
-  Iterable<dynamic> get restOfBoards => __restOfBoards ??= super.restOfBoards;
+  Iterable<Board> get restOfBoards => __restOfBoards ??= super.restOfBoards;
 
   @override
   App rebuild(void updates(AppBuilder b)) =>

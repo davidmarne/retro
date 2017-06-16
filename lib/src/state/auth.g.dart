@@ -8,7 +8,8 @@ part of auth;
 // **************************************************************************
 
 class _$AuthActions extends AuthActions {
-  ActionDispatcher<firebase.User> logIn = new ActionDispatcher<firebase.User>('AuthActions-logIn');
+  ActionDispatcher<User> logIn =
+      new ActionDispatcher<User>('AuthActions-logIn');
   factory _$AuthActions() => new _$AuthActions._();
   _$AuthActions._() : super._();
   syncWithStore(dispatcher) {
@@ -17,7 +18,7 @@ class _$AuthActions extends AuthActions {
 }
 
 class AuthActionsNames {
-  static ActionName logIn = new ActionName<firebase.User>('AuthActions-logIn');
+  static ActionName logIn = new ActionName<User>('AuthActions-logIn');
 }
 
 // **************************************************************************
@@ -27,10 +28,11 @@ class AuthActionsNames {
 
 class _$Auth extends Auth {
   @override
-  final firebase.User currentUser;
+  final User currentUser;
   bool __loggedIn;
 
-  factory _$Auth([void updates(AuthBuilder b)]) => (new AuthBuilder()..update(updates)).build();
+  factory _$Auth([void updates(AuthBuilder b)]) =>
+      (new AuthBuilder()..update(updates)).build();
 
   _$Auth._({this.currentUser}) : super._();
 
@@ -38,7 +40,8 @@ class _$Auth extends Auth {
   bool get loggedIn => __loggedIn ??= super.loggedIn;
 
   @override
-  Auth rebuild(void updates(AuthBuilder b)) => (toBuilder()..update(updates)).build();
+  Auth rebuild(void updates(AuthBuilder b)) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   AuthBuilder toBuilder() => new AuthBuilder()..replace(this);
@@ -57,16 +60,18 @@ class _$Auth extends Auth {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('Auth')..add('currentUser', currentUser)).toString();
+    return (newBuiltValueToStringHelper('Auth')
+          ..add('currentUser', currentUser))
+        .toString();
   }
 }
 
 class AuthBuilder implements Builder<Auth, AuthBuilder> {
   _$Auth _$v;
 
-  firebase.User _currentUser;
-  firebase.User get currentUser => _$this._currentUser;
-  set currentUser(firebase.User currentUser) => _$this._currentUser = currentUser;
+  User _currentUser;
+  User get currentUser => _$this._currentUser;
+  set currentUser(User currentUser) => _$this._currentUser = currentUser;
 
   AuthBuilder();
 
