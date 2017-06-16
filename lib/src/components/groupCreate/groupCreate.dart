@@ -20,7 +20,6 @@ class GroupCreateComponent {
   String description;
 
   // /// [users] are the users the group contains
-  // BuiltList<String> get users;
   void submit() {
     _store.actions.creation.group(new CreateGroupPayload(displayName, description, []));
     resetForm();

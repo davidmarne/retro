@@ -1,5 +1,4 @@
 import 'package:angular2/core.dart';
-import 'package:angular_components/angular_components.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../../state/app.dart';
@@ -9,9 +8,6 @@ import '../../store.dart';
 @Component(
   selector: 'board-create',
   templateUrl: 'boardCreate.html',
-  directives: const [
-    materialDirectives,
-  ],
 )
 class BoardCreateComponent {
   final Store<App, AppBuilder, AppActions> _store;

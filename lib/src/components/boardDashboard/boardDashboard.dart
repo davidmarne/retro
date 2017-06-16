@@ -17,7 +17,6 @@ const String DEFAULT_CATEGORY_COLOR = '#000000';
   selector: 'boardDashboard',
   templateUrl: 'boardDashboard.html',
   directives: const [
-    ROUTER_DIRECTIVES,
     ItemCreateComponent,
     ItemCardComponent,
   ],
