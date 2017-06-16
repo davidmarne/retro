@@ -13,6 +13,10 @@ import '../middleware/refMiddleware.dart';
 
 part 'app.g.dart';
 
+////////////////////
+/// Actions
+///////////////////
+
 /// [AppActions]
 abstract class AppActions extends ReduxActions {
   ActionDispatcher<Null> clear;
@@ -29,6 +33,10 @@ abstract class AppActions extends ReduxActions {
   AppActions._();
   factory AppActions() => new _$AppActions();
 }
+
+////////////////////
+/// State
+///////////////////
 
 /// [App]
 abstract class App extends BuiltReducer<App, AppBuilder>
@@ -82,13 +90,18 @@ abstract class App extends BuiltReducer<App, AppBuilder>
       currentGroupBoards.length > 1 ? currentGroupBoards.skip(1) : [];
 }
 
-// combined reducer
+////////////////////
+/// Main Reducer
+///////////////////
+
 var _reducer = (new ReducerBuilder<App, AppBuilder>()
       ..add<Null>(AppActionsNames.clear, _clear)
       ..add<String>(AppActionsNames.setCurrentBoard, _setCurrentBoard))
     .build();
 
-// reducers
+////////////////////
+/// Reducers
+///////////////////
 
 _clear(App state, Action<Null> action, AppBuilder builder) => builder
   ..auth = new Auth().toBuilder()

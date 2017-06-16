@@ -8,6 +8,10 @@ import '../models/group.dart';
 
 part 'groups.g.dart';
 
+////////////////////
+/// Actions
+///////////////////
+
 /// [GroupsActions]
 abstract class GroupsActions extends ReduxActions {
   ActionDispatcher<Group> updateGroup;
@@ -18,6 +22,10 @@ abstract class GroupsActions extends ReduxActions {
   GroupsActions._();
   factory GroupsActions() => new _$GroupsActions();
 }
+
+////////////////////
+/// State
+///////////////////
 
 /// [Groups]
 abstract class Groups extends BuiltReducer<Groups, GroupsBuilder>
@@ -51,14 +59,19 @@ abstract class Groups extends BuiltReducer<Groups, GroupsBuilder>
   bool get currentGroupIsSet => currentGroupUid != "";
 }
 
-// reducer
+////////////////////
+/// Main Reducer
+///////////////////
+
 var _reducer = (new ReducerBuilder<Groups, GroupsBuilder>()
       ..add<Group>(GroupsActionsNames.updateGroup, _updateGroup)
       ..add<String>(GroupsActionsNames.removeGroup, _removeGroup)
       ..add<String>(GroupsActionsNames.setCurrentGroup, _setCurrentGroup))
     .build();
 
-// reducers
+////////////////////
+/// Reducers
+///////////////////
 
 _updateGroup(Groups state, Action<Group> action, GroupsBuilder builder) =>
     builder..groupMap[action.payload.uid] = action.payload;

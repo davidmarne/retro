@@ -3,11 +3,11 @@ library subSpyMiddleware;
 import 'package:built_redux/built_redux.dart';
 import 'package:firebase/firebase.dart' as firebase;
 
+import '../refs.dart';
 import '../state/app.dart';
 import '../state/users.dart';
 import '../state/groups.dart';
 import '../state/auth.dart';
-import '../state/boards.dart';
 
 import '../middleware/creationMiddleware.dart';
 import '../middleware/refMiddleware.dart';
@@ -15,15 +15,23 @@ import '../middleware/refMiddleware.dart';
 import '../models/group.dart';
 import '../models/user.dart';
 
-createSubSpyMiddleware(firebase.Database db) => (new MiddlwareBuilder<App, AppBuilder, AppActions>()
-      ..add<firebase.User>(AuthActionsNames.logIn, _onLogin(db))
-      ..add<User>(UsersActionsNames.updateUser, _onUpdateUser(db))
-      ..add<Group>(GroupsActionsNames.updateGroup, _onUpdateGroup(db))
-      // ..add<String>(AppActionsNames.setCurrentBoard, _onSetCurrentBoard(db))
-      ..add<String>(GroupsActionsNames.setCurrentGroup, _onSetCurrentGroup(db)))
+////////////////////
+/// Action Map
+///////////////////
+
+createSubSpyMiddleware(Refs refs) => (new MiddlwareBuilder<App, AppBuilder, AppActions>()
+      ..add<firebase.User>(AuthActionsNames.logIn, _onLogin(refs))
+      ..add<User>(UsersActionsNames.updateUser, _onUpdateUser(refs))
+      ..add<Group>(GroupsActionsNames.updateGroup, _onUpdateGroup(refs))
+      // ..add<String>(AppActionsNames.setCurrentBoard, _onSetCurrentBoard(refs))
+      ..add<String>(GroupsActionsNames.setCurrentGroup, _onSetCurrentGroup(refs)))
     .build();
 
-_onLogin(firebase.Database db) => (
+////////////////////
+/// Handlers
+///////////////////
+
+_onLogin(Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
       Action<firebase.User> action,
@@ -31,7 +39,7 @@ _onLogin(firebase.Database db) => (
       next(action);
       final String uid = action.payload.uid;
       api.actions.users.setCurrentUser(uid);
-      var user = await db.ref('users/$uid').once('value');
+      var user = await refs.user(uid).once('value');
 
       if (user.snapshot.val() == null)
         api.actions.creation.user(new CreateUserPayload(uid, action.payload.displayName));
@@ -39,7 +47,7 @@ _onLogin(firebase.Database db) => (
         api.actions.ref.subToUser(uid);
     };
 
-_onUpdateUser(firebase.Database db) => (
+_onUpdateUser(Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
       Action<User> action,
@@ -49,7 +57,7 @@ _onUpdateUser(firebase.Database db) => (
         api.actions.ref.updateGroupSubs(action.payload.groups.keys);
     };
 
-_onUpdateGroup(firebase.Database db) => (
+_onUpdateGroup(Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
       Action<Group> action,
@@ -58,7 +66,7 @@ _onUpdateGroup(firebase.Database db) => (
       api.actions.ref.updateUserSubs(action.payload.users.keys);
     };
 
-_onSetCurrentGroup(firebase.Database db) => (
+_onSetCurrentGroup(Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
       Action<String> action,
@@ -71,12 +79,11 @@ _onSetCurrentGroup(firebase.Database db) => (
     };
 
 // TODO: decide if necessary
-_onSetCurrentBoard(firebase.Database db) => (
+_onSetCurrentBoard(Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
       Action<String> action,
     ) {
-      print("SUB WTF  ${action.name} ${action.payload}");
       next(action);
       api.actions.ref.subToBoard(
         new UpdateBoardSubsPayload(api.state.currentBoard.groupUid, action.payload),

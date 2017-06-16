@@ -5,6 +5,8 @@ import 'package:built_redux/built_redux.dart';
 import 'package:firebase/firebase.dart' as firebase;
 
 import './state/app.dart';
+import './refs.dart';
+import './streamSubManager.dart';
 import './middleware/creationMiddleware.dart';
 import './middleware/refMiddleware.dart';
 import './middleware/subSpyMiddleware.dart';
@@ -32,11 +34,12 @@ class StoreService {
         _firebaseDatabase = firebase.database() {
     _firebaseAuth.onAuthStateChanged.listen(_authChanged);
 
+    var refs = new Refs(_firebaseDatabase);
     store = new Store<App, AppBuilder, AppActions>(new App(), new AppActions(), middleware: [
       loggingMiddleware,
-      createRefMiddleware(new StreamSubManager(_firebaseDatabase)),
-      createCreationMiddleware(_firebaseDatabase),
-      createSubSpyMiddleware(_firebaseDatabase),
+      createRefMiddleware(new StreamSubManager(), refs),
+      createCreationMiddleware(refs),
+      createSubSpyMiddleware(refs),
     ]);
   }
 
