@@ -10,7 +10,6 @@ import '../state/auth.dart';
 import '../state/boards.dart';
 
 import '../middleware/creationMiddleware.dart';
-import '../middleware/refMiddleware.dart';
 
 import '../models/group.dart';
 import '../models/user.dart';

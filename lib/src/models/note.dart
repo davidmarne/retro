@@ -2,6 +2,7 @@ library note;
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:built_collection/built_collection.dart';
 
 part 'note.g.dart';
 
@@ -9,15 +10,20 @@ part 'note.g.dart';
 abstract class Note implements Built<Note, NoteBuilder> {
   static Serializer<Note> get serializer => _$noteSerializer;
 
-  /// [id] is the note's identifier
   String get uid;
 
-  /// [text] is the note's text
+  String get boardUid;
+
+  String get sessionUid;
+
+  /// [ownerUid] is the user uid of the item's owner
   String get ownerUid;
 
-  String get categoryUid;
+  /// [supporterUids] contains uids for users that support this item.
+  BuiltMap<String, bool> get supporterUids;
 
-  String get itemUid;
+  /// [visible] when false, prevent Note from appearing in any sets.
+  bool get visible;
 
   // Built value boilerplate
   Note._();

@@ -38,13 +38,6 @@ class BoardPayload {
   BoardPayload(this.guid, this.buid);
 }
 
-class AddCategoryPayload {
-  final String groupUid;
-  final String boardUid;
-  final Category category;
-  AddCategoryPayload(this.groupUid, this.boardUid, this.category);
-}
-
 class AddItemPayload {
   final String groupUid;
   final String boardUid;
@@ -59,8 +52,8 @@ class AddItemPayload {
 /// [Boards]
 abstract class Boards extends BuiltReducer<Boards, BoardsBuilder>
     implements Built<Boards, BoardsBuilder> {
-  /// [boardMap] contains a map of board.id to Board
-  BuiltMap<String, Board> get boardMap;
+  /// [map] contains a map of board.id to Board
+  BuiltMap<String, Board> get map;
 
   String get currentBoardUid;
 

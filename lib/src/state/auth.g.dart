@@ -8,7 +8,8 @@ part of auth;
 // **************************************************************************
 
 class _$AuthActions extends AuthActions {
-  ActionDispatcher<firebase.User> logIn = new ActionDispatcher<firebase.User>('AuthActions-logIn');
+  ActionDispatcher<firebase.User> logIn =
+      new ActionDispatcher<firebase.User>('AuthActions-logIn');
   factory _$AuthActions() => new _$AuthActions._();
   _$AuthActions._() : super._();
   syncWithStore(dispatcher) {

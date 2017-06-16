@@ -21,13 +21,12 @@ class _$UserSerializer implements StructuredSerializer<User> {
     final result = <Object>[
       'uid',
       serializers.serialize(object.uid, specifiedType: const FullType(String)),
-      'displayName',
-      serializers.serialize(object.displayName,
-          specifiedType: const FullType(String)),
-      'groups',
-      serializers.serialize(object.groups,
+      'boardUids',
+      serializers.serialize(object.boardUids,
           specifiedType: const FullType(
-              BuiltMap, const [const FullType(String), const FullType(bool)])),
+              BuiltMap, const [const FullType(String), const FullType(int)])),
+      'name',
+      serializers.serialize(object.name, specifiedType: const FullType(String)),
     ];
 
     return result;
@@ -48,16 +47,16 @@ class _$UserSerializer implements StructuredSerializer<User> {
           result.uid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'displayName':
-          result.displayName = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
-          break;
-        case 'groups':
-          result.groups.replace(serializers.deserialize(value,
+        case 'boardUids':
+          result.boardUids.replace(serializers.deserialize(value,
               specifiedType: const FullType(BuiltMap, const [
                 const FullType(String),
-                const FullType(bool)
-              ])) as BuiltMap<String, bool>);
+                const FullType(int)
+              ])) as BuiltMap<String, int>);
+          break;
+        case 'name':
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
           break;
       }
     }
@@ -75,17 +74,17 @@ class _$User extends User {
   @override
   final String uid;
   @override
-  final String displayName;
+  final BuiltMap<String, int> boardUids;
   @override
-  final BuiltMap<String, bool> groups;
+  final String name;
 
   factory _$User([void updates(UserBuilder b)]) =>
       (new UserBuilder()..update(updates)).build();
 
-  _$User._({this.uid, this.displayName, this.groups}) : super._() {
+  _$User._({this.uid, this.boardUids, this.name}) : super._() {
     if (uid == null) throw new ArgumentError.notNull('uid');
-    if (displayName == null) throw new ArgumentError.notNull('displayName');
-    if (groups == null) throw new ArgumentError.notNull('groups');
+    if (boardUids == null) throw new ArgumentError.notNull('boardUids');
+    if (name == null) throw new ArgumentError.notNull('name');
   }
 
   @override
@@ -100,22 +99,22 @@ class _$User extends User {
     if (identical(other, this)) return true;
     if (other is! User) return false;
     return uid == other.uid &&
-        displayName == other.displayName &&
-        groups == other.groups;
+        boardUids == other.boardUids &&
+        name == other.name;
   }
 
   @override
   int get hashCode {
     return $jf(
-        $jc($jc($jc(0, uid.hashCode), displayName.hashCode), groups.hashCode));
+        $jc($jc($jc(0, uid.hashCode), boardUids.hashCode), name.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('User')
           ..add('uid', uid)
-          ..add('displayName', displayName)
-          ..add('groups', groups))
+          ..add('boardUids', boardUids)
+          ..add('name', name))
         .toString();
   }
 }
@@ -127,22 +126,23 @@ class UserBuilder implements Builder<User, UserBuilder> {
   String get uid => _$this._uid;
   set uid(String uid) => _$this._uid = uid;
 
-  String _displayName;
-  String get displayName => _$this._displayName;
-  set displayName(String displayName) => _$this._displayName = displayName;
+  MapBuilder<String, int> _boardUids;
+  MapBuilder<String, int> get boardUids =>
+      _$this._boardUids ??= new MapBuilder<String, int>();
+  set boardUids(MapBuilder<String, int> boardUids) =>
+      _$this._boardUids = boardUids;
 
-  MapBuilder<String, bool> _groups;
-  MapBuilder<String, bool> get groups =>
-      _$this._groups ??= new MapBuilder<String, bool>();
-  set groups(MapBuilder<String, bool> groups) => _$this._groups = groups;
+  String _name;
+  String get name => _$this._name;
+  set name(String name) => _$this._name = name;
 
   UserBuilder();
 
   UserBuilder get _$this {
     if (_$v != null) {
       _uid = _$v.uid;
-      _displayName = _$v.displayName;
-      _groups = _$v.groups?.toBuilder();
+      _boardUids = _$v.boardUids?.toBuilder();
+      _name = _$v.name;
       _$v = null;
     }
     return this;
@@ -162,8 +162,7 @@ class UserBuilder implements Builder<User, UserBuilder> {
   @override
   _$User build() {
     final result = _$v ??
-        new _$User._(
-            uid: uid, displayName: displayName, groups: groups?.build());
+        new _$User._(uid: uid, boardUids: boardUids?.build(), name: name);
     replace(result);
     return result;
   }

@@ -3,11 +3,20 @@ library app;
 import 'package:built_value/built_value.dart';
 import 'package:built_redux/built_redux.dart';
 import 'package:built_collection/built_collection.dart';
+
 import './auth.dart';
 import './users.dart';
-import './groups.dart';
 import './boards.dart';
+import './sessions.dart';
+import './categories.dart';
+import './items.dart';
+import './notes.dart';
+
 import '../models/board.dart';
+import '../models/session.dart';
+import '../models/category.dart';
+import '../models/item.dart';
+
 import '../middleware/creationMiddleware.dart';
 import '../middleware/refMiddleware.dart';
 
@@ -18,9 +27,13 @@ abstract class AppActions extends ReduxActions {
   ActionDispatcher<Null> clear;
 
   AuthActions auth;
-  BoardsActions boards;
-  GroupsActions groups;
   UsersActions users;
+  BoardsActions boards;
+  SessionsActions sessions;
+  CategoriesActions categories;
+  ItemsActions items;
+  NotesActions notes;
+
   CreationMiddlewareActions creation;
   RefMiddlewareActions ref;
 
@@ -39,11 +52,28 @@ abstract class App extends BuiltReducer<App, AppBuilder>
   /// [users]
   Users get users;
 
-  /// [groups]
-  Groups get groups;
-
   /// [boards]
-  Boards get boards;
+  Boards get boards; // TODO: likely only need one board sub at a time.
+
+  /// [Sessions]
+  Sessions get sessions; // TODO: likely only need one session sub at a time.
+
+  /// [Categories]
+  Categories get categories;
+
+  /// [Items]
+  Items get items;
+
+  /// [Notes]
+  Notes get notes;
+
+  String get currentBoardUid;
+
+  String get currentSessionUid;
+
+  String get currentCategoryUid;
+
+  String get currentItemUid;
 
   /// [reducer]
   get reducer => _reducer;
@@ -53,11 +83,22 @@ abstract class App extends BuiltReducer<App, AppBuilder>
   factory App([updates(AppBuilder b)]) => new _$App((AppBuilder b) => b
     ..auth = new Auth().toBuilder()
     ..users = new Users().toBuilder()
-    ..groups = new Groups().toBuilder()
-    ..boards = new Boards().toBuilder());
+    ..boards = new Boards().toBuilder()
+    ..sessions = new Sessions().toBuilder()
+    ..categories = new Categories().toBuilder()
+    ..items = new Items().toBuilder()
+    ..notes = new Notes().toBuilder());
 
   // derived state
   // will only be recomputed when App is rebuilt
+
+  Board get currentBoard => boards.map[currentBoardUid];
+
+  Session get currentSession => sessions.map[currentSessionUid];
+
+  Category get currentCategory => categories.map[currentCategoryUid];
+
+  Item get currentItem => items.map[currentItemUid];
 
   @memoized
   BuiltMap<String, Board> get currentGroupBoardsMap => new BuiltMap(new Map<String, Board>.fromIterable(

@@ -5,16 +5,16 @@
             "description": "description",
             "owner": "$uid",
             "users": {
-                "$uid(user)": true
+                "$uid(user)": 123456789 // user's last activity
             },
             "sessions": {
-                "$uid(session)": true
+                "$uid(session)": 123456789 // session created date
             }
         }
     },
     "join-board-request": {
         "$uid(board)": { // Board owner can see its join requests.
-            "uid(user)": true
+            "uid(user)": 123456789 // date the request was generated
         }
     },
     "sessions": {
@@ -22,21 +22,8 @@
             "$uid(session)": {
                 "startDate": 123456789,
                 "endDate": 123456789,
-                "prev": "$uid(session)",
-                "next": "$uid(session)",
-                "categories" : {
-                    "$uid(category)": {
-                        "items": {
-                            "$uid(item)" : {
-                                "owner": "$uid",
-                                "text": "text",
-                                "date": 123456789,
-                                "votes": {
-                                    "$uid(user)": 123456789
-                                }
-                            }
-                        }
-                    }
+                "categories": {
+                    "$uid(category)" : 1 // order in session
                 }
             }
         }
@@ -45,7 +32,25 @@
         "$uid(board)": { // permission granted based on user's access to board
             "$uid(category)" : {
                 "title": "title",
-                "description": "description"
+                "description": "description",
+                "visible": true
+            }
+        }
+    },
+    "items": {
+        "$uid(board)": { // permission granted based on user's access to board
+            "uid(session)" : {
+                "$uid(item)" : {
+                    "owner": "$uid",
+                    "text": "text",
+                    "date": 123456789,
+                    "time": 3600, // amount of time spent discussing this item
+                    "category": "$uid(category)",
+                    "votes": {
+                        "$uid(user)": "shout out!" // brief reply to item text
+                    },
+                    "visible": false
+                }
             }
         }
     },
@@ -58,7 +63,8 @@
                     "date": 123456789,
                     "items": {
                         "$uid(item)": true
-                    }
+                    },
+                    "visible": false
                 }
             }
         }
@@ -67,7 +73,7 @@
         "$uid(user)": {
             "name": "name",
             "boards": {
-                "$uid(board)": true
+                "$uid(board)": 123456789 // date user joined the board
             }
         }
     }

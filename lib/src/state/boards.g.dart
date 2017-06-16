@@ -11,8 +11,8 @@ class _$BoardsActions extends BoardsActions {
   ActionDispatcher<AddItemPayload> addItem =
       new ActionDispatcher<AddItemPayload>('BoardsActions-addItem');
 
-  ActionDispatcher<AddCategoryPayload> addCategory =
-      new ActionDispatcher<AddCategoryPayload>('BoardsActions-addCategory');
+  ActionDispatcher<dynamic> addCategory =
+      new ActionDispatcher<dynamic>('BoardsActions-addCategory');
 
   ActionDispatcher<BoardPayload> setCurrentBoard =
       new ActionDispatcher<BoardPayload>('BoardsActions-setCurrentBoard');
@@ -37,7 +37,7 @@ class BoardsActionsNames {
   static ActionName addItem =
       new ActionName<AddItemPayload>('BoardsActions-addItem');
   static ActionName addCategory =
-      new ActionName<AddCategoryPayload>('BoardsActions-addCategory');
+      new ActionName<dynamic>('BoardsActions-addCategory');
   static ActionName setCurrentBoard =
       new ActionName<BoardPayload>('BoardsActions-setCurrentBoard');
   static ActionName removeBoard =
@@ -53,7 +53,7 @@ class BoardsActionsNames {
 
 class _$Boards extends Boards {
   @override
-  final BuiltMap<String, Board> boardMap;
+  final BuiltMap<String, Board> map;
   @override
   final String currentBoardUid;
   Board __currentBoard;
@@ -62,8 +62,8 @@ class _$Boards extends Boards {
   factory _$Boards([void updates(BoardsBuilder b)]) =>
       (new BoardsBuilder()..update(updates)).build();
 
-  _$Boards._({this.boardMap, this.currentBoardUid}) : super._() {
-    if (boardMap == null) throw new ArgumentError.notNull('boardMap');
+  _$Boards._({this.map, this.currentBoardUid}) : super._() {
+    if (map == null) throw new ArgumentError.notNull('map');
     if (currentBoardUid == null)
       throw new ArgumentError.notNull('currentBoardUid');
   }
@@ -85,19 +85,18 @@ class _$Boards extends Boards {
   bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
     if (other is! Boards) return false;
-    return boardMap == other.boardMap &&
-        currentBoardUid == other.currentBoardUid;
+    return map == other.map && currentBoardUid == other.currentBoardUid;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, boardMap.hashCode), currentBoardUid.hashCode));
+    return $jf($jc($jc(0, map.hashCode), currentBoardUid.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Boards')
-          ..add('boardMap', boardMap)
+          ..add('map', map)
           ..add('currentBoardUid', currentBoardUid))
         .toString();
   }
@@ -106,11 +105,10 @@ class _$Boards extends Boards {
 class BoardsBuilder implements Builder<Boards, BoardsBuilder> {
   _$Boards _$v;
 
-  MapBuilder<String, Board> _boardMap;
-  MapBuilder<String, Board> get boardMap =>
-      _$this._boardMap ??= new MapBuilder<String, Board>();
-  set boardMap(MapBuilder<String, Board> boardMap) =>
-      _$this._boardMap = boardMap;
+  MapBuilder<String, Board> _map;
+  MapBuilder<String, Board> get map =>
+      _$this._map ??= new MapBuilder<String, Board>();
+  set map(MapBuilder<String, Board> map) => _$this._map = map;
 
   String _currentBoardUid;
   String get currentBoardUid => _$this._currentBoardUid;
@@ -121,7 +119,7 @@ class BoardsBuilder implements Builder<Boards, BoardsBuilder> {
 
   BoardsBuilder get _$this {
     if (_$v != null) {
-      _boardMap = _$v.boardMap?.toBuilder();
+      _map = _$v.map?.toBuilder();
       _currentBoardUid = _$v.currentBoardUid;
       _$v = null;
     }
@@ -142,8 +140,7 @@ class BoardsBuilder implements Builder<Boards, BoardsBuilder> {
   @override
   _$Boards build() {
     final result = _$v ??
-        new _$Boards._(
-            boardMap: boardMap?.build(), currentBoardUid: currentBoardUid);
+        new _$Boards._(map: map?.build(), currentBoardUid: currentBoardUid);
     replace(result);
     return result;
   }

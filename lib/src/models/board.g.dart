@@ -21,32 +21,23 @@ class _$BoardSerializer implements StructuredSerializer<Board> {
     final result = <Object>[
       'uid',
       serializers.serialize(object.uid, specifiedType: const FullType(String)),
-      'groupUid',
-      serializers.serialize(object.groupUid,
+      'ownerUid',
+      serializers.serialize(object.ownerUid,
           specifiedType: const FullType(String)),
-      'displayName',
-      serializers.serialize(object.displayName,
+      'memberUids',
+      serializers.serialize(object.memberUids,
+          specifiedType: const FullType(
+              BuiltMap, const [const FullType(String), const FullType(int)])),
+      'sessionUids',
+      serializers.serialize(object.sessionUids,
+          specifiedType: const FullType(
+              BuiltMap, const [const FullType(String), const FullType(int)])),
+      'title',
+      serializers.serialize(object.title,
           specifiedType: const FullType(String)),
       'description',
       serializers.serialize(object.description,
           specifiedType: const FullType(String)),
-      'startDate',
-      serializers.serialize(object.startDate,
-          specifiedType: const FullType(int)),
-      'endDate',
-      serializers.serialize(object.endDate, specifiedType: const FullType(int)),
-      'categories',
-      serializers.serialize(object.categories,
-          specifiedType: const FullType(BuiltMap,
-              const [const FullType(String), const FullType(Category)])),
-      'items',
-      serializers.serialize(object.items,
-          specifiedType: const FullType(
-              BuiltMap, const [const FullType(String), const FullType(Item)])),
-      'notes',
-      serializers.serialize(object.notes,
-          specifiedType: const FullType(
-              BuiltMap, const [const FullType(String), const FullType(Note)])),
     ];
 
     return result;
@@ -67,46 +58,31 @@ class _$BoardSerializer implements StructuredSerializer<Board> {
           result.uid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'groupUid':
-          result.groupUid = serializers.deserialize(value,
+        case 'ownerUid':
+          result.ownerUid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'displayName':
-          result.displayName = serializers.deserialize(value,
+        case 'memberUids':
+          result.memberUids.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltMap, const [
+                const FullType(String),
+                const FullType(int)
+              ])) as BuiltMap<String, int>);
+          break;
+        case 'sessionUids':
+          result.sessionUids.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltMap, const [
+                const FullType(String),
+                const FullType(int)
+              ])) as BuiltMap<String, int>);
+          break;
+        case 'title':
+          result.title = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
         case 'description':
           result.description = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
-          break;
-        case 'startDate':
-          result.startDate = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
-          break;
-        case 'endDate':
-          result.endDate = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
-          break;
-        case 'categories':
-          result.categories.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltMap, const [
-                const FullType(String),
-                const FullType(Category)
-              ])) as BuiltMap<String, Category>);
-          break;
-        case 'items':
-          result.items.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltMap, const [
-                const FullType(String),
-                const FullType(Item)
-              ])) as BuiltMap<String, Item>);
-          break;
-        case 'notes':
-          result.notes.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltMap, const [
-                const FullType(String),
-                const FullType(Note)
-              ])) as BuiltMap<String, Note>);
           break;
       }
     }
@@ -124,54 +100,34 @@ class _$Board extends Board {
   @override
   final String uid;
   @override
-  final String groupUid;
+  final String ownerUid;
   @override
-  final String displayName;
+  final BuiltMap<String, int> memberUids;
+  @override
+  final BuiltMap<String, int> sessionUids;
+  @override
+  final String title;
   @override
   final String description;
-  @override
-  final int startDate;
-  @override
-  final int endDate;
-  @override
-  final BuiltMap<String, Category> categories;
-  @override
-  final BuiltMap<String, Item> items;
-  @override
-  final BuiltMap<String, Note> notes;
-  String __startDateStr;
-  String __endDateStr;
 
   factory _$Board([void updates(BoardBuilder b)]) =>
       (new BoardBuilder()..update(updates)).build();
 
   _$Board._(
       {this.uid,
-      this.groupUid,
-      this.displayName,
-      this.description,
-      this.startDate,
-      this.endDate,
-      this.categories,
-      this.items,
-      this.notes})
+      this.ownerUid,
+      this.memberUids,
+      this.sessionUids,
+      this.title,
+      this.description})
       : super._() {
     if (uid == null) throw new ArgumentError.notNull('uid');
-    if (groupUid == null) throw new ArgumentError.notNull('groupUid');
-    if (displayName == null) throw new ArgumentError.notNull('displayName');
+    if (ownerUid == null) throw new ArgumentError.notNull('ownerUid');
+    if (memberUids == null) throw new ArgumentError.notNull('memberUids');
+    if (sessionUids == null) throw new ArgumentError.notNull('sessionUids');
+    if (title == null) throw new ArgumentError.notNull('title');
     if (description == null) throw new ArgumentError.notNull('description');
-    if (startDate == null) throw new ArgumentError.notNull('startDate');
-    if (endDate == null) throw new ArgumentError.notNull('endDate');
-    if (categories == null) throw new ArgumentError.notNull('categories');
-    if (items == null) throw new ArgumentError.notNull('items');
-    if (notes == null) throw new ArgumentError.notNull('notes');
   }
-
-  @override
-  String get startDateStr => __startDateStr ??= super.startDateStr;
-
-  @override
-  String get endDateStr => __endDateStr ??= super.endDateStr;
 
   @override
   Board rebuild(void updates(BoardBuilder b)) =>
@@ -185,14 +141,11 @@ class _$Board extends Board {
     if (identical(other, this)) return true;
     if (other is! Board) return false;
     return uid == other.uid &&
-        groupUid == other.groupUid &&
-        displayName == other.displayName &&
-        description == other.description &&
-        startDate == other.startDate &&
-        endDate == other.endDate &&
-        categories == other.categories &&
-        items == other.items &&
-        notes == other.notes;
+        ownerUid == other.ownerUid &&
+        memberUids == other.memberUids &&
+        sessionUids == other.sessionUids &&
+        title == other.title &&
+        description == other.description;
   }
 
   @override
@@ -200,31 +153,22 @@ class _$Board extends Board {
     return $jf($jc(
         $jc(
             $jc(
-                $jc(
-                    $jc(
-                        $jc(
-                            $jc($jc($jc(0, uid.hashCode), groupUid.hashCode),
-                                displayName.hashCode),
-                            description.hashCode),
-                        startDate.hashCode),
-                    endDate.hashCode),
-                categories.hashCode),
-            items.hashCode),
-        notes.hashCode));
+                $jc($jc($jc(0, uid.hashCode), ownerUid.hashCode),
+                    memberUids.hashCode),
+                sessionUids.hashCode),
+            title.hashCode),
+        description.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Board')
           ..add('uid', uid)
-          ..add('groupUid', groupUid)
-          ..add('displayName', displayName)
-          ..add('description', description)
-          ..add('startDate', startDate)
-          ..add('endDate', endDate)
-          ..add('categories', categories)
-          ..add('items', items)
-          ..add('notes', notes))
+          ..add('ownerUid', ownerUid)
+          ..add('memberUids', memberUids)
+          ..add('sessionUids', sessionUids)
+          ..add('title', title)
+          ..add('description', description))
         .toString();
   }
 }
@@ -236,55 +180,40 @@ class BoardBuilder implements Builder<Board, BoardBuilder> {
   String get uid => _$this._uid;
   set uid(String uid) => _$this._uid = uid;
 
-  String _groupUid;
-  String get groupUid => _$this._groupUid;
-  set groupUid(String groupUid) => _$this._groupUid = groupUid;
+  String _ownerUid;
+  String get ownerUid => _$this._ownerUid;
+  set ownerUid(String ownerUid) => _$this._ownerUid = ownerUid;
 
-  String _displayName;
-  String get displayName => _$this._displayName;
-  set displayName(String displayName) => _$this._displayName = displayName;
+  MapBuilder<String, int> _memberUids;
+  MapBuilder<String, int> get memberUids =>
+      _$this._memberUids ??= new MapBuilder<String, int>();
+  set memberUids(MapBuilder<String, int> memberUids) =>
+      _$this._memberUids = memberUids;
+
+  MapBuilder<String, int> _sessionUids;
+  MapBuilder<String, int> get sessionUids =>
+      _$this._sessionUids ??= new MapBuilder<String, int>();
+  set sessionUids(MapBuilder<String, int> sessionUids) =>
+      _$this._sessionUids = sessionUids;
+
+  String _title;
+  String get title => _$this._title;
+  set title(String title) => _$this._title = title;
 
   String _description;
   String get description => _$this._description;
   set description(String description) => _$this._description = description;
-
-  int _startDate;
-  int get startDate => _$this._startDate;
-  set startDate(int startDate) => _$this._startDate = startDate;
-
-  int _endDate;
-  int get endDate => _$this._endDate;
-  set endDate(int endDate) => _$this._endDate = endDate;
-
-  MapBuilder<String, Category> _categories;
-  MapBuilder<String, Category> get categories =>
-      _$this._categories ??= new MapBuilder<String, Category>();
-  set categories(MapBuilder<String, Category> categories) =>
-      _$this._categories = categories;
-
-  MapBuilder<String, Item> _items;
-  MapBuilder<String, Item> get items =>
-      _$this._items ??= new MapBuilder<String, Item>();
-  set items(MapBuilder<String, Item> items) => _$this._items = items;
-
-  MapBuilder<String, Note> _notes;
-  MapBuilder<String, Note> get notes =>
-      _$this._notes ??= new MapBuilder<String, Note>();
-  set notes(MapBuilder<String, Note> notes) => _$this._notes = notes;
 
   BoardBuilder();
 
   BoardBuilder get _$this {
     if (_$v != null) {
       _uid = _$v.uid;
-      _groupUid = _$v.groupUid;
-      _displayName = _$v.displayName;
+      _ownerUid = _$v.ownerUid;
+      _memberUids = _$v.memberUids?.toBuilder();
+      _sessionUids = _$v.sessionUids?.toBuilder();
+      _title = _$v.title;
       _description = _$v.description;
-      _startDate = _$v.startDate;
-      _endDate = _$v.endDate;
-      _categories = _$v.categories?.toBuilder();
-      _items = _$v.items?.toBuilder();
-      _notes = _$v.notes?.toBuilder();
       _$v = null;
     }
     return this;
@@ -306,14 +235,11 @@ class BoardBuilder implements Builder<Board, BoardBuilder> {
     final result = _$v ??
         new _$Board._(
             uid: uid,
-            groupUid: groupUid,
-            displayName: displayName,
-            description: description,
-            startDate: startDate,
-            endDate: endDate,
-            categories: categories?.build(),
-            items: items?.build(),
-            notes: notes?.build());
+            ownerUid: ownerUid,
+            memberUids: memberUids?.build(),
+            sessionUids: sessionUids?.build(),
+            title: title,
+            description: description);
     replace(result);
     return result;
   }

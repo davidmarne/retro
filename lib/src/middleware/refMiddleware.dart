@@ -16,12 +16,12 @@ import '../serializers.dart';
 part 'refMiddleware.g.dart';
 
 createRefMiddleware(StreamSubManager subMgr) => (new MiddlwareBuilder<App, AppBuilder, AppActions>()
-      ..add<String>(RefMiddlewareActionsNames.subToBoard, _subToBoard(subMgr))
+      ..add<BoardPayload>(RefMiddlewareActionsNames.subToBoard, _subToBoard(subMgr))
       ..add<String>(RefMiddlewareActionsNames.subToGroup, _subToGroup(subMgr))
       ..add<String>(RefMiddlewareActionsNames.updateGroupSubs, _updateGroupSubs(subMgr))
       ..add<String>(RefMiddlewareActionsNames.subToUser, _subToUser(subMgr))
       ..add<String>(RefMiddlewareActionsNames.updateUserSubs, _updateUserSubs(subMgr))
-      ..add<String>(RefMiddlewareActionsNames.updateBoardSubs, _updateBoardSubs(subMgr))
+      ..add<Iterable<BoardPayload>>(RefMiddlewareActionsNames.updateBoardSubs, _updateBoardSubs(subMgr))
       ..add<String>(RefMiddlewareActionsNames.unSubToUID, _unSubToUID(subMgr)))
     .build();
 
