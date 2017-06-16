@@ -54,5 +54,5 @@ var _reducer = (new ReducerBuilder<Categories, CategoriesBuilder>()
 /// Reducers
 ///////////////////
 
-updateCategory(Categories state, Action<Category> action, CategoriesBuilder builder) =>
+_updateCategory(Categories state, Action<Category> action, CategoriesBuilder builder) =>
     builder..map[action.payload.uid] = action.payload;

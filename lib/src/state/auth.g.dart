@@ -8,8 +8,8 @@ part of auth;
 // **************************************************************************
 
 class _$AuthActions extends AuthActions {
-  ActionDispatcher<User> logIn =
-      new ActionDispatcher<User>('AuthActions-logIn');
+  ActionDispatcher<firebase.User> logIn =
+      new ActionDispatcher<firebase.User>('AuthActions-logIn');
   factory _$AuthActions() => new _$AuthActions._();
   _$AuthActions._() : super._();
   syncWithStore(dispatcher) {
@@ -18,7 +18,7 @@ class _$AuthActions extends AuthActions {
 }
 
 class AuthActionsNames {
-  static ActionName logIn = new ActionName<User>('AuthActions-logIn');
+  static ActionName logIn = new ActionName<firebase.User>('AuthActions-logIn');
 }
 
 // **************************************************************************
