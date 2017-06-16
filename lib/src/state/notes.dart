@@ -18,6 +18,7 @@ abstract class NotesActions extends ReduxActions {
   ActionDispatcher<Note> updateNote;
     // update text
     // tag item with note
+    // show / hide
   ActionDispatcher<Note> removeNote;
 
   // factory to create on instance of the generated implementation of BoardsActions
@@ -58,7 +59,7 @@ var _reducer = (new ReducerBuilder<Notes, NotesBuilder>()
 ///////////////////
 
 _setNote(Notes state, Action<Note> action, NotesBuilder builder) =>
-    builder..noteMap[action.payload.uid] = action.payload;
+    builder..map[action.payload.uid] = action.payload;
 
 _unsetNote(Notes state, Action<Note> action, NotesBuilder builder) =>
-    builder..noteMap.remove(action.payload.uid);
+    builder..map.remove(action.payload.uid);

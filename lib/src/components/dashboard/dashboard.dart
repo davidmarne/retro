@@ -4,7 +4,6 @@ import 'package:built_redux/built_redux.dart';
 import '../groupCreate/groupCreate.dart';
 import '../groupCard/groupCard.dart';
 import '../../state/app.dart';
-import '../../models/group.dart';
 import '../../store.dart';
 
 @Component(

@@ -60,7 +60,7 @@ var _reducer = (new ReducerBuilder<Sessions, SessionsBuilder>()
 ///////////////////
 
 _setSession(Sessions state, Action<Session> action, SessionsBuilder builder) =>
-    builder..sessionMap[action.payload.uid] = action.payload;
+    builder..map[action.payload.uid] = action.payload;
 
 _unsetSession(Sessions state, Action<Session> action, SessionsBuilder builder) =>
-    builder..sessionMap.remove(action.payload.uid);
+    builder..map.remove(action.payload.uid);

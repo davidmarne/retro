@@ -43,10 +43,9 @@
                 "$uid(item)" : {
                     "owner": "$uid",
                     "text": "text",
-                    "date": 123456789,
                     "time": 3600, // amount of time spent discussing this item
                     "category": "$uid(category)",
-                    "votes": {
+                    "supporters": {
                         "$uid(user)": "shout out!" // brief reply to item text
                     },
                     "visible": false
@@ -60,7 +59,6 @@
                 "$uid(note)": {
                     "owner": "$uid(user)",
                     "text": "text",
-                    "date": 123456789,
                     "items": {
                         "$uid(item)": true
                     },

@@ -5,8 +5,6 @@ import 'package:built_value/built_value.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../models/board.dart';
-import '../models/category.dart';
-import '../models/item.dart';
 
 part 'boards.g.dart';
 
@@ -16,33 +14,17 @@ part 'boards.g.dart';
 
 /// [BoardsActions]
 abstract class BoardsActions extends ReduxActions {
+  ActionDispatcher<Board> insertBoard;
   ActionDispatcher<Board> updateBoard;
-  ActionDispatcher<String> removeBoard;
-  ActionDispatcher<BoardPayload> setCurrentBoard;
-
-  ActionDispatcher<AddCategoryPayload> addCategory;
-  ActionDispatcher<AddItemPayload> addItem;
+    // update title
+    // update description
+    // add / remove User
+    // create new Session
+  ActionDispatcher<Board> removeBoard;
 
   // factory to create on instance of the generated implementation of BoardsActions
   BoardsActions._();
   factory BoardsActions() => new _$BoardsActions();
-}
-
-////////////////////
-/// Payloads
-///////////////////
-
-class BoardPayload {
-  final String guid;
-  final String buid;
-  BoardPayload(this.guid, this.buid);
-}
-
-class AddItemPayload {
-  final String groupUid;
-  final String boardUid;
-  final Item item;
-  AddItemPayload(this.groupUid, this.boardUid, this.item);
 }
 
 ////////////////////
@@ -55,20 +37,12 @@ abstract class Boards extends BuiltReducer<Boards, BoardsBuilder>
   /// [map] contains a map of board.id to Board
   BuiltMap<String, Board> get map;
 
-  String get currentBoardUid;
-
   /// [reducer]
   get reducer => _reducer;
 
   // Built value boilerplate
   Boards._();
   factory Boards([updates(BoardsBuilder b)]) => new _$Boards((BoardsBuilder b) => b);
-
-  @memoized
-  Board get currentBoard => boardMap[currentBoardUid];
-
-  @memoized
-  bool get currentBoardIsSet => currentBoardUid != "";
 }
 
 ////////////////////
@@ -76,48 +50,17 @@ abstract class Boards extends BuiltReducer<Boards, BoardsBuilder>
 ///////////////////
 
 var _reducer = (new ReducerBuilder<Boards, BoardsBuilder>()
-      ..add<Board>(BoardsActionsNames.updateBoard, _updateBoard)
-      ..add<String>(BoardsActionsNames.removeBoard, _removeBoard)
-      ..add<BoardPayload>(BoardsActionsNames.setCurrentBoard, _setCurrentBoard)
-      ..add<AddCategoryPayload>(BoardsActionsNames.addCategory, _addCategory)
-      ..add<AddItemPayload>(BoardsActionsNames.addItem, _addItem))
+      ..add<Board>(BoardsActionsNames.insertBoard, _setBoard)
+      ..add<Board>(BoardsActionsNames.updateBoard, _setBoard)
+      ..add<Board>(BoardsActionsNames.removeBoard, _unsetBoard))
     .build();
 
 ////////////////////
 /// Reducers
 ///////////////////
 
-_updateBoard(Boards state, Action<Board> action, BoardsBuilder builder) =>
-    _updateBoardOnBuilder(action.payload, builder);
+_setBoard(Boards state, Action<Board> action, BoardsBuilder builder) =>
+    builder..map[action.payload.uid] = action.payload;
 
-_addCategory(Boards state, Action<AddCategoryPayload> action, BoardsBuilder builder) =>
-    _updateBoardOnBuilder(
-      builder.boardMap[action.payload.boardUid].rebuild(
-          (BoardBuilder b) => b..categories[action.payload.category.uid] = action.payload.category),
-      builder,
-    );
-
-_addItem(Boards state, Action<AddItemPayload> action, BoardsBuilder builder) =>
-    _updateBoardOnBuilder(
-      builder.boardMap[action.payload.boardUid]
-          .rebuild((BoardBuilder b) => b..items[action.payload.item.uid] = action.payload.item),
-      builder,
-    );
-
-_updateBoardOnBuilder(Board board, BoardsBuilder builder) {
-  var bmap = builder.boardMap[board.groupUid];
-  if (bmap == null) {
-    bmap = new BuiltMap<String, Board>();
-  }
-
-  return builder
-    ..boardMap[board.groupUid] = bmap.rebuild(
-      (MapBuilder b) => b[board.uid] = board,
-    );
-}
-
-_removeBoard(Boards state, Action<String> action, BoardsBuilder builder) =>
-    builder..boardMap.remove(action.payload);
-
-_setCurrentBoard(Boards state, Action<BoardPayload> action, BoardsBuilder builder) =>
-    builder..currentBoardUid = action.payload.buid;
+_unsetBoard(Boards state, Action<Board> action, BoardsBuilder builder) =>
+    builder..map.remove(action.payload.uid);

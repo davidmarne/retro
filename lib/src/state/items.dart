@@ -17,8 +17,10 @@ abstract class ItemsActions extends ReduxActions {
   ActionDispatcher<Item> insertItem;
   ActionDispatcher<Item> updateItem;
     // update text
+    // add duration to time
     // vote for item
-    // update category?
+    // move to different category?
+    // show / hide
   ActionDispatcher<Item> removeItem;
 
   // factory to create on instance of the generated implementation of BoardsActions
@@ -59,7 +61,7 @@ var _reducer = (new ReducerBuilder<Items, ItemsBuilder>()
 ///////////////////
 
 _setItem(Items state, Action<Item> action, ItemsBuilder builder) =>
-    builder..itemMap[action.payload.uid] = action.payload;
+    builder..map[action.payload.uid] = action.payload;
 
 _unsetItem(Items state, Action<Item> action, ItemsBuilder builder) =>
-    builder..itemMap.remove(action.payload.uid);
+    builder..map.remove(action.payload.uid);

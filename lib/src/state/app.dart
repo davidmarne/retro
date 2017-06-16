@@ -16,6 +16,7 @@ import '../models/board.dart';
 import '../models/session.dart';
 import '../models/category.dart';
 import '../models/item.dart';
+import '../models/note.dart';
 
 import '../middleware/creationMiddleware.dart';
 import '../middleware/refMiddleware.dart';
@@ -53,10 +54,14 @@ abstract class App extends BuiltReducer<App, AppBuilder>
   Users get users;
 
   /// [boards]
-  Boards get boards; // TODO: likely only need one board sub at a time.
+  Boards get boards;
+    // Notes: sub to multiple boards to get board names and data for
+    // each of a user's boards on dashboard.
 
   /// [Sessions]
-  Sessions get sessions; // TODO: likely only need one session sub at a time.
+  Sessions get sessions;
+    // Notes: likely only need one session sub at a time. List of Sessions
+    // could simply have a timestamp for the session (available on board object).
 
   /// [Categories]
   Categories get categories;
@@ -89,9 +94,6 @@ abstract class App extends BuiltReducer<App, AppBuilder>
     ..items = new Items().toBuilder()
     ..notes = new Notes().toBuilder());
 
-  // derived state
-  // will only be recomputed when App is rebuilt
-
   Board get currentBoard => boards.map[currentBoardUid];
 
   Session get currentSession => sessions.map[currentSessionUid];
@@ -100,23 +102,38 @@ abstract class App extends BuiltReducer<App, AppBuilder>
 
   Item get currentItem => items.map[currentItemUid];
 
-  @memoized
-  BuiltMap<String, Board> get currentGroupBoardsMap => new BuiltMap(new Map<String, Board>.fromIterable(
-    groups.currentGroup.boards.keys.where((buid) => boards.boardMap.containsKey(buid)),
-  value: (buid) {
-    return boards.boardMap[buid];
-  }));
+  // derived state
+  // will only be recomputed when App is rebuilt
 
   @memoized
-  Iterable<Board> get currentGroupBoards =>
-      currentGroupBoardsMap == null ? [] : currentGroupBoardsMap.values;
+  BuiltList<Category> get boardCategories {
+    if (currentBoard == null) return new BuiltList<Category>();
+    return new BuiltList<Category>(categories.map.values.where((cat) => cat.boardUid == currentBoardUid));
+  }
 
   @memoized
-  Board get mostRecentBoard => currentGroupBoards.length > 0 ? currentGroupBoards.first : null;
+  BuiltList<Category> get sessionCategories {
+    if (currentSession == null) return new BuiltList<Category>();
+    return new BuiltList<Category>(currentSession.categoryUids.keys
+      .where((key) => categories.map.containsKey(key))
+      .map((key) => categories.map[key]));
+  }
 
   @memoized
-  Iterable<Board> get restOfBoards =>
-      currentGroupBoards.length > 1 ? currentGroupBoards.skip(1) : [];
+  BuiltList<Note> get sessionNotes {
+    if (currentSession == null) return new BuiltList<Note>();
+    return new BuiltList<Note>(notes.map.values
+      .where((note) => note.sessionUid == note.sessionUid));
+  }
+ 
+  @memoized
+  BuiltMap<Category, BuiltList<Item>> get categoryItems {
+    if (currentBoard == null) return new BuiltMap<Category, BuiltList<Item>>();
+    return new BuiltMap<Category, BuiltList<Item>>(categories.map.values
+      .where((cat) => cat.boardUid == currentBoardUid)
+      .map((cat) => new BuiltList<Item>(items.map.values
+        .where((item) => item.categoryUid == cat.uid))));
+  }
 }
 
 // combined reducer
@@ -129,5 +146,8 @@ var _reducer = (new ReducerBuilder<App, AppBuilder>()
 _clear(App state, Action<Null> action, AppBuilder builder) => builder
   ..auth = new Auth().toBuilder()
   ..users = new Users().toBuilder()
-  ..groups = new Groups().toBuilder()
-  ..boards = new Boards().toBuilder();
+  ..boards = new Boards().toBuilder()
+  ..sessions = new Sessions().toBuilder()
+  ..categories = new Categories().toBuilder()
+  ..items = new Items().toBuilder()
+  ..notes = new Notes().toBuilder();

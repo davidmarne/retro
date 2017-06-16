@@ -18,6 +18,7 @@ abstract class CategoriesActions extends ReduxActions {
   ActionDispatcher<Category> updateCategory;
     // update title
     // update description
+    // show / hide
   ActionDispatcher<Category> removeCategory;
 
   // factory to create on instance of the generated implementation of BoardsActions
@@ -58,7 +59,7 @@ var _reducer = (new ReducerBuilder<Categories, CategoriesBuilder>()
 ///////////////////
 
 _setCategory(Categories state, Action<Category> action, CategoriesBuilder builder) =>
-    builder..categoryMap[action.payload.uid] = action.payload;
+    builder..map[action.payload.uid] = action.payload;
 
 _unsetCategory(Categories state, Action<Category> action, CategoriesBuilder builder) =>
-    builder..categoryMap.remove(action.payload.uid);
+    builder..map.remove(action.payload.uid);
