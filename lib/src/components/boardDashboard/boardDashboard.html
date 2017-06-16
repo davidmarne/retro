@@ -1,75 +1,25 @@
-<div *ngIf="board != null">
-
-  <section class="hero is-primary">
-    <div class="hero-body">
-      <div class="container">
-        <h1 class="title">{{board.displayName}}</h1>
-        <h2 class="subtitle">{{board.description}}</h2>
-      </div>
-    </div>
-  </section>
-
-  <section>
+<section class="hero is-primary">
+  <div class="hero-body">
     <div class="container">
-      <nav class="level">
-        <div class="level-left">
-          <div class="level-item">
-            <div class="field has-addons">
-              <p class="control">
-                <input class="input" type="text" placeholder="Create a Category" [(ngModel)]="categoryCreationValue">
-              </p>
-              <p class="control">
-                <input class="input" type="color" [(ngModel)]="creationColor">
-              </p>
-              <p class="control">
-                <a class="button" (click)="resetCategoryCreation()">Cancel</a>
-              </p>
-              <p class="control">
-                <a class="button is-primary" (click)="sumbitCategoryCreation()">Create</a>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="tabs is-toggle is-pulled-right" >
-          <ul>
-            <li class="is-active">
-              <a>
-                <span>Category</span>
-              </a>
-            </li>
-            <li>
-              <a>
-                <span>Random</span>
-              </a>
-            </li>
-            <li
-              (click)="toggleShowingNotes()"
-              [ngClass]="{'is-active': showingNotes}">
-              <a>
-                <span>Show Notes</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <h1 class="title">Pick a Board</h1>
+      <h2 class="subtitle">Be nice to your friends :)</h2>
     </div>
-  </section>
-
-
-  <div *ngFor="let category of board.categories.values">
-    <section class="section">
-      <div class="container">
-        <h1 class="title">{{category.title}}</h1>
-        <div class="columns is-multiline is-mobile">
-          <div class="column is-half-tablet is-one-third-desktop">
-              <item-create [category]="category"></item-create>
-          </div>
-          <div *ngFor="let item of itemsForCategory(category)" class="column is-half-tablet is-one-third-desktop">
-              <item-card [category]="category" [item]="item"></item-card>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
-</div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="columns is-mobile">
+      <div class="column is-one-half-desktop">
+        <board-create></board-create>
+      </div>
+      <div *ngIf="mostRecentBoard != null" class="column is-one-half-desktop">
+          <board-card [board]="mostRecentBoard"></board-card>
+      </div>
+    </div>
+    <div class="columns is-multiline is-mobile">
+      <div *ngFor="let board of restOfBoards" class="column is-half-tablet is-one-third-desktop">
+          <board-card [board]="board"></board-card>
+      </div>
+    </div>
+  </div>
+</section>

@@ -8,24 +8,23 @@ part of users;
 // **************************************************************************
 
 class _$UsersActions extends UsersActions {
-  ActionDispatcher<String> setCurrentUser =
-      new ActionDispatcher<String>('UsersActions-setCurrentUser');
+  ActionDispatcher<String> setCurrent =
+      new ActionDispatcher<String>('UsersActions-setCurrent');
 
-  ActionDispatcher<User> updateUser =
-      new ActionDispatcher<User>('UsersActions-updateUser');
+  ActionDispatcher<User> update =
+      new ActionDispatcher<User>('UsersActions-update');
   factory _$UsersActions() => new _$UsersActions._();
   _$UsersActions._() : super._();
   syncWithStore(dispatcher) {
-    setCurrentUser.syncWithStore(dispatcher);
-    updateUser.syncWithStore(dispatcher);
+    setCurrent.syncWithStore(dispatcher);
+    update.syncWithStore(dispatcher);
   }
 }
 
 class UsersActionsNames {
-  static ActionName setCurrentUser =
-      new ActionName<String>('UsersActions-setCurrentUser');
-  static ActionName updateUser =
-      new ActionName<User>('UsersActions-updateUser');
+  static ActionName setCurrent =
+      new ActionName<String>('UsersActions-setCurrent');
+  static ActionName update = new ActionName<User>('UsersActions-update');
 }
 
 // **************************************************************************
@@ -35,22 +34,21 @@ class UsersActionsNames {
 
 class _$Users extends Users {
   @override
-  final BuiltMap<String, User> userMap;
+  final BuiltMap<String, User> map;
   @override
-  final String currentUserUid;
-  User __currentUser;
+  final String currentUid;
+  User __current;
 
   factory _$Users([void updates(UsersBuilder b)]) =>
       (new UsersBuilder()..update(updates)).build();
 
-  _$Users._({this.userMap, this.currentUserUid}) : super._() {
-    if (userMap == null) throw new ArgumentError.notNull('userMap');
-    if (currentUserUid == null)
-      throw new ArgumentError.notNull('currentUserUid');
+  _$Users._({this.map, this.currentUid}) : super._() {
+    if (map == null) throw new ArgumentError.notNull('map');
+    if (currentUid == null) throw new ArgumentError.notNull('currentUid');
   }
 
   @override
-  User get currentUser => __currentUser ??= super.currentUser;
+  User get current => __current ??= super.current;
 
   @override
   Users rebuild(void updates(UsersBuilder b)) =>
@@ -63,19 +61,19 @@ class _$Users extends Users {
   bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
     if (other is! Users) return false;
-    return userMap == other.userMap && currentUserUid == other.currentUserUid;
+    return map == other.map && currentUid == other.currentUid;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, userMap.hashCode), currentUserUid.hashCode));
+    return $jf($jc($jc(0, map.hashCode), currentUid.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Users')
-          ..add('userMap', userMap)
-          ..add('currentUserUid', currentUserUid))
+          ..add('map', map)
+          ..add('currentUid', currentUid))
         .toString();
   }
 }
@@ -83,22 +81,21 @@ class _$Users extends Users {
 class UsersBuilder implements Builder<Users, UsersBuilder> {
   _$Users _$v;
 
-  MapBuilder<String, User> _userMap;
-  MapBuilder<String, User> get userMap =>
-      _$this._userMap ??= new MapBuilder<String, User>();
-  set userMap(MapBuilder<String, User> userMap) => _$this._userMap = userMap;
+  MapBuilder<String, User> _map;
+  MapBuilder<String, User> get map =>
+      _$this._map ??= new MapBuilder<String, User>();
+  set map(MapBuilder<String, User> map) => _$this._map = map;
 
-  String _currentUserUid;
-  String get currentUserUid => _$this._currentUserUid;
-  set currentUserUid(String currentUserUid) =>
-      _$this._currentUserUid = currentUserUid;
+  String _currentUid;
+  String get currentUid => _$this._currentUid;
+  set currentUid(String currentUid) => _$this._currentUid = currentUid;
 
   UsersBuilder();
 
   UsersBuilder get _$this {
     if (_$v != null) {
-      _userMap = _$v.userMap?.toBuilder();
-      _currentUserUid = _$v.currentUserUid;
+      _map = _$v.map?.toBuilder();
+      _currentUid = _$v.currentUid;
       _$v = null;
     }
     return this;
@@ -117,9 +114,8 @@ class UsersBuilder implements Builder<Users, UsersBuilder> {
 
   @override
   _$Users build() {
-    final result = _$v ??
-        new _$Users._(
-            userMap: userMap?.build(), currentUserUid: currentUserUid);
+    final result =
+        _$v ?? new _$Users._(map: map?.build(), currentUid: currentUid);
     replace(result);
     return result;
   }

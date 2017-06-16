@@ -3,7 +3,6 @@ library session;
 import 'package:intl/intl.dart';
 
 import 'package:built_value/built_value.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 
 part 'session.g.dart';
@@ -18,8 +17,7 @@ abstract class Session implements Built<Session, SessionBuilder> {
 
   String get boardUid;
 
-  /// [categoryUids] uids for categories listed during this session.
-  BuiltMap<String, bool> get categoryUids;
+  int get targetTime;
 
   int get startDate;
 

@@ -2,67 +2,38 @@ import 'package:angular2/core.dart';
 import 'package:angular2/router.dart';
 import 'package:built_redux/built_redux.dart';
 
-import '../itemCard/itemCard.dart';
-import '../itemCreate/itemCreate.dart';
-import '../../middleware/creationMiddleware.dart';
+import '../boardCreate/boardCreate.dart';
+import '../boardCard/boardCard.dart';
+import '../../models/group.dart';
 import '../../models/board.dart';
-import '../../models/item.dart';
-import '../../models/category.dart';
 import '../../state/app.dart';
-import '../../state/boards.dart';
 import '../../store.dart';
 
-const String DEFAULT_CATEGORY_COLOR = '#000000';
-
 @Component(
-  selector: 'boardDashboard',
-  templateUrl: 'boardDashboard.html',
+  selector: 'groupDashboard',
+  templateUrl: 'groupDashboard.html',
   directives: const [
     ROUTER_DIRECTIVES,
-    ItemCreateComponent,
-    ItemCardComponent,
+    BoardCreateComponent,
+    BoardCardComponent,
   ],
 )
-class BoardDashboardComponent implements OnInit {
+class GroupDashboardComponent implements OnInit {
   final Store<App, AppBuilder, AppActions> _store;
   final RouteParams _routeParams;
 
-  BoardDashboardComponent(StoreService storeService, this._routeParams)
+  GroupDashboardComponent(StoreService storeService, this._routeParams)
       : _store = storeService.store;
 
   void ngOnInit() {
     if (guid != _store.state.groups.currentGroupUid) _store.actions.groups.setCurrentGroup(guid);
-    if (buid != _store.state.boards.currentBoardUid) _store.actions.boards.setCurrentBoard(new BoardPayload(guid, buid));
   }
 
   String get guid => _routeParams.get('guid');
 
-  String get buid => _routeParams.get('buid');
+  Group get group => _store.state.groups.currentGroup;
 
-  Board get board => _store.state.boards.currentBoard;
+  Board get mostRecentBoard => _store.state.mostRecentBoard;
 
-  Iterable<Item> itemsForCategory(Category c) => board.items.values.where(
-        (Item item) => item.categoryUid == c.uid,
-      );
-
-  // showingNotes bound to Show Notes button
-  bool showingNotes = false;
-  void toggleShowingNotes() {
-    showingNotes = !showingNotes;
-  }
-
-  // creation value bound to category create input
-  String categoryCreationValue = "";
-  String creationColor = DEFAULT_CATEGORY_COLOR;
-  void sumbitCategoryCreation() {
-    _store.actions.creation.category(
-      new CreateCategoryPayload(guid, buid, categoryCreationValue, creationColor),
-    );
-    resetCategoryCreation();
-  }
-
-  void resetCategoryCreation() {
-    categoryCreationValue = "";
-    creationColor = DEFAULT_CATEGORY_COLOR;
-  }
+  Iterable<Board> get restOfBoards => _store.state.restOfBoards;
 }

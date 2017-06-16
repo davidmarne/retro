@@ -19,9 +19,6 @@ abstract class Board implements Built<Board, BoardBuilder> {
   /// [memberUids] contains user uids and last active dates for board's member users.
   BuiltMap<String, int> get memberUids;
 
-  /// [sessionUids] contains uids and session dates for board's sessions.
-  BuiltMap<String, int> get sessionUids;
-
   String get title;
 
   String get description;

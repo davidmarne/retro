@@ -14,14 +14,13 @@ part 'items.g.dart';
 
 /// [ItemsActions]
 abstract class ItemsActions extends ReduxActions {
-  ActionDispatcher<Item> insertItem;
-  ActionDispatcher<Item> updateItem;
+  ActionDispatcher<Item> update;
     // update text
     // add duration to time
     // vote for item
     // move to different category?
     // show / hide
-  ActionDispatcher<Item> removeItem;
+  ActionDispatcher<String> setCurrent;
 
   // factory to create on instance of the generated implementation of BoardsActions
   ItemsActions._();
@@ -38,12 +37,17 @@ abstract class Items extends BuiltReducer<Items, ItemsBuilder>
   /// [map] contains a map of Item uid to Item.
   BuiltMap<String, Item> get map;
 
+  String get currentUid;
+
   /// [reducer]
   get reducer => _reducer;
 
   // Built value boilerplate
   Items._();
-  factory Items([updates(ItemsBuilder b)]) => new _$Items((ItemsBuilder b) => b);
+  factory Items([updates(ItemsBuilder b)]) => new _$Items((ItemsBuilder b) => b..currentUid = "");
+
+  @memoized
+  Item get current => map[currentUid];
 }
 
 ////////////////////
@@ -51,17 +55,16 @@ abstract class Items extends BuiltReducer<Items, ItemsBuilder>
 ///////////////////
 
 var _reducer = (new ReducerBuilder<Items, ItemsBuilder>()
-      ..add<Item>(ItemsActionsNames.insertItem, _setItem)
-      ..add<Item>(ItemsActionsNames.updateItem, _setItem)
-      ..add<Item>(ItemsActionsNames.removeItem, _unsetItem))
+      ..add<Item>(ItemsActionsNames.update, _updateItem)
+      ..add<String>(ItemsActionsNames.setCurrent, _setCurrentItem))
     .build();
 
 ////////////////////
 /// Reducers
 ///////////////////
 
-_setItem(Items state, Action<Item> action, ItemsBuilder builder) =>
+_updateItem(Items state, Action<Item> action, ItemsBuilder builder) =>
     builder..map[action.payload.uid] = action.payload;
 
-_unsetItem(Items state, Action<Item> action, ItemsBuilder builder) =>
-    builder..map.remove(action.payload.uid);
+_setCurrentItem(Items state, Action<String> action, ItemsBuilder builder) =>
+    builder..currentUid = action.payload;

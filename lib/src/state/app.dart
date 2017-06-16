@@ -2,7 +2,6 @@ library app;
 
 import 'package:built_value/built_value.dart';
 import 'package:built_redux/built_redux.dart';
-import 'package:built_collection/built_collection.dart';
 
 import './auth.dart';
 import './users.dart';
@@ -11,12 +10,6 @@ import './sessions.dart';
 import './categories.dart';
 import './items.dart';
 import './notes.dart';
-
-import '../models/board.dart';
-import '../models/session.dart';
-import '../models/category.dart';
-import '../models/item.dart';
-import '../models/note.dart';
 
 import '../middleware/creationMiddleware.dart';
 import '../middleware/refMiddleware.dart';
@@ -61,7 +54,7 @@ abstract class App extends BuiltReducer<App, AppBuilder>
   /// [Sessions]
   Sessions get sessions;
     // Notes: likely only need one session sub at a time. List of Sessions
-    // could simply have a timestamp for the session (available on board object).
+    // could just have a timestamp for the session (available on board object).
 
   /// [Categories]
   Categories get categories;
@@ -71,14 +64,6 @@ abstract class App extends BuiltReducer<App, AppBuilder>
 
   /// [Notes]
   Notes get notes;
-
-  String get currentBoardUid;
-
-  String get currentSessionUid;
-
-  String get currentCategoryUid;
-
-  String get currentItemUid;
 
   /// [reducer]
   get reducer => _reducer;
@@ -93,47 +78,6 @@ abstract class App extends BuiltReducer<App, AppBuilder>
     ..categories = new Categories().toBuilder()
     ..items = new Items().toBuilder()
     ..notes = new Notes().toBuilder());
-
-  Board get currentBoard => boards.map[currentBoardUid];
-
-  Session get currentSession => sessions.map[currentSessionUid];
-
-  Category get currentCategory => categories.map[currentCategoryUid];
-
-  Item get currentItem => items.map[currentItemUid];
-
-  // derived state
-  // will only be recomputed when App is rebuilt
-
-  @memoized
-  BuiltList<Category> get boardCategories {
-    if (currentBoard == null) return new BuiltList<Category>();
-    return new BuiltList<Category>(categories.map.values.where((cat) => cat.boardUid == currentBoardUid));
-  }
-
-  @memoized
-  BuiltList<Category> get sessionCategories {
-    if (currentSession == null) return new BuiltList<Category>();
-    return new BuiltList<Category>(currentSession.categoryUids.keys
-      .where((key) => categories.map.containsKey(key))
-      .map((key) => categories.map[key]));
-  }
-
-  @memoized
-  BuiltList<Note> get sessionNotes {
-    if (currentSession == null) return new BuiltList<Note>();
-    return new BuiltList<Note>(notes.map.values
-      .where((note) => note.sessionUid == note.sessionUid));
-  }
- 
-  @memoized
-  BuiltMap<Category, BuiltList<Item>> get categoryItems {
-    if (currentBoard == null) return new BuiltMap<Category, BuiltList<Item>>();
-    return new BuiltMap<Category, BuiltList<Item>>(categories.map.values
-      .where((cat) => cat.boardUid == currentBoardUid)
-      .map((cat) => new BuiltList<Item>(items.map.values
-        .where((item) => item.categoryUid == cat.uid))));
-  }
 }
 
 // combined reducer

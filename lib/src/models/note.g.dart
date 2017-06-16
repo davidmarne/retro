@@ -30,10 +30,8 @@ class _$NoteSerializer implements StructuredSerializer<Note> {
       'ownerUid',
       serializers.serialize(object.ownerUid,
           specifiedType: const FullType(String)),
-      'supporterUids',
-      serializers.serialize(object.supporterUids,
-          specifiedType: const FullType(
-              BuiltMap, const [const FullType(String), const FullType(bool)])),
+      'text',
+      serializers.serialize(object.text, specifiedType: const FullType(String)),
       'visible',
       serializers.serialize(object.visible,
           specifiedType: const FullType(bool)),
@@ -69,12 +67,9 @@ class _$NoteSerializer implements StructuredSerializer<Note> {
           result.ownerUid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'supporterUids':
-          result.supporterUids.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltMap, const [
-                const FullType(String),
-                const FullType(bool)
-              ])) as BuiltMap<String, bool>);
+        case 'text':
+          result.text = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
           break;
         case 'visible':
           result.visible = serializers.deserialize(value,
@@ -102,7 +97,7 @@ class _$Note extends Note {
   @override
   final String ownerUid;
   @override
-  final BuiltMap<String, bool> supporterUids;
+  final String text;
   @override
   final bool visible;
 
@@ -114,14 +109,14 @@ class _$Note extends Note {
       this.boardUid,
       this.sessionUid,
       this.ownerUid,
-      this.supporterUids,
+      this.text,
       this.visible})
       : super._() {
     if (uid == null) throw new ArgumentError.notNull('uid');
     if (boardUid == null) throw new ArgumentError.notNull('boardUid');
     if (sessionUid == null) throw new ArgumentError.notNull('sessionUid');
     if (ownerUid == null) throw new ArgumentError.notNull('ownerUid');
-    if (supporterUids == null) throw new ArgumentError.notNull('supporterUids');
+    if (text == null) throw new ArgumentError.notNull('text');
     if (visible == null) throw new ArgumentError.notNull('visible');
   }
 
@@ -140,7 +135,7 @@ class _$Note extends Note {
         boardUid == other.boardUid &&
         sessionUid == other.sessionUid &&
         ownerUid == other.ownerUid &&
-        supporterUids == other.supporterUids &&
+        text == other.text &&
         visible == other.visible;
   }
 
@@ -152,7 +147,7 @@ class _$Note extends Note {
                 $jc($jc($jc(0, uid.hashCode), boardUid.hashCode),
                     sessionUid.hashCode),
                 ownerUid.hashCode),
-            supporterUids.hashCode),
+            text.hashCode),
         visible.hashCode));
   }
 
@@ -163,7 +158,7 @@ class _$Note extends Note {
           ..add('boardUid', boardUid)
           ..add('sessionUid', sessionUid)
           ..add('ownerUid', ownerUid)
-          ..add('supporterUids', supporterUids)
+          ..add('text', text)
           ..add('visible', visible))
         .toString();
   }
@@ -188,11 +183,9 @@ class NoteBuilder implements Builder<Note, NoteBuilder> {
   String get ownerUid => _$this._ownerUid;
   set ownerUid(String ownerUid) => _$this._ownerUid = ownerUid;
 
-  MapBuilder<String, bool> _supporterUids;
-  MapBuilder<String, bool> get supporterUids =>
-      _$this._supporterUids ??= new MapBuilder<String, bool>();
-  set supporterUids(MapBuilder<String, bool> supporterUids) =>
-      _$this._supporterUids = supporterUids;
+  String _text;
+  String get text => _$this._text;
+  set text(String text) => _$this._text = text;
 
   bool _visible;
   bool get visible => _$this._visible;
@@ -206,7 +199,7 @@ class NoteBuilder implements Builder<Note, NoteBuilder> {
       _boardUid = _$v.boardUid;
       _sessionUid = _$v.sessionUid;
       _ownerUid = _$v.ownerUid;
-      _supporterUids = _$v.supporterUids?.toBuilder();
+      _text = _$v.text;
       _visible = _$v.visible;
       _$v = null;
     }
@@ -232,7 +225,7 @@ class NoteBuilder implements Builder<Note, NoteBuilder> {
             boardUid: boardUid,
             sessionUid: sessionUid,
             ownerUid: ownerUid,
-            supporterUids: supporterUids?.build(),
+            text: text,
             visible: visible);
     replace(result);
     return result;

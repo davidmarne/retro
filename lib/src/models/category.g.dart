@@ -24,15 +24,17 @@ class _$CategorySerializer implements StructuredSerializer<Category> {
       'boardUid',
       serializers.serialize(object.boardUid,
           specifiedType: const FullType(String)),
+      'sessionUid',
+      serializers.serialize(object.sessionUid,
+          specifiedType: const FullType(String)),
       'title',
       serializers.serialize(object.title,
           specifiedType: const FullType(String)),
       'description',
       serializers.serialize(object.description,
           specifiedType: const FullType(String)),
-      'visible',
-      serializers.serialize(object.visible,
-          specifiedType: const FullType(bool)),
+      'order',
+      serializers.serialize(object.order, specifiedType: const FullType(int)),
     ];
 
     return result;
@@ -57,6 +59,10 @@ class _$CategorySerializer implements StructuredSerializer<Category> {
           result.boardUid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'sessionUid':
+          result.sessionUid = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
         case 'title':
           result.title = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
@@ -65,9 +71,9 @@ class _$CategorySerializer implements StructuredSerializer<Category> {
           result.description = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'visible':
-          result.visible = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
+        case 'order':
+          result.order = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
           break;
       }
     }
@@ -87,23 +93,31 @@ class _$Category extends Category {
   @override
   final String boardUid;
   @override
+  final String sessionUid;
+  @override
   final String title;
   @override
   final String description;
   @override
-  final bool visible;
+  final int order;
 
   factory _$Category([void updates(CategoryBuilder b)]) =>
       (new CategoryBuilder()..update(updates)).build();
 
   _$Category._(
-      {this.uid, this.boardUid, this.title, this.description, this.visible})
+      {this.uid,
+      this.boardUid,
+      this.sessionUid,
+      this.title,
+      this.description,
+      this.order})
       : super._() {
     if (uid == null) throw new ArgumentError.notNull('uid');
     if (boardUid == null) throw new ArgumentError.notNull('boardUid');
+    if (sessionUid == null) throw new ArgumentError.notNull('sessionUid');
     if (title == null) throw new ArgumentError.notNull('title');
     if (description == null) throw new ArgumentError.notNull('description');
-    if (visible == null) throw new ArgumentError.notNull('visible');
+    if (order == null) throw new ArgumentError.notNull('order');
   }
 
   @override
@@ -119,17 +133,22 @@ class _$Category extends Category {
     if (other is! Category) return false;
     return uid == other.uid &&
         boardUid == other.boardUid &&
+        sessionUid == other.sessionUid &&
         title == other.title &&
         description == other.description &&
-        visible == other.visible;
+        order == other.order;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc($jc(0, uid.hashCode), boardUid.hashCode), title.hashCode),
+        $jc(
+            $jc(
+                $jc($jc($jc(0, uid.hashCode), boardUid.hashCode),
+                    sessionUid.hashCode),
+                title.hashCode),
             description.hashCode),
-        visible.hashCode));
+        order.hashCode));
   }
 
   @override
@@ -137,9 +156,10 @@ class _$Category extends Category {
     return (newBuiltValueToStringHelper('Category')
           ..add('uid', uid)
           ..add('boardUid', boardUid)
+          ..add('sessionUid', sessionUid)
           ..add('title', title)
           ..add('description', description)
-          ..add('visible', visible))
+          ..add('order', order))
         .toString();
   }
 }
@@ -155,6 +175,10 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
   String get boardUid => _$this._boardUid;
   set boardUid(String boardUid) => _$this._boardUid = boardUid;
 
+  String _sessionUid;
+  String get sessionUid => _$this._sessionUid;
+  set sessionUid(String sessionUid) => _$this._sessionUid = sessionUid;
+
   String _title;
   String get title => _$this._title;
   set title(String title) => _$this._title = title;
@@ -163,9 +187,9 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
   String get description => _$this._description;
   set description(String description) => _$this._description = description;
 
-  bool _visible;
-  bool get visible => _$this._visible;
-  set visible(bool visible) => _$this._visible = visible;
+  int _order;
+  int get order => _$this._order;
+  set order(int order) => _$this._order = order;
 
   CategoryBuilder();
 
@@ -173,9 +197,10 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
     if (_$v != null) {
       _uid = _$v.uid;
       _boardUid = _$v.boardUid;
+      _sessionUid = _$v.sessionUid;
       _title = _$v.title;
       _description = _$v.description;
-      _visible = _$v.visible;
+      _order = _$v.order;
       _$v = null;
     }
     return this;
@@ -198,9 +223,10 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
         new _$Category._(
             uid: uid,
             boardUid: boardUid,
+            sessionUid: sessionUid,
             title: title,
             description: description,
-            visible: visible);
+            order: order);
     replace(result);
     return result;
   }

@@ -14,13 +14,12 @@ part 'boards.g.dart';
 
 /// [BoardsActions]
 abstract class BoardsActions extends ReduxActions {
-  ActionDispatcher<Board> insertBoard;
-  ActionDispatcher<Board> updateBoard;
+  ActionDispatcher<Board> update;
     // update title
     // update description
     // add / remove User
     // create new Session
-  ActionDispatcher<Board> removeBoard;
+  ActionDispatcher<String> setCurrent;
 
   // factory to create on instance of the generated implementation of BoardsActions
   BoardsActions._();
@@ -37,12 +36,17 @@ abstract class Boards extends BuiltReducer<Boards, BoardsBuilder>
   /// [map] contains a map of board.id to Board
   BuiltMap<String, Board> get map;
 
+  String get currentUid;
+
   /// [reducer]
   get reducer => _reducer;
 
   // Built value boilerplate
   Boards._();
-  factory Boards([updates(BoardsBuilder b)]) => new _$Boards((BoardsBuilder b) => b);
+  factory Boards([updates(BoardsBuilder b)]) => new _$Boards((BoardsBuilder b) => b..currentUid = "");
+
+  @memoized
+  Board get current => map[currentUid];
 }
 
 ////////////////////
@@ -50,17 +54,16 @@ abstract class Boards extends BuiltReducer<Boards, BoardsBuilder>
 ///////////////////
 
 var _reducer = (new ReducerBuilder<Boards, BoardsBuilder>()
-      ..add<Board>(BoardsActionsNames.insertBoard, _setBoard)
-      ..add<Board>(BoardsActionsNames.updateBoard, _setBoard)
-      ..add<Board>(BoardsActionsNames.removeBoard, _unsetBoard))
+      ..add<Board>(BoardsActionsNames.update, _updateBoard)
+      ..add<String>(BoardsActionsNames.setCurrent, _setCurrentBoard))
     .build();
 
 ////////////////////
 /// Reducers
 ///////////////////
 
-_setBoard(Boards state, Action<Board> action, BoardsBuilder builder) =>
+_updateBoard(Boards state, Action<Board> action, BoardsBuilder builder) =>
     builder..map[action.payload.uid] = action.payload;
 
-_unsetBoard(Boards state, Action<Board> action, BoardsBuilder builder) =>
-    builder..map.remove(action.payload.uid);
+_setCurrentBoard(Boards state, Action<String> action, BoardsBuilder builder) =>
+    builder..currentUid = action.payload;

@@ -28,10 +28,6 @@ class _$BoardSerializer implements StructuredSerializer<Board> {
       serializers.serialize(object.memberUids,
           specifiedType: const FullType(
               BuiltMap, const [const FullType(String), const FullType(int)])),
-      'sessionUids',
-      serializers.serialize(object.sessionUids,
-          specifiedType: const FullType(
-              BuiltMap, const [const FullType(String), const FullType(int)])),
       'title',
       serializers.serialize(object.title,
           specifiedType: const FullType(String)),
@@ -69,13 +65,6 @@ class _$BoardSerializer implements StructuredSerializer<Board> {
                 const FullType(int)
               ])) as BuiltMap<String, int>);
           break;
-        case 'sessionUids':
-          result.sessionUids.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltMap, const [
-                const FullType(String),
-                const FullType(int)
-              ])) as BuiltMap<String, int>);
-          break;
         case 'title':
           result.title = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
@@ -104,8 +93,6 @@ class _$Board extends Board {
   @override
   final BuiltMap<String, int> memberUids;
   @override
-  final BuiltMap<String, int> sessionUids;
-  @override
   final String title;
   @override
   final String description;
@@ -114,17 +101,11 @@ class _$Board extends Board {
       (new BoardBuilder()..update(updates)).build();
 
   _$Board._(
-      {this.uid,
-      this.ownerUid,
-      this.memberUids,
-      this.sessionUids,
-      this.title,
-      this.description})
+      {this.uid, this.ownerUid, this.memberUids, this.title, this.description})
       : super._() {
     if (uid == null) throw new ArgumentError.notNull('uid');
     if (ownerUid == null) throw new ArgumentError.notNull('ownerUid');
     if (memberUids == null) throw new ArgumentError.notNull('memberUids');
-    if (sessionUids == null) throw new ArgumentError.notNull('sessionUids');
     if (title == null) throw new ArgumentError.notNull('title');
     if (description == null) throw new ArgumentError.notNull('description');
   }
@@ -143,7 +124,6 @@ class _$Board extends Board {
     return uid == other.uid &&
         ownerUid == other.ownerUid &&
         memberUids == other.memberUids &&
-        sessionUids == other.sessionUids &&
         title == other.title &&
         description == other.description;
   }
@@ -152,10 +132,8 @@ class _$Board extends Board {
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc(
-                $jc($jc($jc(0, uid.hashCode), ownerUid.hashCode),
-                    memberUids.hashCode),
-                sessionUids.hashCode),
+            $jc($jc($jc(0, uid.hashCode), ownerUid.hashCode),
+                memberUids.hashCode),
             title.hashCode),
         description.hashCode));
   }
@@ -166,7 +144,6 @@ class _$Board extends Board {
           ..add('uid', uid)
           ..add('ownerUid', ownerUid)
           ..add('memberUids', memberUids)
-          ..add('sessionUids', sessionUids)
           ..add('title', title)
           ..add('description', description))
         .toString();
@@ -190,12 +167,6 @@ class BoardBuilder implements Builder<Board, BoardBuilder> {
   set memberUids(MapBuilder<String, int> memberUids) =>
       _$this._memberUids = memberUids;
 
-  MapBuilder<String, int> _sessionUids;
-  MapBuilder<String, int> get sessionUids =>
-      _$this._sessionUids ??= new MapBuilder<String, int>();
-  set sessionUids(MapBuilder<String, int> sessionUids) =>
-      _$this._sessionUids = sessionUids;
-
   String _title;
   String get title => _$this._title;
   set title(String title) => _$this._title = title;
@@ -211,7 +182,6 @@ class BoardBuilder implements Builder<Board, BoardBuilder> {
       _uid = _$v.uid;
       _ownerUid = _$v.ownerUid;
       _memberUids = _$v.memberUids?.toBuilder();
-      _sessionUids = _$v.sessionUids?.toBuilder();
       _title = _$v.title;
       _description = _$v.description;
       _$v = null;
@@ -237,7 +207,6 @@ class BoardBuilder implements Builder<Board, BoardBuilder> {
             uid: uid,
             ownerUid: ownerUid,
             memberUids: memberUids?.build(),
-            sessionUids: sessionUids?.build(),
             title: title,
             description: description);
     replace(result);

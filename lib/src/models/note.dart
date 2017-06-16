@@ -2,7 +2,6 @@ library note;
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:built_collection/built_collection.dart';
 
 part 'note.g.dart';
 
@@ -19,8 +18,7 @@ abstract class Note implements Built<Note, NoteBuilder> {
   /// [ownerUid] is the user uid of the item's owner
   String get ownerUid;
 
-  /// [supporterUids] contains uids for users that support this item.
-  BuiltMap<String, bool> get supporterUids;
+  String get text;
 
   /// [visible] when false, prevent Note from appearing in any sets.
   bool get visible;

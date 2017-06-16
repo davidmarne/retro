@@ -2,8 +2,8 @@ import 'package:angular2/core.dart';
 import 'package:angular2/router.dart';
 
 import '../dashboard/dashboard.dart';
-import '../groupDashboard/groupDashboard.dart';
 import '../boardDashboard/boardDashboard.dart';
+import '../sessionDashboard/sessionDashboard.dart';
 import '../../store.dart';
 
 @Component(
@@ -13,24 +13,21 @@ import '../../store.dart';
     providers: const [StoreService])
 @RouteConfig(const [
   const Route(
-    path: '/dashboard',
-    name: 'Dashboard',
+    path: '/home',
+    name: 'Home',
     component: DashboardComponent,
     useAsDefault: true,
   ),
   const Route(
-    path: '/group/:guid',
-    name: 'Group',
-    component: GroupDashboardComponent,
-  ),
-  const Route(
-    path: '/group/:guid/board/:buid',
+    path: '/board/:buid',
     name: 'Board',
     component: BoardDashboardComponent,
   ),
-  // const Route(path: '/item/:id', name: 'Item', component: ItemComponent),
-  // const Route(path: '/user', name: 'User', component: UserComponent),
-  // const Route(path: '/todos', name: 'Todos', component: TodosComponent),
+  const Route(
+    path: '/board/:buid/session/:suid',
+    name: 'Session',
+    component: SessionDashboardComponent,
+  ),
 ])
 class AppComponent {
   final StoreService _storeService;
@@ -39,10 +36,6 @@ class AppComponent {
   AppComponent(StoreService storeService) : _storeService = storeService;
 
   bool get loggedIn => _storeService.store.state.auth.loggedIn;
-
-  // String get currentGroupId => _routeParams.get('guid');
-  //
-  // String get currentBoardId => _routeParams.get('buid');
 
   logIn() => _storeService.signIn();
 

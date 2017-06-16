@@ -14,12 +14,13 @@ abstract class Category implements Built<Category, CategoryBuilder> {
 
   String get boardUid;
 
+  String get sessionUid;
+
   String get title;
 
   String get description;
 
-  /// [visible] when false, prevent Category from appearing in any sets.
-  bool get visible;
+  int get order;
 
   // Built value boilerplate
   Category._();

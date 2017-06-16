@@ -8,30 +8,23 @@ part of items;
 // **************************************************************************
 
 class _$ItemsActions extends ItemsActions {
-  ActionDispatcher<Item> removeItem =
-      new ActionDispatcher<Item>('ItemsActions-removeItem');
+  ActionDispatcher<String> setCurrent =
+      new ActionDispatcher<String>('ItemsActions-setCurrent');
 
-  ActionDispatcher<Item> updateItem =
-      new ActionDispatcher<Item>('ItemsActions-updateItem');
-
-  ActionDispatcher<Item> insertItem =
-      new ActionDispatcher<Item>('ItemsActions-insertItem');
+  ActionDispatcher<Item> update =
+      new ActionDispatcher<Item>('ItemsActions-update');
   factory _$ItemsActions() => new _$ItemsActions._();
   _$ItemsActions._() : super._();
   syncWithStore(dispatcher) {
-    removeItem.syncWithStore(dispatcher);
-    updateItem.syncWithStore(dispatcher);
-    insertItem.syncWithStore(dispatcher);
+    setCurrent.syncWithStore(dispatcher);
+    update.syncWithStore(dispatcher);
   }
 }
 
 class ItemsActionsNames {
-  static ActionName removeItem =
-      new ActionName<Item>('ItemsActions-removeItem');
-  static ActionName updateItem =
-      new ActionName<Item>('ItemsActions-updateItem');
-  static ActionName insertItem =
-      new ActionName<Item>('ItemsActions-insertItem');
+  static ActionName setCurrent =
+      new ActionName<String>('ItemsActions-setCurrent');
+  static ActionName update = new ActionName<Item>('ItemsActions-update');
 }
 
 // **************************************************************************
@@ -42,13 +35,20 @@ class ItemsActionsNames {
 class _$Items extends Items {
   @override
   final BuiltMap<String, Item> map;
+  @override
+  final String currentUid;
+  Item __current;
 
   factory _$Items([void updates(ItemsBuilder b)]) =>
       (new ItemsBuilder()..update(updates)).build();
 
-  _$Items._({this.map}) : super._() {
+  _$Items._({this.map, this.currentUid}) : super._() {
     if (map == null) throw new ArgumentError.notNull('map');
+    if (currentUid == null) throw new ArgumentError.notNull('currentUid');
   }
+
+  @override
+  Item get current => __current ??= super.current;
 
   @override
   Items rebuild(void updates(ItemsBuilder b)) =>
@@ -61,17 +61,20 @@ class _$Items extends Items {
   bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
     if (other is! Items) return false;
-    return map == other.map;
+    return map == other.map && currentUid == other.currentUid;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, map.hashCode));
+    return $jf($jc($jc(0, map.hashCode), currentUid.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('Items')..add('map', map)).toString();
+    return (newBuiltValueToStringHelper('Items')
+          ..add('map', map)
+          ..add('currentUid', currentUid))
+        .toString();
   }
 }
 
@@ -83,11 +86,16 @@ class ItemsBuilder implements Builder<Items, ItemsBuilder> {
       _$this._map ??= new MapBuilder<String, Item>();
   set map(MapBuilder<String, Item> map) => _$this._map = map;
 
+  String _currentUid;
+  String get currentUid => _$this._currentUid;
+  set currentUid(String currentUid) => _$this._currentUid = currentUid;
+
   ItemsBuilder();
 
   ItemsBuilder get _$this {
     if (_$v != null) {
       _map = _$v.map?.toBuilder();
+      _currentUid = _$v.currentUid;
       _$v = null;
     }
     return this;
@@ -106,7 +114,8 @@ class ItemsBuilder implements Builder<Items, ItemsBuilder> {
 
   @override
   _$Items build() {
-    final result = _$v ?? new _$Items._(map: map?.build());
+    final result =
+        _$v ?? new _$Items._(map: map?.build(), currentUid: currentUid);
     replace(result);
     return result;
   }

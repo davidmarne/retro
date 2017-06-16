@@ -58,18 +58,6 @@ class _$App extends App {
   final Items items;
   @override
   final Notes notes;
-  @override
-  final String currentBoardUid;
-  @override
-  final String currentSessionUid;
-  @override
-  final String currentCategoryUid;
-  @override
-  final String currentItemUid;
-  BuiltList<Category> __boardCategories;
-  BuiltList<Category> __sessionCategories;
-  BuiltList<Note> __sessionNotes;
-  BuiltMap<Category, BuiltList<Item>> __categoryItems;
 
   factory _$App([void updates(AppBuilder b)]) =>
       (new AppBuilder()..update(updates)).build();
@@ -81,11 +69,7 @@ class _$App extends App {
       this.sessions,
       this.categories,
       this.items,
-      this.notes,
-      this.currentBoardUid,
-      this.currentSessionUid,
-      this.currentCategoryUid,
-      this.currentItemUid})
+      this.notes})
       : super._() {
     if (auth == null) throw new ArgumentError.notNull('auth');
     if (users == null) throw new ArgumentError.notNull('users');
@@ -94,30 +78,7 @@ class _$App extends App {
     if (categories == null) throw new ArgumentError.notNull('categories');
     if (items == null) throw new ArgumentError.notNull('items');
     if (notes == null) throw new ArgumentError.notNull('notes');
-    if (currentBoardUid == null)
-      throw new ArgumentError.notNull('currentBoardUid');
-    if (currentSessionUid == null)
-      throw new ArgumentError.notNull('currentSessionUid');
-    if (currentCategoryUid == null)
-      throw new ArgumentError.notNull('currentCategoryUid');
-    if (currentItemUid == null)
-      throw new ArgumentError.notNull('currentItemUid');
   }
-
-  @override
-  BuiltList<Category> get boardCategories =>
-      __boardCategories ??= super.boardCategories;
-
-  @override
-  BuiltList<Category> get sessionCategories =>
-      __sessionCategories ??= super.sessionCategories;
-
-  @override
-  BuiltList<Note> get sessionNotes => __sessionNotes ??= super.sessionNotes;
-
-  @override
-  BuiltMap<Category, BuiltList<Item>> get categoryItems =>
-      __categoryItems ??= super.categoryItems;
 
   @override
   App rebuild(void updates(AppBuilder b)) =>
@@ -136,11 +97,7 @@ class _$App extends App {
         sessions == other.sessions &&
         categories == other.categories &&
         items == other.items &&
-        notes == other.notes &&
-        currentBoardUid == other.currentBoardUid &&
-        currentSessionUid == other.currentSessionUid &&
-        currentCategoryUid == other.currentCategoryUid &&
-        currentItemUid == other.currentItemUid;
+        notes == other.notes;
   }
 
   @override
@@ -149,22 +106,12 @@ class _$App extends App {
         $jc(
             $jc(
                 $jc(
-                    $jc(
-                        $jc(
-                            $jc(
-                                $jc(
-                                    $jc(
-                                        $jc($jc(0, auth.hashCode),
-                                            users.hashCode),
-                                        boards.hashCode),
-                                    sessions.hashCode),
-                                categories.hashCode),
-                            items.hashCode),
-                        notes.hashCode),
-                    currentBoardUid.hashCode),
-                currentSessionUid.hashCode),
-            currentCategoryUid.hashCode),
-        currentItemUid.hashCode));
+                    $jc($jc($jc(0, auth.hashCode), users.hashCode),
+                        boards.hashCode),
+                    sessions.hashCode),
+                categories.hashCode),
+            items.hashCode),
+        notes.hashCode));
   }
 
   @override
@@ -176,11 +123,7 @@ class _$App extends App {
           ..add('sessions', sessions)
           ..add('categories', categories)
           ..add('items', items)
-          ..add('notes', notes)
-          ..add('currentBoardUid', currentBoardUid)
-          ..add('currentSessionUid', currentSessionUid)
-          ..add('currentCategoryUid', currentCategoryUid)
-          ..add('currentItemUid', currentItemUid))
+          ..add('notes', notes))
         .toString();
   }
 }
@@ -218,26 +161,6 @@ class AppBuilder implements Builder<App, AppBuilder> {
   NotesBuilder get notes => _$this._notes ??= new NotesBuilder();
   set notes(NotesBuilder notes) => _$this._notes = notes;
 
-  String _currentBoardUid;
-  String get currentBoardUid => _$this._currentBoardUid;
-  set currentBoardUid(String currentBoardUid) =>
-      _$this._currentBoardUid = currentBoardUid;
-
-  String _currentSessionUid;
-  String get currentSessionUid => _$this._currentSessionUid;
-  set currentSessionUid(String currentSessionUid) =>
-      _$this._currentSessionUid = currentSessionUid;
-
-  String _currentCategoryUid;
-  String get currentCategoryUid => _$this._currentCategoryUid;
-  set currentCategoryUid(String currentCategoryUid) =>
-      _$this._currentCategoryUid = currentCategoryUid;
-
-  String _currentItemUid;
-  String get currentItemUid => _$this._currentItemUid;
-  set currentItemUid(String currentItemUid) =>
-      _$this._currentItemUid = currentItemUid;
-
   AppBuilder();
 
   AppBuilder get _$this {
@@ -249,10 +172,6 @@ class AppBuilder implements Builder<App, AppBuilder> {
       _categories = _$v.categories?.toBuilder();
       _items = _$v.items?.toBuilder();
       _notes = _$v.notes?.toBuilder();
-      _currentBoardUid = _$v.currentBoardUid;
-      _currentSessionUid = _$v.currentSessionUid;
-      _currentCategoryUid = _$v.currentCategoryUid;
-      _currentItemUid = _$v.currentItemUid;
       _$v = null;
     }
     return this;
@@ -279,11 +198,7 @@ class AppBuilder implements Builder<App, AppBuilder> {
             sessions: sessions?.build(),
             categories: categories?.build(),
             items: items?.build(),
-            notes: notes?.build(),
-            currentBoardUid: currentBoardUid,
-            currentSessionUid: currentSessionUid,
-            currentCategoryUid: currentCategoryUid,
-            currentItemUid: currentItemUid);
+            notes: notes?.build());
     replace(result);
     return result;
   }

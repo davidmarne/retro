@@ -24,10 +24,9 @@ class _$SessionSerializer implements StructuredSerializer<Session> {
       'boardUid',
       serializers.serialize(object.boardUid,
           specifiedType: const FullType(String)),
-      'categoryUids',
-      serializers.serialize(object.categoryUids,
-          specifiedType: const FullType(
-              BuiltMap, const [const FullType(String), const FullType(bool)])),
+      'targetTime',
+      serializers.serialize(object.targetTime,
+          specifiedType: const FullType(int)),
       'startDate',
       serializers.serialize(object.startDate,
           specifiedType: const FullType(int)),
@@ -57,12 +56,9 @@ class _$SessionSerializer implements StructuredSerializer<Session> {
           result.boardUid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'categoryUids':
-          result.categoryUids.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltMap, const [
-                const FullType(String),
-                const FullType(bool)
-              ])) as BuiltMap<String, bool>);
+        case 'targetTime':
+          result.targetTime = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
           break;
         case 'startDate':
           result.startDate = serializers.deserialize(value,
@@ -90,7 +86,7 @@ class _$Session extends Session {
   @override
   final String boardUid;
   @override
-  final BuiltMap<String, bool> categoryUids;
+  final int targetTime;
   @override
   final int startDate;
   @override
@@ -102,15 +98,11 @@ class _$Session extends Session {
       (new SessionBuilder()..update(updates)).build();
 
   _$Session._(
-      {this.uid,
-      this.boardUid,
-      this.categoryUids,
-      this.startDate,
-      this.endDate})
+      {this.uid, this.boardUid, this.targetTime, this.startDate, this.endDate})
       : super._() {
     if (uid == null) throw new ArgumentError.notNull('uid');
     if (boardUid == null) throw new ArgumentError.notNull('boardUid');
-    if (categoryUids == null) throw new ArgumentError.notNull('categoryUids');
+    if (targetTime == null) throw new ArgumentError.notNull('targetTime');
     if (startDate == null) throw new ArgumentError.notNull('startDate');
     if (endDate == null) throw new ArgumentError.notNull('endDate');
   }
@@ -134,7 +126,7 @@ class _$Session extends Session {
     if (other is! Session) return false;
     return uid == other.uid &&
         boardUid == other.boardUid &&
-        categoryUids == other.categoryUids &&
+        targetTime == other.targetTime &&
         startDate == other.startDate &&
         endDate == other.endDate;
   }
@@ -144,7 +136,7 @@ class _$Session extends Session {
     return $jf($jc(
         $jc(
             $jc($jc($jc(0, uid.hashCode), boardUid.hashCode),
-                categoryUids.hashCode),
+                targetTime.hashCode),
             startDate.hashCode),
         endDate.hashCode));
   }
@@ -154,7 +146,7 @@ class _$Session extends Session {
     return (newBuiltValueToStringHelper('Session')
           ..add('uid', uid)
           ..add('boardUid', boardUid)
-          ..add('categoryUids', categoryUids)
+          ..add('targetTime', targetTime)
           ..add('startDate', startDate)
           ..add('endDate', endDate))
         .toString();
@@ -172,11 +164,9 @@ class SessionBuilder implements Builder<Session, SessionBuilder> {
   String get boardUid => _$this._boardUid;
   set boardUid(String boardUid) => _$this._boardUid = boardUid;
 
-  MapBuilder<String, bool> _categoryUids;
-  MapBuilder<String, bool> get categoryUids =>
-      _$this._categoryUids ??= new MapBuilder<String, bool>();
-  set categoryUids(MapBuilder<String, bool> categoryUids) =>
-      _$this._categoryUids = categoryUids;
+  int _targetTime;
+  int get targetTime => _$this._targetTime;
+  set targetTime(int targetTime) => _$this._targetTime = targetTime;
 
   int _startDate;
   int get startDate => _$this._startDate;
@@ -192,7 +182,7 @@ class SessionBuilder implements Builder<Session, SessionBuilder> {
     if (_$v != null) {
       _uid = _$v.uid;
       _boardUid = _$v.boardUid;
-      _categoryUids = _$v.categoryUids?.toBuilder();
+      _targetTime = _$v.targetTime;
       _startDate = _$v.startDate;
       _endDate = _$v.endDate;
       _$v = null;
@@ -217,7 +207,7 @@ class SessionBuilder implements Builder<Session, SessionBuilder> {
         new _$Session._(
             uid: uid,
             boardUid: boardUid,
-            categoryUids: categoryUids?.build(),
+            targetTime: targetTime,
             startDate: startDate,
             endDate: endDate);
     replace(result);

@@ -4,11 +4,8 @@
             "title": "title",
             "description": "description",
             "owner": "$uid",
-            "users": {
+            "members": {
                 "$uid(user)": 123456789 // user's last activity
-            },
-            "sessions": {
-                "$uid(session)": 123456789 // session created date
             }
         }
     },
@@ -20,49 +17,49 @@
     "sessions": {
         "$uid(board)": { // permission granted based on user's access to board
             "$uid(session)": {
-                "startDate": 123456789,
-                "endDate": 123456789,
-                "categories": {
-                    "$uid(category)" : 1 // order in session
-                }
+                "targetTime": 3600, // duration members hope to limit the retro to.
+                "startDate": 123456789, // presentation start timestamp
+                "endDate": 123456789 // presentation end timestamp
             }
         }
     },
     "categories": {
-        "$uid(board)": { // permission granted based on user's access to board
-            "$uid(category)" : {
-                "title": "title",
-                "description": "description",
-                "visible": true
+        "$uid(board)": {
+            "$uid(session)": {
+                "$uid(category)" : {
+                    "title": "title",
+                    "description": "description",
+                    "order": 1
+                }
             }
         }
     },
     "items": {
-        "$uid(board)": { // permission granted based on user's access to board
-            "uid(session)" : {
+        "$uid(board)": {
+            "$uid(session)": {
                 "$uid(item)" : {
                     "owner": "$uid",
                     "text": "text",
                     "time": 3600, // amount of time spent discussing this item
                     "category": "$uid(category)",
+                    "notes": {
+                        "$uid(note)": true
+                    },
                     "supporters": {
                         "$uid(user)": "shout out!" // brief reply to item text
                     },
-                    "visible": false
+                    "visible": true
                 }
             }
         }
     },
-    "notes": {
-        "$uid(board)": { // permission granted based on user's access to board
-            "uid(session)" : {
+    "notes": { // TODO: items and notes are very similar...
+        "$uid(board)": {
+            "$uid(session)": {
                 "$uid(note)": {
                     "owner": "$uid(user)",
                     "text": "text",
-                    "items": {
-                        "$uid(item)": true
-                    },
-                    "visible": false
+                    "visible": true
                 }
             }
         }

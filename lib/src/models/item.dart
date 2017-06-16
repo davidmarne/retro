@@ -16,18 +16,21 @@ abstract class Item implements Built<Item, ItemBuilder> {
 
   String get sessionUid;
 
-  String get categoryUid;
-
   /// [ownerUid] is the user uid of the item's owner
   String get ownerUid;
 
-  /// [supporterUids] user uids mapped to a short blurb describing their support.
-  BuiltMap<String, String> get supporterUids;
+  String get categoryUid;
 
-  String get text;
+  /// [noteUids] note uids tagged to this item.
+  BuiltMap<String, bool> get noteUids;
+
+  /// [supporterUids] uids of supportive users.
+  BuiltMap<String, bool> get supporterUids;
 
   /// [time] spent discussing the Item during presentation
   int get time;
+
+  String get text;
 
   /// [visible] when false, prevent Item from appearing in any sets.
   bool get visible;
