@@ -14,12 +14,10 @@ part 'categories.g.dart';
 
 /// [CategoriesActions]
 abstract class CategoriesActions extends ReduxActions {
-  ActionDispatcher<Category> insertCategory;
-  ActionDispatcher<Category> updateCategory;
+  ActionDispatcher<Category> update;
     // update title
     // update description
     // show / hide
-  ActionDispatcher<Category> removeCategory;
 
   // factory to create on instance of the generated implementation of BoardsActions
   CategoriesActions._();
@@ -49,17 +47,12 @@ abstract class Categories extends BuiltReducer<Categories, CategoriesBuilder>
 ///////////////////
 
 var _reducer = (new ReducerBuilder<Categories, CategoriesBuilder>()
-      ..add<Category>(CategoriesActionsNames.insertCategory, _setCategory)
-      ..add<Category>(CategoriesActionsNames.updateCategory, _setCategory)
-      ..add<Category>(CategoriesActionsNames.removeCategory, _unsetCategory))
+      ..add<Category>(CategoriesActionsNames.update, _updateCategory))
     .build();
 
 ////////////////////
 /// Reducers
 ///////////////////
 
-_setCategory(Categories state, Action<Category> action, CategoriesBuilder builder) =>
+updateCategory(Categories state, Action<Category> action, CategoriesBuilder builder) =>
     builder..map[action.payload.uid] = action.payload;
-
-_unsetCategory(Categories state, Action<Category> action, CategoriesBuilder builder) =>
-    builder..map.remove(action.payload.uid);

@@ -8,30 +8,18 @@ part of categories;
 // **************************************************************************
 
 class _$CategoriesActions extends CategoriesActions {
-  ActionDispatcher<Category> removeCategory =
-      new ActionDispatcher<Category>('CategoriesActions-removeCategory');
-
-  ActionDispatcher<Category> updateCategory =
-      new ActionDispatcher<Category>('CategoriesActions-updateCategory');
-
-  ActionDispatcher<Category> insertCategory =
-      new ActionDispatcher<Category>('CategoriesActions-insertCategory');
+  ActionDispatcher<Category> update =
+      new ActionDispatcher<Category>('CategoriesActions-update');
   factory _$CategoriesActions() => new _$CategoriesActions._();
   _$CategoriesActions._() : super._();
   syncWithStore(dispatcher) {
-    removeCategory.syncWithStore(dispatcher);
-    updateCategory.syncWithStore(dispatcher);
-    insertCategory.syncWithStore(dispatcher);
+    update.syncWithStore(dispatcher);
   }
 }
 
 class CategoriesActionsNames {
-  static ActionName removeCategory =
-      new ActionName<Category>('CategoriesActions-removeCategory');
-  static ActionName updateCategory =
-      new ActionName<Category>('CategoriesActions-updateCategory');
-  static ActionName insertCategory =
-      new ActionName<Category>('CategoriesActions-insertCategory');
+  static ActionName update =
+      new ActionName<Category>('CategoriesActions-update');
 }
 
 // **************************************************************************

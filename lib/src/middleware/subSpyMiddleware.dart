@@ -5,13 +5,11 @@ import 'package:firebase/firebase.dart' as firebase;
 
 import '../state/app.dart';
 import '../state/users.dart';
-import '../state/groups.dart';
 import '../state/auth.dart';
 import '../state/boards.dart';
 
 import '../middleware/creationMiddleware.dart';
 
-import '../models/group.dart';
 import '../models/user.dart';
 
 createSubSpyMiddleware(firebase.Database db) => (new MiddlwareBuilder<App, AppBuilder, AppActions>()

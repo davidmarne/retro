@@ -4,7 +4,6 @@ import 'package:built_redux/built_redux.dart';
 
 import '../boardCreate/boardCreate.dart';
 import '../boardCard/boardCard.dart';
-import '../../models/group.dart';
 import '../../models/board.dart';
 import '../../state/app.dart';
 import '../../store.dart';
@@ -18,11 +17,11 @@ import '../../store.dart';
     BoardCardComponent,
   ],
 )
-class GroupDashboardComponent implements OnInit {
+class BoardDashboardComponent implements OnInit {
   final Store<App, AppBuilder, AppActions> _store;
   final RouteParams _routeParams;
 
-  GroupDashboardComponent(StoreService storeService, this._routeParams)
+  BoardDashboardComponent(StoreService storeService, this._routeParams)
       : _store = storeService.store;
 
   void ngOnInit() {

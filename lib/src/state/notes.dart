@@ -14,12 +14,10 @@ part 'notes.g.dart';
 
 /// [NotesActions]
 abstract class NotesActions extends ReduxActions {
-  ActionDispatcher<Note> insertNote;
-  ActionDispatcher<Note> updateNote;
+  ActionDispatcher<Note> update;
     // update text
     // tag item with note
     // show / hide
-  ActionDispatcher<Note> removeNote;
 
   // factory to create on instance of the generated implementation of BoardsActions
   NotesActions._();
@@ -49,17 +47,12 @@ abstract class Notes extends BuiltReducer<Notes, NotesBuilder>
 ///////////////////
 
 var _reducer = (new ReducerBuilder<Notes, NotesBuilder>()
-      ..add<Note>(NotesActionsNames.insertNote, _setNote)
-      ..add<Note>(NotesActionsNames.updateNote, _setNote)
-      ..add<Note>(NotesActionsNames.removeNote, _unsetNote))
+      ..add<Note>(NotesActionsNames.update, _updateNote))
     .build();
 
 ////////////////////
 /// Reducers
 ///////////////////
 
-_setNote(Notes state, Action<Note> action, NotesBuilder builder) =>
+_updateNote(Notes state, Action<Note> action, NotesBuilder builder) =>
     builder..map[action.payload.uid] = action.payload;
-
-_unsetNote(Notes state, Action<Note> action, NotesBuilder builder) =>
-    builder..map.remove(action.payload.uid);

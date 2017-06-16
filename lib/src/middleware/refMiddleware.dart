@@ -8,7 +8,6 @@ import 'package:firebase/firebase.dart' as firebase;
 
 import '../state/app.dart';
 import '../state/boards.dart';
-import '../models/group.dart';
 import '../models/board.dart';
 import '../models/user.dart';
 import '../serializers.dart';
