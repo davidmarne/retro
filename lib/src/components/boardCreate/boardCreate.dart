@@ -14,23 +14,15 @@ class BoardCreateComponent {
 
   BoardCreateComponent(StoreService storeService) : _store = storeService.store;
 
-  /// [displayName] is the board's display name
-  String displayName;
+  String title;
 
   String description;
-
-  String startDate;
-
-  String endDate;
 
   void submit() {
     _store.actions.creation.board(
       new CreateBoardPayload(
-        displayName,
+        title,
         description,
-        _store.state.groups.currentGroupUid,
-        DateTime.parse(startDate).millisecondsSinceEpoch,
-        DateTime.parse(endDate).millisecondsSinceEpoch,
       ),
     );
 
@@ -38,9 +30,7 @@ class BoardCreateComponent {
   }
 
   void resetForm() {
-    displayName = "";
+    title = "";
     description = "";
-    startDate = "";
-    endDate = "";
   }
 }

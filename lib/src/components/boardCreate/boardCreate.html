@@ -2,22 +2,13 @@
   <label class="label">Create a board</label>
   <div class="field">
     <p class="control">
-      <input [(ngModel)]="displayName" class="input" type="text" placeholder="Name">
+      <input [(ngModel)]="title" class="input" type="text" placeholder="Name">
     </p>
   </div>
 
   <div class="field">
     <p class="control">
       <textarea [(ngModel)]="description" class="textarea" placeholder="Description"></textarea>
-    </p>
-  </div>
-
-  <div class="field is-grouped">
-    <p class="control">
-      <label class="label">Start</label>
-      <input [(ngModel)]="startDate" class="input" type="date" placeholder="Start Date">
-      <label class="label">End</label>
-      <input [(ngModel)]="endDate" class="input" type="date" placeholder="End Date">
     </p>
   </div>
 

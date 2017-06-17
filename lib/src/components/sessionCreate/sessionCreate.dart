@@ -5,28 +5,25 @@ import '../../state/app.dart';
 import '../../middleware/creationMiddleware.dart';
 import '../../store.dart';
 
+int DEFAULT_TARGET_TIME = 30;
+
 @Component(
-  selector: 'group-create',
-  templateUrl: 'groupCreate.html',
+  selector: 'session-create',
+  templateUrl: 'sessionCreate.html',
 )
-class GroupCreateComponent {
+class SessionCreateComponent {
   final Store<App, AppBuilder, AppActions> _store;
 
-  GroupCreateComponent(StoreService storeService) : _store = storeService.store;
+  SessionCreateComponent(StoreService storeService) : _store = storeService.store;
 
-  /// [displayName] is the group's display name
-  String displayName;
+  int targetTimeMinutes;
 
-  String description;
-
-  // /// [users] are the users the group contains
   void submit() {
-    _store.actions.creation.group(new CreateGroupPayload(displayName, description, []));
+    _store.actions.creation.session(new CreateSessionPayload(targetTimeMinutes*60, null));
     resetForm();
   }
 
   void resetForm() {
-    displayName = "";
-    description = "";
+    targetTimeMinutes = DEFAULT_TARGET_TIME;
   }
 }

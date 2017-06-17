@@ -5,13 +5,16 @@ import 'package:built_redux/built_redux.dart';
 import '../itemCard/itemCard.dart';
 import '../itemCreate/itemCreate.dart';
 import '../../middleware/creationMiddleware.dart';
+
 import '../../models/board.dart';
+import '../../models/session.dart';
+
 import '../../state/app.dart';
 import '../../store.dart';
 
 @Component(
-  selector: 'groupDashboard',
-  templateUrl: 'groupDashboard.html',
+  selector: 'boardDashboard',
+  templateUrl: 'boardDashboard.html',
   directives: const [
     ItemCreateComponent,
     ItemCardComponent,
@@ -25,14 +28,14 @@ class BoardDashboardComponent implements OnInit {
       : _store = storeService.store;
 
   void ngOnInit() {
-    if (guid != _store.state.groups.currentGroupUid) _store.actions.groups.setCurrentGroup(guid);
+    if (buid != _store.state.boards.current) _store.actions.boards.setCurrent(buid);
   }
 
-  String get guid => _routeParams.get('guid');
+  String get buid => _routeParams.get('buid');
 
-  Group get group => _store.state.groups.currentGroup;
+  Board get board => _store.state.boards.current;
 
-  Board get mostRecentBoard => _store.state.mostRecentBoard;
+  // TODO: Put most recent session first
 
-  Iterable<Board> get restOfBoards => _store.state.restOfBoards;
+  Iterable<Session> get sessions => _store.state.sessions.map.values;
 }

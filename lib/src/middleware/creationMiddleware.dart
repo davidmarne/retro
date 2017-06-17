@@ -20,11 +20,12 @@ part 'creationMiddleware.g.dart';
 
 // Actions to be handled by this middleware
 abstract class CreationMiddlewareActions extends ReduxActions {
-  ActionDispatcher<CreateGroupPayload> group;
-  ActionDispatcher<CreateBoardPayload> board;
   ActionDispatcher<CreateUserPayload> user;
+  ActionDispatcher<CreateBoardPayload> board;
+  ActionDispatcher<CreateSessionPayload> session;
   ActionDispatcher<CreateCategoryPayload> category;
   ActionDispatcher<CreateItemPayload> item;
+  ActionDispatcher<CreateNotePayload> note;
 
   CreationMiddlewareActions._();
   factory CreationMiddlewareActions() => new _$CreationMiddlewareActions();
@@ -34,43 +35,40 @@ abstract class CreationMiddlewareActions extends ReduxActions {
 /// Payloads
 ///////////////////
 
-class CreateGroupPayload {
-  final String displayName;
-  final String description;
-  final Iterable<String> users;
-  CreateGroupPayload(this.displayName, this.description, this.users);
-}
-
-class CreateBoardPayload {
-  final String displayName;
-  final String description;
-  final String groupUid;
-  final int startDate;
-  final int endDate;
-  CreateBoardPayload(
-      this.displayName, this.description, this.groupUid, this.startDate, this.endDate);
-}
-
 class CreateUserPayload {
   final String uid;
   final String displayName;
   CreateUserPayload(this.uid, this.displayName);
 }
 
-class CreateCategoryPayload {
-  final String groupUid;
-  final String boardUid;
+class CreateBoardPayload {
   final String title;
-  final String color;
-  CreateCategoryPayload(this.groupUid, this.boardUid, this.title, this.color);
+  final String description;
+  CreateBoardPayload(this.title, this.description);
+}
+
+class CreateSessionPayload {
+  final int targetTime;
+  final String copySessionUid;
+  CreateSessionPayload(this.targetTime, this.copySessionUid);
+}
+
+class CreateCategoryPayload {
+  final String title;
+  final String description;
+  final int order;
+  CreateCategoryPayload(this.title, this.description, this.order);
 }
 
 class CreateItemPayload {
-  final String groupUid;
-  final String boardUid;
   final String text;
   final String categoryUid;
-  CreateItemPayload(this.groupUid, this.boardUid, this.text, this.categoryUid);
+  CreateItemPayload(this.text, this.categoryUid);
+}
+
+class CreateNotePayload {
+  final String text;
+  CreateNotePayload(this.text);
 }
 
 ////////////////////
@@ -78,11 +76,12 @@ class CreateItemPayload {
 ///////////////////
 
 createCreationMiddleware(Refs refs) => (new MiddlwareBuilder<App, AppBuilder, AppActions>()
-      ..add<CreateGroupPayload>(CreationMiddlewareActionsNames.group, _createGroup(refs))
-      ..add<CreateBoardPayload>(CreationMiddlewareActionsNames.board, _createBoard(refs))
       ..add<CreateUserPayload>(CreationMiddlewareActionsNames.user, _createUser(refs))
+      ..add<CreateBoardPayload>(CreationMiddlewareActionsNames.board, _createBoard(refs))
+       ..add<CreateSessionPayload>(CreationMiddlewareActionsNames.session, _createSession(refs))     
       ..add<CreateCategoryPayload>(CreationMiddlewareActionsNames.category, _createCategory(refs))
-      ..add<CreateItemPayload>(CreationMiddlewareActionsNames.item, _createItem(refs)))
+      ..add<CreateItemPayload>(CreationMiddlewareActionsNames.item, _createItem(refs))
+      ..add<CreateNotePayload>(CreationMiddlewareActionsNames.note, _createNote(refs)))
     .build();
 
 ////////////////////

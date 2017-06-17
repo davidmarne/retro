@@ -6,17 +6,18 @@ import '../itemCard/itemCard.dart';
 import '../itemCreate/itemCreate.dart';
 import '../../middleware/creationMiddleware.dart';
 import '../../models/board.dart';
-import '../../models/item.dart';
+import '../../models/session.dart';
+
 import '../../models/category.dart';
+import '../../models/item.dart';
+import '../../models/note.dart';
+
 import '../../state/app.dart';
-import '../../state/boards.dart';
 import '../../store.dart';
 
-const String DEFAULT_CATEGORY_COLOR = '#000000';
-
 @Component(
-  selector: 'boardDashboard',
-  templateUrl: 'boardDashboard.html',
+  selector: 'sessionDashboard',
+  templateUrl: 'sessionDashboard.html',
   directives: const [
     ROUTER_DIRECTIVES,
     ItemCreateComponent,
@@ -31,38 +32,46 @@ class SessionDashboardComponent implements OnInit {
       : _store = storeService.store;
 
   void ngOnInit() {
-    if (guid != _store.state.groups.currentGroupUid) _store.actions.groups.setCurrentGroup(guid);
-    if (buid != _store.state.boards.currentBoardUid) _store.actions.boards.setCurrentBoard(new BoardPayload(guid, buid));
+    if (buid != _store.state.boards.currentUid) _store.actions.boards.setCurrent(buid);
+    if (suid != _store.state.sessions.currentUid) _store.actions.sessions.setCurrent(suid);
   }
-
-  String get guid => _routeParams.get('guid');
 
   String get buid => _routeParams.get('buid');
 
-  Board get board => _store.state.boards.currentBoard;
+  String get suid => _routeParams.get('suid');
 
-  Iterable<Item> itemsForCategory(Category c) => board.items.values.where(
-        (Item item) => item.categoryUid == c.uid,
-      );
+  Board get board => _store.state.boards.current;
+
+  Session get session => _store.state.sessions.current;
+
+  // TODO: filter down to only categories for the current session.
+  Iterable<Category> get categories => _store.state.categories.map.values;
+
+  Iterable<Item> get items => _store.state.items.map.values;
+
+  Iterable<Note> get notes => _store.state.notes.map.values;
 
   // showingNotes bound to Show Notes button
   bool showingNotes = false;
+  
   void toggleShowingNotes() {
     showingNotes = !showingNotes;
   }
 
   // creation value bound to category create input
-  String categoryCreationValue = "";
-  String creationColor = DEFAULT_CATEGORY_COLOR;
+  String categoryCreationTitle = "";
+
+  String categoryCreationDescription = "";
+
   void sumbitCategoryCreation() {
     _store.actions.creation.category(
-      new CreateCategoryPayload(guid, buid, categoryCreationValue, creationColor),
+      new CreateCategoryPayload(categoryCreationTitle, categoryCreationDescription, 0),
     );
     resetCategoryCreation();
   }
 
   void resetCategoryCreation() {
-    categoryCreationValue = "";
-    creationColor = DEFAULT_CATEGORY_COLOR;
+    categoryCreationTitle = "";
+    categoryCreationDescription = "";
   }
 }
