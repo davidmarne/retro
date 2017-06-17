@@ -2,8 +2,9 @@ import 'package:angular2/core.dart';
 import 'package:angular2/router.dart';
 import 'package:built_redux/built_redux.dart';
 
-import '../boardCreate/boardCreate.dart';
-import '../boardCard/boardCard.dart';
+import '../itemCard/itemCard.dart';
+import '../itemCreate/itemCreate.dart';
+import '../../middleware/creationMiddleware.dart';
 import '../../models/board.dart';
 import '../../state/app.dart';
 import '../../store.dart';
@@ -12,9 +13,8 @@ import '../../store.dart';
   selector: 'groupDashboard',
   templateUrl: 'groupDashboard.html',
   directives: const [
-    ROUTER_DIRECTIVES,
-    BoardCreateComponent,
-    BoardCardComponent,
+    ItemCreateComponent,
+    ItemCardComponent,
   ],
 )
 class BoardDashboardComponent implements OnInit {

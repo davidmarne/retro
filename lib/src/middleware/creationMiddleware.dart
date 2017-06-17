@@ -2,8 +2,8 @@ library creationMiddleware;
 
 import 'package:built_redux/built_redux.dart';
 import 'package:built_collection/built_collection.dart';
-import 'package:firebase/firebase.dart' as firebase;
 
+import '../refs.dart';
 import '../state/app.dart';
 import '../state/boards.dart';
 import '../models/category.dart';
@@ -77,27 +77,25 @@ class CreateItemPayload {
 /// Action Map
 ///////////////////
 
-createCreationMiddleware(firebase.Database db) =>
-    (new MiddlwareBuilder<App, AppBuilder, AppActions>()
-          ..add<CreateGroupPayload>(CreationMiddlewareActionsNames.group, _createGroup(db))
-          ..add<CreateBoardPayload>(CreationMiddlewareActionsNames.board, _createBoard(db))
-          ..add<CreateUserPayload>(CreationMiddlewareActionsNames.user, _createUser(db))
-          ..add<CreateCategoryPayload>(CreationMiddlewareActionsNames.category, _createCategory(db))
-          ..add<CreateItemPayload>(CreationMiddlewareActionsNames.item, _createItem(db)))
-        .build();
+createCreationMiddleware(Refs refs) => (new MiddlwareBuilder<App, AppBuilder, AppActions>()
+      ..add<CreateGroupPayload>(CreationMiddlewareActionsNames.group, _createGroup(refs))
+      ..add<CreateBoardPayload>(CreationMiddlewareActionsNames.board, _createBoard(refs))
+      ..add<CreateUserPayload>(CreationMiddlewareActionsNames.user, _createUser(refs))
+      ..add<CreateCategoryPayload>(CreationMiddlewareActionsNames.category, _createCategory(refs))
+      ..add<CreateItemPayload>(CreationMiddlewareActionsNames.item, _createItem(refs)))
+    .build();
 
 ////////////////////
 /// Handlers
 ///////////////////
 
-_createItem(firebase.Database db) => (
+_createItem(Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
       Action<CreateItemPayload> action,
     ) async {
       var payload = action.payload;
-      var newPostRef =
-          await db.ref('boards/${payload.groupUid}/${payload.boardUid}/items/').push().future;
+      var newPostRef = await refs.items(payload.groupUid, payload.boardUid).push().future;
       var key = newPostRef.key;
 
       var item = new Item((ItemBuilder b) => b
@@ -112,14 +110,13 @@ _createItem(firebase.Database db) => (
       await newPostRef.set(serializers.serializeWith(Item.serializer, item));
     };
 
-_createCategory(firebase.Database db) => (
+_createCategory(Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
       Action<CreateCategoryPayload> action,
     ) async {
       var payload = action.payload;
-      var newPostRef =
-          await db.ref('boards/${payload.groupUid}/${payload.boardUid}/categories/').push().future;
+      var newPostRef = await refs.categories(payload.groupUid, payload.boardUid).push().future;
       var key = newPostRef.key;
 
       var category = new Category((CategoryBuilder b) => b
@@ -134,12 +131,12 @@ _createCategory(firebase.Database db) => (
       await newPostRef.set(serializers.serializeWith(Category.serializer, category));
     };
 
-_createGroup(firebase.Database db) => (
+_createGroup(Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
       Action<CreateGroupPayload> action,
     ) async {
-      var newPostRef = await db.ref('groups/').push().future;
+      var newPostRef = await refs.groups().push().future;
       var key = newPostRef.key;
 
       var allUsers = action.payload.users.toList()..add(api.state.auth.currentUser.uid);
@@ -158,18 +155,18 @@ _createGroup(firebase.Database db) => (
       var newUser =
           api.state.users.currentUser.rebuild((UserBuilder b) => b..groups[group.uid] = true);
       api.actions.users.updateUser(newUser);
-      await db.ref('users/${newUser.uid}/groups/').child(group.uid).set(true);
+      await refs.userGroups(newUser.uid).child(group.uid).set(true);
 
       api.actions.ref.subToGroup(key);
     };
 
-_createBoard(firebase.Database db) => (
+_createBoard(Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
       Action<CreateBoardPayload> action,
     ) async {
       var payload = action.payload;
-      var newPostRef = await db.ref('boards/${payload.groupUid}/').push().future;
+      var newPostRef = await refs.boardGroup(payload.groupUid).push().future;
       var key = newPostRef.key;
       var board = new Board((BoardBuilder b) => b
         ..uid = key
@@ -185,16 +182,16 @@ _createBoard(firebase.Database db) => (
       var newGroup =
           api.state.groups.currentGroup.rebuild((GroupBuilder b) => b..boards[key] = true);
       api.actions.groups.updateGroup(newGroup);
-      await db.ref('groups/${newGroup.uid}/boards/').child(board.uid).set(true);
+      await refs.groupBoards(newGroup.uid).child(board.uid).set(true);
     };
 
-_createUser(firebase.Database db) => (
+_createUser(Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
       Action<CreateUserPayload> action,
     ) async {
       var payload = action.payload;
-      var newPostRef = await db.ref('users/${payload.uid}');
+      var newPostRef = await refs.user(payload.uid);
       var user = new User((UserBuilder b) => b
         ..uid = payload.uid
         ..displayName = payload.displayName);

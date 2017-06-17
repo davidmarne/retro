@@ -31,7 +31,6 @@ import '../../store.dart';
 ])
 class AppComponent {
   final StoreService _storeService;
-  // final RouteParams _routeParams;
 
   AppComponent(StoreService storeService) : _storeService = storeService;
 

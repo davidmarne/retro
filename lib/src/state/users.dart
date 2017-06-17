@@ -8,6 +8,10 @@ import '../models/user.dart';
 
 part 'users.g.dart';
 
+////////////////////
+/// Actions
+///////////////////
+
 /// [UsersActions]
 abstract class UsersActions extends ReduxActions {
   ActionDispatcher<User> update;
@@ -17,6 +21,10 @@ abstract class UsersActions extends ReduxActions {
   UsersActions._();
   factory UsersActions() => new _$UsersActions();
 }
+
+////////////////////
+/// State
+///////////////////
 
 /// [Users]
 abstract class Users extends BuiltReducer<Users, UsersBuilder>
@@ -38,13 +46,18 @@ abstract class Users extends BuiltReducer<Users, UsersBuilder>
   User get current => map[currentUid];
 }
 
-// reducer
+////////////////////
+/// Main Reducer
+///////////////////
+
 var _reducer = (new ReducerBuilder<Users, UsersBuilder>()
       ..add<User>(UsersActionsNames.update, _updateUser)
       ..add<String>(UsersActionsNames.setCurrent, _setCurrentUser))
     .build();
 
-// reducers
+////////////////////
+/// Reducers
+///////////////////
 
 _updateUser(Users state, Action<User> action, UsersBuilder builder) =>
     builder..map[action.payload.uid] = action.payload;
