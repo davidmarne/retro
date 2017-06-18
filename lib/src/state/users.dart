@@ -16,6 +16,7 @@ part 'users.g.dart';
 abstract class UsersActions extends ReduxActions {
   ActionDispatcher<User> update;
   ActionDispatcher<String> setCurrent;
+  ActionDispatcher<String> addBoardToCurrentUser;
 
   // factory to create on instance of the generated implementation of UsersActions
   UsersActions._();
@@ -39,8 +40,7 @@ abstract class Users extends BuiltReducer<Users, UsersBuilder>
 
   // Built value boilerplate
   Users._();
-  factory Users([updates(UsersBuilder b)]) =>
-      new _$Users((UsersBuilder b) => b..currentUid = "");
+  factory Users([updates(UsersBuilder b)]) => new _$Users((UsersBuilder b) => b..currentUid = "");
 
   @memoized
   User get current => map[currentUid];
