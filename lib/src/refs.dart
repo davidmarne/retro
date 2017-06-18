@@ -17,8 +17,8 @@ class Refs {
       _ref('boards/');
 
   /// [board] is a ref to a board
-  firebase.DatabaseReference board(String groupUid, String boardUid) =>
-      _ref('boards/$groupUid/$boardUid');
+  firebase.DatabaseReference board(String boardUid) =>
+      _ref('boards/$boardUid');
 
   /// [sessions] is a ref to all sessions for a given board
   firebase.DatabaseReference sessions(String boardUid) =>
