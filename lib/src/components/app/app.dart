@@ -2,31 +2,31 @@ import 'package:angular2/core.dart';
 import 'package:angular2/router.dart';
 
 import '../dashboard/dashboard.dart';
-import '../groupDashboard/groupDashboard.dart';
 import '../boardDashboard/boardDashboard.dart';
+import '../sessionDashboard/sessionDashboard.dart';
 import '../../store.dart';
 
 @Component(
     selector: 'app',
     templateUrl: 'app.html',
     directives: const [ROUTER_DIRECTIVES],
-    providers: const [ROUTER_PROVIDERS, StoreService])
+    providers: const [StoreService])
 @RouteConfig(const [
   const Route(
-    path: '/dashboard',
-    name: 'Dashboard',
+    path: '/home',
+    name: 'Home',
     component: DashboardComponent,
     useAsDefault: true,
   ),
   const Route(
-    path: '/group/:guid',
-    name: 'Group',
-    component: GroupDashboardComponent,
-  ),
-  const Route(
-    path: '/group/:guid/board/:buid',
+    path: '/board/:buid',
     name: 'Board',
     component: BoardDashboardComponent,
+  ),
+  const Route(
+    path: '/board/:buid/session/:suid',
+    name: 'Session',
+    component: SessionDashboardComponent,
   ),
 ])
 class AppComponent {

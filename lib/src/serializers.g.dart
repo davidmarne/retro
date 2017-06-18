@@ -10,23 +10,11 @@ part of serializers;
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Board.serializer)
       ..add(Category.serializer)
-      ..add(Group.serializer)
       ..add(Item.serializer)
       ..add(Note.serializer)
+      ..add(Session.serializer)
       ..add(User.serializer)
       ..addBuilderFactory(
-          const FullType(BuiltMap,
-              const [const FullType(String), const FullType(Category)]),
-          () => new MapBuilder<String, Category>())
-      ..addBuilderFactory(
-          const FullType(
-              BuiltMap, const [const FullType(String), const FullType(Item)]),
-          () => new MapBuilder<String, Item>())
-      ..addBuilderFactory(
-          const FullType(
-              BuiltMap, const [const FullType(String), const FullType(Note)]),
-          () => new MapBuilder<String, Note>())
-      ..addBuilderFactory(
           const FullType(
               BuiltMap, const [const FullType(String), const FullType(bool)]),
           () => new MapBuilder<String, bool>())
@@ -36,14 +24,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
           () => new MapBuilder<String, bool>())
       ..addBuilderFactory(
           const FullType(
-              BuiltMap, const [const FullType(String), const FullType(bool)]),
-          () => new MapBuilder<String, bool>())
+              BuiltMap, const [const FullType(String), const FullType(int)]),
+          () => new MapBuilder<String, int>())
       ..addBuilderFactory(
           const FullType(
-              BuiltMap, const [const FullType(String), const FullType(bool)]),
-          () => new MapBuilder<String, bool>())
-      ..addBuilderFactory(
-          const FullType(
-              BuiltMap, const [const FullType(String), const FullType(bool)]),
-          () => new MapBuilder<String, bool>()))
+              BuiltMap, const [const FullType(String), const FullType(int)]),
+          () => new MapBuilder<String, int>()))
     .build();

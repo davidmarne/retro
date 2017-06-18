@@ -1,66 +1,66 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of users;
+part of items;
 
 // **************************************************************************
 // Generator: BuiltReduxGenerator
-// Target: abstract class UsersActions
+// Target: abstract class ItemsActions
 // **************************************************************************
 
-class _$UsersActions extends UsersActions {
+class _$ItemsActions extends ItemsActions {
   ActionDispatcher<String> setCurrent =
-      new ActionDispatcher<String>('UsersActions-setCurrent');
+      new ActionDispatcher<String>('ItemsActions-setCurrent');
 
-  ActionDispatcher<User> update =
-      new ActionDispatcher<User>('UsersActions-update');
-  factory _$UsersActions() => new _$UsersActions._();
-  _$UsersActions._() : super._();
+  ActionDispatcher<Item> update =
+      new ActionDispatcher<Item>('ItemsActions-update');
+  factory _$ItemsActions() => new _$ItemsActions._();
+  _$ItemsActions._() : super._();
   syncWithStore(dispatcher) {
     setCurrent.syncWithStore(dispatcher);
     update.syncWithStore(dispatcher);
   }
 }
 
-class UsersActionsNames {
+class ItemsActionsNames {
   static ActionName setCurrent =
-      new ActionName<String>('UsersActions-setCurrent');
-  static ActionName update = new ActionName<User>('UsersActions-update');
+      new ActionName<String>('ItemsActions-setCurrent');
+  static ActionName update = new ActionName<Item>('ItemsActions-update');
 }
 
 // **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: abstract class Users
+// Target: abstract class Items
 // **************************************************************************
 
-class _$Users extends Users {
+class _$Items extends Items {
   @override
-  final BuiltMap<String, User> map;
+  final BuiltMap<String, Item> map;
   @override
   final String currentUid;
-  User __current;
+  Item __current;
 
-  factory _$Users([void updates(UsersBuilder b)]) =>
-      (new UsersBuilder()..update(updates)).build();
+  factory _$Items([void updates(ItemsBuilder b)]) =>
+      (new ItemsBuilder()..update(updates)).build();
 
-  _$Users._({this.map, this.currentUid}) : super._() {
+  _$Items._({this.map, this.currentUid}) : super._() {
     if (map == null) throw new ArgumentError.notNull('map');
     if (currentUid == null) throw new ArgumentError.notNull('currentUid');
   }
 
   @override
-  User get current => __current ??= super.current;
+  Item get current => __current ??= super.current;
 
   @override
-  Users rebuild(void updates(UsersBuilder b)) =>
+  Items rebuild(void updates(ItemsBuilder b)) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  UsersBuilder toBuilder() => new UsersBuilder()..replace(this);
+  ItemsBuilder toBuilder() => new ItemsBuilder()..replace(this);
 
   @override
   bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
-    if (other is! Users) return false;
+    if (other is! Items) return false;
     return map == other.map && currentUid == other.currentUid;
   }
 
@@ -71,28 +71,28 @@ class _$Users extends Users {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('Users')
+    return (newBuiltValueToStringHelper('Items')
           ..add('map', map)
           ..add('currentUid', currentUid))
         .toString();
   }
 }
 
-class UsersBuilder implements Builder<Users, UsersBuilder> {
-  _$Users _$v;
+class ItemsBuilder implements Builder<Items, ItemsBuilder> {
+  _$Items _$v;
 
-  MapBuilder<String, User> _map;
-  MapBuilder<String, User> get map =>
-      _$this._map ??= new MapBuilder<String, User>();
-  set map(MapBuilder<String, User> map) => _$this._map = map;
+  MapBuilder<String, Item> _map;
+  MapBuilder<String, Item> get map =>
+      _$this._map ??= new MapBuilder<String, Item>();
+  set map(MapBuilder<String, Item> map) => _$this._map = map;
 
   String _currentUid;
   String get currentUid => _$this._currentUid;
   set currentUid(String currentUid) => _$this._currentUid = currentUid;
 
-  UsersBuilder();
+  ItemsBuilder();
 
-  UsersBuilder get _$this {
+  ItemsBuilder get _$this {
     if (_$v != null) {
       _map = _$v.map?.toBuilder();
       _currentUid = _$v.currentUid;
@@ -102,20 +102,20 @@ class UsersBuilder implements Builder<Users, UsersBuilder> {
   }
 
   @override
-  void replace(Users other) {
+  void replace(Items other) {
     if (other == null) throw new ArgumentError.notNull('other');
-    _$v = other as _$Users;
+    _$v = other as _$Items;
   }
 
   @override
-  void update(void updates(UsersBuilder b)) {
+  void update(void updates(ItemsBuilder b)) {
     if (updates != null) updates(this);
   }
 
   @override
-  _$Users build() {
+  _$Items build() {
     final result =
-        _$v ?? new _$Users._(map: map?.build(), currentUid: currentUid);
+        _$v ?? new _$Items._(map: map?.build(), currentUid: currentUid);
     replace(result);
     return result;
   }

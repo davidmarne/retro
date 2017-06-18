@@ -10,19 +10,30 @@ part 'item.g.dart';
 abstract class Item implements Built<Item, ItemBuilder> {
   static Serializer<Item> get serializer => _$itemSerializer;
 
-  /// [id] is the item's identifier
   String get uid;
 
-  /// [text] is the item's text
-  String get text;
+  String get boardUid;
 
+  String get sessionUid;
+
+  /// [ownerUid] is the user uid of the item's owner
   String get ownerUid;
 
   String get categoryUid;
 
-  BuiltMap<String, bool> get ups;
+  /// [noteUids] note uids tagged to this item.
+  BuiltMap<String, bool> get noteUids;
 
-  BuiltMap<String, bool> get downs;
+  /// [supporterUids] uids of supportive users.
+  BuiltMap<String, bool> get supporterUids;
+
+  /// [time] spent discussing the Item during presentation
+  int get time;
+
+  String get text;
+
+  /// [visible] when false, prevent Item from appearing in any sets.
+  bool get visible;
 
   // Built value boilerplate
   Item._();

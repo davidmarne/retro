@@ -5,7 +5,6 @@ import 'package:built_redux/built_redux.dart';
 import '../state/app.dart';
 import '../streamSubManager.dart';
 import '../refs.dart';
-import '../models/group.dart';
 import '../models/board.dart';
 import '../models/user.dart';
 
@@ -20,9 +19,10 @@ abstract class RefMiddlewareActions extends ReduxActions {
   ActionDispatcher<String> subToGroup;
   ActionDispatcher<Iterable<String>> updateGroupSubs;
   ActionDispatcher<Iterable<String>> updateUserSubs;
-  ActionDispatcher<Iterable<UpdateBoardSubsPayload>> updateBoardSubs;
+  ActionDispatcher<Iterable<BoardPayload>> updateBoardSubs;
   ActionDispatcher<String> subToUser;
-  ActionDispatcher<UpdateBoardSubsPayload> subToBoard;
+  ActionDispatcher<BoardPayload> subToBoard;
+  ActionDispatcher<String> unSubToUID;
 
   RefMiddlewareActions._();
   factory RefMiddlewareActions() => new _$RefMiddlewareActions();

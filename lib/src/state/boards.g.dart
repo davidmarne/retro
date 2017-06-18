@@ -8,36 +8,23 @@ part of boards;
 // **************************************************************************
 
 class _$BoardsActions extends BoardsActions {
-  ActionDispatcher<AddItemPayload> addItem =
-      new ActionDispatcher<AddItemPayload>('BoardsActions-addItem');
+  ActionDispatcher<String> setCurrent =
+      new ActionDispatcher<String>('BoardsActions-setCurrent');
 
-  ActionDispatcher<AddCategoryPayload> addCategory =
-      new ActionDispatcher<AddCategoryPayload>('BoardsActions-addCategory');
-
-  ActionDispatcher<String> removeBoard =
-      new ActionDispatcher<String>('BoardsActions-removeBoard');
-
-  ActionDispatcher<Board> updateBoard =
-      new ActionDispatcher<Board>('BoardsActions-updateBoard');
+  ActionDispatcher<Board> update =
+      new ActionDispatcher<Board>('BoardsActions-update');
   factory _$BoardsActions() => new _$BoardsActions._();
   _$BoardsActions._() : super._();
   syncWithStore(dispatcher) {
-    addItem.syncWithStore(dispatcher);
-    addCategory.syncWithStore(dispatcher);
-    removeBoard.syncWithStore(dispatcher);
-    updateBoard.syncWithStore(dispatcher);
+    setCurrent.syncWithStore(dispatcher);
+    update.syncWithStore(dispatcher);
   }
 }
 
 class BoardsActionsNames {
-  static ActionName addItem =
-      new ActionName<AddItemPayload>('BoardsActions-addItem');
-  static ActionName addCategory =
-      new ActionName<AddCategoryPayload>('BoardsActions-addCategory');
-  static ActionName removeBoard =
-      new ActionName<String>('BoardsActions-removeBoard');
-  static ActionName updateBoard =
-      new ActionName<Board>('BoardsActions-updateBoard');
+  static ActionName setCurrent =
+      new ActionName<String>('BoardsActions-setCurrent');
+  static ActionName update = new ActionName<Board>('BoardsActions-update');
 }
 
 // **************************************************************************
@@ -47,14 +34,21 @@ class BoardsActionsNames {
 
 class _$Boards extends Boards {
   @override
-  final BuiltMap<String, BuiltMap<String, Board>> boardMap;
+  final BuiltMap<String, Board> map;
+  @override
+  final String currentUid;
+  Board __current;
 
   factory _$Boards([void updates(BoardsBuilder b)]) =>
       (new BoardsBuilder()..update(updates)).build();
 
-  _$Boards._({this.boardMap}) : super._() {
-    if (boardMap == null) throw new ArgumentError.notNull('boardMap');
+  _$Boards._({this.map, this.currentUid}) : super._() {
+    if (map == null) throw new ArgumentError.notNull('map');
+    if (currentUid == null) throw new ArgumentError.notNull('currentUid');
   }
+
+  @override
+  Board get current => __current ??= super.current;
 
   @override
   Boards rebuild(void updates(BoardsBuilder b)) =>
@@ -67,17 +61,19 @@ class _$Boards extends Boards {
   bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
     if (other is! Boards) return false;
-    return boardMap == other.boardMap;
+    return map == other.map && currentUid == other.currentUid;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, boardMap.hashCode));
+    return $jf($jc($jc(0, map.hashCode), currentUid.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('Boards')..add('boardMap', boardMap))
+    return (newBuiltValueToStringHelper('Boards')
+          ..add('map', map)
+          ..add('currentUid', currentUid))
         .toString();
   }
 }
@@ -85,17 +81,21 @@ class _$Boards extends Boards {
 class BoardsBuilder implements Builder<Boards, BoardsBuilder> {
   _$Boards _$v;
 
-  MapBuilder<String, BuiltMap<String, Board>> _boardMap;
-  MapBuilder<String, BuiltMap<String, Board>> get boardMap =>
-      _$this._boardMap ??= new MapBuilder<String, BuiltMap<String, Board>>();
-  set boardMap(MapBuilder<String, BuiltMap<String, Board>> boardMap) =>
-      _$this._boardMap = boardMap;
+  MapBuilder<String, Board> _map;
+  MapBuilder<String, Board> get map =>
+      _$this._map ??= new MapBuilder<String, Board>();
+  set map(MapBuilder<String, Board> map) => _$this._map = map;
+
+  String _currentUid;
+  String get currentUid => _$this._currentUid;
+  set currentUid(String currentUid) => _$this._currentUid = currentUid;
 
   BoardsBuilder();
 
   BoardsBuilder get _$this {
     if (_$v != null) {
-      _boardMap = _$v.boardMap?.toBuilder();
+      _map = _$v.map?.toBuilder();
+      _currentUid = _$v.currentUid;
       _$v = null;
     }
     return this;
@@ -114,7 +114,8 @@ class BoardsBuilder implements Builder<Boards, BoardsBuilder> {
 
   @override
   _$Boards build() {
-    final result = _$v ?? new _$Boards._(boardMap: boardMap?.build());
+    final result =
+        _$v ?? new _$Boards._(map: map?.build(), currentUid: currentUid);
     replace(result);
     return result;
   }

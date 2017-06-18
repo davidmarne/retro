@@ -14,8 +14,8 @@ part 'users.g.dart';
 
 /// [UsersActions]
 abstract class UsersActions extends ReduxActions {
-  ActionDispatcher<User> updateUser;
-  ActionDispatcher<String> setCurrentUser;
+  ActionDispatcher<User> update;
+  ActionDispatcher<String> setCurrent;
 
   // factory to create on instance of the generated implementation of UsersActions
   UsersActions._();
@@ -29,10 +29,10 @@ abstract class UsersActions extends ReduxActions {
 /// [Users]
 abstract class Users extends BuiltReducer<Users, UsersBuilder>
     implements Built<Users, UsersBuilder> {
-  /// [userMap] contains a map of user.id to User
-  BuiltMap<String, User> get userMap;
+  /// [map] contains a map of user.id to User
+  BuiltMap<String, User> get map;
 
-  String get currentUserUid;
+  String get currentUid;
 
   /// reducer
   get reducer => _reducer;
@@ -40,10 +40,10 @@ abstract class Users extends BuiltReducer<Users, UsersBuilder>
   // Built value boilerplate
   Users._();
   factory Users([updates(UsersBuilder b)]) =>
-      new _$Users((UsersBuilder b) => b..currentUserUid = "");
+      new _$Users((UsersBuilder b) => b..currentUid = "");
 
   @memoized
-  User get currentUser => userMap[currentUserUid];
+  User get current => map[currentUid];
 }
 
 ////////////////////
@@ -51,8 +51,8 @@ abstract class Users extends BuiltReducer<Users, UsersBuilder>
 ///////////////////
 
 var _reducer = (new ReducerBuilder<Users, UsersBuilder>()
-      ..add<User>(UsersActionsNames.updateUser, _updateUser)
-      ..add<String>(UsersActionsNames.setCurrentUser, _setCurrentUser))
+      ..add<User>(UsersActionsNames.update, _updateUser)
+      ..add<String>(UsersActionsNames.setCurrent, _setCurrentUser))
     .build();
 
 ////////////////////
@@ -60,7 +60,7 @@ var _reducer = (new ReducerBuilder<Users, UsersBuilder>()
 ///////////////////
 
 _updateUser(Users state, Action<User> action, UsersBuilder builder) =>
-    builder..userMap[action.payload.uid] = action.payload;
+    builder..map[action.payload.uid] = action.payload;
 
 _setCurrentUser(Users state, Action<String> action, UsersBuilder builder) =>
-    builder..currentUserUid = action.payload;
+    builder..currentUid = action.payload;

@@ -10,31 +10,31 @@ part of app;
 class _$AppActions extends AppActions {
   RefMiddlewareActions ref = new RefMiddlewareActions();
   CreationMiddlewareActions creation = new CreationMiddlewareActions();
-  UsersActions users = new UsersActions();
-  GroupsActions groups = new GroupsActions();
+  NotesActions notes = new NotesActions();
+  ItemsActions items = new ItemsActions();
+  CategoriesActions categories = new CategoriesActions();
+  SessionsActions sessions = new SessionsActions();
   BoardsActions boards = new BoardsActions();
+  UsersActions users = new UsersActions();
   AuthActions auth = new AuthActions();
-  ActionDispatcher<String> setCurrentBoard =
-      new ActionDispatcher<String>('AppActions-setCurrentBoard');
-
   ActionDispatcher<Null> clear = new ActionDispatcher<Null>('AppActions-clear');
   factory _$AppActions() => new _$AppActions._();
   _$AppActions._() : super._();
   syncWithStore(dispatcher) {
     ref.syncWithStore(dispatcher);
     creation.syncWithStore(dispatcher);
-    users.syncWithStore(dispatcher);
-    groups.syncWithStore(dispatcher);
+    notes.syncWithStore(dispatcher);
+    items.syncWithStore(dispatcher);
+    categories.syncWithStore(dispatcher);
+    sessions.syncWithStore(dispatcher);
     boards.syncWithStore(dispatcher);
+    users.syncWithStore(dispatcher);
     auth.syncWithStore(dispatcher);
-    setCurrentBoard.syncWithStore(dispatcher);
     clear.syncWithStore(dispatcher);
   }
 }
 
 class AppActionsNames {
-  static ActionName setCurrentBoard =
-      new ActionName<String>('AppActions-setCurrentBoard');
   static ActionName clear = new ActionName<Null>('AppActions-clear');
 }
 
@@ -49,47 +49,36 @@ class _$App extends App {
   @override
   final Users users;
   @override
-  final Groups groups;
-  @override
   final Boards boards;
   @override
-  final String currentBoardUid;
-  BuiltMap<String, Board> __currentGroupBoardsMap;
-  Iterable<Board> __currentGroupBoards;
-  Board __currentBoard;
-  Board __mostRecentBoard;
-  Iterable<Board> __restOfBoards;
+  final Sessions sessions;
+  @override
+  final Categories categories;
+  @override
+  final Items items;
+  @override
+  final Notes notes;
 
   factory _$App([void updates(AppBuilder b)]) =>
       (new AppBuilder()..update(updates)).build();
 
   _$App._(
-      {this.auth, this.users, this.groups, this.boards, this.currentBoardUid})
+      {this.auth,
+      this.users,
+      this.boards,
+      this.sessions,
+      this.categories,
+      this.items,
+      this.notes})
       : super._() {
     if (auth == null) throw new ArgumentError.notNull('auth');
     if (users == null) throw new ArgumentError.notNull('users');
-    if (groups == null) throw new ArgumentError.notNull('groups');
     if (boards == null) throw new ArgumentError.notNull('boards');
-    if (currentBoardUid == null)
-      throw new ArgumentError.notNull('currentBoardUid');
+    if (sessions == null) throw new ArgumentError.notNull('sessions');
+    if (categories == null) throw new ArgumentError.notNull('categories');
+    if (items == null) throw new ArgumentError.notNull('items');
+    if (notes == null) throw new ArgumentError.notNull('notes');
   }
-
-  @override
-  BuiltMap<String, Board> get currentGroupBoardsMap =>
-      __currentGroupBoardsMap ??= super.currentGroupBoardsMap;
-
-  @override
-  Iterable<Board> get currentGroupBoards =>
-      __currentGroupBoards ??= super.currentGroupBoards;
-
-  @override
-  Board get currentBoard => __currentBoard ??= super.currentBoard;
-
-  @override
-  Board get mostRecentBoard => __mostRecentBoard ??= super.mostRecentBoard;
-
-  @override
-  Iterable<Board> get restOfBoards => __restOfBoards ??= super.restOfBoards;
 
   @override
   App rebuild(void updates(AppBuilder b)) =>
@@ -104,17 +93,25 @@ class _$App extends App {
     if (other is! App) return false;
     return auth == other.auth &&
         users == other.users &&
-        groups == other.groups &&
         boards == other.boards &&
-        currentBoardUid == other.currentBoardUid;
+        sessions == other.sessions &&
+        categories == other.categories &&
+        items == other.items &&
+        notes == other.notes;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc($jc(0, auth.hashCode), users.hashCode), groups.hashCode),
-            boards.hashCode),
-        currentBoardUid.hashCode));
+        $jc(
+            $jc(
+                $jc(
+                    $jc($jc($jc(0, auth.hashCode), users.hashCode),
+                        boards.hashCode),
+                    sessions.hashCode),
+                categories.hashCode),
+            items.hashCode),
+        notes.hashCode));
   }
 
   @override
@@ -122,9 +119,11 @@ class _$App extends App {
     return (newBuiltValueToStringHelper('App')
           ..add('auth', auth)
           ..add('users', users)
-          ..add('groups', groups)
           ..add('boards', boards)
-          ..add('currentBoardUid', currentBoardUid))
+          ..add('sessions', sessions)
+          ..add('categories', categories)
+          ..add('items', items)
+          ..add('notes', notes))
         .toString();
   }
 }
@@ -140,18 +139,27 @@ class AppBuilder implements Builder<App, AppBuilder> {
   UsersBuilder get users => _$this._users ??= new UsersBuilder();
   set users(UsersBuilder users) => _$this._users = users;
 
-  GroupsBuilder _groups;
-  GroupsBuilder get groups => _$this._groups ??= new GroupsBuilder();
-  set groups(GroupsBuilder groups) => _$this._groups = groups;
-
   BoardsBuilder _boards;
   BoardsBuilder get boards => _$this._boards ??= new BoardsBuilder();
   set boards(BoardsBuilder boards) => _$this._boards = boards;
 
-  String _currentBoardUid;
-  String get currentBoardUid => _$this._currentBoardUid;
-  set currentBoardUid(String currentBoardUid) =>
-      _$this._currentBoardUid = currentBoardUid;
+  SessionsBuilder _sessions;
+  SessionsBuilder get sessions => _$this._sessions ??= new SessionsBuilder();
+  set sessions(SessionsBuilder sessions) => _$this._sessions = sessions;
+
+  CategoriesBuilder _categories;
+  CategoriesBuilder get categories =>
+      _$this._categories ??= new CategoriesBuilder();
+  set categories(CategoriesBuilder categories) =>
+      _$this._categories = categories;
+
+  ItemsBuilder _items;
+  ItemsBuilder get items => _$this._items ??= new ItemsBuilder();
+  set items(ItemsBuilder items) => _$this._items = items;
+
+  NotesBuilder _notes;
+  NotesBuilder get notes => _$this._notes ??= new NotesBuilder();
+  set notes(NotesBuilder notes) => _$this._notes = notes;
 
   AppBuilder();
 
@@ -159,9 +167,11 @@ class AppBuilder implements Builder<App, AppBuilder> {
     if (_$v != null) {
       _auth = _$v.auth?.toBuilder();
       _users = _$v.users?.toBuilder();
-      _groups = _$v.groups?.toBuilder();
       _boards = _$v.boards?.toBuilder();
-      _currentBoardUid = _$v.currentBoardUid;
+      _sessions = _$v.sessions?.toBuilder();
+      _categories = _$v.categories?.toBuilder();
+      _items = _$v.items?.toBuilder();
+      _notes = _$v.notes?.toBuilder();
       _$v = null;
     }
     return this;
@@ -184,9 +194,11 @@ class AppBuilder implements Builder<App, AppBuilder> {
         new _$App._(
             auth: auth?.build(),
             users: users?.build(),
-            groups: groups?.build(),
             boards: boards?.build(),
-            currentBoardUid: currentBoardUid);
+            sessions: sessions?.build(),
+            categories: categories?.build(),
+            items: items?.build(),
+            notes: notes?.build());
     replace(result);
     return result;
   }
@@ -199,8 +211,11 @@ class AppBuilder implements Builder<App, AppBuilder> {
 
 class AppReduceChildren {
   reduceChildren(App state, Action<dynamic> a, AppBuilder builder) {
+    state.notes.reduce(state.notes, a, builder.notes);
+    state.items.reduce(state.items, a, builder.items);
+    state.categories.reduce(state.categories, a, builder.categories);
+    state.sessions.reduce(state.sessions, a, builder.sessions);
     state.boards.reduce(state.boards, a, builder.boards);
-    state.groups.reduce(state.groups, a, builder.groups);
     state.users.reduce(state.users, a, builder.users);
     state.auth.reduce(state.auth, a, builder.auth);
   }

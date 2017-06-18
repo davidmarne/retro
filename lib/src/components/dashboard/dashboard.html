@@ -2,7 +2,7 @@
   <div class="hero-body">
     <div class="container">
       <h1 class="title">Getting Started</h1>
-      <h2 class="subtitle">Create or select a group below</h2>
+      <h2 class="subtitle">Create or select a board below</h2>
     </div>
   </div>
 </section>
@@ -10,15 +10,15 @@
   <div class="container">
     <div class="columns is-mobile">
       <div class="column is-one-half-desktop">
-        <group-create></group-create>
+        <board-create></board-create>
       </div>
-      <div *ngIf="mostRecentGroup != null" class="column is-one-half-desktop">
-          <group-card [group]="mostRecentGroup"></group-card>
-      </div>
+      <!--<div *ngIf="mostRecentboard != null" class="column is-one-half-desktop">
+          <board-card [board]="mostRecentboard"></board-card>
+      </div>-->
     </div>
     <div class="columns is-multiline is-mobile">
-      <div *ngFor="let group of restOfGroups" class="column is-half-tablet is-one-third-desktop">
-          <group-card [group]="group"></group-card>
+      <div *ngFor="let board of boards" class="column is-half-tablet is-one-third-desktop">
+          <board-card [board]="board"></board-card>
       </div>
     </div>
   </div>

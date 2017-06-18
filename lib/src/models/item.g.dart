@@ -21,22 +21,33 @@ class _$ItemSerializer implements StructuredSerializer<Item> {
     final result = <Object>[
       'uid',
       serializers.serialize(object.uid, specifiedType: const FullType(String)),
-      'text',
-      serializers.serialize(object.text, specifiedType: const FullType(String)),
+      'boardUid',
+      serializers.serialize(object.boardUid,
+          specifiedType: const FullType(String)),
+      'sessionUid',
+      serializers.serialize(object.sessionUid,
+          specifiedType: const FullType(String)),
       'ownerUid',
       serializers.serialize(object.ownerUid,
           specifiedType: const FullType(String)),
       'categoryUid',
       serializers.serialize(object.categoryUid,
           specifiedType: const FullType(String)),
-      'ups',
-      serializers.serialize(object.ups,
+      'noteUids',
+      serializers.serialize(object.noteUids,
           specifiedType: const FullType(
               BuiltMap, const [const FullType(String), const FullType(bool)])),
-      'downs',
-      serializers.serialize(object.downs,
+      'supporterUids',
+      serializers.serialize(object.supporterUids,
           specifiedType: const FullType(
               BuiltMap, const [const FullType(String), const FullType(bool)])),
+      'time',
+      serializers.serialize(object.time, specifiedType: const FullType(int)),
+      'text',
+      serializers.serialize(object.text, specifiedType: const FullType(String)),
+      'visible',
+      serializers.serialize(object.visible,
+          specifiedType: const FullType(bool)),
     ];
 
     return result;
@@ -57,8 +68,12 @@ class _$ItemSerializer implements StructuredSerializer<Item> {
           result.uid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'text':
-          result.text = serializers.deserialize(value,
+        case 'boardUid':
+          result.boardUid = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'sessionUid':
+          result.sessionUid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
         case 'ownerUid':
@@ -69,19 +84,31 @@ class _$ItemSerializer implements StructuredSerializer<Item> {
           result.categoryUid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'ups':
-          result.ups.replace(serializers.deserialize(value,
+        case 'noteUids':
+          result.noteUids.replace(serializers.deserialize(value,
               specifiedType: const FullType(BuiltMap, const [
                 const FullType(String),
                 const FullType(bool)
               ])) as BuiltMap<String, bool>);
           break;
-        case 'downs':
-          result.downs.replace(serializers.deserialize(value,
+        case 'supporterUids':
+          result.supporterUids.replace(serializers.deserialize(value,
               specifiedType: const FullType(BuiltMap, const [
                 const FullType(String),
                 const FullType(bool)
               ])) as BuiltMap<String, bool>);
+          break;
+        case 'time':
+          result.time = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'text':
+          result.text = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'visible':
+          result.visible = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool;
           break;
       }
     }
@@ -99,33 +126,49 @@ class _$Item extends Item {
   @override
   final String uid;
   @override
-  final String text;
+  final String boardUid;
+  @override
+  final String sessionUid;
   @override
   final String ownerUid;
   @override
   final String categoryUid;
   @override
-  final BuiltMap<String, bool> ups;
+  final BuiltMap<String, bool> noteUids;
   @override
-  final BuiltMap<String, bool> downs;
+  final BuiltMap<String, bool> supporterUids;
+  @override
+  final int time;
+  @override
+  final String text;
+  @override
+  final bool visible;
 
   factory _$Item([void updates(ItemBuilder b)]) =>
       (new ItemBuilder()..update(updates)).build();
 
   _$Item._(
       {this.uid,
-      this.text,
+      this.boardUid,
+      this.sessionUid,
       this.ownerUid,
       this.categoryUid,
-      this.ups,
-      this.downs})
+      this.noteUids,
+      this.supporterUids,
+      this.time,
+      this.text,
+      this.visible})
       : super._() {
     if (uid == null) throw new ArgumentError.notNull('uid');
-    if (text == null) throw new ArgumentError.notNull('text');
+    if (boardUid == null) throw new ArgumentError.notNull('boardUid');
+    if (sessionUid == null) throw new ArgumentError.notNull('sessionUid');
     if (ownerUid == null) throw new ArgumentError.notNull('ownerUid');
     if (categoryUid == null) throw new ArgumentError.notNull('categoryUid');
-    if (ups == null) throw new ArgumentError.notNull('ups');
-    if (downs == null) throw new ArgumentError.notNull('downs');
+    if (noteUids == null) throw new ArgumentError.notNull('noteUids');
+    if (supporterUids == null) throw new ArgumentError.notNull('supporterUids');
+    if (time == null) throw new ArgumentError.notNull('time');
+    if (text == null) throw new ArgumentError.notNull('text');
+    if (visible == null) throw new ArgumentError.notNull('visible');
   }
 
   @override
@@ -140,11 +183,15 @@ class _$Item extends Item {
     if (identical(other, this)) return true;
     if (other is! Item) return false;
     return uid == other.uid &&
-        text == other.text &&
+        boardUid == other.boardUid &&
+        sessionUid == other.sessionUid &&
         ownerUid == other.ownerUid &&
         categoryUid == other.categoryUid &&
-        ups == other.ups &&
-        downs == other.downs;
+        noteUids == other.noteUids &&
+        supporterUids == other.supporterUids &&
+        time == other.time &&
+        text == other.text &&
+        visible == other.visible;
   }
 
   @override
@@ -152,22 +199,36 @@ class _$Item extends Item {
     return $jf($jc(
         $jc(
             $jc(
-                $jc($jc($jc(0, uid.hashCode), text.hashCode),
-                    ownerUid.hashCode),
-                categoryUid.hashCode),
-            ups.hashCode),
-        downs.hashCode));
+                $jc(
+                    $jc(
+                        $jc(
+                            $jc(
+                                $jc(
+                                    $jc($jc(0, uid.hashCode),
+                                        boardUid.hashCode),
+                                    sessionUid.hashCode),
+                                ownerUid.hashCode),
+                            categoryUid.hashCode),
+                        noteUids.hashCode),
+                    supporterUids.hashCode),
+                time.hashCode),
+            text.hashCode),
+        visible.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Item')
           ..add('uid', uid)
-          ..add('text', text)
+          ..add('boardUid', boardUid)
+          ..add('sessionUid', sessionUid)
           ..add('ownerUid', ownerUid)
           ..add('categoryUid', categoryUid)
-          ..add('ups', ups)
-          ..add('downs', downs))
+          ..add('noteUids', noteUids)
+          ..add('supporterUids', supporterUids)
+          ..add('time', time)
+          ..add('text', text)
+          ..add('visible', visible))
         .toString();
   }
 }
@@ -179,9 +240,13 @@ class ItemBuilder implements Builder<Item, ItemBuilder> {
   String get uid => _$this._uid;
   set uid(String uid) => _$this._uid = uid;
 
-  String _text;
-  String get text => _$this._text;
-  set text(String text) => _$this._text = text;
+  String _boardUid;
+  String get boardUid => _$this._boardUid;
+  set boardUid(String boardUid) => _$this._boardUid = boardUid;
+
+  String _sessionUid;
+  String get sessionUid => _$this._sessionUid;
+  set sessionUid(String sessionUid) => _$this._sessionUid = sessionUid;
 
   String _ownerUid;
   String get ownerUid => _$this._ownerUid;
@@ -191,26 +256,44 @@ class ItemBuilder implements Builder<Item, ItemBuilder> {
   String get categoryUid => _$this._categoryUid;
   set categoryUid(String categoryUid) => _$this._categoryUid = categoryUid;
 
-  MapBuilder<String, bool> _ups;
-  MapBuilder<String, bool> get ups =>
-      _$this._ups ??= new MapBuilder<String, bool>();
-  set ups(MapBuilder<String, bool> ups) => _$this._ups = ups;
+  MapBuilder<String, bool> _noteUids;
+  MapBuilder<String, bool> get noteUids =>
+      _$this._noteUids ??= new MapBuilder<String, bool>();
+  set noteUids(MapBuilder<String, bool> noteUids) =>
+      _$this._noteUids = noteUids;
 
-  MapBuilder<String, bool> _downs;
-  MapBuilder<String, bool> get downs =>
-      _$this._downs ??= new MapBuilder<String, bool>();
-  set downs(MapBuilder<String, bool> downs) => _$this._downs = downs;
+  MapBuilder<String, bool> _supporterUids;
+  MapBuilder<String, bool> get supporterUids =>
+      _$this._supporterUids ??= new MapBuilder<String, bool>();
+  set supporterUids(MapBuilder<String, bool> supporterUids) =>
+      _$this._supporterUids = supporterUids;
+
+  int _time;
+  int get time => _$this._time;
+  set time(int time) => _$this._time = time;
+
+  String _text;
+  String get text => _$this._text;
+  set text(String text) => _$this._text = text;
+
+  bool _visible;
+  bool get visible => _$this._visible;
+  set visible(bool visible) => _$this._visible = visible;
 
   ItemBuilder();
 
   ItemBuilder get _$this {
     if (_$v != null) {
       _uid = _$v.uid;
-      _text = _$v.text;
+      _boardUid = _$v.boardUid;
+      _sessionUid = _$v.sessionUid;
       _ownerUid = _$v.ownerUid;
       _categoryUid = _$v.categoryUid;
-      _ups = _$v.ups?.toBuilder();
-      _downs = _$v.downs?.toBuilder();
+      _noteUids = _$v.noteUids?.toBuilder();
+      _supporterUids = _$v.supporterUids?.toBuilder();
+      _time = _$v.time;
+      _text = _$v.text;
+      _visible = _$v.visible;
       _$v = null;
     }
     return this;
@@ -232,11 +315,15 @@ class ItemBuilder implements Builder<Item, ItemBuilder> {
     final result = _$v ??
         new _$Item._(
             uid: uid,
-            text: text,
+            boardUid: boardUid,
+            sessionUid: sessionUid,
             ownerUid: ownerUid,
             categoryUid: categoryUid,
-            ups: ups?.build(),
-            downs: downs?.build());
+            noteUids: noteUids?.build(),
+            supporterUids: supporterUids?.build(),
+            time: time,
+            text: text,
+            visible: visible);
     replace(result);
     return result;
   }

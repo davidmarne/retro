@@ -21,15 +21,20 @@ class _$NoteSerializer implements StructuredSerializer<Note> {
     final result = <Object>[
       'uid',
       serializers.serialize(object.uid, specifiedType: const FullType(String)),
+      'boardUid',
+      serializers.serialize(object.boardUid,
+          specifiedType: const FullType(String)),
+      'sessionUid',
+      serializers.serialize(object.sessionUid,
+          specifiedType: const FullType(String)),
       'ownerUid',
       serializers.serialize(object.ownerUid,
           specifiedType: const FullType(String)),
-      'categoryUid',
-      serializers.serialize(object.categoryUid,
-          specifiedType: const FullType(String)),
-      'itemUid',
-      serializers.serialize(object.itemUid,
-          specifiedType: const FullType(String)),
+      'text',
+      serializers.serialize(object.text, specifiedType: const FullType(String)),
+      'visible',
+      serializers.serialize(object.visible,
+          specifiedType: const FullType(bool)),
     ];
 
     return result;
@@ -50,17 +55,25 @@ class _$NoteSerializer implements StructuredSerializer<Note> {
           result.uid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'boardUid':
+          result.boardUid = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'sessionUid':
+          result.sessionUid = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
         case 'ownerUid':
           result.ownerUid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'categoryUid':
-          result.categoryUid = serializers.deserialize(value,
+        case 'text':
+          result.text = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'itemUid':
-          result.itemUid = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+        case 'visible':
+          result.visible = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool;
           break;
       }
     }
@@ -78,21 +91,33 @@ class _$Note extends Note {
   @override
   final String uid;
   @override
+  final String boardUid;
+  @override
+  final String sessionUid;
+  @override
   final String ownerUid;
   @override
-  final String categoryUid;
+  final String text;
   @override
-  final String itemUid;
+  final bool visible;
 
   factory _$Note([void updates(NoteBuilder b)]) =>
       (new NoteBuilder()..update(updates)).build();
 
-  _$Note._({this.uid, this.ownerUid, this.categoryUid, this.itemUid})
+  _$Note._(
+      {this.uid,
+      this.boardUid,
+      this.sessionUid,
+      this.ownerUid,
+      this.text,
+      this.visible})
       : super._() {
     if (uid == null) throw new ArgumentError.notNull('uid');
+    if (boardUid == null) throw new ArgumentError.notNull('boardUid');
+    if (sessionUid == null) throw new ArgumentError.notNull('sessionUid');
     if (ownerUid == null) throw new ArgumentError.notNull('ownerUid');
-    if (categoryUid == null) throw new ArgumentError.notNull('categoryUid');
-    if (itemUid == null) throw new ArgumentError.notNull('itemUid');
+    if (text == null) throw new ArgumentError.notNull('text');
+    if (visible == null) throw new ArgumentError.notNull('visible');
   }
 
   @override
@@ -107,25 +132,34 @@ class _$Note extends Note {
     if (identical(other, this)) return true;
     if (other is! Note) return false;
     return uid == other.uid &&
+        boardUid == other.boardUid &&
+        sessionUid == other.sessionUid &&
         ownerUid == other.ownerUid &&
-        categoryUid == other.categoryUid &&
-        itemUid == other.itemUid;
+        text == other.text &&
+        visible == other.visible;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc(0, uid.hashCode), ownerUid.hashCode), categoryUid.hashCode),
-        itemUid.hashCode));
+        $jc(
+            $jc(
+                $jc($jc($jc(0, uid.hashCode), boardUid.hashCode),
+                    sessionUid.hashCode),
+                ownerUid.hashCode),
+            text.hashCode),
+        visible.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Note')
           ..add('uid', uid)
+          ..add('boardUid', boardUid)
+          ..add('sessionUid', sessionUid)
           ..add('ownerUid', ownerUid)
-          ..add('categoryUid', categoryUid)
-          ..add('itemUid', itemUid))
+          ..add('text', text)
+          ..add('visible', visible))
         .toString();
   }
 }
@@ -137,26 +171,36 @@ class NoteBuilder implements Builder<Note, NoteBuilder> {
   String get uid => _$this._uid;
   set uid(String uid) => _$this._uid = uid;
 
+  String _boardUid;
+  String get boardUid => _$this._boardUid;
+  set boardUid(String boardUid) => _$this._boardUid = boardUid;
+
+  String _sessionUid;
+  String get sessionUid => _$this._sessionUid;
+  set sessionUid(String sessionUid) => _$this._sessionUid = sessionUid;
+
   String _ownerUid;
   String get ownerUid => _$this._ownerUid;
   set ownerUid(String ownerUid) => _$this._ownerUid = ownerUid;
 
-  String _categoryUid;
-  String get categoryUid => _$this._categoryUid;
-  set categoryUid(String categoryUid) => _$this._categoryUid = categoryUid;
+  String _text;
+  String get text => _$this._text;
+  set text(String text) => _$this._text = text;
 
-  String _itemUid;
-  String get itemUid => _$this._itemUid;
-  set itemUid(String itemUid) => _$this._itemUid = itemUid;
+  bool _visible;
+  bool get visible => _$this._visible;
+  set visible(bool visible) => _$this._visible = visible;
 
   NoteBuilder();
 
   NoteBuilder get _$this {
     if (_$v != null) {
       _uid = _$v.uid;
+      _boardUid = _$v.boardUid;
+      _sessionUid = _$v.sessionUid;
       _ownerUid = _$v.ownerUid;
-      _categoryUid = _$v.categoryUid;
-      _itemUid = _$v.itemUid;
+      _text = _$v.text;
+      _visible = _$v.visible;
       _$v = null;
     }
     return this;
@@ -178,9 +222,11 @@ class NoteBuilder implements Builder<Note, NoteBuilder> {
     final result = _$v ??
         new _$Note._(
             uid: uid,
+            boardUid: boardUid,
+            sessionUid: sessionUid,
             ownerUid: ownerUid,
-            categoryUid: categoryUid,
-            itemUid: itemUid);
+            text: text,
+            visible: visible);
     replace(result);
     return result;
   }

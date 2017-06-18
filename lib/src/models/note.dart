@@ -9,15 +9,19 @@ part 'note.g.dart';
 abstract class Note implements Built<Note, NoteBuilder> {
   static Serializer<Note> get serializer => _$noteSerializer;
 
-  /// [id] is the note's identifier
   String get uid;
 
-  /// [text] is the note's text
+  String get boardUid;
+
+  String get sessionUid;
+
+  /// [ownerUid] is the user uid of the item's owner
   String get ownerUid;
 
-  String get categoryUid;
+  String get text;
 
-  String get itemUid;
+  /// [visible] when false, prevent Note from appearing in any sets.
+  bool get visible;
 
   // Built value boilerplate
   Note._();

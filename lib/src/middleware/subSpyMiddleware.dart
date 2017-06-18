@@ -6,13 +6,10 @@ import 'package:firebase/firebase.dart' as firebase;
 import '../refs.dart';
 import '../state/app.dart';
 import '../state/users.dart';
-import '../state/groups.dart';
 import '../state/auth.dart';
 
 import '../middleware/creationMiddleware.dart';
-import '../middleware/refMiddleware.dart';
 
-import '../models/group.dart';
 import '../models/user.dart';
 
 ////////////////////
@@ -73,7 +70,7 @@ _onSetCurrentGroup(Refs refs) => (
     ) {
       next(action);
       var payload = api.state.groups.currentGroup.boards.keys.map(
-        (String key) => new UpdateBoardSubsPayload(action.payload, key),
+        (String key) => new BoardPayload(action.payload, key),
       );
       api.actions.ref.updateBoardSubs(payload);
     };
@@ -82,10 +79,10 @@ _onSetCurrentGroup(Refs refs) => (
 _onSetCurrentBoard(Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
-      Action<String> action,
+      Action<BoardPayload> action,
     ) {
       next(action);
-      api.actions.ref.subToBoard(
-        new UpdateBoardSubsPayload(api.state.currentBoard.groupUid, action.payload),
-      );
+      print("SUB WTF ${action.name} Group:\"${action.payload?.guid}\" Board:\"${action.payload?.buid}\"");
+      api.actions.ref.subToBoard(action.payload);
+      next(action);
     };

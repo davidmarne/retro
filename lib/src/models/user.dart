@@ -10,14 +10,13 @@ part 'user.g.dart';
 abstract class User implements Built<User, UserBuilder> {
   static Serializer<User> get serializer => _$userSerializer;
 
-  /// [id] is the users identifier
   String get uid;
 
-  /// [displayName] is the users display name
-  String get displayName;
+  /// [boardUids] contains board uids and board join dates.
+  BuiltMap<String, int> get boardUids;
 
-  /// [groups] are the groups the user is part of
-  BuiltMap<String, bool> get groups;
+  /// [name] is the users display name
+  String get name;
 
   // Built value boilerplate
   User._();

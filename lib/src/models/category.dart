@@ -12,12 +12,11 @@ abstract class Category implements Built<Category, CategoryBuilder> {
   /// [id] is the category's identifier
   String get uid;
 
-  /// [text] is the category's text
+  String get boardUid;
+
   String get title;
 
-  String get color;
-
-  int get order;
+  String get description;
 
   // Built value boilerplate
   Category._();
