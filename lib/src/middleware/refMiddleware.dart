@@ -41,7 +41,7 @@ _onLogin(Refs refs) => (
     ) async {
       next(action);
       final String uid = action.payload.uid;
-      var user = await refs.user(uid).once('value');
+      final user = await refs.user(uid).once('value');
       if (user.snapshot.val() == null)
         api.actions.creation.user(new CreateUserPayload(uid, action.payload.displayName));
       else
@@ -88,9 +88,9 @@ _onSetCurrentSession(StreamSubManager subMgr, Refs refs) => (
       // TODO: unsub from old session
 
       next(action);
-      var currentSession = api.state.sessions.current;
-      var boardUid = currentSession.boardUid;
-      var sessionUid = currentSession.uid;
+      final currentSession = api.state.sessions.current;
+      final boardUid = currentSession.boardUid;
+      final sessionUid = currentSession.uid;
       _subToItems(api, subMgr, refs, boardUid, sessionUid);
       _subToCategories(api, subMgr, refs, boardUid);
       _subToNotes(api, subMgr, refs, boardUid, sessionUid);
