@@ -93,12 +93,12 @@ _createNote(Refs refs) => (
       ActionHandler next,
       Action<CreateNotePayload> action,
     ) async {
-      var boardUid = api.state.boards.currentUid;
-      var sessionUid = api.state.sessions.currentUid;
-      var ownerUid = api.state.users.currentUid;
-      var newPostRef = await refs.sessions(boardUid).push().future;
-      var key = newPostRef.key;
-      var note = new Note((NoteBuilder b) => b
+      final boardUid = api.state.boards.currentUid;
+      final sessionUid = api.state.sessions.currentUid;
+      final ownerUid = api.state.users.currentUid;
+      final newPostRef = await refs.sessions(boardUid).push().future;
+      final key = newPostRef.key;
+      final note = new Note((NoteBuilder b) => b
         ..uid = key
         ..boardUid = boardUid
         ..sessionUid = sessionUid
@@ -116,12 +116,12 @@ _createItem(Refs refs) => (
       ActionHandler next,
       Action<CreateItemPayload> action,
     ) async {
-      var boardUid = api.state.boards.currentUid;
-      var sessionUid = api.state.sessions.currentUid;
-      var ownerUid = api.state.users.currentUid;
-      var newPostRef = await refs.sessions(boardUid).push().future;
-      var key = newPostRef.key;
-      var item = new Item((ItemBuilder b) => b
+      final boardUid = api.state.boards.currentUid;
+      final sessionUid = api.state.sessions.currentUid;
+      final ownerUid = api.state.users.currentUid;
+      final newPostRef = await refs.sessions(boardUid).push().future;
+      final key = newPostRef.key;
+      final item = new Item((ItemBuilder b) => b
         ..uid = key
         ..boardUid = boardUid
         ..sessionUid = sessionUid
@@ -141,10 +141,10 @@ _createCategory(Refs refs) => (
       ActionHandler next,
       Action<CreateCategoryPayload> action,
     ) async {
-      var boardUid = api.state.boards.currentUid;
-      var newPostRef = await refs.categories(boardUid).push().future;
-      var key = newPostRef.key;
-      var category = new Category((CategoryBuilder b) => b
+      final boardUid = api.state.boards.currentUid;
+      final newPostRef = await refs.categories(boardUid).push().future;
+      final key = newPostRef.key;
+      final category = new Category((CategoryBuilder b) => b
         ..uid = key
         ..boardUid = boardUid
         ..title = action.payload.title
@@ -159,10 +159,10 @@ _createSession(Refs refs) => (
       ActionHandler next,
       Action<CreateSessionPayload> action,
     ) async {
-      var boardUid = api.state.boards.currentUid;
-      var newPostRef = await refs.sessions(boardUid).push().future;
-      var key = newPostRef.key;
-      var session = new Session((SessionBuilder b) => b
+      final boardUid = api.state.boards.currentUid;
+      final newPostRef = await refs.sessions(boardUid).push().future;
+      final key = newPostRef.key;
+      final session = new Session((SessionBuilder b) => b
         ..uid = key
         ..boardUid = boardUid
         ..targetTime = action.payload.targetTime
@@ -178,10 +178,10 @@ _createBoard(Refs refs) => (
       ActionHandler next,
       Action<CreateBoardPayload> action,
     ) async {
-      var ownerUid = api.state.users.currentUid;
-      var newPostRef = await refs.boards().push().future;
-      var key = newPostRef.key;
-      var board = new Board((BoardBuilder b) => b
+      final ownerUid = api.state.users.currentUid;
+      final newPostRef = await refs.boards().push().future;
+      final key = newPostRef.key;
+      final board = new Board((BoardBuilder b) => b
         ..uid = key
         ..ownerUid = ownerUid
         ..title = action.payload.title
@@ -196,8 +196,8 @@ _createUser(Refs refs) => (
       ActionHandler next,
       Action<CreateUserPayload> action,
     ) async {
-      var newPostRef = await refs.users().push().future;
-      var user = new User((UserBuilder b) => b
+      final newPostRef = await refs.users().push().future;
+      final user = new User((UserBuilder b) => b
         ..uid = action.payload.uid
         ..name = action.payload.name);
 
