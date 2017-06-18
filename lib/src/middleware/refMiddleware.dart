@@ -22,18 +22,25 @@ part 'refMiddleware.g.dart';
 abstract class RefMiddlewareActions extends ReduxActions {
   ActionDispatcher<Iterable<SubPayload>> updateUserSubs;
   ActionDispatcher<SubPayload> subToUser;
-  ActionDispatcher<Iterable<SubPayload>> updateBoardSubs;
-  ActionDispatcher<SubPayload> subToBoard;
-  ActionDispatcher<Iterable<SubPayload>> updateSessionSubs;
-  ActionDispatcher<SubPayload> subToSession;
-  ActionDispatcher<Iterable<SubPayload>> updateCategorySubs;
-  ActionDispatcher<SubPayload> subToCategory;
-  ActionDispatcher<Iterable<SubPayload>> updateItemSubs;
-  ActionDispatcher<SubPayload> subToItem;
-  ActionDispatcher<Iterable<SubPayload>> updateNoteSubs;
-  ActionDispatcher<SubPayload> subToNote;
 
-  ActionDispatcher<SubPayload> unSubToUID;
+  ActionDispatcher<User> subToUserBoards;
+  ActionDispatcher<Board> subToBoardSessions;
+  ActionDispatcher<Board> subToBoardCategories;
+  ActionDispatcher<Session> subToSessionItems;
+  ActionDispatcher<Session> subToSessionNotes;
+
+  ActionDispatcher<Iterable<SubPayload>> updateBoardSubs;
+  // ActionDispatcher<SubPayload> subToBoard;
+  // ActionDispatcher<Iterable<SubPayload>> updateSessionSubs;
+  // ActionDispatcher<SubPayload> subToSession;
+  // ActionDispatcher<Iterable<SubPayload>> updateCategorySubs;
+  // ActionDispatcher<SubPayload> subToCategory;
+  // ActionDispatcher<Iterable<SubPayload>> updateItemSubs;
+  // ActionDispatcher<SubPayload> subToItem;
+  // ActionDispatcher<Iterable<SubPayload>> updateNoteSubs;
+  // ActionDispatcher<SubPayload> subToNote;
+
+  // ActionDispatcher<SubPayload> unSubToUID;
 
   RefMiddlewareActions._();
   factory RefMiddlewareActions() => new _$RefMiddlewareActions();
@@ -47,16 +54,24 @@ createRefMiddleware(StreamSubManager subMgr, Refs refs) =>
     (new MiddlwareBuilder<App, AppBuilder, AppActions>()
       ..add<Iterable<SubPayload>>(RefMiddlewareActionsNames.updateUserSubs, _updateUserSubs(subMgr, refs))
       ..add<SubPayload>(RefMiddlewareActionsNames.subToUser, _subToUser(subMgr, refs))
+
+      ..add<User>(RefMiddlewareActionsNames.subToUserBoards, _subToUserBoards(subMgr, refs))
+      ..add<Board>(RefMiddlewareActionsNames.subToBoardSessions, _subToBoardSessions(subMgr, refs))
+      ..add<Board>(RefMiddlewareActionsNames.subToBoardCategories, _subToBoardCategories(subMgr, refs))
+      ..add<Session>(RefMiddlewareActionsNames.subToSessionItems, _subToSessionItems(subMgr, refs))
+      ..add<Session>(RefMiddlewareActionsNames.subToSessionNotes, _subToSessionNotes(subMgr, refs))
+
+
       ..add<Iterable<SubPayload>>(RefMiddlewareActionsNames.updateBoardSubs, _updateBoardSubs(subMgr, refs))
-      ..add<SubPayload>(RefMiddlewareActionsNames.subToBoard, _subToBoard(subMgr, refs))
-      ..add<Iterable<SubPayload>>(RefMiddlewareActionsNames.updateSessionSubs, _updateSessionSubs(subMgr, refs))
-      ..add<SubPayload>(RefMiddlewareActionsNames.subToSession, _subToSession(subMgr, refs))
-      ..add<Iterable<SubPayload>>(RefMiddlewareActionsNames.updateCategorySubs, _updateCategorySubs(subMgr, refs))
-      ..add<SubPayload>(RefMiddlewareActionsNames.subToCategory, _subToCategory(subMgr, refs))
-      ..add<Iterable<SubPayload>>(RefMiddlewareActionsNames.updateItemSubs, _updateItemSubs(subMgr, refs))
-      ..add<SubPayload>(RefMiddlewareActionsNames.subToItem, _subToItem(subMgr, refs))
-      ..add<Iterable<SubPayload>>(RefMiddlewareActionsNames.updateNoteSubs, _updateNoteSubs(subMgr, refs))
-      ..add<SubPayload>(RefMiddlewareActionsNames.subToNote, _subToNote(subMgr, refs))
+      // ..add<SubPayload>(RefMiddlewareActionsNames.subToBoard, _subToBoard(subMgr, refs))
+      // ..add<Iterable<SubPayload>>(RefMiddlewareActionsNames.updateSessionSubs, _updateSessionSubs(subMgr, refs))
+      // ..add<SubPayload>(RefMiddlewareActionsNames.subToSession, _subToSession(subMgr, refs))
+      // ..add<Iterable<SubPayload>>(RefMiddlewareActionsNames.updateCategorySubs, _updateCategorySubs(subMgr, refs))
+      // ..add<SubPayload>(RefMiddlewareActionsNames.subToCategory, _subToCategory(subMgr, refs))
+      // ..add<Iterable<SubPayload>>(RefMiddlewareActionsNames.updateItemSubs, _updateItemSubs(subMgr, refs))
+      // ..add<SubPayload>(RefMiddlewareActionsNames.subToItem, _subToItem(subMgr, refs))
+      // ..add<Iterable<SubPayload>>(RefMiddlewareActionsNames.updateNoteSubs, _updateNoteSubs(subMgr, refs))
+      // ..add<SubPayload>(RefMiddlewareActionsNames.subToNote, _subToNote(subMgr, refs))
     ).build();
 
 ////////////////////
@@ -94,6 +109,35 @@ _subToUser(StreamSubManager subMgr, Refs refs) => (
           api.actions.users.update,
           User.serializer,
         );
+
+_subToUserBoards(StreamSubManager subMgr, Refs refs) => (
+    MiddlewareApi<App, AppBuilder, AppActions> api,
+    ActionHandler next,
+    Action<User> action,
+  ) {
+    action.payload.boardUids.keys.forEach((boardUid) => subMgr.add<Board>(
+          refs.board(boardUid),
+          api.actions.boards.update,
+          Board.serializer,
+        ));
+  };
+
+_subToBoardSessions(StreamSubManager subMgr, Refs refs) => (
+    MiddlewareApi<App, AppBuilder, AppActions> api,
+    ActionHandler next,
+    Action<Board> action,
+  ) {
+    // TODO: this might not work. since sessions sub is to the map of all
+    // board sessions. So add change remove event listeners might be required
+    // instead of the one update.
+    subMgr.add<Session>(
+      refs.sessions(action.payload.uid),
+      api.actions.sessions.update,
+      Session.serializer,
+    );
+  };
+
+
 
 _updateBoardSubs(StreamSubManager subMgr, Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,

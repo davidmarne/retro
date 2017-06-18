@@ -7,8 +7,11 @@ import '../refs.dart';
 import '../state/app.dart';
 import '../state/users.dart';
 import '../state/auth.dart';
+import '../state/boards.dart';
+import '../state/sessions.dart';
 
 import '../middleware/creationMiddleware.dart';
+import '../middleware/refMiddleware.dart';
 
 import '../models/user.dart';
 
@@ -18,62 +21,77 @@ import '../models/user.dart';
 
 createSubSpyMiddleware(Refs refs) => (new MiddlwareBuilder<App, AppBuilder, AppActions>()
       ..add<firebase.User>(AuthActionsNames.logIn, _onLogin(refs))
-      ..add<User>(UsersActionsNames.updateUser, _onUpdateUser(refs))
-      ..add<Group>(GroupsActionsNames.updateGroup, _onUpdateGroup(refs))
-      // ..add<String>(AppActionsNames.setCurrentBoard, _onSetCurrentBoard(refs))
-      ..add<String>(GroupsActionsNames.setCurrentGroup, _onSetCurrentGroup(refs)))
-    .build();
+      ..add<User>(UsersActionsNames.update, _onUpdateUser(refs))
+      ..add<String>(UsersActionsNames.setCurrent, _setCurrentUser(refs))
+      ..add(BoardsActionsNames.setCurrent, _setCurrentBoard(refs))
+    ).build();
 
 ////////////////////
 /// Handlers
 ///////////////////
 
 _onLogin(Refs refs) => (
-      MiddlewareApi<App, AppBuilder, AppActions> api,
-      ActionHandler next,
-      Action<firebase.User> action,
-    ) async {
-      next(action);
-      final String uid = action.payload.uid;
-      api.actions.users.setCurrentUser(uid);
-      var user = await refs.user(uid).once('value');
+    MiddlewareApi<App, AppBuilder, AppActions> api,
+    ActionHandler next,
+    Action<firebase.User> action,
+  ) async {
+    next(action);
+    final String uid = action.payload.uid;
+    api.actions.users.setCurrent(uid);
+    var user = await refs.user(uid).once('value');
 
-      if (user.snapshot.val() == null)
-        api.actions.creation.user(new CreateUserPayload(uid, action.payload.displayName));
-      else
-        api.actions.ref.subToUser(uid);
-    };
+    if (user.snapshot.val() == null)
+      api.actions.creation.user(new CreateUserPayload(uid, action.payload.displayName));
+    else
+      api.actions.ref.subToUser(new SubPayload(uid));
+  };
 
+/// subscribe to the current user's boards
 _onUpdateUser(Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
       Action<User> action,
     ) {
       next(action);
-      if (action.payload.uid == api.state.auth.currentUser.uid)
-        api.actions.ref.updateGroupSubs(action.payload.groups.keys);
+      if (api.state.users.current != null && action.payload.uid == api.state.auth.currentUser.uid) {
+        _subscribeToCurrentUserBoards(api);
+      }
     };
 
-_onUpdateGroup(Refs refs) => (
-      MiddlewareApi<App, AppBuilder, AppActions> api,
-      ActionHandler next,
-      Action<Group> action,
-    ) {
-      next(action);
-      api.actions.ref.updateUserSubs(action.payload.users.keys);
-    };
+/// subscribe to the current user's boards
+_setCurrentUser(Refs refs) => (
+    MiddlewareApi<App, AppBuilder, AppActions> api,
+    ActionHandler next,
+    Action<String> action,
+  ) {
+    next(action);
+    if (api.state.users.current != null) {
+      _subscribeToCurrentUserBoards(api);
+    }
+  };
 
-_onSetCurrentGroup(Refs refs) => (
-      MiddlewareApi<App, AppBuilder, AppActions> api,
-      ActionHandler next,
-      Action<String> action,
-    ) {
-      next(action);
-      var payload = api.state.groups.currentGroup.boards.keys.map(
-        (String key) => new BoardPayload(action.payload, key),
-      );
-      api.actions.ref.updateBoardSubs(payload);
-    };
+_subscribeToCurrentUserBoards(MiddlewareApi<App, AppBuilder, AppActions> api) {
+  api.actions.ref.updateBoardSubs(api.state.users.current.boardUids.keys.map((boardUid) {
+    return new SubPayload(boardUid);
+  }));
+}
+
+_setCurrentBoard(Refs refs) => (
+    MiddlewareApi<App, AppBuilder, AppActions> api,
+    ActionHandler next,
+    Action<String> action,
+  ) {
+    next(action);
+    if (api.state.boards.current != null) {
+      _subscribeToCurrentBoardSessions(api);
+    }
+  };
+
+_subscribeToCurrentBoardSessions(MiddlewareApi<App, AppBuilder, AppActions> api) {
+  api.actions.ref.updateBoardSubs(api.state.users.current.boardUids.keys.map((boardUid) {
+    return new SubPayload(boardUid);
+  }));
+}
 
 // TODO: decide if necessary
 _onSetCurrentBoard(Refs refs) => (

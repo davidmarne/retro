@@ -14,6 +14,8 @@ import '../models/board.dart';
 import '../models/user.dart';
 import '../serializers.dart';
 
+import 'refMiddleware.dart';
+
 part 'creationMiddleware.g.dart';
 
 ////////////////////
@@ -205,7 +207,7 @@ _createUser(Refs refs) => (
 
       api.actions.users.update(user);
       await newPostRef.set(serializers.serializeWith(User.serializer, user));
-      api.actions.ref.subToUser(user.uid);
+      api.actions.ref.subToUser(new SubPayload(user.uid));
     };
 
 ////////////////////
