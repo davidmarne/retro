@@ -12,7 +12,6 @@ import './items.dart';
 import './notes.dart';
 
 import '../middleware/creationMiddleware.dart';
-import '../middleware/refMiddleware.dart';
 
 part 'app.g.dart';
 
@@ -33,7 +32,6 @@ abstract class AppActions extends ReduxActions {
   NotesActions notes;
 
   CreationMiddlewareActions creation;
-  RefMiddlewareActions ref;
 
   // factory to create on instance of the generated implementation of AppActions
   AppActions._();
@@ -56,13 +54,13 @@ abstract class App extends BuiltReducer<App, AppBuilder>
 
   /// [boards]
   Boards get boards;
-    // Notes: sub to multiple boards to get board names and data for
-    // each of a user's boards on dashboard.
+  // Notes: sub to multiple boards to get board names and data for
+  // each of a user's boards on dashboard.
 
   /// [Sessions]
   Sessions get sessions;
-    // Notes: likely only need one session sub at a time. List of Sessions
-    // could just have a timestamp for the session (available on board object).
+  // Notes: likely only need one session sub at a time. List of Sessions
+  // could just have a timestamp for the session (available on board object).
 
   /// [Categories]
   Categories get categories;
@@ -92,9 +90,8 @@ abstract class App extends BuiltReducer<App, AppBuilder>
 /// Main Reducer
 ///////////////////
 
-var _reducer = (new ReducerBuilder<App, AppBuilder>()
-      ..add<Null>(AppActionsNames.clear, _clear))
-    .build();
+var _reducer =
+    (new ReducerBuilder<App, AppBuilder>()..add<Null>(AppActionsNames.clear, _clear)).build();
 
 ////////////////////
 /// Reducers

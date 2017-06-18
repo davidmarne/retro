@@ -11,12 +11,16 @@ class _$ItemsActions extends ItemsActions {
   ActionDispatcher<String> setCurrent =
       new ActionDispatcher<String>('ItemsActions-setCurrent');
 
+  ActionDispatcher<String> remove =
+      new ActionDispatcher<String>('ItemsActions-remove');
+
   ActionDispatcher<Item> update =
       new ActionDispatcher<Item>('ItemsActions-update');
   factory _$ItemsActions() => new _$ItemsActions._();
   _$ItemsActions._() : super._();
   syncWithStore(dispatcher) {
     setCurrent.syncWithStore(dispatcher);
+    remove.syncWithStore(dispatcher);
     update.syncWithStore(dispatcher);
   }
 }
@@ -24,6 +28,7 @@ class _$ItemsActions extends ItemsActions {
 class ItemsActionsNames {
   static ActionName setCurrent =
       new ActionName<String>('ItemsActions-setCurrent');
+  static ActionName remove = new ActionName<String>('ItemsActions-remove');
   static ActionName update = new ActionName<Item>('ItemsActions-update');
 }
 

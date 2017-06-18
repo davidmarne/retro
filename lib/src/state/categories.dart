@@ -15,9 +15,10 @@ part 'categories.g.dart';
 /// [CategoriesActions]
 abstract class CategoriesActions extends ReduxActions {
   ActionDispatcher<Category> update;
-    // update title
-    // update description
-    // show / hide
+  // update title
+  // update description
+  // show / hide
+  ActionDispatcher<String> remove;
 
   // factory to create on instance of the generated implementation of BoardsActions
   CategoriesActions._();
@@ -39,7 +40,8 @@ abstract class Categories extends BuiltReducer<Categories, CategoriesBuilder>
 
   // Built value boilerplate
   Categories._();
-  factory Categories([updates(CategoriesBuilder b)]) => new _$Categories((CategoriesBuilder b) => b);
+  factory Categories([updates(CategoriesBuilder b)]) =>
+      new _$Categories((CategoriesBuilder b) => b);
 }
 
 ////////////////////

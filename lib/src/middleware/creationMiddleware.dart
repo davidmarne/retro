@@ -1,11 +1,9 @@
 library creationMiddleware;
 
 import 'package:built_redux/built_redux.dart';
-import 'package:built_collection/built_collection.dart';
 
 import '../refs.dart';
 import '../state/app.dart';
-import '../state/boards.dart';
 import '../models/session.dart';
 import '../models/category.dart';
 import '../models/item.dart';
@@ -13,8 +11,6 @@ import '../models/note.dart';
 import '../models/board.dart';
 import '../models/user.dart';
 import '../serializers.dart';
-
-import 'refMiddleware.dart';
 
 part 'creationMiddleware.g.dart';
 
@@ -82,7 +78,7 @@ class CreateNotePayload {
 createCreationMiddleware(Refs refs) => (new MiddlwareBuilder<App, AppBuilder, AppActions>()
       ..add<CreateUserPayload>(CreationMiddlewareActionsNames.user, _createUser(refs))
       ..add<CreateBoardPayload>(CreationMiddlewareActionsNames.board, _createBoard(refs))
-       ..add<CreateSessionPayload>(CreationMiddlewareActionsNames.session, _createSession(refs))     
+      ..add<CreateSessionPayload>(CreationMiddlewareActionsNames.session, _createSession(refs))
       ..add<CreateCategoryPayload>(CreationMiddlewareActionsNames.category, _createCategory(refs))
       ..add<CreateItemPayload>(CreationMiddlewareActionsNames.item, _createItem(refs))
       ..add<CreateNotePayload>(CreationMiddlewareActionsNames.note, _createNote(refs)))
@@ -205,17 +201,7 @@ _createUser(Refs refs) => (
         ..uid = action.payload.uid
         ..name = action.payload.name);
 
+      api.actions.users.setCurrent(action.payload.uid);
       api.actions.users.update(user);
       await newPostRef.set(serializers.serializeWith(User.serializer, user));
-      api.actions.ref.subToUser(new SubPayload(user.uid));
     };
-
-////////////////////
-/// Util
-///////////////////
-
-BuiltMap<String, bool> _keyListToBuiltMap(Iterable<String> keys) {
-  var map = new Map<String, bool>();
-  for (String key in keys) map[key] = true;
-  return new BuiltMap<String, bool>(map);
-}

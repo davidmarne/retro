@@ -8,16 +8,21 @@ part of categories;
 // **************************************************************************
 
 class _$CategoriesActions extends CategoriesActions {
+  ActionDispatcher<String> remove =
+      new ActionDispatcher<String>('CategoriesActions-remove');
+
   ActionDispatcher<Category> update =
       new ActionDispatcher<Category>('CategoriesActions-update');
   factory _$CategoriesActions() => new _$CategoriesActions._();
   _$CategoriesActions._() : super._();
   syncWithStore(dispatcher) {
+    remove.syncWithStore(dispatcher);
     update.syncWithStore(dispatcher);
   }
 }
 
 class CategoriesActionsNames {
+  static ActionName remove = new ActionName<String>('CategoriesActions-remove');
   static ActionName update =
       new ActionName<Category>('CategoriesActions-update');
 }

@@ -8,16 +8,21 @@ part of notes;
 // **************************************************************************
 
 class _$NotesActions extends NotesActions {
+  ActionDispatcher<String> remove =
+      new ActionDispatcher<String>('NotesActions-remove');
+
   ActionDispatcher<Note> update =
       new ActionDispatcher<Note>('NotesActions-update');
   factory _$NotesActions() => new _$NotesActions._();
   _$NotesActions._() : super._();
   syncWithStore(dispatcher) {
+    remove.syncWithStore(dispatcher);
     update.syncWithStore(dispatcher);
   }
 }
 
 class NotesActionsNames {
+  static ActionName remove = new ActionName<String>('NotesActions-remove');
   static ActionName update = new ActionName<Note>('NotesActions-update');
 }
 

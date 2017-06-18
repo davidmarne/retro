@@ -1,8 +1,13 @@
-library refMiddleware;
-
 import 'package:built_redux/built_redux.dart';
+import 'package:firebase/firebase.dart' as firebase;
 
 import '../state/app.dart';
+import '../state/auth.dart';
+import '../state/users.dart';
+import '../state/boards.dart';
+import '../state/sessions.dart';
+import './creationMiddleware.dart';
+
 import '../streamSubManager.dart';
 import '../refs.dart';
 import '../models/user.dart';
@@ -12,239 +17,186 @@ import '../models/category.dart';
 import '../models/item.dart';
 import '../models/note.dart';
 
-part 'refMiddleware.g.dart';
-
-////////////////////
-/// Actions
-///////////////////
-
-// Actions to be handled by this middleware
-abstract class RefMiddlewareActions extends ReduxActions {
-  ActionDispatcher<Iterable<SubPayload>> updateUserSubs;
-  ActionDispatcher<SubPayload> subToUser;
-
-  ActionDispatcher<User> subToUserBoards;
-  ActionDispatcher<Board> subToBoardSessions;
-  ActionDispatcher<Board> subToBoardCategories;
-  ActionDispatcher<Session> subToSessionItems;
-  ActionDispatcher<Session> subToSessionNotes;
-
-  ActionDispatcher<Iterable<SubPayload>> updateBoardSubs;
-  // ActionDispatcher<SubPayload> subToBoard;
-  // ActionDispatcher<Iterable<SubPayload>> updateSessionSubs;
-  // ActionDispatcher<SubPayload> subToSession;
-  // ActionDispatcher<Iterable<SubPayload>> updateCategorySubs;
-  // ActionDispatcher<SubPayload> subToCategory;
-  // ActionDispatcher<Iterable<SubPayload>> updateItemSubs;
-  // ActionDispatcher<SubPayload> subToItem;
-  // ActionDispatcher<Iterable<SubPayload>> updateNoteSubs;
-  // ActionDispatcher<SubPayload> subToNote;
-
-  // ActionDispatcher<SubPayload> unSubToUID;
-
-  RefMiddlewareActions._();
-  factory RefMiddlewareActions() => new _$RefMiddlewareActions();
-}
-
 ////////////////////
 /// Action Map
 ///////////////////
 
 createRefMiddleware(StreamSubManager subMgr, Refs refs) =>
     (new MiddlwareBuilder<App, AppBuilder, AppActions>()
-      ..add<Iterable<SubPayload>>(RefMiddlewareActionsNames.updateUserSubs, _updateUserSubs(subMgr, refs))
-      ..add<SubPayload>(RefMiddlewareActionsNames.subToUser, _subToUser(subMgr, refs))
-
-      ..add<User>(RefMiddlewareActionsNames.subToUserBoards, _subToUserBoards(subMgr, refs))
-      ..add<Board>(RefMiddlewareActionsNames.subToBoardSessions, _subToBoardSessions(subMgr, refs))
-      ..add<Board>(RefMiddlewareActionsNames.subToBoardCategories, _subToBoardCategories(subMgr, refs))
-      ..add<Session>(RefMiddlewareActionsNames.subToSessionItems, _subToSessionItems(subMgr, refs))
-      ..add<Session>(RefMiddlewareActionsNames.subToSessionNotes, _subToSessionNotes(subMgr, refs))
-
-
-      ..add<Iterable<SubPayload>>(RefMiddlewareActionsNames.updateBoardSubs, _updateBoardSubs(subMgr, refs))
-      // ..add<SubPayload>(RefMiddlewareActionsNames.subToBoard, _subToBoard(subMgr, refs))
-      // ..add<Iterable<SubPayload>>(RefMiddlewareActionsNames.updateSessionSubs, _updateSessionSubs(subMgr, refs))
-      // ..add<SubPayload>(RefMiddlewareActionsNames.subToSession, _subToSession(subMgr, refs))
-      // ..add<Iterable<SubPayload>>(RefMiddlewareActionsNames.updateCategorySubs, _updateCategorySubs(subMgr, refs))
-      // ..add<SubPayload>(RefMiddlewareActionsNames.subToCategory, _subToCategory(subMgr, refs))
-      // ..add<Iterable<SubPayload>>(RefMiddlewareActionsNames.updateItemSubs, _updateItemSubs(subMgr, refs))
-      // ..add<SubPayload>(RefMiddlewareActionsNames.subToItem, _subToItem(subMgr, refs))
-      // ..add<Iterable<SubPayload>>(RefMiddlewareActionsNames.updateNoteSubs, _updateNoteSubs(subMgr, refs))
-      // ..add<SubPayload>(RefMiddlewareActionsNames.subToNote, _subToNote(subMgr, refs))
-    ).build();
-
-////////////////////
-/// Payloads
-///////////////////
-
-class SubPayload {
-  final String boardUid;
-  final String sessionUid;
-  final String uid;
-  SubPayload(this.uid, {this.boardUid, this.sessionUid});
-}
+          ..add<firebase.User>(AuthActionsNames.logIn, _onLogin(refs))
+          ..add<String>(UsersActionsNames.setCurrent, _onSetCurrentUser(subMgr, refs))
+          ..add<User>(UsersActionsNames.update, _onUpdateUser(subMgr, refs))
+          ..add<String>(BoardsActionsNames.setCurrent, _onSetCurrentBoard(subMgr, refs))
+          ..add<String>(SessionsActionsNames.setCurrent, _onSetCurrentSession(subMgr, refs)))
+        .build();
 
 ////////////////////
 /// Handlers
 ///////////////////
 
-_updateUserSubs(StreamSubManager subMgr, Refs refs) => (
+_onLogin(Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
-      Action<Iterable<SubPayload>> action,
-    ) => action.payload.forEach((SubPayload p) => subMgr.add<User>(
-      refs.user(p.uid),
-      api.actions.users.update,
-      User.serializer,
-    ));
+      Action<firebase.User> action,
+    ) async {
+      next(action);
+      final String uid = action.payload.uid;
+      var user = await refs.user(uid).once('value');
+      if (user.snapshot.val() == null)
+        api.actions.creation.user(new CreateUserPayload(uid, action.payload.displayName));
+      else
+        api.actions.users.setCurrent(uid);
+    };
 
-_subToUser(StreamSubManager subMgr, Refs refs) => (
+_onSetCurrentUser(StreamSubManager subMgr, Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
-      Action<SubPayload> action,
-    ) =>
-        subMgr.add<User>(
-          refs.user(action.payload.uid),
-          api.actions.users.update,
-          User.serializer,
-        );
+      Action<String> action,
+    ) {
+      next(action);
+      _subToUser(api, subMgr, refs, action.payload);
+    };
 
-_subToUserBoards(StreamSubManager subMgr, Refs refs) => (
-    MiddlewareApi<App, AppBuilder, AppActions> api,
-    ActionHandler next,
-    Action<User> action,
-  ) {
-    action.payload.boardUids.keys.forEach((boardUid) => subMgr.add<Board>(
-          refs.board(boardUid),
-          api.actions.boards.update,
-          Board.serializer,
-        ));
-  };
-
-_subToBoardSessions(StreamSubManager subMgr, Refs refs) => (
-    MiddlewareApi<App, AppBuilder, AppActions> api,
-    ActionHandler next,
-    Action<Board> action,
-  ) {
-    // TODO: this might not work. since sessions sub is to the map of all
-    // board sessions. So add change remove event listeners might be required
-    // instead of the one update.
-    subMgr.add<Session>(
-      refs.sessions(action.payload.uid),
-      api.actions.sessions.update,
-      Session.serializer,
-    );
-  };
-
-
-
-_updateBoardSubs(StreamSubManager subMgr, Refs refs) => (
+/// subscribe to the current user's boards
+_onUpdateUser(StreamSubManager subMgr, Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
-      Action<Iterable<SubPayload>> action,
-    ) =>
-        action.payload.forEach((SubPayload p) => subMgr.add<Board>(
-              refs.board(p.uid),
-              api.actions.boards.update,
-              Board.serializer,
-            ));
+      Action<User> action,
+    ) {
+      next(action);
+      if (action.payload.uid == api.state.users.currentUid)
+        _subToBoards(api, subMgr, refs, api.state.users.current.boardUids.keys);
+    };
 
-_subToBoard(StreamSubManager subMgr, Refs refs) => (
+_onSetCurrentBoard(StreamSubManager subMgr, Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
-      Action<SubPayload> action,
-    ) =>
-        subMgr.add<Board>(
-          refs.board(action.payload.uid),
-          api.actions.boards.update,
-          Board.serializer,
-        );
+      Action<String> action,
+    ) {
+      // TODO: unsub from old board
 
-_updateSessionSubs(StreamSubManager subMgr, Refs refs) => (
+      next(action);
+      _subToSessions(api, subMgr, refs, action.payload);
+      _subToUsers(api, subMgr, refs, api.state.boards.current.memberUids.keys);
+    };
+
+_onSetCurrentSession(StreamSubManager subMgr, Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
-      Action<Iterable<SubPayload>> action,
-    ) =>
-        action.payload.forEach((SubPayload p) => subMgr.add<Session>(
-              refs.session(p.boardUid, p.uid),
-              api.actions.sessions.update,
-              Session.serializer,
-            ));
+      Action<String> action,
+    ) {
+      // TODO: unsub from old session
 
-_subToSession(StreamSubManager subMgr, Refs refs) => (
-      MiddlewareApi<App, AppBuilder, AppActions> api,
-      ActionHandler next,
-      Action<SubPayload> action,
-    ) =>
-        subMgr.add<Session>(
-          refs.session(action.payload.boardUid, action.payload.uid),
-          api.actions.sessions.update,
-          Session.serializer,
-        );
+      next(action);
+      var currentSession = api.state.sessions.current;
+      var boardUid = currentSession.boardUid;
+      var sessionUid = currentSession.uid;
+      _subToItems(api, subMgr, refs, boardUid, sessionUid);
+      _subToCategories(api, subMgr, refs, boardUid);
+      _subToNotes(api, subMgr, refs, boardUid, sessionUid);
+    };
 
-_updateCategorySubs(StreamSubManager subMgr, Refs refs) => (
-      MiddlewareApi<App, AppBuilder, AppActions> api,
-      ActionHandler next,
-      Action<Iterable<SubPayload>> action,
-    ) =>
-        action.payload.forEach((SubPayload p) => subMgr.add<Category>(
-              refs.category(p.boardUid, p.uid),
-              api.actions.categories.update,
-              Category.serializer,
-            ));
+////////////////////
+/// Util
+///////////////////
 
-_subToCategory(StreamSubManager subMgr, Refs refs) => (
-      MiddlewareApi<App, AppBuilder, AppActions> api,
-      ActionHandler next,
-      Action<SubPayload> action,
-    ) =>
-        subMgr.add<Category>(
-          refs.category(action.payload.boardUid, action.payload.uid),
-          api.actions.categories.update,
-          Category.serializer,
-        );
+_subToUser(
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  StreamSubManager subMgr,
+  Refs refs,
+  String userUid,
+) {
+  subMgr.add<User>(
+    refs.user(userUid),
+    api.actions.users.update,
+    User.serializer,
+  );
+}
 
-_updateItemSubs(StreamSubManager subMgr, Refs refs) => (
-      MiddlewareApi<App, AppBuilder, AppActions> api,
-      ActionHandler next,
-      Action<Iterable<SubPayload>> action,
-    ) =>
-        action.payload.forEach((SubPayload p) => subMgr.add<Item>(
-              refs.item(p.boardUid, p.sessionUid, p.uid),
-              api.actions.items.update,
-              Item.serializer,
-            ));
+_subToBoards(
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  StreamSubManager subMgr,
+  Refs refs,
+  Iterable<String> boardUids,
+) {
+  boardUids.forEach((uid) => subMgr.add<Board>(
+        refs.board(uid),
+        api.actions.boards.update,
+        Board.serializer,
+      ));
+}
 
-_subToItem(StreamSubManager subMgr, Refs refs) => (
-      MiddlewareApi<App, AppBuilder, AppActions> api,
-      ActionHandler next,
-      Action<SubPayload> action,
-    ) =>
-        subMgr.add<Item>(
-          refs.item(action.payload.boardUid, action.payload.sessionUid, action.payload.uid),
-          api.actions.items.update,
-          Item.serializer,
-        );
+_subToUsers(
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  StreamSubManager subMgr,
+  Refs refs,
+  Iterable<String> userUids,
+) {
+  userUids.forEach((uid) => subMgr.add<User>(
+        refs.user(uid),
+        api.actions.users.update,
+        User.serializer,
+      ));
+}
 
-_updateNoteSubs(StreamSubManager subMgr, Refs refs) => (
-      MiddlewareApi<App, AppBuilder, AppActions> api,
-      ActionHandler next,
-      Action<Iterable<SubPayload>> action,
-    ) =>
-        action.payload.forEach((SubPayload p) => subMgr.add<Note>(
-              refs.note(p.boardUid, p.sessionUid, p.uid),
-              api.actions.notes.update,
-              Note.serializer,
-            ));
+_subToSessions(
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  StreamSubManager subMgr,
+  Refs refs,
+  String boardUid,
+) {
+  subMgr.addList<Session>(
+    refs.sessions(boardUid),
+    Session.serializer,
+    onChildAdded: api.actions.sessions.update,
+    onChildRemoved: api.actions.sessions.remove,
+    onChildChanged: api.actions.sessions.update,
+  );
+}
 
-_subToNote(StreamSubManager subMgr, Refs refs) => (
-      MiddlewareApi<App, AppBuilder, AppActions> api,
-      ActionHandler next,
-      Action<SubPayload> action,
-    ) =>
-        subMgr.add<Note>(
-          refs.note(action.payload.boardUid, action.payload.sessionUid, action.payload.uid),
-          api.actions.notes.update,
-          Note.serializer,
-        );
+_subToItems(
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  StreamSubManager subMgr,
+  Refs refs,
+  String boardUid,
+  String sessionUid,
+) {
+  subMgr.addList<Item>(
+    refs.items(boardUid, sessionUid),
+    Item.serializer,
+    onChildAdded: api.actions.items.update,
+    onChildRemoved: api.actions.items.remove,
+    onChildChanged: api.actions.items.update,
+  );
+}
+
+_subToCategories(
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  StreamSubManager subMgr,
+  Refs refs,
+  String boardUid,
+) {
+  subMgr.addList<Category>(
+    refs.categories(boardUid),
+    Category.serializer,
+    onChildAdded: api.actions.categories.update,
+    onChildRemoved: api.actions.categories.remove,
+    onChildChanged: api.actions.categories.update,
+  );
+}
+
+_subToNotes(
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  StreamSubManager subMgr,
+  Refs refs,
+  String boardUid,
+  String sessionUid,
+) {
+  subMgr.addList<Note>(
+    refs.notes(boardUid, sessionUid),
+    Note.serializer,
+    onChildAdded: api.actions.notes.update,
+    onChildRemoved: api.actions.notes.remove,
+    onChildChanged: api.actions.notes.update,
+  );
+}
