@@ -26,6 +26,7 @@ createRefMiddleware(StreamSubManager subMgr, Refs refs) =>
           ..add<firebase.User>(AuthActionsNames.logIn, _onLogin(refs))
           ..add<String>(UsersActionsNames.setCurrent, _onSetCurrentUser(subMgr, refs))
           ..add<User>(UsersActionsNames.update, _onUpdateUser(subMgr, refs))
+          ..add<Board>(BoardsActionsNames.update, _onUpdateBoard(subMgr, refs))
           ..add<String>(BoardsActionsNames.setCurrent, _onSetCurrentBoard(subMgr, refs))
           ..add<String>(SessionsActionsNames.setCurrent, _onSetCurrentSession(subMgr, refs)))
         .build();
@@ -68,6 +69,17 @@ _onUpdateUser(StreamSubManager subMgr, Refs refs) => (
         _subToBoards(api, subMgr, refs, api.state.users.current.boardUids.keys);
     };
 
+/// subscribe to the current boards's users
+_onUpdateBoard(StreamSubManager subMgr, Refs refs) => (
+      MiddlewareApi<App, AppBuilder, AppActions> api,
+      ActionHandler next,
+      Action<Board> action,
+    ) {
+      next(action);
+      if (action.payload.uid == api.state.boards.currentUid)
+        _subToUsers(api, subMgr, refs, api.state.boards.current.memberUids.keys);
+    };
+
 _onSetCurrentBoard(StreamSubManager subMgr, Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
@@ -77,7 +89,10 @@ _onSetCurrentBoard(StreamSubManager subMgr, Refs refs) => (
 
       next(action);
       _subToSessions(api, subMgr, refs, action.payload);
-      _subToUsers(api, subMgr, refs, api.state.boards.current.memberUids.keys);
+
+      // after refresh current board can be set without the board yet being set
+      if (api.state.boards.current != null)
+        _subToUsers(api, subMgr, refs, api.state.boards.current.memberUids.keys);
     };
 
 _onSetCurrentSession(StreamSubManager subMgr, Refs refs) => (

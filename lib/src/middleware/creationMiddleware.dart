@@ -187,8 +187,11 @@ _createBoard(Refs refs) => (
         ..title = action.payload.title
         ..description = action.payload.description);
 
-      api.actions.boards.update(board);
-      await newPostRef.set(serializers.serializeWith(Board.serializer, board));
+      newPostRef.set(serializers.serializeWith(Board.serializer, board));
+      refs
+          .userBoards(api.state.users.currentUid)
+          .child(key)
+          .set(new DateTime.now().millisecondsSinceEpoch);
     };
 
 _createUser(Refs refs) => (
@@ -196,7 +199,7 @@ _createUser(Refs refs) => (
       ActionHandler next,
       Action<CreateUserPayload> action,
     ) async {
-      final newPostRef = await refs.users().push().future;
+      final newPostRef = await refs.user(action.payload.uid);
       final user = new User((UserBuilder b) => b
         ..uid = action.payload.uid
         ..name = action.payload.name);

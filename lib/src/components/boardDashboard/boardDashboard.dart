@@ -2,8 +2,8 @@ import 'package:angular2/core.dart';
 import 'package:angular2/router.dart';
 import 'package:built_redux/built_redux.dart';
 
-import '../itemCard/itemCard.dart';
-import '../itemCreate/itemCreate.dart';
+import '../sessionCard/sessionCard.dart';
+import '../sessionCreate/sessionCreate.dart';
 
 import '../../models/board.dart';
 import '../../models/session.dart';
@@ -15,8 +15,8 @@ import '../../store.dart';
   selector: 'boardDashboard',
   templateUrl: 'boardDashboard.html',
   directives: const [
-    ItemCreateComponent,
-    ItemCardComponent,
+    SessionCreateComponent,
+    SessionCardComponent,
   ],
 )
 class BoardDashboardComponent implements OnInit {
