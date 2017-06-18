@@ -9,7 +9,6 @@ import './refs.dart';
 import './streamSubManager.dart';
 import './middleware/creationMiddleware.dart';
 import './middleware/refMiddleware.dart';
-import './middleware/subSpyMiddleware.dart';
 import './middleware/loggingMiddleware.dart';
 
 @Injectable()
@@ -39,7 +38,6 @@ class StoreService {
       loggingMiddleware,
       createRefMiddleware(new StreamSubManager(), refs),
       createCreationMiddleware(refs),
-      createSubSpyMiddleware(refs),
     ]);
   }
 

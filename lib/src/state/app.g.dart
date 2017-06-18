@@ -8,7 +8,6 @@ part of app;
 // **************************************************************************
 
 class _$AppActions extends AppActions {
-  RefMiddlewareActions ref = new RefMiddlewareActions();
   CreationMiddlewareActions creation = new CreationMiddlewareActions();
   NotesActions notes = new NotesActions();
   ItemsActions items = new ItemsActions();
@@ -21,7 +20,6 @@ class _$AppActions extends AppActions {
   factory _$AppActions() => new _$AppActions._();
   _$AppActions._() : super._();
   syncWithStore(dispatcher) {
-    ref.syncWithStore(dispatcher);
     creation.syncWithStore(dispatcher);
     notes.syncWithStore(dispatcher);
     items.syncWithStore(dispatcher);

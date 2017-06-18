@@ -15,9 +15,10 @@ part 'notes.g.dart';
 /// [NotesActions]
 abstract class NotesActions extends ReduxActions {
   ActionDispatcher<Note> update;
-    // update text
-    // tag item with note
-    // show / hide
+  // update text
+  // tag item with note
+  // show / hide
+  ActionDispatcher<String> remove;
 
   // factory to create on instance of the generated implementation of BoardsActions
   NotesActions._();

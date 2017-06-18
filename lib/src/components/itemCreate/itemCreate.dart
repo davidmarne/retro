@@ -1,5 +1,4 @@
 import 'package:angular2/core.dart';
-import 'package:angular_components/angular_components.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../../state/app.dart';
@@ -10,9 +9,6 @@ import '../../middleware/creationMiddleware.dart';
 @Component(
   selector: 'item-create',
   templateUrl: 'itemCreate.html',
-  directives: const [
-    materialDirectives,
-  ],
 )
 class ItemCreateComponent {
   final Store<App, AppBuilder, AppActions> _store;

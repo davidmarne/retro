@@ -13,12 +13,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
-  angular_components:
-    description:
-      name: angular_components
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.2"
   angular_test:
     description:
       name: angular_test
@@ -259,12 +253,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
-  observable:
-    description:
-      name: observable
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.20.4+1"
   package_config:
     description:
       name: package_config
@@ -289,12 +277,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.2"
-  perf_api:
-    description:
-      name: perf_api
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
   plugin:
     description:
       name: plugin
@@ -421,12 +403,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.0+3"
-  uuid:
-    description:
-      name: uuid
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.3"
   watcher:
     description:
       name: watcher

@@ -4,7 +4,6 @@ import 'package:built_redux/built_redux.dart';
 
 import '../itemCard/itemCard.dart';
 import '../itemCreate/itemCreate.dart';
-import '../../middleware/creationMiddleware.dart';
 
 import '../../models/board.dart';
 import '../../models/session.dart';

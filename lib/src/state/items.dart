@@ -15,11 +15,12 @@ part 'items.g.dart';
 /// [ItemsActions]
 abstract class ItemsActions extends ReduxActions {
   ActionDispatcher<Item> update;
-    // update text
-    // add duration to time
-    // vote for item
-    // move to different category?
-    // show / hide
+  ActionDispatcher<String> remove;
+  // update text
+  // add duration to time
+  // vote for item
+  // move to different category?
+  // show / hide
   ActionDispatcher<String> setCurrent;
 
   // factory to create on instance of the generated implementation of BoardsActions

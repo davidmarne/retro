@@ -15,11 +15,12 @@ part 'sessions.g.dart';
 /// [SessionsActions]
 abstract class SessionsActions extends ReduxActions {
   ActionDispatcher<Session> update;
-    // update startDate
-    // update endData
-    // add Category
-    // remove Category
+  // update startDate
+  // update endData
+  // add Category
+  // remove Category
   ActionDispatcher<String> setCurrent;
+  ActionDispatcher<String> remove;
 
   // factory to create on instance of the generated implementation of BoardsActions
   SessionsActions._();
@@ -43,7 +44,8 @@ abstract class Sessions extends BuiltReducer<Sessions, SessionsBuilder>
 
   // Built value boilerplate
   Sessions._();
-  factory Sessions([updates(SessionsBuilder b)]) => new _$Sessions((SessionsBuilder b) => b..currentUid = "");
+  factory Sessions([updates(SessionsBuilder b)]) =>
+      new _$Sessions((SessionsBuilder b) => b..currentUid = "");
 
   @memoized
   Session get current => map[currentUid];
