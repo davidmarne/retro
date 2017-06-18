@@ -5,7 +5,6 @@ import 'package:built_redux/built_redux.dart';
 import '../state/app.dart';
 import '../streamSubManager.dart';
 import '../refs.dart';
-import '../models/group.dart';
 import '../models/board.dart';
 import '../models/user.dart';
 

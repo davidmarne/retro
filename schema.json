@@ -17,6 +17,9 @@
     "sessions": {
         "$uid(board)": { // permission granted based on user's access to board
             "$uid(session)": {
+                "categories": {
+                    "$uid(category)": 1 // uid and order of the included category
+                },
                 "targetTime": 3600, // duration members hope to limit the retro to.
                 "startDate": 123456789, // presentation start timestamp
                 "endDate": 123456789 // presentation end timestamp
@@ -25,12 +28,9 @@
     },
     "categories": {
         "$uid(board)": {
-            "$uid(session)": {
-                "$uid(category)" : {
-                    "title": "title",
-                    "description": "description",
-                    "order": 1
-                }
+            "$uid(category)" : {
+                "title": "title",
+                "description": "description"
             }
         }
     },

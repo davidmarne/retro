@@ -8,6 +8,9 @@ part of creationMiddleware;
 // **************************************************************************
 
 class _$CreationMiddlewareActions extends CreationMiddlewareActions {
+  ActionDispatcher<CreateNotePayload> note =
+      new ActionDispatcher<CreateNotePayload>('CreationMiddlewareActions-note');
+
   ActionDispatcher<CreateItemPayload> item =
       new ActionDispatcher<CreateItemPayload>('CreationMiddlewareActions-item');
 
@@ -15,36 +18,39 @@ class _$CreationMiddlewareActions extends CreationMiddlewareActions {
       new ActionDispatcher<CreateCategoryPayload>(
           'CreationMiddlewareActions-category');
 
-  ActionDispatcher<CreateUserPayload> user =
-      new ActionDispatcher<CreateUserPayload>('CreationMiddlewareActions-user');
+  ActionDispatcher<CreateSessionPayload> session =
+      new ActionDispatcher<CreateSessionPayload>(
+          'CreationMiddlewareActions-session');
 
   ActionDispatcher<CreateBoardPayload> board =
       new ActionDispatcher<CreateBoardPayload>(
           'CreationMiddlewareActions-board');
 
-  ActionDispatcher<CreateGroupPayload> group =
-      new ActionDispatcher<CreateGroupPayload>(
-          'CreationMiddlewareActions-group');
+  ActionDispatcher<CreateUserPayload> user =
+      new ActionDispatcher<CreateUserPayload>('CreationMiddlewareActions-user');
   factory _$CreationMiddlewareActions() => new _$CreationMiddlewareActions._();
   _$CreationMiddlewareActions._() : super._();
   syncWithStore(dispatcher) {
+    note.syncWithStore(dispatcher);
     item.syncWithStore(dispatcher);
     category.syncWithStore(dispatcher);
-    user.syncWithStore(dispatcher);
+    session.syncWithStore(dispatcher);
     board.syncWithStore(dispatcher);
-    group.syncWithStore(dispatcher);
+    user.syncWithStore(dispatcher);
   }
 }
 
 class CreationMiddlewareActionsNames {
+  static ActionName note =
+      new ActionName<CreateNotePayload>('CreationMiddlewareActions-note');
   static ActionName item =
       new ActionName<CreateItemPayload>('CreationMiddlewareActions-item');
   static ActionName category = new ActionName<CreateCategoryPayload>(
       'CreationMiddlewareActions-category');
-  static ActionName user =
-      new ActionName<CreateUserPayload>('CreationMiddlewareActions-user');
+  static ActionName session =
+      new ActionName<CreateSessionPayload>('CreationMiddlewareActions-session');
   static ActionName board =
       new ActionName<CreateBoardPayload>('CreationMiddlewareActions-board');
-  static ActionName group =
-      new ActionName<CreateGroupPayload>('CreationMiddlewareActions-group');
+  static ActionName user =
+      new ActionName<CreateUserPayload>('CreationMiddlewareActions-user');
 }

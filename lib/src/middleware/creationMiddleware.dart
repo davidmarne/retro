@@ -6,8 +6,10 @@ import 'package:built_collection/built_collection.dart';
 import '../refs.dart';
 import '../state/app.dart';
 import '../state/boards.dart';
+import '../models/session.dart';
 import '../models/category.dart';
 import '../models/item.dart';
+import '../models/note.dart';
 import '../models/board.dart';
 import '../models/user.dart';
 import '../serializers.dart';
@@ -37,8 +39,8 @@ abstract class CreationMiddlewareActions extends ReduxActions {
 
 class CreateUserPayload {
   final String uid;
-  final String displayName;
-  CreateUserPayload(this.uid, this.displayName);
+  final String name;
+  CreateUserPayload(this.uid, this.name);
 }
 
 class CreateBoardPayload {
@@ -49,8 +51,8 @@ class CreateBoardPayload {
 
 class CreateSessionPayload {
   final int targetTime;
-  final String copySessionUid;
-  CreateSessionPayload(this.targetTime, this.copySessionUid);
+  final Iterable<Category> categories;
+  CreateSessionPayload(this.targetTime, this.categories);
 }
 
 class CreateCategoryPayload {
@@ -87,25 +89,52 @@ createCreationMiddleware(Refs refs) => (new MiddlwareBuilder<App, AppBuilder, Ap
 ////////////////////
 /// Handlers
 ///////////////////
+///
+_createNote(Refs refs) => (
+      MiddlewareApi<App, AppBuilder, AppActions> api,
+      ActionHandler next,
+      Action<CreateNotePayload> action,
+    ) async {
+      var boardUid = api.state.boards.currentUid;
+      var sessionUid = api.state.sessions.currentUid;
+      var ownerUid = api.state.users.currentUid;
+      var newPostRef = await refs.sessions(boardUid).push().future;
+      var key = newPostRef.key;
+      var note = new Note((NoteBuilder b) => b
+        ..uid = key
+        ..boardUid = boardUid
+        ..sessionUid = sessionUid
+        ..ownerUid = ownerUid
+        ..text = action.payload.text
+        ..visible = true
+        ..ownerUid = api.state.auth.currentUser.uid);
+
+      api.actions.notes.update(note);
+      await newPostRef.set(serializers.serializeWith(Note.serializer, note));
+    };
 
 _createItem(Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
       Action<CreateItemPayload> action,
     ) async {
-      var payload = action.payload;
-      var newPostRef = await refs.items(payload.groupUid, payload.boardUid).push().future;
+      var boardUid = api.state.boards.currentUid;
+      var sessionUid = api.state.sessions.currentUid;
+      var ownerUid = api.state.users.currentUid;
+      var newPostRef = await refs.sessions(boardUid).push().future;
       var key = newPostRef.key;
-
       var item = new Item((ItemBuilder b) => b
         ..uid = key
-        ..text = payload.text
-        ..categoryUid = payload.categoryUid
+        ..boardUid = boardUid
+        ..sessionUid = sessionUid
+        ..ownerUid = ownerUid
+        ..categoryUid = action.payload.categoryUid
+        ..time = 0
+        ..text = action.payload.text
+        ..visible = true
         ..ownerUid = api.state.auth.currentUser.uid);
 
-      api.actions.boards.addItem(
-        new AddItemPayload(payload.groupUid, payload.boardUid, item),
-      );
+      api.actions.items.update(item);
       await newPostRef.set(serializers.serializeWith(Item.serializer, item));
     };
 
@@ -114,49 +143,36 @@ _createCategory(Refs refs) => (
       ActionHandler next,
       Action<CreateCategoryPayload> action,
     ) async {
-      var payload = action.payload;
-      var newPostRef = await refs.categories(payload.groupUid, payload.boardUid).push().future;
+      var boardUid = api.state.boards.currentUid;
+      var newPostRef = await refs.categories(boardUid).push().future;
       var key = newPostRef.key;
-
       var category = new Category((CategoryBuilder b) => b
-        ..order = 0
         ..uid = key
-        ..title = payload.title
-        ..color = payload.color);
+        ..boardUid = boardUid
+        ..title = action.payload.title
+        ..description = action.payload.description);
 
-      api.actions.boards.addCategory(
-        new AddCategoryPayload(payload.groupUid, payload.boardUid, category),
-      );
+      api.actions.categories.update(category);
       await newPostRef.set(serializers.serializeWith(Category.serializer, category));
     };
 
-_createGroup(Refs refs) => (
+_createSession(Refs refs) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
-      Action<CreateGroupPayload> action,
+      Action<CreateSessionPayload> action,
     ) async {
-      var newPostRef = await refs.groups().push().future;
+      var boardUid = api.state.boards.currentUid;
+      var newPostRef = await refs.sessions(boardUid).push().future;
       var key = newPostRef.key;
-
-      var allUsers = action.payload.users.toList()..add(api.state.auth.currentUser.uid);
-      var userMapBuilder = _keyListToBuiltMap(allUsers).toBuilder();
-
-      var group = new Group((GroupBuilder b) => b
+      var session = new Session((SessionBuilder b) => b
         ..uid = key
-        ..displayName = action.payload.displayName
-        ..description = action.payload.description
-        ..users = userMapBuilder);
+        ..boardUid = boardUid
+        ..targetTime = action.payload.targetTime
+        ..startDate = 0
+        ..endDate = 0);
 
-      api.actions.groups.updateGroup(group);
-      api.actions.groups.setCurrentGroup(group.uid);
-      await newPostRef.set(serializers.serializeWith(Group.serializer, group));
-
-      var newUser =
-          api.state.users.currentUser.rebuild((UserBuilder b) => b..groups[group.uid] = true);
-      api.actions.users.updateUser(newUser);
-      await refs.userGroups(newUser.uid).child(group.uid).set(true);
-
-      api.actions.ref.subToGroup(key);
+      api.actions.sessions.update(session);
+      await newPostRef.set(serializers.serializeWith(Session.serializer, session));
     };
 
 _createBoard(Refs refs) => (
@@ -164,24 +180,17 @@ _createBoard(Refs refs) => (
       ActionHandler next,
       Action<CreateBoardPayload> action,
     ) async {
-      var payload = action.payload;
-      var newPostRef = await refs.boardGroup(payload.groupUid).push().future;
+      var ownerUid = api.state.users.currentUid;
+      var newPostRef = await refs.boards().push().future;
       var key = newPostRef.key;
       var board = new Board((BoardBuilder b) => b
         ..uid = key
-        ..displayName = payload.displayName
-        ..description = payload.description
-        ..endDate = payload.endDate
-        ..startDate = payload.startDate
-        ..groupUid = api.state.groups.currentGroupUid);
+        ..ownerUid = ownerUid
+        ..title = action.payload.title
+        ..description = action.payload.description);
 
-      api.actions.boards.updateBoard(board);
+      api.actions.boards.update(board);
       await newPostRef.set(serializers.serializeWith(Board.serializer, board));
-
-      var newGroup =
-          api.state.groups.currentGroup.rebuild((GroupBuilder b) => b..boards[key] = true);
-      api.actions.groups.updateGroup(newGroup);
-      await refs.groupBoards(newGroup.uid).child(board.uid).set(true);
     };
 
 _createUser(Refs refs) => (
@@ -189,13 +198,12 @@ _createUser(Refs refs) => (
       ActionHandler next,
       Action<CreateUserPayload> action,
     ) async {
-      var payload = action.payload;
-      var newPostRef = await refs.user(payload.uid);
+      var newPostRef = await refs.users().push().future;
       var user = new User((UserBuilder b) => b
-        ..uid = payload.uid
-        ..displayName = payload.displayName);
+        ..uid = action.payload.uid
+        ..name = action.payload.name);
 
-      api.actions.users.updateUser(user);
+      api.actions.users.update(user);
       await newPostRef.set(serializers.serializeWith(User.serializer, user));
       api.actions.ref.subToUser(user.uid);
     };
