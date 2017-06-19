@@ -118,6 +118,9 @@ class _$Session extends Session {
   final int topicStartTime;
   @override
   final int topicEndTime;
+  bool __started;
+  bool __completed;
+  String __state;
   String __startTimeStr;
   String __endTimeStr;
   String __topicStartTimeStr;
@@ -146,6 +149,15 @@ class _$Session extends Session {
       throw new ArgumentError.notNull('topicStartTime');
     if (topicEndTime == null) throw new ArgumentError.notNull('topicEndTime');
   }
+
+  @override
+  bool get started => __started ??= super.started;
+
+  @override
+  bool get completed => __completed ??= super.completed;
+
+  @override
+  String get state => __state ??= super.state;
 
   @override
   String get startTimeStr => __startTimeStr ??= super.startTimeStr;

@@ -15,7 +15,6 @@ class _$AppActions extends AppActions {
   SessionsActions sessions = new SessionsActions();
   BoardsActions boards = new BoardsActions();
   UsersActions users = new UsersActions();
-  AuthActions auth = new AuthActions();
   ActionDispatcher<Null> clear = new ActionDispatcher<Null>('AppActions-clear');
   factory _$AppActions() => new _$AppActions._();
   _$AppActions._() : super._();
@@ -27,7 +26,6 @@ class _$AppActions extends AppActions {
     sessions.syncWithStore(dispatcher);
     boards.syncWithStore(dispatcher);
     users.syncWithStore(dispatcher);
-    auth.syncWithStore(dispatcher);
     clear.syncWithStore(dispatcher);
   }
 }
@@ -43,8 +41,6 @@ class AppActionsNames {
 
 class _$App extends App {
   @override
-  final Auth auth;
-  @override
   final Users users;
   @override
   final Boards boards;
@@ -56,20 +52,19 @@ class _$App extends App {
   final Items items;
   @override
   final Notes notes;
+  BuiltList<Session> __currentBoardSessions;
 
   factory _$App([void updates(AppBuilder b)]) =>
       (new AppBuilder()..update(updates)).build();
 
   _$App._(
-      {this.auth,
-      this.users,
+      {this.users,
       this.boards,
       this.sessions,
       this.categories,
       this.items,
       this.notes})
       : super._() {
-    if (auth == null) throw new ArgumentError.notNull('auth');
     if (users == null) throw new ArgumentError.notNull('users');
     if (boards == null) throw new ArgumentError.notNull('boards');
     if (sessions == null) throw new ArgumentError.notNull('sessions');
@@ -77,6 +72,10 @@ class _$App extends App {
     if (items == null) throw new ArgumentError.notNull('items');
     if (notes == null) throw new ArgumentError.notNull('notes');
   }
+
+  @override
+  BuiltList<Session> get currentBoardSessions =>
+      __currentBoardSessions ??= super.currentBoardSessions;
 
   @override
   App rebuild(void updates(AppBuilder b)) =>
@@ -89,8 +88,7 @@ class _$App extends App {
   bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
     if (other is! App) return false;
-    return auth == other.auth &&
-        users == other.users &&
+    return users == other.users &&
         boards == other.boards &&
         sessions == other.sessions &&
         categories == other.categories &&
@@ -103,9 +101,7 @@ class _$App extends App {
     return $jf($jc(
         $jc(
             $jc(
-                $jc(
-                    $jc($jc($jc(0, auth.hashCode), users.hashCode),
-                        boards.hashCode),
+                $jc($jc($jc(0, users.hashCode), boards.hashCode),
                     sessions.hashCode),
                 categories.hashCode),
             items.hashCode),
@@ -115,7 +111,6 @@ class _$App extends App {
   @override
   String toString() {
     return (newBuiltValueToStringHelper('App')
-          ..add('auth', auth)
           ..add('users', users)
           ..add('boards', boards)
           ..add('sessions', sessions)
@@ -128,10 +123,6 @@ class _$App extends App {
 
 class AppBuilder implements Builder<App, AppBuilder> {
   _$App _$v;
-
-  AuthBuilder _auth;
-  AuthBuilder get auth => _$this._auth ??= new AuthBuilder();
-  set auth(AuthBuilder auth) => _$this._auth = auth;
 
   UsersBuilder _users;
   UsersBuilder get users => _$this._users ??= new UsersBuilder();
@@ -163,7 +154,6 @@ class AppBuilder implements Builder<App, AppBuilder> {
 
   AppBuilder get _$this {
     if (_$v != null) {
-      _auth = _$v.auth?.toBuilder();
       _users = _$v.users?.toBuilder();
       _boards = _$v.boards?.toBuilder();
       _sessions = _$v.sessions?.toBuilder();
@@ -190,7 +180,6 @@ class AppBuilder implements Builder<App, AppBuilder> {
   _$App build() {
     final result = _$v ??
         new _$App._(
-            auth: auth?.build(),
             users: users?.build(),
             boards: boards?.build(),
             sessions: sessions?.build(),
@@ -215,6 +204,5 @@ class AppReduceChildren {
     state.sessions.reduce(state.sessions, a, builder.sessions);
     state.boards.reduce(state.boards, a, builder.boards);
     state.users.reduce(state.users, a, builder.users);
-    state.auth.reduce(state.auth, a, builder.auth);
   }
 }

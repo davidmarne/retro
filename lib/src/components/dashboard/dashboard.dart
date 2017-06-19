@@ -20,7 +20,7 @@ class DashboardComponent {
 
   DashboardComponent(StoreService storeService) : _store = storeService.store;
 
-  String get userName => _store.state.auth.currentUser.displayName;
+  String get userName => _store.state.users.current.name;
 
   // TODO: Put most recent board first
 

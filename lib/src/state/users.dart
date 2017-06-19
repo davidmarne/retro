@@ -44,6 +44,9 @@ abstract class Users extends BuiltReducer<Users, UsersBuilder>
 
   @memoized
   User get current => map[currentUid];
+
+  @memoized
+  bool get loggedIn => currentUid != "";
 }
 
 ////////////////////

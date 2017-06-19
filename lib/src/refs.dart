@@ -28,6 +28,10 @@ class Refs {
   firebase.DatabaseReference session(String boardUid, String sessionUid) =>
       _ref('sessions/$boardUid/$sessionUid');
 
+  /// [sessionBoards] is a ref to a sessions boards
+  firebase.DatabaseReference sessionCategories(String boardUid, String sessionUid) =>
+      _ref('sessions/$boardUid/$sessionUid/categories/');
+
   /// [categories] is a ref to all cetegories for a given board
   firebase.DatabaseReference categories(String boardUid) => _ref('categories/$boardUid/');
 

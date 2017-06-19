@@ -44,6 +44,7 @@ class _$Users extends Users {
   @override
   final String currentUid;
   User __current;
+  bool __loggedIn;
 
   factory _$Users([void updates(UsersBuilder b)]) =>
       (new UsersBuilder()..update(updates)).build();
@@ -55,6 +56,9 @@ class _$Users extends Users {
 
   @override
   User get current => __current ??= super.current;
+
+  @override
+  bool get loggedIn => __loggedIn ??= super.loggedIn;
 
   @override
   Users rebuild(void updates(UsersBuilder b)) =>

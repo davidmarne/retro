@@ -36,5 +36,5 @@ class BoardDashboardComponent implements OnInit {
 
   // TODO: Put most recent session first
 
-  Iterable<Session> get sessions => _store.state.sessions.map.values;
+  Iterable<Session> get sessions => _store.state.currentBoardSessions;
 }
