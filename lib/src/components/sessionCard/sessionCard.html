@@ -1,3 +1,6 @@
 <div class="box is-primary">
-  <a class="button is-white" [routerLink]="['Session', {'buid': session.boardUid, 'suid': session.uid}]">{{session.displayName}}</a>
+  <h3 class="title">{{session.title}}</h3>
+  <p>{{session.state}}</p>
+  <br>
+  <a class="button is-primary" [routerLink]="['Session', {'buid': session.boardUid, 'suid': session.uid}]">Go!</a>
 </div>

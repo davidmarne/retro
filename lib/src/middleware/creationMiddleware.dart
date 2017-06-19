@@ -6,6 +6,7 @@ import '../refs.dart';
 import '../state/app.dart';
 import '../models/session.dart';
 import '../models/category.dart';
+import '../models/dateIntervalKinds.dart';
 import '../models/item.dart';
 import '../models/note.dart';
 import '../models/board.dart';
@@ -44,7 +45,9 @@ class CreateUserPayload {
 class CreateBoardPayload {
   final String title;
   final String description;
-  CreateBoardPayload(this.title, this.description);
+  final int interval;
+  final DateIntervalKinds intervalKind;
+  CreateBoardPayload(this.title, this.description, this.interval, this.intervalKind);
 }
 
 class CreateSessionPayload {
@@ -166,8 +169,10 @@ _createSession(Refs refs) => (
         ..uid = key
         ..boardUid = boardUid
         ..targetTime = action.payload.targetTime
-        ..startDate = 0
-        ..endDate = 0);
+        ..startTime = 0
+        ..endTime = 0
+        ..topicStartTime = 0
+        ..topicEndTime = 0);
 
       api.actions.sessions.update(session);
       await newPostRef.set(serializers.serializeWith(Session.serializer, session));
@@ -185,10 +190,33 @@ _createBoard(Refs refs) => (
         ..uid = key
         ..ownerUid = ownerUid
         ..title = action.payload.title
-        ..description = action.payload.description);
+        ..description = action.payload.description
+        ..interval = action.payload.interval
+        ..intervalKind = action.payload.intervalKind.index);
 
-      newPostRef.set(serializers.serializeWith(Board.serializer, board));
-      refs
+      // persist the board
+      await newPostRef.set(serializers.serializeWith(Board.serializer, board));
+
+      // create the first session if it is a repeated board
+      if (action.payload.interval != 0) {
+        final now = new DateTime.now();
+        final topicStart = new DateTime(now.year, now.month, now.day);
+        final topicEnd =
+            addIntervalToTime(topicStart, action.payload.interval, action.payload.intervalKind);
+        final newSessRef = await refs.sessions(key).push().future;
+        final initialSession = new Session((SessionBuilder b) => b
+          ..uid = newSessRef.key
+          ..boardUid = key
+          ..title = '${dateFormat.format(topicStart)} - ${dateFormat.format(topicEnd)}'
+          ..targetTime = 3600000
+          ..startTime = 0
+          ..endTime = 0
+          ..topicStartTime = topicStart.millisecondsSinceEpoch
+          ..topicEndTime = topicEnd.millisecondsSinceEpoch);
+        await newSessRef.set(serializers.serializeWith(Session.serializer, initialSession));
+      }
+
+      await refs
           .userBoards(api.state.users.currentUid)
           .child(key)
           .set(new DateTime.now().millisecondsSinceEpoch);

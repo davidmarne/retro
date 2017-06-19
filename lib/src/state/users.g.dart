@@ -8,6 +8,9 @@ part of users;
 // **************************************************************************
 
 class _$UsersActions extends UsersActions {
+  ActionDispatcher<String> addBoardToCurrentUser =
+      new ActionDispatcher<String>('UsersActions-addBoardToCurrentUser');
+
   ActionDispatcher<String> setCurrent =
       new ActionDispatcher<String>('UsersActions-setCurrent');
 
@@ -16,12 +19,15 @@ class _$UsersActions extends UsersActions {
   factory _$UsersActions() => new _$UsersActions._();
   _$UsersActions._() : super._();
   syncWithStore(dispatcher) {
+    addBoardToCurrentUser.syncWithStore(dispatcher);
     setCurrent.syncWithStore(dispatcher);
     update.syncWithStore(dispatcher);
   }
 }
 
 class UsersActionsNames {
+  static ActionName addBoardToCurrentUser =
+      new ActionName<String>('UsersActions-addBoardToCurrentUser');
   static ActionName setCurrent =
       new ActionName<String>('UsersActions-setCurrent');
   static ActionName update = new ActionName<User>('UsersActions-update');

@@ -24,14 +24,23 @@ class _$SessionSerializer implements StructuredSerializer<Session> {
       'boardUid',
       serializers.serialize(object.boardUid,
           specifiedType: const FullType(String)),
+      'title',
+      serializers.serialize(object.title,
+          specifiedType: const FullType(String)),
       'targetTime',
       serializers.serialize(object.targetTime,
           specifiedType: const FullType(int)),
-      'startDate',
-      serializers.serialize(object.startDate,
+      'startTime',
+      serializers.serialize(object.startTime,
           specifiedType: const FullType(int)),
-      'endDate',
-      serializers.serialize(object.endDate, specifiedType: const FullType(int)),
+      'endTime',
+      serializers.serialize(object.endTime, specifiedType: const FullType(int)),
+      'topicStartTime',
+      serializers.serialize(object.topicStartTime,
+          specifiedType: const FullType(int)),
+      'topicEndTime',
+      serializers.serialize(object.topicEndTime,
+          specifiedType: const FullType(int)),
     ];
 
     return result;
@@ -56,16 +65,28 @@ class _$SessionSerializer implements StructuredSerializer<Session> {
           result.boardUid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'title':
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
         case 'targetTime':
           result.targetTime = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
-        case 'startDate':
-          result.startDate = serializers.deserialize(value,
+        case 'startTime':
+          result.startTime = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
-        case 'endDate':
-          result.endDate = serializers.deserialize(value,
+        case 'endTime':
+          result.endTime = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'topicStartTime':
+          result.topicStartTime = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'topicEndTime':
+          result.topicEndTime = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
       }
@@ -86,32 +107,58 @@ class _$Session extends Session {
   @override
   final String boardUid;
   @override
+  final String title;
+  @override
   final int targetTime;
   @override
-  final int startDate;
+  final int startTime;
   @override
-  final int endDate;
-  String __startDateStr;
-  String __endDateStr;
+  final int endTime;
+  @override
+  final int topicStartTime;
+  @override
+  final int topicEndTime;
+  String __startTimeStr;
+  String __endTimeStr;
+  String __topicStartTimeStr;
+  String __topicEndTimeStr;
 
   factory _$Session([void updates(SessionBuilder b)]) =>
       (new SessionBuilder()..update(updates)).build();
 
   _$Session._(
-      {this.uid, this.boardUid, this.targetTime, this.startDate, this.endDate})
+      {this.uid,
+      this.boardUid,
+      this.title,
+      this.targetTime,
+      this.startTime,
+      this.endTime,
+      this.topicStartTime,
+      this.topicEndTime})
       : super._() {
     if (uid == null) throw new ArgumentError.notNull('uid');
     if (boardUid == null) throw new ArgumentError.notNull('boardUid');
+    if (title == null) throw new ArgumentError.notNull('title');
     if (targetTime == null) throw new ArgumentError.notNull('targetTime');
-    if (startDate == null) throw new ArgumentError.notNull('startDate');
-    if (endDate == null) throw new ArgumentError.notNull('endDate');
+    if (startTime == null) throw new ArgumentError.notNull('startTime');
+    if (endTime == null) throw new ArgumentError.notNull('endTime');
+    if (topicStartTime == null)
+      throw new ArgumentError.notNull('topicStartTime');
+    if (topicEndTime == null) throw new ArgumentError.notNull('topicEndTime');
   }
 
   @override
-  String get startDateStr => __startDateStr ??= super.startDateStr;
+  String get startTimeStr => __startTimeStr ??= super.startTimeStr;
 
   @override
-  String get endDateStr => __endDateStr ??= super.endDateStr;
+  String get endTimeStr => __endTimeStr ??= super.endTimeStr;
+
+  @override
+  String get topicStartTimeStr =>
+      __topicStartTimeStr ??= super.topicStartTimeStr;
+
+  @override
+  String get topicEndTimeStr => __topicEndTimeStr ??= super.topicEndTimeStr;
 
   @override
   Session rebuild(void updates(SessionBuilder b)) =>
@@ -126,19 +173,28 @@ class _$Session extends Session {
     if (other is! Session) return false;
     return uid == other.uid &&
         boardUid == other.boardUid &&
+        title == other.title &&
         targetTime == other.targetTime &&
-        startDate == other.startDate &&
-        endDate == other.endDate;
+        startTime == other.startTime &&
+        endTime == other.endTime &&
+        topicStartTime == other.topicStartTime &&
+        topicEndTime == other.topicEndTime;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc(0, uid.hashCode), boardUid.hashCode),
-                targetTime.hashCode),
-            startDate.hashCode),
-        endDate.hashCode));
+            $jc(
+                $jc(
+                    $jc(
+                        $jc($jc($jc(0, uid.hashCode), boardUid.hashCode),
+                            title.hashCode),
+                        targetTime.hashCode),
+                    startTime.hashCode),
+                endTime.hashCode),
+            topicStartTime.hashCode),
+        topicEndTime.hashCode));
   }
 
   @override
@@ -146,9 +202,12 @@ class _$Session extends Session {
     return (newBuiltValueToStringHelper('Session')
           ..add('uid', uid)
           ..add('boardUid', boardUid)
+          ..add('title', title)
           ..add('targetTime', targetTime)
-          ..add('startDate', startDate)
-          ..add('endDate', endDate))
+          ..add('startTime', startTime)
+          ..add('endTime', endTime)
+          ..add('topicStartTime', topicStartTime)
+          ..add('topicEndTime', topicEndTime))
         .toString();
   }
 }
@@ -164,17 +223,30 @@ class SessionBuilder implements Builder<Session, SessionBuilder> {
   String get boardUid => _$this._boardUid;
   set boardUid(String boardUid) => _$this._boardUid = boardUid;
 
+  String _title;
+  String get title => _$this._title;
+  set title(String title) => _$this._title = title;
+
   int _targetTime;
   int get targetTime => _$this._targetTime;
   set targetTime(int targetTime) => _$this._targetTime = targetTime;
 
-  int _startDate;
-  int get startDate => _$this._startDate;
-  set startDate(int startDate) => _$this._startDate = startDate;
+  int _startTime;
+  int get startTime => _$this._startTime;
+  set startTime(int startTime) => _$this._startTime = startTime;
 
-  int _endDate;
-  int get endDate => _$this._endDate;
-  set endDate(int endDate) => _$this._endDate = endDate;
+  int _endTime;
+  int get endTime => _$this._endTime;
+  set endTime(int endTime) => _$this._endTime = endTime;
+
+  int _topicStartTime;
+  int get topicStartTime => _$this._topicStartTime;
+  set topicStartTime(int topicStartTime) =>
+      _$this._topicStartTime = topicStartTime;
+
+  int _topicEndTime;
+  int get topicEndTime => _$this._topicEndTime;
+  set topicEndTime(int topicEndTime) => _$this._topicEndTime = topicEndTime;
 
   SessionBuilder();
 
@@ -182,9 +254,12 @@ class SessionBuilder implements Builder<Session, SessionBuilder> {
     if (_$v != null) {
       _uid = _$v.uid;
       _boardUid = _$v.boardUid;
+      _title = _$v.title;
       _targetTime = _$v.targetTime;
-      _startDate = _$v.startDate;
-      _endDate = _$v.endDate;
+      _startTime = _$v.startTime;
+      _endTime = _$v.endTime;
+      _topicStartTime = _$v.topicStartTime;
+      _topicEndTime = _$v.topicEndTime;
       _$v = null;
     }
     return this;
@@ -207,9 +282,12 @@ class SessionBuilder implements Builder<Session, SessionBuilder> {
         new _$Session._(
             uid: uid,
             boardUid: boardUid,
+            title: title,
             targetTime: targetTime,
-            startDate: startDate,
-            endDate: endDate);
+            startTime: startTime,
+            endTime: endTime,
+            topicStartTime: topicStartTime,
+            topicEndTime: topicEndTime);
     replace(result);
     return result;
   }

@@ -6,7 +6,9 @@
             "owner": "$uid",
             "members": {
                 "$uid(user)": 123456789 // user's last activity
-            }
+            },
+            "interval": 123456789, // the interval on which new boards are automatically created. 0 if board doesnt repeated
+            "intervalKind": 123456789,
         }
     },
     "join-board-request": {
@@ -17,20 +19,25 @@
     "sessions": {
         "$uid(board)": { // permission granted based on user's access to board
             "$uid(session)": {
+                "title": "title",
                 "categories": {
                     "$uid(category)": 1 // uid and order of the included category
                 },
                 "targetTime": 3600, // duration members hope to limit the retro to.
-                "startDate": 123456789, // presentation start timestamp
-                "endDate": 123456789 // presentation end timestamp
+                "startTime": 123456789, // presentation start timestamp
+                "endTime": 123456789, // presentation end timestamp
+                "topicStartTime": 123456789,
+                "topicEndTime": 123456789,
             }
         }
     },
     "categories": {
         "$uid(board)": {
-            "$uid(category)" : {
-                "title": "title",
-                "description": "description"
+            "$uid(session)": {
+                "$uid(category)" : {
+                    "title": "title",
+                    "description": "description"
+                }
             }
         }
     },
