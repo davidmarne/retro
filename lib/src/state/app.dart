@@ -2,14 +2,15 @@ library app;
 
 import 'package:built_value/built_value.dart';
 import 'package:built_redux/built_redux.dart';
+import 'package:built_collection/built_collection.dart';
 
-import './auth.dart';
 import './users.dart';
 import './boards.dart';
 import './sessions.dart';
 import './categories.dart';
 import './items.dart';
 import './notes.dart';
+import '../models/session.dart';
 
 import '../middleware/creationMiddleware.dart';
 
@@ -23,7 +24,6 @@ part 'app.g.dart';
 abstract class AppActions extends ReduxActions {
   ActionDispatcher<Null> clear;
 
-  AuthActions auth;
   UsersActions users;
   BoardsActions boards;
   SessionsActions sessions;
@@ -46,9 +46,6 @@ abstract class AppActions extends ReduxActions {
 abstract class App extends BuiltReducer<App, AppBuilder>
     with AppReduceChildren
     implements Built<App, AppBuilder> {
-  /// [auth]
-  Auth get auth;
-
   /// [users]
   Users get users;
 
@@ -77,13 +74,20 @@ abstract class App extends BuiltReducer<App, AppBuilder>
   // Built value boilerplate
   App._();
   factory App([updates(AppBuilder b)]) => new _$App((AppBuilder b) => b
-    ..auth = new Auth().toBuilder()
     ..users = new Users().toBuilder()
     ..boards = new Boards().toBuilder()
     ..sessions = new Sessions().toBuilder()
     ..categories = new Categories().toBuilder()
     ..items = new Items().toBuilder()
     ..notes = new Notes().toBuilder());
+
+  // TODO: do this or clear sessions everytime current board changes?
+  @memoized
+  BuiltList<Session> get currentBoardSessions => new BuiltList<Session>(
+        sessions.map.values.where(
+          (Session s) => s.boardUid == boards.currentUid,
+        ),
+      );
 }
 
 ////////////////////
@@ -98,7 +102,6 @@ var _reducer =
 ///////////////////
 
 _clear(App state, Action<Null> action, AppBuilder builder) => builder
-  ..auth = new Auth().toBuilder()
   ..users = new Users().toBuilder()
   ..boards = new Boards().toBuilder()
   ..sessions = new Sessions().toBuilder()

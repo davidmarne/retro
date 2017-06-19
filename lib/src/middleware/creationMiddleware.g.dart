@@ -25,9 +25,6 @@ class _$CreationMiddlewareActions extends CreationMiddlewareActions {
   ActionDispatcher<CreateBoardPayload> board =
       new ActionDispatcher<CreateBoardPayload>(
           'CreationMiddlewareActions-board');
-
-  ActionDispatcher<CreateUserPayload> user =
-      new ActionDispatcher<CreateUserPayload>('CreationMiddlewareActions-user');
   factory _$CreationMiddlewareActions() => new _$CreationMiddlewareActions._();
   _$CreationMiddlewareActions._() : super._();
   syncWithStore(dispatcher) {
@@ -36,7 +33,6 @@ class _$CreationMiddlewareActions extends CreationMiddlewareActions {
     category.syncWithStore(dispatcher);
     session.syncWithStore(dispatcher);
     board.syncWithStore(dispatcher);
-    user.syncWithStore(dispatcher);
   }
 }
 
@@ -51,6 +47,4 @@ class CreationMiddlewareActionsNames {
       new ActionName<CreateSessionPayload>('CreationMiddlewareActions-session');
   static ActionName board =
       new ActionName<CreateBoardPayload>('CreationMiddlewareActions-board');
-  static ActionName user =
-      new ActionName<CreateUserPayload>('CreationMiddlewareActions-user');
 }

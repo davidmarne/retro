@@ -7,6 +7,7 @@ import 'package:firebase/firebase.dart' as firebase;
 import './state/app.dart';
 import './refs.dart';
 import './streamSubManager.dart';
+import './firebaseClient.dart';
 import './middleware/creationMiddleware.dart';
 import './middleware/refMiddleware.dart';
 import './middleware/loggingMiddleware.dart';
@@ -14,6 +15,7 @@ import './middleware/loggingMiddleware.dart';
 @Injectable()
 class StoreService {
   Store<App, AppBuilder, AppActions> store;
+  FirebaseClient _client;
 
   final firebase.App _firebaseApp;
   final firebase.GoogleAuthProvider _firebaseGoogleAuthProvider;
@@ -33,11 +35,12 @@ class StoreService {
         _firebaseDatabase = firebase.database() {
     _firebaseAuth.onAuthStateChanged.listen(_authChanged);
 
-    var refs = new Refs(_firebaseDatabase);
-    store = new Store<App, AppBuilder, AppActions>(new App(), new AppActions(), middleware: [
+    var actions = new AppActions();
+    _client = new FirebaseClient(new Refs(_firebaseDatabase), new StreamSubManager(), actions);
+    store = new Store<App, AppBuilder, AppActions>(new App(), actions, middleware: [
       loggingMiddleware,
-      createRefMiddleware(new StreamSubManager(), refs),
-      createCreationMiddleware(refs),
+      createRefMiddleware(_client),
+      createCreationMiddleware(_client),
     ]);
   }
 
@@ -57,11 +60,14 @@ class StoreService {
     _firebaseAuth.signOut();
   }
 
-  void _authChanged(firebase.AuthEvent e) {
+  Future _authChanged(firebase.AuthEvent e) async {
     if (e.user == null) {
       store.actions.clear(null);
-    } else {
-      store.actions.auth.logIn(e.user);
+      return;
     }
+
+    final user = await _client.userFromFirebaseUser(e.user);
+    store.actions.users.update(user);
+    store.actions.users.setCurrent(user.uid);
   }
 }

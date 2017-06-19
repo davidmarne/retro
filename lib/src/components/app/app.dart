@@ -34,7 +34,7 @@ class AppComponent {
 
   AppComponent(StoreService storeService) : _storeService = storeService;
 
-  bool get loggedIn => _storeService.store.state.auth.loggedIn;
+  bool get loggedIn => _storeService.store.state.users.loggedIn;
 
   logIn() => _storeService.signIn();
 
