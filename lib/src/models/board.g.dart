@@ -34,6 +34,12 @@ class _$BoardSerializer implements StructuredSerializer<Board> {
       'description',
       serializers.serialize(object.description,
           specifiedType: const FullType(String)),
+      'interval',
+      serializers.serialize(object.interval,
+          specifiedType: const FullType(int)),
+      'intervalKind',
+      serializers.serialize(object.intervalKind,
+          specifiedType: const FullType(int)),
     ];
 
     return result;
@@ -73,6 +79,14 @@ class _$BoardSerializer implements StructuredSerializer<Board> {
           result.description = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'interval':
+          result.interval = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'intervalKind':
+          result.intervalKind = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
       }
     }
 
@@ -96,19 +110,35 @@ class _$Board extends Board {
   final String title;
   @override
   final String description;
+  @override
+  final int interval;
+  @override
+  final int intervalKind;
+  bool __repeated;
 
   factory _$Board([void updates(BoardBuilder b)]) =>
       (new BoardBuilder()..update(updates)).build();
 
   _$Board._(
-      {this.uid, this.ownerUid, this.memberUids, this.title, this.description})
+      {this.uid,
+      this.ownerUid,
+      this.memberUids,
+      this.title,
+      this.description,
+      this.interval,
+      this.intervalKind})
       : super._() {
     if (uid == null) throw new ArgumentError.notNull('uid');
     if (ownerUid == null) throw new ArgumentError.notNull('ownerUid');
     if (memberUids == null) throw new ArgumentError.notNull('memberUids');
     if (title == null) throw new ArgumentError.notNull('title');
     if (description == null) throw new ArgumentError.notNull('description');
+    if (interval == null) throw new ArgumentError.notNull('interval');
+    if (intervalKind == null) throw new ArgumentError.notNull('intervalKind');
   }
+
+  @override
+  bool get repeated => __repeated ??= super.repeated;
 
   @override
   Board rebuild(void updates(BoardBuilder b)) =>
@@ -125,17 +155,23 @@ class _$Board extends Board {
         ownerUid == other.ownerUid &&
         memberUids == other.memberUids &&
         title == other.title &&
-        description == other.description;
+        description == other.description &&
+        interval == other.interval &&
+        intervalKind == other.intervalKind;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc(0, uid.hashCode), ownerUid.hashCode),
-                memberUids.hashCode),
-            title.hashCode),
-        description.hashCode));
+            $jc(
+                $jc(
+                    $jc($jc($jc(0, uid.hashCode), ownerUid.hashCode),
+                        memberUids.hashCode),
+                    title.hashCode),
+                description.hashCode),
+            interval.hashCode),
+        intervalKind.hashCode));
   }
 
   @override
@@ -145,7 +181,9 @@ class _$Board extends Board {
           ..add('ownerUid', ownerUid)
           ..add('memberUids', memberUids)
           ..add('title', title)
-          ..add('description', description))
+          ..add('description', description)
+          ..add('interval', interval)
+          ..add('intervalKind', intervalKind))
         .toString();
   }
 }
@@ -175,6 +213,14 @@ class BoardBuilder implements Builder<Board, BoardBuilder> {
   String get description => _$this._description;
   set description(String description) => _$this._description = description;
 
+  int _interval;
+  int get interval => _$this._interval;
+  set interval(int interval) => _$this._interval = interval;
+
+  int _intervalKind;
+  int get intervalKind => _$this._intervalKind;
+  set intervalKind(int intervalKind) => _$this._intervalKind = intervalKind;
+
   BoardBuilder();
 
   BoardBuilder get _$this {
@@ -184,6 +230,8 @@ class BoardBuilder implements Builder<Board, BoardBuilder> {
       _memberUids = _$v.memberUids?.toBuilder();
       _title = _$v.title;
       _description = _$v.description;
+      _interval = _$v.interval;
+      _intervalKind = _$v.intervalKind;
       _$v = null;
     }
     return this;
@@ -208,7 +256,9 @@ class BoardBuilder implements Builder<Board, BoardBuilder> {
             ownerUid: ownerUid,
             memberUids: memberUids?.build(),
             title: title,
-            description: description);
+            description: description,
+            interval: interval,
+            intervalKind: intervalKind);
     replace(result);
     return result;
   }

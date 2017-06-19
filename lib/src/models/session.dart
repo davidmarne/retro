@@ -7,7 +7,8 @@ import 'package:built_value/serializer.dart';
 
 part 'session.g.dart';
 
-final formatter = new DateFormat.yMMMMd("en_US");
+final timeFormat = new DateFormat.Hm("en_US");
+final dateFormat = new DateFormat.yMMMMd("en_US");
 
 /// [Session]
 abstract class Session implements Built<Session, SessionBuilder> {
@@ -17,19 +18,46 @@ abstract class Session implements Built<Session, SessionBuilder> {
 
   String get boardUid;
 
+  String get title;
+
   int get targetTime;
 
-  int get startDate;
+  int get startTime;
 
-  int get endDate;
+  int get endTime;
+
+  int get topicStartTime;
+
+  int get topicEndTime;
 
   // Built value boilerplate
   Session._();
   factory Session([updates(SessionBuilder b)]) = _$Session;
 
   @memoized
-  String get startDateStr => formatter.format(new DateTime.fromMillisecondsSinceEpoch(startDate));
+  bool get started => startTime != 0;
 
   @memoized
-  String get endDateStr => formatter.format(new DateTime.fromMillisecondsSinceEpoch(endDate));
+  bool get completed => endTime != 0;
+
+  @memoized
+  String get state {
+    if (!started) return "Not Started";
+    if (started && !completed) return "In Progress";
+    return "Complete";
+  }
+
+  @memoized
+  String get startTimeStr => timeFormat.format(new DateTime.fromMillisecondsSinceEpoch(startTime));
+
+  @memoized
+  String get endTimeStr => timeFormat.format(new DateTime.fromMillisecondsSinceEpoch(endTime));
+
+  @memoized
+  String get topicStartTimeStr =>
+      dateFormat.format(new DateTime.fromMillisecondsSinceEpoch(topicStartTime));
+
+  @memoized
+  String get topicEndTimeStr =>
+      dateFormat.format(new DateTime.fromMillisecondsSinceEpoch(topicEndTime));
 }

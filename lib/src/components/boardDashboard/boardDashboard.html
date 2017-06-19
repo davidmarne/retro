@@ -1,25 +1,27 @@
-<section class="hero is-primary">
-  <div class="hero-body">
+<div *ngIf="board != null">
+  <section class="hero is-primary">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">Pick a Session</h1>
+        <h2 class="subtitle">Be nice to your friends :)</h2>
+      </div>
+    </div>
+  </section>
+  <section class="section">
     <div class="container">
-      <h1 class="title">Pick a Session</h1>
-      <h2 class="subtitle">Be nice to your friends :)</h2>
-    </div>
-  </div>
-</section>
-<section class="section">
-  <div class="container">
-    <div class="columns is-mobile">
-      <div class="column is-one-half-desktop">
-        <session-create></session-create>
+      <div *ngIf="!board.repeated" class="columns is-mobile">
+        <div class="column is-one-half-desktop">
+          <session-create></session-create>
+        </div>
+        <!--<div *ngIf="mostRecentBoard != null" class="column is-one-half-desktop">
+            <board-card [board]="mostRecentBoard"></board-card>
+        </div>-->
       </div>
-      <!--<div *ngIf="mostRecentBoard != null" class="column is-one-half-desktop">
-          <board-card [board]="mostRecentBoard"></board-card>
-      </div>-->
-    </div>
-    <div class="columns is-multiline is-mobile">
-      <div *ngFor="let session of sessions" class="column is-half-tablet is-one-third-desktop">
-          <session-card [session]="session"></session-card>
+      <div class="columns is-multiline is-mobile">
+        <div *ngFor="let session of sessions" class="column is-half-tablet is-one-third-desktop">
+            <session-card [session]="session"></session-card>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
