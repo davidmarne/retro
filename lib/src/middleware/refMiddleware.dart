@@ -84,7 +84,7 @@ _onUpdateSession(FirebaseClient client) => (
         final boardUid = currentSession.boardUid;
         final sessionUid = currentSession.uid;
         client.subToItems(boardUid, sessionUid);
-        client.subToCategories(boardUid);
+        client.subToCategories(boardUid, sessionUid);
         client.subToNotes(boardUid, sessionUid);
       }
     };
