@@ -18,17 +18,11 @@ abstract class Session implements Built<Session, SessionBuilder> {
 
   String get boardUid;
 
-  String get title;
-
   int get targetTime;
 
   int get startTime;
 
   int get endTime;
-
-  int get topicStartTime;
-
-  int get topicEndTime;
 
   // Built value boilerplate
   Session._();
@@ -52,12 +46,4 @@ abstract class Session implements Built<Session, SessionBuilder> {
 
   @memoized
   String get endTimeStr => timeFormat.format(new DateTime.fromMillisecondsSinceEpoch(endTime));
-
-  @memoized
-  String get topicStartTimeStr =>
-      dateFormat.format(new DateTime.fromMillisecondsSinceEpoch(topicStartTime));
-
-  @memoized
-  String get topicEndTimeStr =>
-      dateFormat.format(new DateTime.fromMillisecondsSinceEpoch(topicEndTime));
 }

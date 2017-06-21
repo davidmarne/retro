@@ -47,13 +47,12 @@ class FirebaseClient {
     String description,
   ) async {
     var category = await _createCategory(boardUid, sessionUid, title, description);
-    _addCategoryToSession(category.uid, boardUid, sessionUid);
     return category;
   }
 
   /// [createSession] creates a session
-  Future<Session> createSession(String boardUid, String title, int targetTime) =>
-      _createSession(boardUid, title, targetTime: targetTime);
+  Future<Session> createSession(String boardUid, int targetTime) =>
+      _createSession(boardUid, targetTime: targetTime);
 
   /// [userFromFirebaseUser] gets a user
   Future<User> userFromFirebaseUser(firebase.User fbUser) async {
@@ -136,9 +135,9 @@ class FirebaseClient {
   }
 
   /// [subToCategories] subscribes to categories
-  subToCategories(String boardUid) {
+  subToCategories(String boardUid, String sessionUid) {
     _subMgr.addList<Category>(
-      _refs.categories(boardUid),
+      _refs.categories(boardUid, sessionUid),
       Category.serializer,
       onChildAdded: _actions.categories.update,
       onChildRemoved: _actions.categories.remove,
@@ -208,10 +207,11 @@ class FirebaseClient {
     String title,
     String description,
   ) async {
-    final newCategoryRef = await _refs.categories(boardUid).push().future;
+    final newCategoryRef = await _refs.categories(boardUid, sessionUid).push().future;
     final category = new Category((CategoryBuilder b) => b
       ..uid = newCategoryRef.key
       ..boardUid = boardUid
+      ..sessiondUid = sessionUid
       ..title = title
       ..description = description);
 
@@ -220,22 +220,18 @@ class FirebaseClient {
   }
 
   Future<Session> _createSession(
-    String boardUid,
-    String title, {
+    String boardUid, {
     int targetTime: 3600000,
-    int topicStartTime: 0,
-    int topicEndTime: 0,
+    int startTime: 0,
+    int endTime: 0,
   }) async {
     final newSessionRef = await _refs.sessions(boardUid).push().future;
     final session = new Session((SessionBuilder b) => b
       ..uid = newSessionRef.key
       ..boardUid = boardUid
-      ..title = title
       ..targetTime = targetTime
-      ..startTime = 0
-      ..endTime = 0
-      ..topicStartTime = topicStartTime
-      ..topicEndTime = topicEndTime);
+      ..startTime = startTime
+      ..endTime = endTime);
 
     newSessionRef.set(serializers.serializeWith(Session.serializer, session));
     return session;
@@ -281,20 +277,11 @@ class FirebaseClient {
     final topicEnd = addIntervalToTime(topicStart, interval, intervalKind);
     return _createSession(
       boardUid,
-      '${dateFormat.format(topicStart)} - ${dateFormat.format(topicEnd)}',
-      topicStartTime: topicStart.millisecondsSinceEpoch,
-      topicEndTime: topicEnd.millisecondsSinceEpoch,
+      startTime: topicStart.millisecondsSinceEpoch,
+      endTime: topicEnd.millisecondsSinceEpoch,
     );
   }
 
   Future _addBoardToUser(String boardUid, String userUid) =>
       _refs.userBoards(userUid).child(boardUid).set(new DateTime.now().millisecondsSinceEpoch);
-
-  // Future _addUserToBoard(String userUid, String boardUid) {}
-  //
-  Future _addCategoryToSession(String categoryUid, String boardUid, String sessionUid) =>
-      _refs.sessionCategories(boardUid, sessionUid).child(categoryUid).set(true);
-
-  //
-  // Future _addNoteToItem(String noteUid, String boardUid, String sessionUid) {}
 }

@@ -14,6 +14,8 @@ abstract class Category implements Built<Category, CategoryBuilder> {
 
   String get boardUid;
 
+  String get sessiondUid;
+
   String get title;
 
   String get description;

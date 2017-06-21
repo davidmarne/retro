@@ -38,8 +38,7 @@ class CreateBoardPayload {
 
 class CreateSessionPayload {
   final int targetTime;
-  final String title;
-  CreateSessionPayload(this.targetTime, this.title);
+  CreateSessionPayload(this.targetTime);
 }
 
 class CreateCategoryPayload {
@@ -123,7 +122,6 @@ _createSession(FirebaseClient client) => (
     ) =>
         client.createSession(
           api.state.boards.currentUid,
-          action.payload.title,
           action.payload.targetTime,
         );
 

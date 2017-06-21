@@ -25,10 +25,10 @@ class StoreService {
   // Create a Redux store holding the state of the app.
   StoreService()
       : _firebaseApp = firebase.initializeApp(
-          apiKey: "AIzaSyAszXxustWHyeX6s4-JVQga-mF9kMDpfUU",
-          authDomain: "retro-ff0c4.firebaseapp.com",
-          databaseURL: "https://retro-ff0c4.firebaseio.com",
-          storageBucket: "retro-ff0c4.appspot.com",
+          apiKey: "AIzaSyDaBXYly0o2WF9v_MT3uiSkObyyAZ8aBJ0",
+          authDomain: "dart-board.firebaseapp.com",
+          databaseURL: "https://dart-board.firebaseio.com",
+          storageBucket: "dart-board.appspot.com",
         ),
         _firebaseGoogleAuthProvider = new firebase.GoogleAuthProvider(),
         _firebaseAuth = firebase.auth(),

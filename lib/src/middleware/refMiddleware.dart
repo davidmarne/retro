@@ -78,10 +78,9 @@ _onSetCurrentSession(FirebaseClient client) => (
       // TODO: unsub from old session?
 
       next(action);
-      final currentSession = api.state.sessions.current;
-      final boardUid = currentSession.boardUid;
-      final sessionUid = currentSession.uid;
+      final boardUid = api.state.boards.currentUid;
+      final sessionUid = api.state.sessions.currentUid;
+      client.subToCategories(boardUid, sessionUid);
       client.subToItems(boardUid, sessionUid);
-      client.subToCategories(boardUid);
       client.subToNotes(boardUid, sessionUid);
     };

@@ -3,7 +3,7 @@
   <section class="hero is-primary">
     <div class="hero-body">
       <div class="container">
-        <h1 class="title">{{board.displayName}}</h1>
+        <h1 class="title">{{board.title}}</h1>
         <h2 class="subtitle">{{board.description}}</h2>
       </div>
     </div>
@@ -16,10 +16,7 @@
           <div class="level-item">
             <div class="field has-addons">
               <p class="control">
-                <input class="input" type="text" placeholder="Create a Category" [(ngModel)]="categoryCreationValue">
-              </p>
-              <p class="control">
-                <input class="input" type="color" [(ngModel)]="creationColor">
+                <input class="input" type="text" placeholder="Create a Category" [(ngModel)]="categoryCreationTitle">
               </p>
               <p class="control">
                 <a class="button" (click)="resetCategoryCreation()">Cancel</a>
@@ -57,7 +54,7 @@
   </section>
 
 
-  <div *ngFor="let category of board.categories.values">
+  <div *ngFor="let category of categories">
     <section class="section">
       <div class="container">
         <h1 class="title">{{category.title}}</h1>

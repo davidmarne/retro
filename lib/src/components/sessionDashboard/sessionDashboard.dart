@@ -50,6 +50,8 @@ class SessionDashboardComponent implements OnInit {
   Iterable<Item> get items => _store.state.items.map.values;
 
   Iterable<Note> get notes => _store.state.notes.map.values;
+  
+  Iterable<Item> itemsForCategory(Category category) => items.where((item) => item.categoryUid == category.uid);
 
   // showingNotes bound to Show Notes button
   bool showingNotes = false;

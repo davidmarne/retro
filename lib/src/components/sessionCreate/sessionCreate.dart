@@ -19,7 +19,7 @@ class SessionCreateComponent {
   int targetTimeMinutes;
 
   void submit() {
-    _store.actions.creation.session(new CreateSessionPayload(targetTimeMinutes*60, null));
+    _store.actions.creation.session(new CreateSessionPayload(targetTimeMinutes*60));
     resetForm();
   }
 
