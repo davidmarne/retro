@@ -1,0 +1,25 @@
+<div class="box">
+  <label class="label">Create a Category</label>
+
+  <div class="field">
+    <p class="control">
+      <input [(ngModel)]="title" type="text" class="input" placeholder="Title">
+    </p>
+  </div>
+
+  <div class="field">
+    <p class="control">
+      <textarea [(ngModel)]="description" class="textarea" placeholder="Description"></textarea>
+    </p>
+  </div>
+
+  <div class="field is-grouped">
+    <p class="control">
+      <a class="button is-primary" (click)="addCategory()">Create</a>
+    </p>
+    <p class="control">
+      <a class="button is-primary" (click)="resetCategoryForm()">Cancel</a>
+    </p>
+  </div>
+
+</div>

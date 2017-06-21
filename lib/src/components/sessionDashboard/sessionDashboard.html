@@ -11,45 +11,14 @@
 
   <section>
     <div class="container">
-      <nav class="level">
-        <div class="level-left">
-          <div class="level-item">
-            <div class="field has-addons">
-              <p class="control">
-                <input class="input" type="text" placeholder="Create a Category" [(ngModel)]="categoryCreationTitle">
-              </p>
-              <p class="control">
-                <a class="button" (click)="resetCategoryCreation()">Cancel</a>
-              </p>
-              <p class="control">
-                <a class="button is-primary" (click)="sumbitCategoryCreation()">Create</a>
-              </p>
-            </div>
-          </div>
+      <div class="columns is-multiline is-mobile">
+        <div class="column is-one-half-desktop">
+            <category-create></category-create>
         </div>
-
-        <div class="tabs is-toggle is-pulled-right" >
-          <ul>
-            <li class="is-active">
-              <a>
-                <span>Category</span>
-              </a>
-            </li>
-            <li>
-              <a>
-                <span>Random</span>
-              </a>
-            </li>
-            <li
-              (click)="toggleShowingNotes()"
-              [ngClass]="{'is-active': showingNotes}">
-              <a>
-                <span>Show Notes</span>
-              </a>
-            </li>
-          </ul>
+        <div class="column is-one-half-desktop">
+            <note-create></note-create>
         </div>
-      </nav>
+      </div>
     </div>
   </section>
 
