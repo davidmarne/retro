@@ -4,7 +4,8 @@ import 'package:built_redux/built_redux.dart';
 
 import '../itemCard/itemCard.dart';
 import '../itemCreate/itemCreate.dart';
-import '../../middleware/creationMiddleware.dart';
+import '../categoryCreate/categoryCreate.dart';
+import '../noteCreate/noteCreate.dart';
 import '../../models/board.dart';
 import '../../models/session.dart';
 
@@ -20,6 +21,8 @@ import '../../store.dart';
   templateUrl: 'sessionDashboard.html',
   directives: const [
     ROUTER_DIRECTIVES,
+    CategoryCreateComponent,
+    NoteCreateComponent,
     ItemCreateComponent,
     ItemCardComponent,
   ],
@@ -44,7 +47,6 @@ class SessionDashboardComponent implements OnInit {
 
   Session get session => _store.state.sessions.current;
 
-  // TODO: filter down to only categories for the current session.
   Iterable<Category> get categories => _store.state.categories.map.values;
 
   Iterable<Item> get items => _store.state.items.map.values;
@@ -53,25 +55,8 @@ class SessionDashboardComponent implements OnInit {
 
   // showingNotes bound to Show Notes button
   bool showingNotes = false;
-  
+
   void toggleShowingNotes() {
     showingNotes = !showingNotes;
-  }
-
-  // creation value bound to category create input
-  String categoryCreationTitle = "";
-
-  String categoryCreationDescription = "";
-
-  void sumbitCategoryCreation() {
-    _store.actions.creation.category(
-      new CreateCategoryPayload(categoryCreationTitle, categoryCreationDescription, 0),
-    );
-    resetCategoryCreation();
-  }
-
-  void resetCategoryCreation() {
-    categoryCreationTitle = "";
-    categoryCreationDescription = "";
   }
 }

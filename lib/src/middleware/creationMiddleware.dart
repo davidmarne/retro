@@ -45,8 +45,7 @@ class CreateSessionPayload {
 class CreateCategoryPayload {
   final String title;
   final String description;
-  final int order;
-  CreateCategoryPayload(this.title, this.description, this.order);
+  CreateCategoryPayload(this.title, this.description);
 }
 
 class CreateItemPayload {
