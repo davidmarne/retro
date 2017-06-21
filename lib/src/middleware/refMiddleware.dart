@@ -7,6 +7,7 @@ import '../state/sessions.dart';
 import '../firebaseClient.dart';
 import '../models/user.dart';
 import '../models/board.dart';
+import '../models/session.dart';
 
 ////////////////////
 /// Action Map
@@ -17,6 +18,7 @@ createRefMiddleware(FirebaseClient client) => (new MiddlwareBuilder<App, AppBuil
       ..add<User>(UsersActionsNames.update, _onUpdateUser(client))
       ..add<Board>(BoardsActionsNames.update, _onUpdateBoard(client))
       ..add<String>(BoardsActionsNames.setCurrent, _onSetCurrentBoard(client))
+      ..add<Session>(SessionsActionsNames.update, _onUpdateSession(client))
       ..add<String>(SessionsActionsNames.setCurrent, _onSetCurrentSession(client)))
     .build();
 
@@ -70,6 +72,23 @@ _onSetCurrentBoard(FirebaseClient client) => (
         client.subToUsers(api.state.boards.current.memberUids.keys);
     };
 
+/// subscribe to the current boards's users
+_onUpdateSession(FirebaseClient client) => (
+      MiddlewareApi<App, AppBuilder, AppActions> api,
+      ActionHandler next,
+      Action<Session> action,
+    ) {
+      next(action);
+      if (action.payload.uid == api.state.sessions.currentUid) {
+        final currentSession = api.state.sessions.current;
+        final boardUid = currentSession.boardUid;
+        final sessionUid = currentSession.uid;
+        client.subToItems(boardUid, sessionUid);
+        client.subToCategories(boardUid);
+        client.subToNotes(boardUid, sessionUid);
+      }
+    };
+
 _onSetCurrentSession(FirebaseClient client) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
@@ -79,9 +98,11 @@ _onSetCurrentSession(FirebaseClient client) => (
 
       next(action);
       final currentSession = api.state.sessions.current;
-      final boardUid = currentSession.boardUid;
-      final sessionUid = currentSession.uid;
-      client.subToItems(boardUid, sessionUid);
-      client.subToCategories(boardUid);
-      client.subToNotes(boardUid, sessionUid);
+      if (currentSession != null) {
+        final boardUid = currentSession.boardUid;
+        final sessionUid = currentSession.uid;
+        client.subToItems(boardUid, sessionUid);
+        client.subToCategories(boardUid);
+        client.subToNotes(boardUid, sessionUid);
+      }
     };
