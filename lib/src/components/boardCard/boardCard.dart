@@ -20,6 +20,10 @@ class BoardCardComponent {
 
   @Input()
   Board board;
+
+  String lastActive() => _store.state.date(_store.state.users.current.boardUids[board.uid]);
   
   bool isLatest() => _store.state.usersLatestBoard?.uid == board.uid;
+
+  bool hasLatestSession() => board.latestSessionUid != null;
 }

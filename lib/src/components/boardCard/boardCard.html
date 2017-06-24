@@ -1,6 +1,8 @@
 <div class="box is-primary">
-  <h3 class="title">{{board.title}} {{isLatest() ? "(latest)" : ""}}</h3>
+  <h3 class="title">{{board.title}}</h3>
+  <h5 class="subtitle">{{lastActive()}} {{isLatest() ? "(latest)" : ""}}</h5>
   <p>{{board.description}}</p>
   <br>
-  <a class="button is-primary" [routerLink]="['Board', {'buid': board.uid}]">Go!</a>
+  <a class="button is-primary" [routerLink]="['Board', {'buid': board.uid}]">List of Sessions</a>
+  <a *ngIf="hasLatestSession()" class="button is-primary" [routerLink]="['Session', {'buid': board.uid, 'suid': board.latestSessionUid}]">Go to latest Session</a>
 </div>

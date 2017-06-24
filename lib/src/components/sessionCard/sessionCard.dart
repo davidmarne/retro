@@ -21,5 +21,7 @@ class SessionCardComponent {
   @Input()
   Session session;
   
+  String lastActive() => "${_store.state.time(session.startTime)} on ${_store.state.date(session.startTime)}";
+ 
   bool isLatest() => _store.state.boardsLatestSession?.uid == session.uid;
 }

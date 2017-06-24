@@ -126,6 +126,10 @@ abstract class App extends BuiltReducer<App, AppBuilder>
       new BuiltList<Note>(
         notes.map.values.where((Note n) => n.sessionUid == sessions.currentUid),
       );
+
+  String time(int time) => timeFormat.format(new DateTime.fromMillisecondsSinceEpoch(time));
+
+  String date(int date) => dateFormat.format(new DateTime.fromMillisecondsSinceEpoch(date));
 }
 
 ////////////////////
