@@ -1,5 +1,5 @@
 <div class="box is-primary">
-  <h3 class="title">{{board.title}}</h3>
+  <h3 class="title">{{board.title}} {{isLatest() ? "(latest)" : ""}}</h3>
   <p>{{board.description}}</p>
   <br>
   <a class="button is-primary" [routerLink]="['Board', {'buid': board.uid}]">Go!</a>

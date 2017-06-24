@@ -53,6 +53,9 @@ class _$App extends App {
   @override
   final Notes notes;
   BuiltList<Session> __currentBoardSessions;
+  BuiltList<Category> __currentSessionCategories;
+  BuiltList<Item> __currentSessionItems;
+  BuiltList<Note> __currentSessionNotes;
 
   factory _$App([void updates(AppBuilder b)]) =>
       (new AppBuilder()..update(updates)).build();
@@ -76,6 +79,18 @@ class _$App extends App {
   @override
   BuiltList<Session> get currentBoardSessions =>
       __currentBoardSessions ??= super.currentBoardSessions;
+
+  @override
+  BuiltList<Category> get currentSessionCategories =>
+      __currentSessionCategories ??= super.currentSessionCategories;
+
+  @override
+  BuiltList<Item> get currentSessionItems =>
+      __currentSessionItems ??= super.currentSessionItems;
+
+  @override
+  BuiltList<Note> get currentSessionNotes =>
+      __currentSessionNotes ??= super.currentSessionNotes;
 
   @override
   App rebuild(void updates(AppBuilder b)) =>

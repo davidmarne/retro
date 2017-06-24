@@ -31,9 +31,7 @@ abstract class CreationMiddlewareActions extends ReduxActions {
 class CreateBoardPayload {
   final String title;
   final String description;
-  final int interval;
-  final DateIntervalKinds intervalKind;
-  CreateBoardPayload(this.title, this.description, this.interval, this.intervalKind);
+  CreateBoardPayload(this.title, this.description);
 }
 
 class CreateSessionPayload {
@@ -133,6 +131,4 @@ _createBoard(FirebaseClient client) => (
           api.state.users.currentUid,
           action.payload.title,
           action.payload.description,
-          action.payload.interval,
-          action.payload.intervalKind,
         );

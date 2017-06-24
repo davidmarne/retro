@@ -39,19 +39,23 @@ class SessionDashboardComponent implements OnInit {
     if (suid != _store.state.sessions.currentUid) _store.actions.sessions.setCurrent(suid);
   }
 
+  // url params
+
   String get buid => _routeParams.get('buid');
 
   String get suid => _routeParams.get('suid');
+
+  // Built state
 
   Board get board => _store.state.boards.current;
 
   Session get session => _store.state.sessions.current;
 
-  Iterable<Category> get categories => _store.state.categories.map.values;
+  Iterable<Category> get categories => _store.state.currentSessionCategories;
 
-  Iterable<Item> get items => _store.state.items.map.values;
+  Iterable<Item> get items => _store.state.currentSessionItems;
 
-  Iterable<Note> get notes => _store.state.notes.map.values;
+  Iterable<Note> get notes => _store.state.currentSessionNotes;
   
   Iterable<Item> itemsForCategory(Category category) => items.where((item) => item.categoryUid == category.uid);
 

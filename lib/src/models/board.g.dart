@@ -34,13 +34,13 @@ class _$BoardSerializer implements StructuredSerializer<Board> {
       'description',
       serializers.serialize(object.description,
           specifiedType: const FullType(String)),
-      'interval',
-      serializers.serialize(object.interval,
-          specifiedType: const FullType(int)),
-      'intervalKind',
-      serializers.serialize(object.intervalKind,
-          specifiedType: const FullType(int)),
     ];
+    if (object.latestSessionUid != null) {
+      result
+        ..add('latestSessionUid')
+        ..add(serializers.serialize(object.latestSessionUid,
+            specifiedType: const FullType(String)));
+    }
 
     return result;
   }
@@ -71,6 +71,10 @@ class _$BoardSerializer implements StructuredSerializer<Board> {
                 const FullType(int)
               ])) as BuiltMap<String, int>);
           break;
+        case 'latestSessionUid':
+          result.latestSessionUid = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
         case 'title':
           result.title = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
@@ -78,14 +82,6 @@ class _$BoardSerializer implements StructuredSerializer<Board> {
         case 'description':
           result.description = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
-          break;
-        case 'interval':
-          result.interval = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
-          break;
-        case 'intervalKind':
-          result.intervalKind = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
           break;
       }
     }
@@ -107,14 +103,11 @@ class _$Board extends Board {
   @override
   final BuiltMap<String, int> memberUids;
   @override
+  final String latestSessionUid;
+  @override
   final String title;
   @override
   final String description;
-  @override
-  final int interval;
-  @override
-  final int intervalKind;
-  bool __repeated;
 
   factory _$Board([void updates(BoardBuilder b)]) =>
       (new BoardBuilder()..update(updates)).build();
@@ -123,22 +116,16 @@ class _$Board extends Board {
       {this.uid,
       this.ownerUid,
       this.memberUids,
+      this.latestSessionUid,
       this.title,
-      this.description,
-      this.interval,
-      this.intervalKind})
+      this.description})
       : super._() {
     if (uid == null) throw new ArgumentError.notNull('uid');
     if (ownerUid == null) throw new ArgumentError.notNull('ownerUid');
     if (memberUids == null) throw new ArgumentError.notNull('memberUids');
     if (title == null) throw new ArgumentError.notNull('title');
     if (description == null) throw new ArgumentError.notNull('description');
-    if (interval == null) throw new ArgumentError.notNull('interval');
-    if (intervalKind == null) throw new ArgumentError.notNull('intervalKind');
   }
-
-  @override
-  bool get repeated => __repeated ??= super.repeated;
 
   @override
   Board rebuild(void updates(BoardBuilder b)) =>
@@ -154,10 +141,9 @@ class _$Board extends Board {
     return uid == other.uid &&
         ownerUid == other.ownerUid &&
         memberUids == other.memberUids &&
+        latestSessionUid == other.latestSessionUid &&
         title == other.title &&
-        description == other.description &&
-        interval == other.interval &&
-        intervalKind == other.intervalKind;
+        description == other.description;
   }
 
   @override
@@ -165,13 +151,11 @@ class _$Board extends Board {
     return $jf($jc(
         $jc(
             $jc(
-                $jc(
-                    $jc($jc($jc(0, uid.hashCode), ownerUid.hashCode),
-                        memberUids.hashCode),
-                    title.hashCode),
-                description.hashCode),
-            interval.hashCode),
-        intervalKind.hashCode));
+                $jc($jc($jc(0, uid.hashCode), ownerUid.hashCode),
+                    memberUids.hashCode),
+                latestSessionUid.hashCode),
+            title.hashCode),
+        description.hashCode));
   }
 
   @override
@@ -180,10 +164,9 @@ class _$Board extends Board {
           ..add('uid', uid)
           ..add('ownerUid', ownerUid)
           ..add('memberUids', memberUids)
+          ..add('latestSessionUid', latestSessionUid)
           ..add('title', title)
-          ..add('description', description)
-          ..add('interval', interval)
-          ..add('intervalKind', intervalKind))
+          ..add('description', description))
         .toString();
   }
 }
@@ -205,6 +188,11 @@ class BoardBuilder implements Builder<Board, BoardBuilder> {
   set memberUids(MapBuilder<String, int> memberUids) =>
       _$this._memberUids = memberUids;
 
+  String _latestSessionUid;
+  String get latestSessionUid => _$this._latestSessionUid;
+  set latestSessionUid(String latestSessionUid) =>
+      _$this._latestSessionUid = latestSessionUid;
+
   String _title;
   String get title => _$this._title;
   set title(String title) => _$this._title = title;
@@ -213,14 +201,6 @@ class BoardBuilder implements Builder<Board, BoardBuilder> {
   String get description => _$this._description;
   set description(String description) => _$this._description = description;
 
-  int _interval;
-  int get interval => _$this._interval;
-  set interval(int interval) => _$this._interval = interval;
-
-  int _intervalKind;
-  int get intervalKind => _$this._intervalKind;
-  set intervalKind(int intervalKind) => _$this._intervalKind = intervalKind;
-
   BoardBuilder();
 
   BoardBuilder get _$this {
@@ -228,10 +208,9 @@ class BoardBuilder implements Builder<Board, BoardBuilder> {
       _uid = _$v.uid;
       _ownerUid = _$v.ownerUid;
       _memberUids = _$v.memberUids?.toBuilder();
+      _latestSessionUid = _$v.latestSessionUid;
       _title = _$v.title;
       _description = _$v.description;
-      _interval = _$v.interval;
-      _intervalKind = _$v.intervalKind;
       _$v = null;
     }
     return this;
@@ -255,10 +234,9 @@ class BoardBuilder implements Builder<Board, BoardBuilder> {
             uid: uid,
             ownerUid: ownerUid,
             memberUids: memberUids?.build(),
+            latestSessionUid: latestSessionUid,
             title: title,
-            description: description,
-            interval: interval,
-            intervalKind: intervalKind);
+            description: description);
     replace(result);
     return result;
   }

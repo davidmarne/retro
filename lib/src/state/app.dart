@@ -10,7 +10,12 @@ import './sessions.dart';
 import './categories.dart';
 import './items.dart';
 import './notes.dart';
+
+import '../models/board.dart';
 import '../models/session.dart';
+import '../models/category.dart';
+import '../models/item.dart';
+import '../models/note.dart';
 
 import '../middleware/creationMiddleware.dart';
 
@@ -83,10 +88,43 @@ abstract class App extends BuiltReducer<App, AppBuilder>
 
   // TODO: do this or clear sessions everytime current board changes?
   @memoized
-  BuiltList<Session> get currentBoardSessions => new BuiltList<Session>(
-        sessions.map.values.where(
-          (Session s) => s.boardUid == boards.currentUid,
-        ),
+  BuiltList<Session> get currentBoardSessions =>
+      new BuiltList<Session>(
+        sessions.map.values.where((Session s) => s.boardUid == boards.currentUid),
+      );
+
+  @memoized
+  Board get usersLatestBoard {
+    String maxUid = "";
+    int maxTime = 0;
+    users.current.boardUids.forEach((uid, time) {
+      if (time > maxTime) {
+        maxUid = uid;
+        maxTime = time;
+      }
+    });
+    return boards.map[maxUid];
+  }
+
+  @memoized
+  Session get boardsLatestSession => sessions.map[boards.current.latestSessionUid];
+
+  @memoized
+  BuiltList<Category> get currentSessionCategories =>
+      new BuiltList<Category>(
+        categories.map.values.where((Category c) => c.sessionUid == sessions.currentUid),
+      );
+
+  @memoized
+  BuiltList<Item> get currentSessionItems =>
+      new BuiltList<Item>(
+        items.map.values.where((Item i) => i.sessionUid == sessions.currentUid),
+      );
+
+  @memoized
+  BuiltList<Note> get currentSessionNotes =>
+      new BuiltList<Note>(
+        notes.map.values.where((Note n) => n.sessionUid == sessions.currentUid),
       );
 }
 

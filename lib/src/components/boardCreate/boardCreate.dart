@@ -21,19 +21,11 @@ class BoardCreateComponent {
 
   String description;
 
-  bool repeated = false;
-
-  double interval = 1.0;
-
-  DateIntervalKinds intervalKind = DateIntervalKinds.Day;
-
   void submit() {
     _store.actions.creation.board(
       new CreateBoardPayload(
         title,
         description,
-        repeated ? interval.toInt() : 0,
-        intervalKind,
       ),
     );
 
@@ -41,11 +33,8 @@ class BoardCreateComponent {
   }
 
   void resetForm() {
-    print(interval);
-    print(intervalKind.index);
     title = "";
     description = "";
-    // var intervalMs = ;
   }
 
   String dateIntervalKindString(DateIntervalKinds k) => dateIntervalKindToString(k);

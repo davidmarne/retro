@@ -24,8 +24,8 @@ class _$CategorySerializer implements StructuredSerializer<Category> {
       'boardUid',
       serializers.serialize(object.boardUid,
           specifiedType: const FullType(String)),
-      'sessiondUid',
-      serializers.serialize(object.sessiondUid,
+      'sessionUid',
+      serializers.serialize(object.sessionUid,
           specifiedType: const FullType(String)),
       'title',
       serializers.serialize(object.title,
@@ -57,8 +57,8 @@ class _$CategorySerializer implements StructuredSerializer<Category> {
           result.boardUid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'sessiondUid':
-          result.sessiondUid = serializers.deserialize(value,
+        case 'sessionUid':
+          result.sessionUid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
         case 'title':
@@ -87,7 +87,7 @@ class _$Category extends Category {
   @override
   final String boardUid;
   @override
-  final String sessiondUid;
+  final String sessionUid;
   @override
   final String title;
   @override
@@ -97,11 +97,11 @@ class _$Category extends Category {
       (new CategoryBuilder()..update(updates)).build();
 
   _$Category._(
-      {this.uid, this.boardUid, this.sessiondUid, this.title, this.description})
+      {this.uid, this.boardUid, this.sessionUid, this.title, this.description})
       : super._() {
     if (uid == null) throw new ArgumentError.notNull('uid');
     if (boardUid == null) throw new ArgumentError.notNull('boardUid');
-    if (sessiondUid == null) throw new ArgumentError.notNull('sessiondUid');
+    if (sessionUid == null) throw new ArgumentError.notNull('sessionUid');
     if (title == null) throw new ArgumentError.notNull('title');
     if (description == null) throw new ArgumentError.notNull('description');
   }
@@ -119,7 +119,7 @@ class _$Category extends Category {
     if (other is! Category) return false;
     return uid == other.uid &&
         boardUid == other.boardUid &&
-        sessiondUid == other.sessiondUid &&
+        sessionUid == other.sessionUid &&
         title == other.title &&
         description == other.description;
   }
@@ -129,7 +129,7 @@ class _$Category extends Category {
     return $jf($jc(
         $jc(
             $jc($jc($jc(0, uid.hashCode), boardUid.hashCode),
-                sessiondUid.hashCode),
+                sessionUid.hashCode),
             title.hashCode),
         description.hashCode));
   }
@@ -139,7 +139,7 @@ class _$Category extends Category {
     return (newBuiltValueToStringHelper('Category')
           ..add('uid', uid)
           ..add('boardUid', boardUid)
-          ..add('sessiondUid', sessiondUid)
+          ..add('sessionUid', sessionUid)
           ..add('title', title)
           ..add('description', description))
         .toString();
@@ -157,9 +157,9 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
   String get boardUid => _$this._boardUid;
   set boardUid(String boardUid) => _$this._boardUid = boardUid;
 
-  String _sessiondUid;
-  String get sessiondUid => _$this._sessiondUid;
-  set sessiondUid(String sessiondUid) => _$this._sessiondUid = sessiondUid;
+  String _sessionUid;
+  String get sessionUid => _$this._sessionUid;
+  set sessionUid(String sessionUid) => _$this._sessionUid = sessionUid;
 
   String _title;
   String get title => _$this._title;
@@ -175,7 +175,7 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
     if (_$v != null) {
       _uid = _$v.uid;
       _boardUid = _$v.boardUid;
-      _sessiondUid = _$v.sessiondUid;
+      _sessionUid = _$v.sessionUid;
       _title = _$v.title;
       _description = _$v.description;
       _$v = null;
@@ -200,7 +200,7 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
         new _$Category._(
             uid: uid,
             boardUid: boardUid,
-            sessiondUid: sessiondUid,
+            sessionUid: sessionUid,
             title: title,
             description: description);
     replace(result);

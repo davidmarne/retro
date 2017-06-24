@@ -19,19 +19,15 @@ abstract class Board implements Built<Board, BoardBuilder> {
   /// [memberUids] contains user uids and last active dates for board's member users.
   BuiltMap<String, int> get memberUids;
 
+  /// [latestSessionUid] uid for the latest session.
+  @nullable
+  String get latestSessionUid;
+
   String get title;
 
   String get description;
 
-  int get interval;
-
-  // day, week, month, year
-  int get intervalKind;
-
   // Built value boilerplate
   Board._();
   factory Board([updates(BoardBuilder b)]) = _$Board;
-
-  @memoized
-  bool get repeated => interval != 0;
 }

@@ -12,14 +12,17 @@ class Refs {
   /// [user] is a ref to the user with the given uid
   firebase.DatabaseReference user(String uid) => _ref('users/$uid');
 
-  /// [userBoardUids] is a ref to the users boards with the given uid
-  firebase.DatabaseReference userBoards(String uid) => _ref('users/$uid/boardUids/');
+  /// [userBoards] is a ref to the users boards with the given uid
+  firebase.DatabaseReference userBoards(String userUid) => _ref('users/$userUid/boardUids/');
 
   /// [boards] is a ref to all boards
   firebase.DatabaseReference boards() => _ref('boards/');
 
   /// [board] is a ref to a board
   firebase.DatabaseReference board(String boardUid) => _ref('boards/$boardUid');
+
+  /// [boardMembers] is a ref to all boards member uids
+  firebase.DatabaseReference boardMembers(String boardUid) => _ref('boards/$boardUid/memberUids/');
 
   /// [sessions] is a ref to all sessions for a given board
   firebase.DatabaseReference sessions(String boardUid) => _ref('sessions/$boardUid/');

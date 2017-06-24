@@ -26,80 +26,97 @@ createRefMiddleware(FirebaseClient client) => (new MiddlwareBuilder<App, AppBuil
 /// Handlers
 ///////////////////
 
-_onSetCurrentUser(FirebaseClient client) => (
-      MiddlewareApi<App, AppBuilder, AppActions> api,
-      ActionHandler next,
-      Action<String> action,
-    ) {
-      next(action);
-      client.subToUser(action.payload);
-    };
+// Update handlers
 
 /// subscribe to the current user's boards
 _onUpdateUser(FirebaseClient client) => (
-      MiddlewareApi<App, AppBuilder, AppActions> api,
-      ActionHandler next,
-      Action<User> action,
-    ) {
-      next(action);
-      if (action.payload.uid == api.state.users.currentUid)
-        client.subToBoards(api.state.users.current.boardUids.keys);
-    };
+    MiddlewareApi<App, AppBuilder, AppActions> api,
+    ActionHandler next,
+    Action<User> action) {
+  next(action);
+  if (action.payload.uid == api.state.users.currentUid) {
+    _updateCurrentUserSubs(client, api);
+  }
+};
 
 /// subscribe to the current boards's users
 _onUpdateBoard(FirebaseClient client) => (
-      MiddlewareApi<App, AppBuilder, AppActions> api,
-      ActionHandler next,
-      Action<Board> action,
-    ) {
-      next(action);
-      if (action.payload.uid == api.state.boards.currentUid)
-        client.subToUsers(api.state.boards.current.memberUids.keys);
-    };
-
-_onSetCurrentBoard(FirebaseClient client) => (
-      MiddlewareApi<App, AppBuilder, AppActions> api,
-      ActionHandler next,
-      Action<String> action,
-    ) {
-      // TODO: unsub from old board?
-
-      next(action);
-      client.subToSessions(action.payload);
-
-      // after refresh current board can be set without the board yet being set
-      if (api.state.boards.current != null)
-        client.subToUsers(api.state.boards.current.memberUids.keys);
-    };
+    MiddlewareApi<App, AppBuilder, AppActions> api,
+    ActionHandler next,
+    Action<Board> action) {
+  next(action);
+  if (action.payload.uid == api.state.boards.currentUid) {
+    _updateCurrentBoardSubs(client, api);
+  }
+};
 
 /// subscribe to the current boards's users
 _onUpdateSession(FirebaseClient client) => (
-      MiddlewareApi<App, AppBuilder, AppActions> api,
-      ActionHandler next,
-      Action<Session> action,
-    ) {
-      next(action);
-      if (action.payload.uid == api.state.sessions.currentUid) {
-        final currentSession = api.state.sessions.current;
-        final boardUid = currentSession.boardUid;
-        final sessionUid = currentSession.uid;
-        client.subToItems(boardUid, sessionUid);
-        client.subToCategories(boardUid, sessionUid);
-        client.subToNotes(boardUid, sessionUid);
-      }
-    };
+    MiddlewareApi<App, AppBuilder, AppActions> api,
+    ActionHandler next,
+    Action<Session> action) {
+  next(action);
+  if (action.payload.uid == api.state.sessions.currentUid) {
+    _updateCurrentSessionSubs(client, api);
+  }
+};
 
+// Set current handlers
+
+_onSetCurrentUser(FirebaseClient client) => (
+    MiddlewareApi<App, AppBuilder, AppActions> api,
+    ActionHandler next,
+    Action<String> action) {
+  next(action);
+  _updateCurrentUserSubs(client, api);
+};
+
+// TODO: unsub from old board?
+_onSetCurrentBoard(FirebaseClient client) => (
+    MiddlewareApi<App, AppBuilder, AppActions> api,
+    ActionHandler next,
+    Action<String> action) {
+  next(action);
+  _updateCurrentBoardSubs(client, api);
+
+  var userUid = api.state.users.currentUid;
+  var boardUid = api.state.boards.currentUid;
+  if (userUid != "" && boardUid != "") {
+    client.setUsersLatestBoard(userUid, boardUid);
+  }
+};
+
+// TODO: unsub from old session?
 _onSetCurrentSession(FirebaseClient client) => (
-      MiddlewareApi<App, AppBuilder, AppActions> api,
-      ActionHandler next,
-      Action<String> action,
-    ) {
-      // TODO: unsub from old session?
+    MiddlewareApi<App, AppBuilder, AppActions> api,
+    ActionHandler next,
+    Action<String> action) {
+  next(action);
+  _updateCurrentSessionSubs(client, api);
+};
 
-      next(action);
-      final boardUid = api.state.boards.currentUid;
-      final sessionUid = api.state.sessions.currentUid;
-      client.subToCategories(boardUid, sessionUid);
-      client.subToItems(boardUid, sessionUid);
-      client.subToNotes(boardUid, sessionUid);
-    };
+// Shared functionality
+
+_updateCurrentUserSubs(FirebaseClient client, MiddlewareApi<App, AppBuilder, AppActions> api) {
+  var user = api.state.users.current;
+  if (user != null) {
+    client.subToBoards(user.boardUids.keys);
+  }
+}
+
+_updateCurrentBoardSubs(FirebaseClient client, MiddlewareApi<App, AppBuilder, AppActions> api) {
+  var board = api.state.boards.current;
+  if (board != null) {
+    client.subToSessions(board.uid);
+    client.subToUsers(board.memberUids.keys);
+  }
+}
+
+_updateCurrentSessionSubs(FirebaseClient client, MiddlewareApi<App, AppBuilder, AppActions> api) {
+  var session = api.state.sessions.current;
+  if (session != null) {
+    client.subToCategories(session.boardUid, session.uid);
+    client.subToItems(session.boardUid, session.uid);
+    client.subToNotes(session.boardUid, session.uid);
+  }
+}

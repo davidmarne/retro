@@ -51,8 +51,27 @@ class FirebaseClient {
   }
 
   /// [createSession] creates a session
-  Future<Session> createSession(String boardUid, int targetTime) =>
-      _createSession(boardUid, targetTime: targetTime);
+  Future<Session> createSession(String boardUid, int targetTime) async {
+    var session = await _createSession(boardUid, targetTime: targetTime);
+    await setBoardsLatestSession(boardUid, session.uid);
+    return session;
+  }
+
+  /// [createBoard] creates a board, associates it with a user, and creates the initial session
+  /// if the interval is not zero
+  Future<Board> createBoard(
+    String ownerUid,
+    String title,
+    String description,
+  ) async {
+    var board = await _createBoard(
+      ownerUid,
+      title,
+      description,
+    );
+    await setUsersLatestBoard(ownerUid, board.uid);
+    return board;
+  }
 
   /// [userFromFirebaseUser] gets a user
   Future<User> userFromFirebaseUser(firebase.User fbUser) async {
@@ -62,27 +81,6 @@ class FirebaseClient {
       return await _createUser(fbUser.uid, fbUser.displayName);
     }
     return serializers.deserializeWith(User.serializer, user);
-  }
-
-  /// [createBoard] creates a board, associates it with a user, and creates the initial session
-  /// if the interval is not zero
-  Future<Board> createBoard(
-    String ownerUid,
-    String title,
-    String description,
-    int interval,
-    DateIntervalKinds intervalKind,
-  ) async {
-    var board = await _createBoard(
-      ownerUid,
-      title,
-      description,
-      interval: interval,
-      intervalKind: intervalKind,
-    );
-    _addBoardToUser(board.uid, ownerUid);
-    if (interval != 0) _createInitialSessionForRepeatingBoard(board.uid, interval, intervalKind);
-    return board;
   }
 
   /// [subToUser] subscribes to user
@@ -156,6 +154,16 @@ class FirebaseClient {
     );
   }
 
+  Future setUsersLatestBoard(String userUid, String boardUid) async {
+    var now = new DateTime.now().millisecondsSinceEpoch;
+    await _refs.userBoards(userUid).child(boardUid).set(now);
+    await _refs.boardMembers(boardUid).child(userUid).set(now);
+  }
+
+  Future setBoardsLatestSession(String boardUid, String sessionUid) async {
+    await _refs.board(boardUid).child("latestSessionUid").set(sessionUid);
+  }
+  
   ////////////////
   /// Internals
   ////////////////
@@ -211,7 +219,7 @@ class FirebaseClient {
     final category = new Category((CategoryBuilder b) => b
       ..uid = newCategoryRef.key
       ..boardUid = boardUid
-      ..sessiondUid = sessionUid
+      ..sessionUid = sessionUid
       ..title = title
       ..description = description);
 
@@ -250,38 +258,15 @@ class FirebaseClient {
   Future<Board> _createBoard(
     String ownerUid,
     String title,
-    String description, {
-    int interval: 0,
-    DateIntervalKinds intervalKind: DateIntervalKinds.Day,
-  }) async {
+    String description
+  ) async {
     final newBoardRef = await _refs.boards().push().future;
     final board = new Board((BoardBuilder b) => b
       ..uid = newBoardRef.key
       ..ownerUid = ownerUid
       ..title = title
-      ..description = description
-      ..interval = interval
-      ..intervalKind = intervalKind.index);
-
+      ..description = description);
     newBoardRef.set(serializers.serializeWith(Board.serializer, board));
     return board;
   }
-
-  Future _createInitialSessionForRepeatingBoard(
-    String boardUid,
-    int interval,
-    DateIntervalKinds intervalKind,
-  ) async {
-    final now = new DateTime.now();
-    final topicStart = new DateTime(now.year, now.month, now.day);
-    final topicEnd = addIntervalToTime(topicStart, interval, intervalKind);
-    return _createSession(
-      boardUid,
-      startTime: topicStart.millisecondsSinceEpoch,
-      endTime: topicEnd.millisecondsSinceEpoch,
-    );
-  }
-
-  Future _addBoardToUser(String boardUid, String userUid) =>
-      _refs.userBoards(userUid).child(boardUid).set(new DateTime.now().millisecondsSinceEpoch);
 }

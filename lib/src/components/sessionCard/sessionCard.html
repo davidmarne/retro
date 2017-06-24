@@ -1,5 +1,5 @@
 <div class="box is-primary">
-  <p>{{session.state}}</p>
+  <p>{{session.state}} {{isLatest() ? "(latest)" : ""}}</p>
   <br>
   <a class="button is-primary" [routerLink]="['Session', {'buid': session.boardUid, 'suid': session.uid}]">Go!</a>
 </div>
