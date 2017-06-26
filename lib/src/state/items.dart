@@ -16,6 +16,7 @@ part 'items.g.dart';
 abstract class ItemsActions extends ReduxActions {
   ActionDispatcher<Item> update;
   ActionDispatcher<String> remove;
+  ActionDispatcher<Item> addSuppportingUser;
   // update text
   // add duration to time
   // vote for item
@@ -57,7 +58,8 @@ abstract class Items extends BuiltReducer<Items, ItemsBuilder>
 
 var _reducer = (new ReducerBuilder<Items, ItemsBuilder>()
       ..add<Item>(ItemsActionsNames.update, _updateItem)
-      ..add<String>(ItemsActionsNames.setCurrent, _setCurrentItem))
+      ..add<String>(ItemsActionsNames.setCurrent, _setCurrentItem)
+      ..add<Item>(ItemsActionsNames.addSupportingUser, _addSupportingUser))
     .build();
 
 ////////////////////
@@ -69,3 +71,6 @@ _updateItem(Items state, Action<Item> action, ItemsBuilder builder) =>
 
 _setCurrentItem(Items state, Action<String> action, ItemsBuilder builder) =>
     builder..currentUid = action.payload;
+
+_addSupportingUser(Items state, Action<Item> action, ItemsBuilder builder) =>
+    builder..map[action.payload.supporterUids] = action.payload;

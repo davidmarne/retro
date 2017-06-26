@@ -30,6 +30,7 @@ class ItemsActionsNames {
       new ActionName<String>('ItemsActions-setCurrent');
   static ActionName remove = new ActionName<String>('ItemsActions-remove');
   static ActionName update = new ActionName<Item>('ItemsActions-update');
+  static ActionName addSupportingUser = new ActionName<String>('ItemsActions-addSupportingUser');
 }
 
 // **************************************************************************
