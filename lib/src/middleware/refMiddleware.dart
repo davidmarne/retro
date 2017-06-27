@@ -8,12 +8,14 @@ import '../firebaseClient.dart';
 import '../models/user.dart';
 import '../models/board.dart';
 import '../models/session.dart';
+import '../state/items.dart';
 
 ////////////////////
 /// Action Map
 ///////////////////
 
 createRefMiddleware(FirebaseClient client) => (new MiddlwareBuilder<App, AppBuilder, AppActions>()
+      ..add<String>(ItemsActionsNames.addSupportingUser, _addSupportingUser(client))
       ..add<String>(UsersActionsNames.setCurrent, _onSetCurrentUser(client))
       ..add<User>(UsersActionsNames.update, _onUpdateUser(client))
       ..add<Board>(BoardsActionsNames.update, _onUpdateBoard(client))
@@ -94,6 +96,18 @@ _onSetCurrentSession(FirebaseClient client) => (
   next(action);
   _updateCurrentSessionSubs(client, api);
 };
+
+_addSupportingUser(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    var userUid = api.state.users.currentUid;
+    var boardUid = api.state.boards.currentUid;
+    var sessionUid = api.state.sessions.currentUid;
+    var itemUid = api.state.items.currentUid;
+    return client.addSupporter(userUid, boardUid, sessionUid, itemUid);
+  };
+
 
 // Shared functionality
 

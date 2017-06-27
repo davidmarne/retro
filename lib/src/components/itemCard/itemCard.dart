@@ -21,6 +21,7 @@ class ItemCardComponent {
   Item item;
 
   void upVote() {
-      _store.actions.items.addSuppportingUser();
+      print(_store.state.users.currentUid);
+      _store.actions.items.addSuppportingUser(_store.state.users.currentUid);
   }
 }
