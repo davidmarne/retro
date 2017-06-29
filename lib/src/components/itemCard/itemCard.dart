@@ -20,8 +20,13 @@ class ItemCardComponent {
   @Input()
   Item item;
 
-  void upVote() {
-      print(_store.state.users.currentUid);
-      _store.actions.items.addSuppportingUser(_store.state.users.currentUid);
+  bool supported() => item.supporterUids.containsKey(_store.state.users.currentUid);
+
+  void toggleSupport() {
+    if (supported()) {
+      _store.actions.items.removeSupport(item.uid);
+    } else {
+      _store.actions.items.addSupport(item.uid);
+    }
   }
 }

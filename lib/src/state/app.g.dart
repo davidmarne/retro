@@ -53,6 +53,8 @@ class _$App extends App {
   @override
   final Notes notes;
   BuiltList<Session> __currentBoardSessions;
+  Board __usersLatestBoard;
+  Session __boardsLatestSession;
   BuiltList<Category> __currentSessionCategories;
   BuiltList<Item> __currentSessionItems;
   BuiltList<Note> __currentSessionNotes;
@@ -79,6 +81,13 @@ class _$App extends App {
   @override
   BuiltList<Session> get currentBoardSessions =>
       __currentBoardSessions ??= super.currentBoardSessions;
+
+  @override
+  Board get usersLatestBoard => __usersLatestBoard ??= super.usersLatestBoard;
+
+  @override
+  Session get boardsLatestSession =>
+      __boardsLatestSession ??= super.boardsLatestSession;
 
   @override
   BuiltList<Category> get currentSessionCategories =>

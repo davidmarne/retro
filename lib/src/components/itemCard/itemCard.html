@@ -1,12 +1,9 @@
 <div class="box is-primary">
   <div class="columns is-mobile">
     <div class="column is-narrow">
-      <p>{{item.supporterUids}}</p>
-    </div>
-    <div class="column is-narrow">
-      <p class="control">
-        <a class="button is-success is-outlined is-small" (click)="upVote()"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
-      </p>
+      <span class="icon is-danger">
+        <i class="fa {{supported() ? 'fa-heart' : 'fa-heart-o'}}" (click)="toggleSupport()"></i>
+      </span>
     </div>
     <div class="column">
       <p>{{item.text}}</p>

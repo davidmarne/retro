@@ -15,7 +15,8 @@ import '../state/items.dart';
 ///////////////////
 
 createRefMiddleware(FirebaseClient client) => (new MiddlwareBuilder<App, AppBuilder, AppActions>()
-      ..add<String>(ItemsActionsNames.addSupportingUser, _addSupportingUser(client))
+      ..add<String>(ItemsActionsNames.addSupport, _addSupport(client))
+      ..add<String>(ItemsActionsNames.removeSupport, _removeSupport(client))
       ..add<String>(UsersActionsNames.setCurrent, _onSetCurrentUser(client))
       ..add<User>(UsersActionsNames.update, _onUpdateUser(client))
       ..add<Board>(BoardsActionsNames.update, _onUpdateBoard(client))
@@ -97,15 +98,26 @@ _onSetCurrentSession(FirebaseClient client) => (
   _updateCurrentSessionSubs(client, api);
 };
 
-_addSupportingUser(FirebaseClient client) => (
+_addSupport(FirebaseClient client) => (
   MiddlewareApi<App, AppBuilder, AppActions> api,
   ActionHandler next,
   Action<String> action) {
     var userUid = api.state.users.currentUid;
     var boardUid = api.state.boards.currentUid;
     var sessionUid = api.state.sessions.currentUid;
-    var itemUid = api.state.items.currentUid;
-    return client.addSupporter(userUid, boardUid, sessionUid, itemUid);
+    var itemUid = action.payload;
+    return client.addSupport(userUid, boardUid, sessionUid, itemUid);
+  };
+
+_removeSupport(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    var userUid = api.state.users.currentUid;
+    var boardUid = api.state.boards.currentUid;
+    var sessionUid = api.state.sessions.currentUid;
+    var itemUid = action.payload;
+    return client.removeSupport(userUid, boardUid, sessionUid, itemUid);
   };
 
 
