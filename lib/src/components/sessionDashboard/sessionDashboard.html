@@ -9,6 +9,47 @@
     </div>
   </section>
 
+  <section class="section">
+    <div class="container">
+      <div class="columns">
+        <div *ngIf="!categories.isEmpty && showAddCatMargins()" class="column"></div>
+
+        <div *ngFor="let category of categories" class="column {{catColumnClass()}}">
+          <h1 class="title">{{category.title}}</h1>
+          <h3 class="subtitle">{{category.description}}</h3>
+
+          <p *ngFor="let item of itemsForCategory(category)" class="notification {{catColorClass(category)}}">
+            <button class="delete"></button>
+            <span class="icon">
+              <i class="fa fa-heart-o"></i>
+            </span>
+            {{item.text}}
+          </p>
+
+          <h1 class="subtitle">
+            <a>
+              <span class="icon">
+                <i class="fa fa-plus"></i>
+              </span>
+              <span>New Item</span>
+            </a>
+          </h1>
+        </div>
+
+        <div *ngIf="showAddCatMargins()" class="column">
+          <h1 class="subtitle">
+            <a>
+              <span class="icon">
+                <i class="fa fa-plus"></i>
+              </span>
+              <span>New Topic</span>
+            </a>
+          </h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section>
     <div class="container">
       <div class="columns is-multiline is-mobile">
