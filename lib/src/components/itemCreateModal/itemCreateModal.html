@@ -1,0 +1,15 @@
+<div *ngIf="visible" class="box">
+    <label class="label">Create an Item</label>
+    <div class="control is-grouped">
+        <p class="control is-expanded">
+            <textarea [(ngModel)]="description" class="textarea" placeholder="Let it out"></textarea>
+        </p>
+
+        <p class="control">
+            <a class="button is-primary" (click)="addItem()">Create</a>
+        </p>
+        <p class="control">
+            <a class="button is-primary" (click)="resetItemForm()">Cancel</a>
+        </p>
+    </div>
+</div>

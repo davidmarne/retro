@@ -21,6 +21,11 @@ import '../middleware/creationMiddleware.dart';
 
 part 'app.g.dart';
 
+const String CREATE_CATEGORY_MODAL = "Create Category Modal";
+const String CREATE_ITEM_MODAL = "Create Item Modal";
+const String MANAGE_CONTENT_MODAL = "Manage Content Modal";
+const String NO_MODAL = "No Modal";
+
 ////////////////////
 /// Actions
 ///////////////////
@@ -28,6 +33,9 @@ part 'app.g.dart';
 /// [AppActions]
 abstract class AppActions extends ReduxActions {
   ActionDispatcher<Null> clear;
+
+  ActionDispatcher<String> showModal;
+  ActionDispatcher<Null> hideModal;
 
   UsersActions users;
   BoardsActions boards;
@@ -73,6 +81,8 @@ abstract class App extends BuiltReducer<App, AppBuilder>
   /// [Notes]
   Notes get notes;
 
+  String get visibleModal;
+
   /// [reducer]
   get reducer => _reducer;
 
@@ -84,7 +94,8 @@ abstract class App extends BuiltReducer<App, AppBuilder>
     ..sessions = new Sessions().toBuilder()
     ..categories = new Categories().toBuilder()
     ..items = new Items().toBuilder()
-    ..notes = new Notes().toBuilder());
+    ..notes = new Notes().toBuilder()
+    ..visibleModal = NO_MODAL);
 
   // TODO: do this or clear sessions everytime current board changes?
   @memoized
@@ -137,7 +148,11 @@ abstract class App extends BuiltReducer<App, AppBuilder>
 ///////////////////
 
 var _reducer =
-    (new ReducerBuilder<App, AppBuilder>()..add<Null>(AppActionsNames.clear, _clear)).build();
+    (new ReducerBuilder<App, AppBuilder>()
+      ..add<Null>(AppActionsNames.clear, _clear)
+      ..add<String>(AppActionsNames.showModal, _showModal)
+      ..add<Null>(AppActionsNames.hideModal, _hideModal)
+    ).build();
 
 ////////////////////
 /// Reducers
@@ -150,3 +165,18 @@ _clear(App state, Action<Null> action, AppBuilder builder) => builder
   ..categories = new Categories().toBuilder()
   ..items = new Items().toBuilder()
   ..notes = new Notes().toBuilder();
+
+_showModal(App state, Action<String> action, AppBuilder builder) {
+  switch(action.payload) {
+    case CREATE_CATEGORY_MODAL:
+    return builder..visibleModal = CREATE_CATEGORY_MODAL;
+    case CREATE_ITEM_MODAL:
+    return builder..visibleModal = CREATE_ITEM_MODAL;
+    case MANAGE_CONTENT_MODAL:
+    return builder..visibleModal = MANAGE_CONTENT_MODAL;
+  }
+  return builder..visibleModal = NO_MODAL;
+}
+
+_hideModal(App state, Action<String> action, AppBuilder builder) => builder
+    ..visibleModal = NO_MODAL;

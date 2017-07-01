@@ -19,6 +19,7 @@ abstract class CategoriesActions extends ReduxActions {
   // update description
   // show / hide
   ActionDispatcher<String> remove;
+  ActionDispatcher<String> setCurrent;
 
   // factory to create on instance of the generated implementation of BoardsActions
   CategoriesActions._();
@@ -35,13 +36,18 @@ abstract class Categories extends BuiltReducer<Categories, CategoriesBuilder>
   /// [map] contains a map of category uid to Category.
   BuiltMap<String, Category> get map;
 
+  String get currentUid;
+
   /// [reducer]
   get reducer => _reducer;
 
   // Built value boilerplate
   Categories._();
   factory Categories([updates(CategoriesBuilder b)]) =>
-      new _$Categories((CategoriesBuilder b) => b);
+      new _$Categories((CategoriesBuilder b) => b..currentUid = "");
+
+  @memoized
+  Category get current => map[currentUid];
 }
 
 ////////////////////
@@ -49,7 +55,8 @@ abstract class Categories extends BuiltReducer<Categories, CategoriesBuilder>
 ///////////////////
 
 var _reducer = (new ReducerBuilder<Categories, CategoriesBuilder>()
-      ..add<Category>(CategoriesActionsNames.update, _updateCategory))
+      ..add<Category>(CategoriesActionsNames.update, _updateCategory)
+      ..add<String>(CategoriesActionsNames.setCurrent, _setCurrentItem))
     .build();
 
 ////////////////////
@@ -58,3 +65,6 @@ var _reducer = (new ReducerBuilder<Categories, CategoriesBuilder>()
 
 _updateCategory(Categories state, Action<Category> action, CategoriesBuilder builder) =>
     builder..map[action.payload.uid] = action.payload;
+
+_setCurrentItem(Categories state, Action<String> action, CategoriesBuilder builder) =>
+    builder..currentUid = action.payload;

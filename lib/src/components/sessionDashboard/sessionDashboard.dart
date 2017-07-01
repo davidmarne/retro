@@ -106,4 +106,13 @@ class SessionDashboardComponent implements OnInit {
   void toggleShowingNotes() {
     showingNotes = !showingNotes;
   }
+
+  void initiateCategoryCreation() {
+    _store.actions.showModal(CREATE_CATEGORY_MODAL);
+  }
+
+  void initiateItemCreation(Category category) {
+    _store.actions.categories.setCurrent(category.uid);
+    _store.actions.showModal(CREATE_ITEM_MODAL);
+  }
 }

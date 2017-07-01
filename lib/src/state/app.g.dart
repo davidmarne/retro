@@ -15,6 +15,12 @@ class _$AppActions extends AppActions {
   SessionsActions sessions = new SessionsActions();
   BoardsActions boards = new BoardsActions();
   UsersActions users = new UsersActions();
+  ActionDispatcher<Null> hideModal =
+      new ActionDispatcher<Null>('AppActions-hideModal');
+
+  ActionDispatcher<String> showModal =
+      new ActionDispatcher<String>('AppActions-showModal');
+
   ActionDispatcher<Null> clear = new ActionDispatcher<Null>('AppActions-clear');
   factory _$AppActions() => new _$AppActions._();
   _$AppActions._() : super._();
@@ -26,11 +32,15 @@ class _$AppActions extends AppActions {
     sessions.syncWithStore(dispatcher);
     boards.syncWithStore(dispatcher);
     users.syncWithStore(dispatcher);
+    hideModal.syncWithStore(dispatcher);
+    showModal.syncWithStore(dispatcher);
     clear.syncWithStore(dispatcher);
   }
 }
 
 class AppActionsNames {
+  static ActionName hideModal = new ActionName<Null>('AppActions-hideModal');
+  static ActionName showModal = new ActionName<String>('AppActions-showModal');
   static ActionName clear = new ActionName<Null>('AppActions-clear');
 }
 
@@ -52,6 +62,8 @@ class _$App extends App {
   final Items items;
   @override
   final Notes notes;
+  @override
+  final String visibleModal;
   BuiltList<Session> __currentBoardSessions;
   Board __usersLatestBoard;
   Session __boardsLatestSession;
@@ -68,7 +80,8 @@ class _$App extends App {
       this.sessions,
       this.categories,
       this.items,
-      this.notes})
+      this.notes,
+      this.visibleModal})
       : super._() {
     if (users == null) throw new ArgumentError.notNull('users');
     if (boards == null) throw new ArgumentError.notNull('boards');
@@ -76,6 +89,7 @@ class _$App extends App {
     if (categories == null) throw new ArgumentError.notNull('categories');
     if (items == null) throw new ArgumentError.notNull('items');
     if (notes == null) throw new ArgumentError.notNull('notes');
+    if (visibleModal == null) throw new ArgumentError.notNull('visibleModal');
   }
 
   @override
@@ -117,7 +131,8 @@ class _$App extends App {
         sessions == other.sessions &&
         categories == other.categories &&
         items == other.items &&
-        notes == other.notes;
+        notes == other.notes &&
+        visibleModal == other.visibleModal;
   }
 
   @override
@@ -125,11 +140,13 @@ class _$App extends App {
     return $jf($jc(
         $jc(
             $jc(
-                $jc($jc($jc(0, users.hashCode), boards.hashCode),
-                    sessions.hashCode),
-                categories.hashCode),
-            items.hashCode),
-        notes.hashCode));
+                $jc(
+                    $jc($jc($jc(0, users.hashCode), boards.hashCode),
+                        sessions.hashCode),
+                    categories.hashCode),
+                items.hashCode),
+            notes.hashCode),
+        visibleModal.hashCode));
   }
 
   @override
@@ -140,7 +157,8 @@ class _$App extends App {
           ..add('sessions', sessions)
           ..add('categories', categories)
           ..add('items', items)
-          ..add('notes', notes))
+          ..add('notes', notes)
+          ..add('visibleModal', visibleModal))
         .toString();
   }
 }
@@ -174,6 +192,10 @@ class AppBuilder implements Builder<App, AppBuilder> {
   NotesBuilder get notes => _$this._notes ??= new NotesBuilder();
   set notes(NotesBuilder notes) => _$this._notes = notes;
 
+  String _visibleModal;
+  String get visibleModal => _$this._visibleModal;
+  set visibleModal(String visibleModal) => _$this._visibleModal = visibleModal;
+
   AppBuilder();
 
   AppBuilder get _$this {
@@ -184,6 +206,7 @@ class AppBuilder implements Builder<App, AppBuilder> {
       _categories = _$v.categories?.toBuilder();
       _items = _$v.items?.toBuilder();
       _notes = _$v.notes?.toBuilder();
+      _visibleModal = _$v.visibleModal;
       _$v = null;
     }
     return this;
@@ -209,7 +232,8 @@ class AppBuilder implements Builder<App, AppBuilder> {
             sessions: sessions?.build(),
             categories: categories?.build(),
             items: items?.build(),
-            notes: notes?.build());
+            notes: notes?.build(),
+            visibleModal: visibleModal);
     replace(result);
     return result;
   }

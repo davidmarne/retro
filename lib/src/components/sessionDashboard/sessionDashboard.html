@@ -27,7 +27,7 @@
           </p>
 
           <h1 class="subtitle">
-            <a>
+            <a (click)="initiateItemCreation(category)">
               <span class="icon">
                 <i class="fa fa-plus"></i>
               </span>
@@ -38,7 +38,7 @@
 
         <div *ngIf="showAddCatMargins()" class="column">
           <h1 class="subtitle">
-            <a>
+            <a (click)="initiateCategoryCreation()">
               <span class="icon">
                 <i class="fa fa-plus"></i>
               </span>
