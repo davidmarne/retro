@@ -42,9 +42,6 @@ class AppComponent {
   Board get board => _storeService.store.state.boards.current;
   bool showBoardCrumb() => _storeService.store.state.boards.currentUid != "";
 
-  Session get session => _storeService.store.state.sessions.current;
-  bool showSessionCrumb() => _storeService.store.state.sessions.currentUid != "";
-
   logIn() => _storeService.signIn();
 
   logOut() => _storeService.signOut();
