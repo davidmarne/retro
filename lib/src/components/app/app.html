@@ -1,17 +1,15 @@
 <nav class="nav">
-  <div class="nav-left">
-      <a class="nav-item" [routerLink]="['Home']">Retro</a>
-  </div>
-  <div class="nav-right nav-menu">
-     <div class="nav-item" *ngIf>
-
-     </div>
+  <div class="container">
+    <div class="nav-left">
+      <a class="nav-item is-tab" [routerLink]="['Home']">Boards</a>
+      <a *ngIf="showBoardCrumb()" class="nav-item is-tab" [routerLink]="['Board', {'buid': board.uid}]">History</a>
+    </div>
+    <div class="nav-right nav-menu">
+      <a class="nav-item is-tab">Manage Content</a>
+      <a *ngIf="!loggedIn" class="nav-item is-tab" (click)="logIn()">Log In with Google</a>
+    </div>
   </div>
 </nav>
-
-<div *ngIf="!loggedIn">
-  <a class="button is-primary" (click)="logIn()">Log In with Google</a>
-</div>
 
 <div *ngIf="loggedIn">
   <router-outlet></router-outlet>

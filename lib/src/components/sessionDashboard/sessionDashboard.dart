@@ -59,6 +59,37 @@ class SessionDashboardComponent implements OnInit {
   
   Iterable<Item> itemsForCategory(Category category) => items.where((item) => item.categoryUid == category.uid);
 
+  // column class for category
+  String catColumnClass() {
+    switch(categories.length) {
+      case 1:
+      return "is-8";
+      case 2:
+      return "is-4";
+      case 3:
+      return "is-3";
+      case 4:
+      return "is-3";
+    }
+    return "";
+  }
+
+  String catColorClass(Category cat) {
+    switch(categories.toList().indexOf(cat)) {
+      case 0:
+      return "is-info";
+      case 1:
+      return "is-success";
+      case 2:
+      return "is-warning";
+      case 3:
+      return "is-danger";
+    }
+    return "is-dark";
+  }
+
+  bool showAddCatMargins() => categories.length < 4;
+
   // showingNotes bound to Show Notes button
   bool showingNotes = false;
 

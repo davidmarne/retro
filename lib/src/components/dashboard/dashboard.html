@@ -1,4 +1,4 @@
-<section class="hero is-primary">
+<section class="hero is-dark">
   <div class="hero-body">
     <div class="container">
       <h1 class="title">Getting Started</h1>
@@ -6,19 +6,20 @@
     </div>
   </div>
 </section>
+
 <section class="section">
   <div class="container">
-    <div class="columns is-mobile">
+    <!--<div class="columns is-mobile">
       <div class="column is-one-half-desktop">
         <board-create></board-create>
       </div>
-      <!--<div *ngIf="mostRecentboard != null" class="column is-one-half-desktop">
-          <board-card [board]="mostRecentboard"></board-card>
-      </div>-->
-    </div>
+    </div>-->
     <div class="columns is-multiline is-mobile">
       <div *ngFor="let board of boards" class="column is-half-tablet is-one-third-desktop">
           <board-card [board]="board"></board-card>
+      </div>
+      <div class="column is-one-third-desktop">
+        <board-create></board-create>
       </div>
     </div>
   </div>

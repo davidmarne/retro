@@ -1,6 +1,6 @@
 <div *ngIf="board != null">
 
-  <section class="hero is-primary">
+  <section class="hero is-dark">
     <div class="hero-body">
       <div class="container">
         <h1 class="title">{{board.title}}</h1>
@@ -8,6 +8,49 @@
       </div>
     </div>
   </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns">
+        <div *ngIf="!categories.isEmpty && showAddCatMargins()" class="column"></div>
+
+        <div *ngFor="let category of categories" class="column {{catColumnClass()}}">
+          <h1 class="title">{{category.title}}</h1>
+          <h3 class="subtitle">{{category.description}}</h3>
+
+          <p *ngFor="let item of itemsForCategory(category)" class="notification {{catColorClass(category)}}">
+            <button class="delete"></button>
+            <span class="icon">
+              <i class="fa fa-heart-o"></i>
+            </span>
+            {{item.text}}
+          </p>
+
+          <h1 class="subtitle">
+            <a>
+              <span class="icon">
+                <i class="fa fa-plus"></i>
+              </span>
+              <span>New Item</span>
+            </a>
+          </h1>
+        </div>
+
+        <div *ngIf="showAddCatMargins()" class="column">
+          <h1 class="subtitle">
+            <a>
+              <span class="icon">
+                <i class="fa fa-plus"></i>
+              </span>
+              <span>New Topic</span>
+            </a>
+          </h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--TODO: remove the below create cards once they are converted to modals-->
 
   <section>
     <div class="container">
