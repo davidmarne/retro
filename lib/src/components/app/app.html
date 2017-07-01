@@ -1,11 +1,11 @@
-<nav class="nav">
-  <div class="nav-left">
-      <a class="nav-item" [routerLink]="['Home']">Retro</a>
-  </div>
-  <div class="nav-right nav-menu">
-     <div class="nav-item" *ngIf>
 
-     </div>
+<nav class="nav has-shadow">
+  <div class="container">
+    <div class="nav-left">
+      <a class="nav-item" [routerLink]="['Home']">Home</a>
+      <a *ngIf="showBoardCrumb()" class="nav-item" [routerLink]="['Board', {'buid': board.uid}]">{{board.title}}</a>
+      <a *ngIf="showSessionCrumb()" class="nav-item" [routerLink]="['Session', {'buid': board.uid, 'suid': session.uid}]">Session</a>
+    </div>
   </div>
 </nav>
 

@@ -28,6 +28,7 @@ class BoardDashboardComponent implements OnInit {
 
   void ngOnInit() {
     if (buid != _store.state.boards.current) _store.actions.boards.setCurrent(buid);
+    _store.actions.sessions.setCurrent("");
   }
 
   String get buid => _routeParams.get('buid');
