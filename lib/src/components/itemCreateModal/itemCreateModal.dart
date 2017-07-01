@@ -15,6 +15,8 @@ class ItemCreateModalComponent {
 
   ItemCreateModalComponent(StoreService storeService) : _store = storeService.store;
 
+  Category get category => _store.state.categories.current;
+
   bool get visible => _store.state.visibleModal == CREATE_ITEM_MODAL;
 
   String description = "";

@@ -3,6 +3,7 @@ import 'package:angular2/router.dart';
 
 import '../dashboard/dashboard.dart';
 import '../boardDashboard/boardDashboard.dart';
+import '../categoryCreateModal/categoryCreateModal.dart';
 import '../itemCreateModal/itemCreateModal.dart';
 import '../sessionDashboard/sessionDashboard.dart';
 import '../../store.dart';
@@ -15,7 +16,7 @@ import '../../state/app.dart';
 @Component(
     selector: 'app',
     templateUrl: 'app.html',
-    directives: const [ROUTER_DIRECTIVES, ItemCreateModalComponent],
+    directives: const [ROUTER_DIRECTIVES, CategoryCreateModalComponent, ItemCreateModalComponent],
     providers: const [StoreService])
 @RouteConfig(const [
   const Route(

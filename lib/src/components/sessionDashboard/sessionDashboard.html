@@ -14,26 +14,10 @@
       <div class="columns">
         <div *ngIf="!categories.isEmpty && showAddCatMargins()" class="column"></div>
 
+        <!--Category Titles-->
         <div *ngFor="let category of categories" class="column {{catColumnClass()}}">
-          <h1 class="title">{{category.title}}</h1>
-          <h3 class="subtitle">{{category.description}}</h3>
-
-          <p *ngFor="let item of itemsForCategory(category)" class="notification {{catColorClass(category)}}">
-            <button class="delete"></button>
-            <span class="icon">
-              <i class="fa {{supported(item) ? 'fa-heart' : 'fa-heart-o'}}" (click)="toggleSupport(item)"></i>
-            </span>
-            {{item.text}}
-          </p>
-
-          <h1 class="subtitle">
-            <a (click)="initiateItemCreation(category)">
-              <span class="icon">
-                <i class="fa fa-plus"></i>
-              </span>
-              <span>New Item</span>
-            </a>
-          </h1>
+          <h4 class="title is-4">{{category.title}}</h4>
+          <h6 class="subtitle is-6">{{category.description}}</h6>
         </div>
 
         <div *ngIf="showAddCatMargins()" class="column">
@@ -47,38 +31,31 @@
           </h1>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!--TODO: remove the below create cards once they are converted to modals-->
+      <div class="columns">
+        <div *ngIf="!categories.isEmpty && showAddCatMargins()" class="column"></div>
 
-  <section>
-    <div class="container">
-      <div class="columns is-multiline is-mobile">
-        <div class="column is-one-half-desktop">
-            <category-create></category-create>
+        <!--Category Items-->
+        <div *ngFor="let category of categories" class="column {{catColumnClass()}}">
+          <p *ngFor="let item of itemsForCategory(category)" class="notification {{catColorClass(category)}}">
+            <button class="delete"></button>
+            <span class="icon">
+              <i class="fa {{supported(item) ? 'fa-heart' : 'fa-heart-o'}}" (click)="toggleSupport(item)"></i>
+            </span>
+            {{item.text}}
+          </p>
+          <h1 class="subtitle">
+            <a (click)="initiateItemCreation(category)">
+              <span class="icon">
+                <i class="fa fa-plus"></i>
+              </span>
+              <span>New Item</span>
+            </a>
+          </h1>
         </div>
-        <div class="column is-one-half-desktop">
-            <note-create></note-create>
-        </div>
+
+        <div *ngIf="showAddCatMargins()" class="column"></div>
       </div>
     </div>
   </section>
-
-
-  <div *ngFor="let category of categories">
-    <section class="section">
-      <div class="container">
-        <h1 class="title">{{category.title}}</h1>
-        <div class="columns is-multiline is-mobile">
-          <div class="column is-half-tablet is-one-third-desktop">
-              <item-create [category]="category"></item-create>
-          </div>
-          <div *ngFor="let item of itemsForCategory(category)" class="column is-half-tablet is-one-third-desktop">
-              <item-card [category]="category" [item]="item"></item-card>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
 </div>
