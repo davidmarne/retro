@@ -16,6 +16,8 @@ part 'items.g.dart';
 abstract class ItemsActions extends ReduxActions {
   ActionDispatcher<Item> update;
   ActionDispatcher<String> remove;
+  ActionDispatcher<String> addSupport;
+  ActionDispatcher<String> removeSupport;
   // update text
   // add duration to time
   // vote for item

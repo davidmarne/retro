@@ -8,12 +8,15 @@ import '../firebaseClient.dart';
 import '../models/user.dart';
 import '../models/board.dart';
 import '../models/session.dart';
+import '../state/items.dart';
 
 ////////////////////
 /// Action Map
 ///////////////////
 
 createRefMiddleware(FirebaseClient client) => (new MiddlwareBuilder<App, AppBuilder, AppActions>()
+      ..add<String>(ItemsActionsNames.addSupport, _addSupport(client))
+      ..add<String>(ItemsActionsNames.removeSupport, _removeSupport(client))
       ..add<String>(UsersActionsNames.setCurrent, _onSetCurrentUser(client))
       ..add<User>(UsersActionsNames.update, _onUpdateUser(client))
       ..add<Board>(BoardsActionsNames.update, _onUpdateBoard(client))
@@ -94,6 +97,29 @@ _onSetCurrentSession(FirebaseClient client) => (
   next(action);
   _updateCurrentSessionSubs(client, api);
 };
+
+_addSupport(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    var userUid = api.state.users.currentUid;
+    var boardUid = api.state.boards.currentUid;
+    var sessionUid = api.state.sessions.currentUid;
+    var itemUid = action.payload;
+    return client.addSupport(userUid, boardUid, sessionUid, itemUid);
+  };
+
+_removeSupport(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    var userUid = api.state.users.currentUid;
+    var boardUid = api.state.boards.currentUid;
+    var sessionUid = api.state.sessions.currentUid;
+    var itemUid = action.payload;
+    return client.removeSupport(userUid, boardUid, sessionUid, itemUid);
+  };
+
 
 // Shared functionality
 

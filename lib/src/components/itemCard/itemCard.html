@@ -1,3 +1,12 @@
 <div class="box is-primary">
-  <p>{{item.text}}</p>
+  <div class="columns is-mobile">
+    <div class="column is-narrow">
+      <span class="icon is-danger">
+        <i class="fa {{supported() ? 'fa-heart' : 'fa-heart-o'}}" (click)="toggleSupport()"></i>
+      </span>
+    </div>
+    <div class="column">
+      <p>{{item.text}}</p>
+    </div>
+  </div>
 </div>

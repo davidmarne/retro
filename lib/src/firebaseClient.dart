@@ -163,7 +163,15 @@ class FirebaseClient {
   Future setBoardsLatestSession(String boardUid, String sessionUid) async {
     await _refs.board(boardUid).child("latestSessionUid").set(sessionUid);
   }
-  
+
+  Future addSupport(String userUid, String boardUid, String sessionUid, String itemUid) async {
+    await _refs.item(boardUid, sessionUid, itemUid).child("supporterUids").child(userUid).set(true);
+  }
+
+  Future removeSupport(String userUid, String boardUid, String sessionUid, String itemUid) async {
+    await _refs.item(boardUid, sessionUid, itemUid).child("supporterUids").child(userUid).remove();
+  }
+
   ////////////////
   /// Internals
   ////////////////

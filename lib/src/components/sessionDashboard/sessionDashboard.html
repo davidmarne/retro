@@ -21,7 +21,7 @@
           <p *ngFor="let item of itemsForCategory(category)" class="notification {{catColorClass(category)}}">
             <button class="delete"></button>
             <span class="icon">
-              <i class="fa fa-heart-o"></i>
+              <i class="fa {{supported(item) ? 'fa-heart' : 'fa-heart-o'}}" (click)="toggleSupport(item)"></i>
             </span>
             {{item.text}}
           </p>

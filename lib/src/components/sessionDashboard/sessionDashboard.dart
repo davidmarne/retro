@@ -88,6 +88,16 @@ class SessionDashboardComponent implements OnInit {
     return "is-dark";
   }
 
+  bool supported(Item item) => item.supporterUids.containsKey(_store.state.users.currentUid);
+
+  void toggleSupport(Item item) {
+    if (supported(item)) {
+      _store.actions.items.removeSupport(item.uid);
+    } else {
+      _store.actions.items.addSupport(item.uid);
+    }
+  }
+  
   bool showAddCatMargins() => categories.length < 4;
 
   // showingNotes bound to Show Notes button
