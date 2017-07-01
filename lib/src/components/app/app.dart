@@ -6,6 +6,9 @@ import '../boardDashboard/boardDashboard.dart';
 import '../sessionDashboard/sessionDashboard.dart';
 import '../../store.dart';
 
+import '../../models/board.dart';
+import '../../models/session.dart';
+
 @Component(
     selector: 'app',
     templateUrl: 'app.html',
@@ -35,6 +38,9 @@ class AppComponent {
   AppComponent(StoreService storeService) : _storeService = storeService;
 
   bool get loggedIn => _storeService.store.state.users.loggedIn;
+
+  Board get board => _storeService.store.state.boards.current;
+  bool showBoardCrumb() => _storeService.store.state.boards.currentUid != "";
 
   logIn() => _storeService.signIn();
 

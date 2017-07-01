@@ -15,10 +15,15 @@ import '../../store.dart';
     BoardCardComponent,
   ],
 )
-class DashboardComponent {
+class DashboardComponent implements OnInit {
   final Store<App, AppBuilder, AppActions> _store;
 
   DashboardComponent(StoreService storeService) : _store = storeService.store;
+
+  void ngOnInit() {
+    _store.actions.boards.setCurrent("");
+    _store.actions.sessions.setCurrent("");
+  }
 
   String get userName => _store.state.users.current.name;
 
