@@ -2,7 +2,7 @@
   <div class="container">
     <div class="nav-left">
       <a class="nav-item is-tab" [routerLink]="['Home']">Boards</a>
-      <a *ngIf="showBoardCrumb()" class="nav-item is-tab" [routerLink]="['Board', {'buid': board.uid}]">History</a>
+      <a *ngIf="showBoardCrumb()" class="nav-item is-tab" [routerLink]="['Board', {'buid': board?.uid}]">History</a>
     </div>
     <div class="nav-right nav-menu">
       <a class="nav-item is-tab">Manage Content</a>
