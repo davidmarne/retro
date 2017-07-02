@@ -39,6 +39,9 @@
         <div *ngFor="let category of categories" class="column {{catColumnClass()}}">
           <p *ngFor="let item of itemsForCategory(category)" class="notification {{catColorClass(category)}}">
             <button class="delete"></button>
+            <span>
+              {{printSupporters(item)}}
+            </span>
             <span class="icon">
               <i class="fa {{supported(item) ? 'fa-heart' : 'fa-heart-o'}}" (click)="toggleSupport(item)"></i>
             </span>
