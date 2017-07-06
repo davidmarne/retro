@@ -15,6 +15,8 @@ import './models/user.dart';
 import './models/session.dart';
 import './models/dateIntervalKinds.dart';
 
+const int DEFAULT_SESSION_DURATION = 3600;
+
 class FirebaseClient {
   final Refs _refs;
   final StreamSubManager _subMgr;
@@ -155,9 +157,9 @@ class FirebaseClient {
   }
 
   Future setUsersLatestBoard(String userUid, String boardUid) async {
-    var now = new DateTime.now().millisecondsSinceEpoch;
-    await _refs.userBoards(userUid).child(boardUid).set(now);
-    await _refs.boardMembers(boardUid).child(userUid).set(now);
+    var epoch = now();
+    await _refs.userBoards(userUid).child(boardUid).set(epoch);
+    await _refs.boardMembers(boardUid).child(userUid).set(epoch);
   }
 
   Future setBoardsLatestSession(String boardUid, String sessionUid) async {
@@ -237,14 +239,16 @@ class FirebaseClient {
 
   Future<Session> _createSession(
     String boardUid, {
-    int targetTime: 3600000,
+    int targetTime: DEFAULT_SESSION_DURATION,
     int startTime: 0,
     int endTime: 0,
   }) async {
+    var epoch = now();
     final newSessionRef = await _refs.sessions(boardUid).push().future;
     final session = new Session((SessionBuilder b) => b
       ..uid = newSessionRef.key
       ..boardUid = boardUid
+      ..createdDate = epoch
       ..targetTime = targetTime
       ..startTime = startTime
       ..endTime = endTime);

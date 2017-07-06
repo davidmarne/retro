@@ -16,14 +16,16 @@ part 'items.g.dart';
 abstract class ItemsActions extends ReduxActions {
   ActionDispatcher<Item> update;
   ActionDispatcher<String> remove;
+  ActionDispatcher<String> setCurrent;
+
   ActionDispatcher<String> addSupport;
   ActionDispatcher<String> removeSupport;
+  ActionDispatcher<bool> setVisibility;
   // update text
   // add duration to time
   // vote for item
   // move to different category?
   // show / hide
-  ActionDispatcher<String> setCurrent;
 
   // factory to create on instance of the generated implementation of BoardsActions
   ItemsActions._();
@@ -51,6 +53,9 @@ abstract class Items extends BuiltReducer<Items, ItemsBuilder>
 
   @memoized
   Item get current => map[currentUid];
+
+  @memoized
+  BuiltList<Item> get visible => new BuiltList<Item>(map.values.where((value) => value.visible));
 }
 
 ////////////////////

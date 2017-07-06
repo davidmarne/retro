@@ -16,6 +16,7 @@ part 'users.g.dart';
 abstract class UsersActions extends ReduxActions {
   ActionDispatcher<User> update;
   ActionDispatcher<String> setCurrent;
+  
   ActionDispatcher<String> addBoardToCurrentUser;
 
   // factory to create on instance of the generated implementation of UsersActions

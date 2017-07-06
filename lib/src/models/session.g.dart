@@ -24,6 +24,9 @@ class _$SessionSerializer implements StructuredSerializer<Session> {
       'boardUid',
       serializers.serialize(object.boardUid,
           specifiedType: const FullType(String)),
+      'createdDate',
+      serializers.serialize(object.createdDate,
+          specifiedType: const FullType(int)),
       'targetTime',
       serializers.serialize(object.targetTime,
           specifiedType: const FullType(int)),
@@ -33,6 +36,18 @@ class _$SessionSerializer implements StructuredSerializer<Session> {
       'endTime',
       serializers.serialize(object.endTime, specifiedType: const FullType(int)),
     ];
+    if (object.presenterUid != null) {
+      result
+        ..add('presenterUid')
+        ..add(serializers.serialize(object.presenterUid,
+            specifiedType: const FullType(String)));
+    }
+    if (object.presentedUid != null) {
+      result
+        ..add('presentedUid')
+        ..add(serializers.serialize(object.presentedUid,
+            specifiedType: const FullType(String)));
+    }
 
     return result;
   }
@@ -55,6 +70,18 @@ class _$SessionSerializer implements StructuredSerializer<Session> {
         case 'boardUid':
           result.boardUid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
+          break;
+        case 'presenterUid':
+          result.presenterUid = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'presentedUid':
+          result.presentedUid = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'createdDate':
+          result.createdDate = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
           break;
         case 'targetTime':
           result.targetTime = serializers.deserialize(value,
@@ -86,6 +113,12 @@ class _$Session extends Session {
   @override
   final String boardUid;
   @override
+  final String presenterUid;
+  @override
+  final String presentedUid;
+  @override
+  final int createdDate;
+  @override
   final int targetTime;
   @override
   final int startTime;
@@ -94,17 +127,23 @@ class _$Session extends Session {
   bool __started;
   bool __completed;
   String __state;
-  String __startTimeStr;
-  String __endTimeStr;
 
   factory _$Session([void updates(SessionBuilder b)]) =>
       (new SessionBuilder()..update(updates)).build();
 
   _$Session._(
-      {this.uid, this.boardUid, this.targetTime, this.startTime, this.endTime})
+      {this.uid,
+      this.boardUid,
+      this.presenterUid,
+      this.presentedUid,
+      this.createdDate,
+      this.targetTime,
+      this.startTime,
+      this.endTime})
       : super._() {
     if (uid == null) throw new ArgumentError.notNull('uid');
     if (boardUid == null) throw new ArgumentError.notNull('boardUid');
+    if (createdDate == null) throw new ArgumentError.notNull('createdDate');
     if (targetTime == null) throw new ArgumentError.notNull('targetTime');
     if (startTime == null) throw new ArgumentError.notNull('startTime');
     if (endTime == null) throw new ArgumentError.notNull('endTime');
@@ -120,12 +159,6 @@ class _$Session extends Session {
   String get state => __state ??= super.state;
 
   @override
-  String get startTimeStr => __startTimeStr ??= super.startTimeStr;
-
-  @override
-  String get endTimeStr => __endTimeStr ??= super.endTimeStr;
-
-  @override
   Session rebuild(void updates(SessionBuilder b)) =>
       (toBuilder()..update(updates)).build();
 
@@ -138,6 +171,9 @@ class _$Session extends Session {
     if (other is! Session) return false;
     return uid == other.uid &&
         boardUid == other.boardUid &&
+        presenterUid == other.presenterUid &&
+        presentedUid == other.presentedUid &&
+        createdDate == other.createdDate &&
         targetTime == other.targetTime &&
         startTime == other.startTime &&
         endTime == other.endTime;
@@ -147,7 +183,13 @@ class _$Session extends Session {
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc(0, uid.hashCode), boardUid.hashCode),
+            $jc(
+                $jc(
+                    $jc(
+                        $jc($jc($jc(0, uid.hashCode), boardUid.hashCode),
+                            presenterUid.hashCode),
+                        presentedUid.hashCode),
+                    createdDate.hashCode),
                 targetTime.hashCode),
             startTime.hashCode),
         endTime.hashCode));
@@ -158,6 +200,9 @@ class _$Session extends Session {
     return (newBuiltValueToStringHelper('Session')
           ..add('uid', uid)
           ..add('boardUid', boardUid)
+          ..add('presenterUid', presenterUid)
+          ..add('presentedUid', presentedUid)
+          ..add('createdDate', createdDate)
           ..add('targetTime', targetTime)
           ..add('startTime', startTime)
           ..add('endTime', endTime))
@@ -175,6 +220,18 @@ class SessionBuilder implements Builder<Session, SessionBuilder> {
   String _boardUid;
   String get boardUid => _$this._boardUid;
   set boardUid(String boardUid) => _$this._boardUid = boardUid;
+
+  String _presenterUid;
+  String get presenterUid => _$this._presenterUid;
+  set presenterUid(String presenterUid) => _$this._presenterUid = presenterUid;
+
+  String _presentedUid;
+  String get presentedUid => _$this._presentedUid;
+  set presentedUid(String presentedUid) => _$this._presentedUid = presentedUid;
+
+  int _createdDate;
+  int get createdDate => _$this._createdDate;
+  set createdDate(int createdDate) => _$this._createdDate = createdDate;
 
   int _targetTime;
   int get targetTime => _$this._targetTime;
@@ -194,6 +251,9 @@ class SessionBuilder implements Builder<Session, SessionBuilder> {
     if (_$v != null) {
       _uid = _$v.uid;
       _boardUid = _$v.boardUid;
+      _presenterUid = _$v.presenterUid;
+      _presentedUid = _$v.presentedUid;
+      _createdDate = _$v.createdDate;
       _targetTime = _$v.targetTime;
       _startTime = _$v.startTime;
       _endTime = _$v.endTime;
@@ -219,6 +279,9 @@ class SessionBuilder implements Builder<Session, SessionBuilder> {
         new _$Session._(
             uid: uid,
             boardUid: boardUid,
+            presenterUid: presenterUid,
+            presentedUid: presentedUid,
+            createdDate: createdDate,
             targetTime: targetTime,
             startTime: startTime,
             endTime: endTime);

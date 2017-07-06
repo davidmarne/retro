@@ -15,10 +15,11 @@ part 'notes.g.dart';
 /// [NotesActions]
 abstract class NotesActions extends ReduxActions {
   ActionDispatcher<Note> update;
+  ActionDispatcher<String> remove;
   // update text
   // tag item with note
   // show / hide
-  ActionDispatcher<String> remove;
+  ActionDispatcher<bool> setVisibility;
 
   // factory to create on instance of the generated implementation of BoardsActions
   NotesActions._();
@@ -41,6 +42,9 @@ abstract class Notes extends BuiltReducer<Notes, NotesBuilder>
   // Built value boilerplate
   Notes._();
   factory Notes([updates(NotesBuilder b)]) => new _$Notes((NotesBuilder b) => b);
+
+  @memoized
+  BuiltList<Note> get visible => new BuiltList<Note>(map.values.where((value) => value.visible));
 }
 
 ////////////////////

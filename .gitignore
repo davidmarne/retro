@@ -2,3 +2,6 @@
 .pub
 .packages
 build
+
+.firebaserc
+firebase.json

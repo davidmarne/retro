@@ -8,14 +8,17 @@ part of items;
 // **************************************************************************
 
 class _$ItemsActions extends ItemsActions {
-  ActionDispatcher<String> setCurrent =
-      new ActionDispatcher<String>('ItemsActions-setCurrent');
+  ActionDispatcher<bool> setVisibility =
+      new ActionDispatcher<bool>('ItemsActions-setVisibility');
 
   ActionDispatcher<String> removeSupport =
       new ActionDispatcher<String>('ItemsActions-removeSupport');
 
   ActionDispatcher<String> addSupport =
       new ActionDispatcher<String>('ItemsActions-addSupport');
+
+  ActionDispatcher<String> setCurrent =
+      new ActionDispatcher<String>('ItemsActions-setCurrent');
 
   ActionDispatcher<String> remove =
       new ActionDispatcher<String>('ItemsActions-remove');
@@ -25,21 +28,24 @@ class _$ItemsActions extends ItemsActions {
   factory _$ItemsActions() => new _$ItemsActions._();
   _$ItemsActions._() : super._();
   syncWithStore(dispatcher) {
-    setCurrent.syncWithStore(dispatcher);
+    setVisibility.syncWithStore(dispatcher);
     removeSupport.syncWithStore(dispatcher);
     addSupport.syncWithStore(dispatcher);
+    setCurrent.syncWithStore(dispatcher);
     remove.syncWithStore(dispatcher);
     update.syncWithStore(dispatcher);
   }
 }
 
 class ItemsActionsNames {
-  static ActionName setCurrent =
-      new ActionName<String>('ItemsActions-setCurrent');
+  static ActionName setVisibility =
+      new ActionName<bool>('ItemsActions-setVisibility');
   static ActionName removeSupport =
       new ActionName<String>('ItemsActions-removeSupport');
   static ActionName addSupport =
       new ActionName<String>('ItemsActions-addSupport');
+  static ActionName setCurrent =
+      new ActionName<String>('ItemsActions-setCurrent');
   static ActionName remove = new ActionName<String>('ItemsActions-remove');
   static ActionName update = new ActionName<Item>('ItemsActions-update');
 }
@@ -55,6 +61,7 @@ class _$Items extends Items {
   @override
   final String currentUid;
   Item __current;
+  BuiltList<Item> __visible;
 
   factory _$Items([void updates(ItemsBuilder b)]) =>
       (new ItemsBuilder()..update(updates)).build();
@@ -66,6 +73,9 @@ class _$Items extends Items {
 
   @override
   Item get current => __current ??= super.current;
+
+  @override
+  BuiltList<Item> get visible => __visible ??= super.visible;
 
   @override
   Items rebuild(void updates(ItemsBuilder b)) =>

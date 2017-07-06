@@ -1,14 +1,9 @@
 library session;
 
-import 'package:intl/intl.dart';
-
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
 part 'session.g.dart';
-
-final timeFormat = new DateFormat.Hm("en_US");
-final dateFormat = new DateFormat.yMMMMd("en_US");
 
 /// [Session]
 abstract class Session implements Built<Session, SessionBuilder> {
@@ -17,6 +12,16 @@ abstract class Session implements Built<Session, SessionBuilder> {
   String get uid;
 
   String get boardUid;
+
+  /// uid for the User who is driving the session.
+  @nullable
+  String get presenterUid;
+
+  /// uid for the Item being desplayed.
+  @nullable
+  String get presentedUid;
+
+  int get createdDate;
 
   int get targetTime;
 
@@ -40,10 +45,4 @@ abstract class Session implements Built<Session, SessionBuilder> {
     if (started && !completed) return "In Progress";
     return "Complete";
   }
-
-  @memoized
-  String get startTimeStr => timeFormat.format(new DateTime.fromMillisecondsSinceEpoch(startTime));
-
-  @memoized
-  String get endTimeStr => timeFormat.format(new DateTime.fromMillisecondsSinceEpoch(endTime));
 }

@@ -8,27 +8,27 @@ part of sessions;
 // **************************************************************************
 
 class _$SessionsActions extends SessionsActions {
-  ActionDispatcher<String> remove =
-      new ActionDispatcher<String>('SessionsActions-remove');
-
   ActionDispatcher<String> setCurrent =
       new ActionDispatcher<String>('SessionsActions-setCurrent');
+
+  ActionDispatcher<String> remove =
+      new ActionDispatcher<String>('SessionsActions-remove');
 
   ActionDispatcher<Session> update =
       new ActionDispatcher<Session>('SessionsActions-update');
   factory _$SessionsActions() => new _$SessionsActions._();
   _$SessionsActions._() : super._();
   syncWithStore(dispatcher) {
-    remove.syncWithStore(dispatcher);
     setCurrent.syncWithStore(dispatcher);
+    remove.syncWithStore(dispatcher);
     update.syncWithStore(dispatcher);
   }
 }
 
 class SessionsActionsNames {
-  static ActionName remove = new ActionName<String>('SessionsActions-remove');
   static ActionName setCurrent =
       new ActionName<String>('SessionsActions-setCurrent');
+  static ActionName remove = new ActionName<String>('SessionsActions-remove');
   static ActionName update = new ActionName<Session>('SessionsActions-update');
 }
 

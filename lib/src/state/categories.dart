@@ -15,12 +15,13 @@ part 'categories.g.dart';
 /// [CategoriesActions]
 abstract class CategoriesActions extends ReduxActions {
   ActionDispatcher<Category> update;
+  ActionDispatcher<String> remove;
+  ActionDispatcher<String> setCurrent;
   // update title
   // update description
   // show / hide
-  ActionDispatcher<String> remove;
-  ActionDispatcher<String> setCurrent;
-
+  ActionDispatcher<bool> setVisibility;
+  
   // factory to create on instance of the generated implementation of BoardsActions
   CategoriesActions._();
   factory CategoriesActions() => new _$CategoriesActions();
@@ -48,6 +49,9 @@ abstract class Categories extends BuiltReducer<Categories, CategoriesBuilder>
 
   @memoized
   Category get current => map[currentUid];
+
+  @memoized
+  BuiltList<Category> get visible => new BuiltList<Category>(map.values.where((value) => value.visible));
 }
 
 ////////////////////
