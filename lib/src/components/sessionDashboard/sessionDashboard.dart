@@ -120,4 +120,38 @@ class SessionDashboardComponent implements OnInit {
     _store.actions.categories.setCurrent(category.uid);
     _store.actions.showModal(CREATE_ITEM_MODAL);
   }
+
+  String heroText() => _store.state.heroItem?.text ?? "";
+
+  String heroAuthor() => _store.state.users.map[_store.state.heroItem?.ownerUid]?.name ?? "";
+
+  bool started() => session != null ? session.started : false;
+
+  bool completed() => session != null ? session.completed : false;
+
+  void startSession() {
+    _store.actions.sessions.start(null);
+    _store.actions.sessions.present(_store.state.items.map.values.first.uid);
+  }
+
+  void endSession() {
+    _store.actions.sessions.present("");
+    _store.actions.sessions.end(null);
+  }
+
+  void prev() {
+    int index = items.toList().indexOf(_store.state.heroItem);
+    if (index != -1) {
+      index = (index - 1) % items.length;
+      _store.actions.sessions.present(items.toList()[index].uid);
+    }
+  }
+
+  void next() {
+    int index = items.toList().indexOf(_store.state.heroItem);
+    if (index != -1) {
+      index = (index + 1) % items.length;
+      _store.actions.sessions.present(items.toList()[index].uid);
+    }
+  }
 }

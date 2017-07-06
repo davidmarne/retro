@@ -188,22 +188,14 @@ class FirebaseClient {
   }
 
   Future present(Item item, int startTime) async {
-    await _refs.session(item.boardUid, item.sessionUid).transaction((sessionJSON) {
-      Session session = serializers.deserializeWith(Session.serializer, JSON.decode(sessionJSON));
-      return session.rebuild((SessionBuilder b) => b
-        ..presentedUid = item.uid
-        ..presentedDate = startTime
-      );
-    });
+    // TODO: prevent collisions by making this a transaction.
+    await _refs.session(item.boardUid, item.sessionUid).child("presentedUid").set(item.uid);
+    await _refs.session(item.boardUid, item.sessionUid).child("presentedDate").set(startTime);
   }
 
   Future updateItemTime(Item item, int delta) async {
-    await _refs.item(item.boardUid, item.sessionUid, item.uid).transaction((itemJSON) {
-      Item item = serializers.deserializeWith(Item.serializer, JSON.decode(itemJSON));
-      return item.rebuild((ItemBuilder b) => b
-        ..time = item.time + delta
-      );
-    });
+    // TODO: prevent collisions by making this a transaction.
+    await _refs.item(item.boardUid, item.sessionUid, item.uid).child("time").set(item.time + delta);
   }
 
   ////////////////

@@ -21,8 +21,8 @@ createRefMiddleware(FirebaseClient client) => (new MiddlwareBuilder<App, AppBuil
       ..add<String>(ItemsActionsNames.addSupport, _addSupport(client))
       ..add<String>(ItemsActionsNames.removeSupport, _removeSupport(client))
 
-      ..add<String>(SessionsActionsNames.start, _startSession(client))
-      ..add<String>(SessionsActionsNames.end, _endSession(client))
+      ..add<Null>(SessionsActionsNames.start, _startSession(client))
+      ..add<Null>(SessionsActionsNames.end, _endSession(client))
       ..add<String>(SessionsActionsNames.present, _present(client))
 
       ..add<User>(UsersActionsNames.update, _onUpdateUser(client))
@@ -164,7 +164,7 @@ _startSession(FirebaseClient client) => (
   Action<String> action) {
     var epoch = now();
     Session session = api.state.sessions.current;
-    if (session == null) {
+    if (session != null) {
       client.startSession(session, epoch);
     }
   };
@@ -175,7 +175,7 @@ _endSession(FirebaseClient client) => (
   Action<String> action) {
     var epoch = now();
     Session session = api.state.sessions.current;
-    if (session == null) {
+    if (session != null) {
       client.endSession(session, epoch);
     }
   };

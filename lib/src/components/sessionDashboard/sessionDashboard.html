@@ -3,52 +3,45 @@
   <section class="hero is-dark">
     <div class="hero-body">
       <div class="container">
-        <h1 class="title">{{board.title}}</h1>
-        <h2 class="subtitle">{{board.description}}</h2>
+        <h1 *ngIf="!started() || completed()" class="title">{{board.title}}</h1>
+        <h2 *ngIf="!started() || completed()" class="subtitle">{{board.description}}</h2>
+        <h1 *ngIf="started() && !completed()" class="title">"{{heroText()}}"</h1>
+        <h2 *ngIf="started() && !completed()" class="subtitle">{{heroAuthor()}}</h2>
       </div>
     </div>
     <div class="hero-foot">
       <div class="container">
         <nav class="tabs is-boxed is-pulled-right">
-          <ul>
-            <li>
-              <a class="nav-item">
-                <span class="icon">
-                  <i class="fa fa-play"></i>
-                </span>
-                <span>
-                  Start Presenting
-                </span>
+          <ul *ngIf="!completed()">
+            <li *ngIf="!started()">
+              <a class="nav-item" (click)="startSession()">
+                <span class="icon"><i class="fa fa-play"></i></span>
+                <span>Start Presenting</span>
               </a>
             </li>
-            <li>
-              <a class="nav-item">
-                <span class="icon">
-                  <i class="fa fa-stop"></i>
-                </span>
-                <span>
-                  End Presenting
-                </span>
+            <li *ngIf="started()">
+              <a class="nav-item" (click)="endSession()">
+                <span class="icon"><i class="fa fa-stop"></i></span>
+                <span>Stop Presenting</span>
               </a>
             </li>
           </ul>
-          <ul>
+          <ul *ngIf="started() && !completed()">
             <li>
-              <a class="nav-item">
-                <span class="icon">
-                  <i class="fa fa-angle-left"></i>
-                </span>
+              <a class="nav-item" (click)="prev()">
+                <span class="icon"><i class="fa fa-angle-left"></i></span>
                 <span>Previous</span>
               </a>
             </li>
             <li>
-              <a class="nav-item">
+              <a class="nav-item" (click)="next()">
                 <span>Next</span>
-                <span class="icon">
-                  <i class="fa fa-angle-right"></i>
-                </span>
+                <span class="icon"><i class="fa fa-angle-right"></i></span>
               </a>
             </li>
+          </ul>
+          <ul *ngIf="completed()">
+            <li><a class="nav-item">Completed</a></li>
           </ul>
         </nav>
       </div>
@@ -57,7 +50,8 @@
 
   <section class="section">
     <div class="container">
-      <div class="columns">
+      <!--non-mobile category headers-->
+      <div class="columns is-hidden-mobile">
         <div *ngIf="!categories.isEmpty && showAddCatMargins()" class="column"></div>
 
         <!--Category Titles-->
@@ -83,6 +77,9 @@
 
         <!--Category Items-->
         <div *ngFor="let category of categories" class="column {{catColumnClass()}}">
+          <p class="title is-4 is-hidden-tablet">{{category.title}}</p>
+          <p class="subtitle is-6 is-hidden-tablet">{{category.description}}</p>
+
           <p *ngFor="let item of itemsForCategory(category)" class="notification {{catColorClass(category)}}">
             <button class="delete"></button>
             {{printSupporters(item)}}
