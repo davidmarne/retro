@@ -1,5 +1,7 @@
 library app;
 
+import 'package:intl/intl.dart';
+
 import 'package:built_value/built_value.dart';
 import 'package:built_redux/built_redux.dart';
 import 'package:built_collection/built_collection.dart';
@@ -26,6 +28,15 @@ const String CREATE_ITEM_MODAL = "Create Item Modal";
 const String MANAGE_CONTENT_MODAL = "Manage Content Modal";
 const String NO_MODAL = "No Modal";
 
+int now() => new DateTime.now().millisecondsSinceEpoch;
+
+final _dateFormat = new DateFormat.yMMMMd("en_US");
+final _timeFormat = new DateFormat.Hm("en_US");
+
+String date(int epoch) => _dateFormat.format(new DateTime.fromMillisecondsSinceEpoch(epoch));
+String dateTime(int epoch) => "${time(epoch)} on ${date(epoch)}";
+String time(int epoch) => _timeFormat.format(new DateTime.fromMillisecondsSinceEpoch(epoch));
+
 ////////////////////
 /// Actions
 ///////////////////
@@ -33,7 +44,6 @@ const String NO_MODAL = "No Modal";
 /// [AppActions]
 abstract class AppActions extends ReduxActions {
   ActionDispatcher<Null> clear;
-
   ActionDispatcher<String> showModal;
   ActionDispatcher<Null> hideModal;
 
@@ -123,24 +133,22 @@ abstract class App extends BuiltReducer<App, AppBuilder>
   @memoized
   BuiltList<Category> get currentSessionCategories =>
       new BuiltList<Category>(
-        categories.map.values.where((Category c) => c.sessionUid == sessions.currentUid),
+        categories.visible.where((Category c) => c.sessionUid == sessions.currentUid),
       );
 
   @memoized
   BuiltList<Item> get currentSessionItems =>
       new BuiltList<Item>(
-        items.map.values.where((Item i) => i.sessionUid == sessions.currentUid),
+        items.visible.where((Item i) => i.sessionUid == sessions.currentUid),
       );
 
   @memoized
   BuiltList<Note> get currentSessionNotes =>
       new BuiltList<Note>(
-        notes.map.values.where((Note n) => n.sessionUid == sessions.currentUid),
+        notes.visible.where((Note n) => n.sessionUid == sessions.currentUid),
       );
 
-  String time(int time) => timeFormat.format(new DateTime.fromMillisecondsSinceEpoch(time));
-
-  String date(int date) => dateFormat.format(new DateTime.fromMillisecondsSinceEpoch(date));
+  Item get heroItem => items.map[sessions.current?.presentedUid];
 }
 
 ////////////////////

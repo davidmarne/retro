@@ -8,6 +8,9 @@ part of categories;
 // **************************************************************************
 
 class _$CategoriesActions extends CategoriesActions {
+  ActionDispatcher<bool> setVisibility =
+      new ActionDispatcher<bool>('CategoriesActions-setVisibility');
+
   ActionDispatcher<String> setCurrent =
       new ActionDispatcher<String>('CategoriesActions-setCurrent');
 
@@ -19,6 +22,7 @@ class _$CategoriesActions extends CategoriesActions {
   factory _$CategoriesActions() => new _$CategoriesActions._();
   _$CategoriesActions._() : super._();
   syncWithStore(dispatcher) {
+    setVisibility.syncWithStore(dispatcher);
     setCurrent.syncWithStore(dispatcher);
     remove.syncWithStore(dispatcher);
     update.syncWithStore(dispatcher);
@@ -26,6 +30,8 @@ class _$CategoriesActions extends CategoriesActions {
 }
 
 class CategoriesActionsNames {
+  static ActionName setVisibility =
+      new ActionName<bool>('CategoriesActions-setVisibility');
   static ActionName setCurrent =
       new ActionName<String>('CategoriesActions-setCurrent');
   static ActionName remove = new ActionName<String>('CategoriesActions-remove');
@@ -44,6 +50,7 @@ class _$Categories extends Categories {
   @override
   final String currentUid;
   Category __current;
+  BuiltList<Category> __visible;
 
   factory _$Categories([void updates(CategoriesBuilder b)]) =>
       (new CategoriesBuilder()..update(updates)).build();
@@ -55,6 +62,9 @@ class _$Categories extends Categories {
 
   @override
   Category get current => __current ??= super.current;
+
+  @override
+  BuiltList<Category> get visible => __visible ??= super.visible;
 
   @override
   Categories rebuild(void updates(CategoriesBuilder b)) =>

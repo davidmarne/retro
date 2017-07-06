@@ -33,6 +33,9 @@ class _$CategorySerializer implements StructuredSerializer<Category> {
       'description',
       serializers.serialize(object.description,
           specifiedType: const FullType(String)),
+      'visible',
+      serializers.serialize(object.visible,
+          specifiedType: const FullType(bool)),
     ];
 
     return result;
@@ -69,6 +72,10 @@ class _$CategorySerializer implements StructuredSerializer<Category> {
           result.description = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'visible':
+          result.visible = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool;
+          break;
       }
     }
 
@@ -92,18 +99,26 @@ class _$Category extends Category {
   final String title;
   @override
   final String description;
+  @override
+  final bool visible;
 
   factory _$Category([void updates(CategoryBuilder b)]) =>
       (new CategoryBuilder()..update(updates)).build();
 
   _$Category._(
-      {this.uid, this.boardUid, this.sessionUid, this.title, this.description})
+      {this.uid,
+      this.boardUid,
+      this.sessionUid,
+      this.title,
+      this.description,
+      this.visible})
       : super._() {
     if (uid == null) throw new ArgumentError.notNull('uid');
     if (boardUid == null) throw new ArgumentError.notNull('boardUid');
     if (sessionUid == null) throw new ArgumentError.notNull('sessionUid');
     if (title == null) throw new ArgumentError.notNull('title');
     if (description == null) throw new ArgumentError.notNull('description');
+    if (visible == null) throw new ArgumentError.notNull('visible');
   }
 
   @override
@@ -121,17 +136,20 @@ class _$Category extends Category {
         boardUid == other.boardUid &&
         sessionUid == other.sessionUid &&
         title == other.title &&
-        description == other.description;
+        description == other.description &&
+        visible == other.visible;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc(0, uid.hashCode), boardUid.hashCode),
-                sessionUid.hashCode),
-            title.hashCode),
-        description.hashCode));
+            $jc(
+                $jc($jc($jc(0, uid.hashCode), boardUid.hashCode),
+                    sessionUid.hashCode),
+                title.hashCode),
+            description.hashCode),
+        visible.hashCode));
   }
 
   @override
@@ -141,7 +159,8 @@ class _$Category extends Category {
           ..add('boardUid', boardUid)
           ..add('sessionUid', sessionUid)
           ..add('title', title)
-          ..add('description', description))
+          ..add('description', description)
+          ..add('visible', visible))
         .toString();
   }
 }
@@ -169,6 +188,10 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
   String get description => _$this._description;
   set description(String description) => _$this._description = description;
 
+  bool _visible;
+  bool get visible => _$this._visible;
+  set visible(bool visible) => _$this._visible = visible;
+
   CategoryBuilder();
 
   CategoryBuilder get _$this {
@@ -178,6 +201,7 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
       _sessionUid = _$v.sessionUid;
       _title = _$v.title;
       _description = _$v.description;
+      _visible = _$v.visible;
       _$v = null;
     }
     return this;
@@ -202,7 +226,8 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
             boardUid: boardUid,
             sessionUid: sessionUid,
             title: title,
-            description: description);
+            description: description,
+            visible: visible);
     replace(result);
     return result;
   }

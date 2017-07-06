@@ -15,11 +15,11 @@ part 'boards.g.dart';
 /// [BoardsActions]
 abstract class BoardsActions extends ReduxActions {
   ActionDispatcher<Board> update;
+  ActionDispatcher<String> setCurrent;
     // update title
     // update description
     // add / remove User
     // create new Session
-  ActionDispatcher<String> setCurrent;
 
   // factory to create on instance of the generated implementation of BoardsActions
   BoardsActions._();

@@ -8,6 +8,9 @@ part of notes;
 // **************************************************************************
 
 class _$NotesActions extends NotesActions {
+  ActionDispatcher<bool> setVisibility =
+      new ActionDispatcher<bool>('NotesActions-setVisibility');
+
   ActionDispatcher<String> remove =
       new ActionDispatcher<String>('NotesActions-remove');
 
@@ -16,12 +19,15 @@ class _$NotesActions extends NotesActions {
   factory _$NotesActions() => new _$NotesActions._();
   _$NotesActions._() : super._();
   syncWithStore(dispatcher) {
+    setVisibility.syncWithStore(dispatcher);
     remove.syncWithStore(dispatcher);
     update.syncWithStore(dispatcher);
   }
 }
 
 class NotesActionsNames {
+  static ActionName setVisibility =
+      new ActionName<bool>('NotesActions-setVisibility');
   static ActionName remove = new ActionName<String>('NotesActions-remove');
   static ActionName update = new ActionName<Note>('NotesActions-update');
 }
@@ -34,6 +40,7 @@ class NotesActionsNames {
 class _$Notes extends Notes {
   @override
   final BuiltMap<String, Note> map;
+  BuiltList<Note> __visible;
 
   factory _$Notes([void updates(NotesBuilder b)]) =>
       (new NotesBuilder()..update(updates)).build();
@@ -41,6 +48,9 @@ class _$Notes extends Notes {
   _$Notes._({this.map}) : super._() {
     if (map == null) throw new ArgumentError.notNull('map');
   }
+
+  @override
+  BuiltList<Note> get visible => __visible ??= super.visible;
 
   @override
   Notes rebuild(void updates(NotesBuilder b)) =>

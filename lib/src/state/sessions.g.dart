@@ -8,27 +8,42 @@ part of sessions;
 // **************************************************************************
 
 class _$SessionsActions extends SessionsActions {
-  ActionDispatcher<String> remove =
-      new ActionDispatcher<String>('SessionsActions-remove');
+  ActionDispatcher<String> present =
+      new ActionDispatcher<String>('SessionsActions-present');
+
+  ActionDispatcher<Null> end =
+      new ActionDispatcher<Null>('SessionsActions-end');
+
+  ActionDispatcher<Null> start =
+      new ActionDispatcher<Null>('SessionsActions-start');
 
   ActionDispatcher<String> setCurrent =
       new ActionDispatcher<String>('SessionsActions-setCurrent');
+
+  ActionDispatcher<String> remove =
+      new ActionDispatcher<String>('SessionsActions-remove');
 
   ActionDispatcher<Session> update =
       new ActionDispatcher<Session>('SessionsActions-update');
   factory _$SessionsActions() => new _$SessionsActions._();
   _$SessionsActions._() : super._();
   syncWithStore(dispatcher) {
-    remove.syncWithStore(dispatcher);
+    present.syncWithStore(dispatcher);
+    end.syncWithStore(dispatcher);
+    start.syncWithStore(dispatcher);
     setCurrent.syncWithStore(dispatcher);
+    remove.syncWithStore(dispatcher);
     update.syncWithStore(dispatcher);
   }
 }
 
 class SessionsActionsNames {
-  static ActionName remove = new ActionName<String>('SessionsActions-remove');
+  static ActionName present = new ActionName<String>('SessionsActions-present');
+  static ActionName end = new ActionName<Null>('SessionsActions-end');
+  static ActionName start = new ActionName<Null>('SessionsActions-start');
   static ActionName setCurrent =
       new ActionName<String>('SessionsActions-setCurrent');
+  static ActionName remove = new ActionName<String>('SessionsActions-remove');
   static ActionName update = new ActionName<Session>('SessionsActions-update');
 }
 

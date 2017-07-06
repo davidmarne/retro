@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:firebase/firebase.dart' as firebase;
 
 import './refs.dart';
@@ -14,6 +15,8 @@ import './models/board.dart';
 import './models/user.dart';
 import './models/session.dart';
 import './models/dateIntervalKinds.dart';
+
+const int DEFAULT_SESSION_DURATION = 3600;
 
 class FirebaseClient {
   final Refs _refs;
@@ -155,21 +158,44 @@ class FirebaseClient {
   }
 
   Future setUsersLatestBoard(String userUid, String boardUid) async {
-    var now = new DateTime.now().millisecondsSinceEpoch;
-    await _refs.userBoards(userUid).child(boardUid).set(now);
-    await _refs.boardMembers(boardUid).child(userUid).set(now);
+    var epoch = now();
+    await _refs.userBoards(userUid).child(boardUid).set(epoch);
+    await _refs.boardMembers(boardUid).child(userUid).set(epoch);
   }
 
   Future setBoardsLatestSession(String boardUid, String sessionUid) async {
     await _refs.board(boardUid).child("latestSessionUid").set(sessionUid);
   }
 
-  Future addSupport(String userUid, String boardUid, String sessionUid, String itemUid) async {
-    await _refs.item(boardUid, sessionUid, itemUid).child("supporterUids").child(userUid).set(true);
+  Future addSupport(String userUid, Item item) async {
+    await _refs.item(item.boardUid, item.sessionUid, item.uid).child("supporterUids").child(userUid).set(true);
   }
 
-  Future removeSupport(String userUid, String boardUid, String sessionUid, String itemUid) async {
-    await _refs.item(boardUid, sessionUid, itemUid).child("supporterUids").child(userUid).remove();
+  Future removeSupport(String userUid, Item item) async {
+    await _refs.item(item.boardUid, item.sessionUid, item.uid).child("supporterUids").child(userUid).remove();
+  }
+
+  Future setSessionTarget(Session session, int targetTime) async {
+    await await _refs.session(session.boardUid, session.uid).child("targetTime").set(targetTime);
+  }
+
+  Future startSession(Session session, int startTime) async {
+    await await _refs.session(session.boardUid, session.uid).child("startTime").set(startTime);
+  }
+
+  Future endSession(Session session, int endTime) async {
+    await await _refs.session(session.boardUid, session.uid).child("endTime").set(endTime);
+  }
+
+  Future present(Item item, int startTime) async {
+    // TODO: prevent collisions by making this a transaction.
+    await _refs.session(item.boardUid, item.sessionUid).child("presentedUid").set(item.uid);
+    await _refs.session(item.boardUid, item.sessionUid).child("presentedDate").set(startTime);
+  }
+
+  Future updateItemTime(Item item, int delta) async {
+    // TODO: prevent collisions by making this a transaction.
+    await _refs.item(item.boardUid, item.sessionUid, item.uid).child("time").set(item.time + delta);
   }
 
   ////////////////
@@ -229,7 +255,8 @@ class FirebaseClient {
       ..boardUid = boardUid
       ..sessionUid = sessionUid
       ..title = title
-      ..description = description);
+      ..description = description
+      ..visible = true);
 
     newCategoryRef.set(serializers.serializeWith(Category.serializer, category));
     return category;
@@ -237,14 +264,16 @@ class FirebaseClient {
 
   Future<Session> _createSession(
     String boardUid, {
-    int targetTime: 3600000,
+    int targetTime: DEFAULT_SESSION_DURATION,
     int startTime: 0,
     int endTime: 0,
   }) async {
+    var epoch = now();
     final newSessionRef = await _refs.sessions(boardUid).push().future;
     final session = new Session((SessionBuilder b) => b
       ..uid = newSessionRef.key
       ..boardUid = boardUid
+      ..createdDate = epoch
       ..targetTime = targetTime
       ..startTime = startTime
       ..endTime = endTime);

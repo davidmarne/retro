@@ -20,6 +20,9 @@ abstract class Category implements Built<Category, CategoryBuilder> {
 
   String get description;
 
+  /// [visible] when false, prevent Category from appearing in any sets.
+  bool get visible;
+
   // Built value boilerplate
   Category._();
   factory Category([updates(CategoryBuilder b)]) = _$Category;

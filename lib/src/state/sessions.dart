@@ -15,12 +15,15 @@ part 'sessions.g.dart';
 /// [SessionsActions]
 abstract class SessionsActions extends ReduxActions {
   ActionDispatcher<Session> update;
+  ActionDispatcher<String> remove;
+  ActionDispatcher<String> setCurrent;
   // update startDate
   // update endData
   // add Category
   // remove Category
-  ActionDispatcher<String> setCurrent;
-  ActionDispatcher<String> remove;
+  ActionDispatcher<Null> start;
+  ActionDispatcher<Null> end;
+  ActionDispatcher<String> present; // uid of item to be presented.
 
   // factory to create on instance of the generated implementation of BoardsActions
   SessionsActions._();
