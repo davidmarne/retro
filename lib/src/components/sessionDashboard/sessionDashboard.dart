@@ -97,7 +97,12 @@ class SessionDashboardComponent implements OnInit {
       _store.actions.items.addSupport(item.uid);
     }
   }
-  
+
+  String printSupporters(Item item) {
+    if(item.supporterUids.isEmpty) return "";
+    else return "+${item.supporterUids.length}";
+  }
+
   bool showAddCatMargins() => categories.length < 4;
 
   // showingNotes bound to Show Notes button
