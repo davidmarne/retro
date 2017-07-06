@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:firebase/firebase.dart' as firebase;
 
 import './refs.dart';
@@ -166,12 +167,43 @@ class FirebaseClient {
     await _refs.board(boardUid).child("latestSessionUid").set(sessionUid);
   }
 
-  Future addSupport(String userUid, String boardUid, String sessionUid, String itemUid) async {
-    await _refs.item(boardUid, sessionUid, itemUid).child("supporterUids").child(userUid).set(true);
+  Future addSupport(String userUid, Item item) async {
+    await _refs.item(item.boardUid, item.sessionUid, item.uid).child("supporterUids").child(userUid).set(true);
   }
 
-  Future removeSupport(String userUid, String boardUid, String sessionUid, String itemUid) async {
-    await _refs.item(boardUid, sessionUid, itemUid).child("supporterUids").child(userUid).remove();
+  Future removeSupport(String userUid, Item item) async {
+    await _refs.item(item.boardUid, item.sessionUid, item.uid).child("supporterUids").child(userUid).remove();
+  }
+
+  Future setSessionTarget(Session session, int targetTime) async {
+    await await _refs.session(session.boardUid, session.uid).child("targetTime").set(targetTime);
+  }
+
+  Future startSession(Session session, int startTime) async {
+    await await _refs.session(session.boardUid, session.uid).child("startTime").set(startTime);
+  }
+
+  Future endSession(Session session, int endTime) async {
+    await await _refs.session(session.boardUid, session.uid).child("endTime").set(endTime);
+  }
+
+  Future present(Item item, int startTime) async {
+    await _refs.session(item.boardUid, item.sessionUid).transaction((sessionJSON) {
+      Session session = serializers.deserializeWith(Session.serializer, JSON.decode(sessionJSON));
+      return session.rebuild((SessionBuilder b) => b
+        ..presentedUid = item.uid
+        ..presentedDate = startTime
+      );
+    });
+  }
+
+  Future updateItemTime(Item item, int delta) async {
+    await _refs.item(item.boardUid, item.sessionUid, item.uid).transaction((itemJSON) {
+      Item item = serializers.deserializeWith(Item.serializer, JSON.decode(itemJSON));
+      return item.rebuild((ItemBuilder b) => b
+        ..time = item.time + delta
+      );
+    });
   }
 
   ////////////////
@@ -231,7 +263,8 @@ class FirebaseClient {
       ..boardUid = boardUid
       ..sessionUid = sessionUid
       ..title = title
-      ..description = description);
+      ..description = description
+      ..visible = true);
 
     newCategoryRef.set(serializers.serializeWith(Category.serializer, category));
     return category;

@@ -13,14 +13,6 @@ abstract class Session implements Built<Session, SessionBuilder> {
 
   String get boardUid;
 
-  /// uid for the User who is driving the session.
-  @nullable
-  String get presenterUid;
-
-  /// uid for the Item being desplayed.
-  @nullable
-  String get presentedUid;
-
   int get createdDate;
 
   int get targetTime;
@@ -28,6 +20,12 @@ abstract class Session implements Built<Session, SessionBuilder> {
   int get startTime;
 
   int get endTime;
+
+  @nullable
+  String get presentedUid; // currently presented item
+
+  @nullable
+  int get presentedDate; // time when the item was initially presented
 
   // Built value boilerplate
   Session._();

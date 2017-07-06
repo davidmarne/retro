@@ -7,6 +7,52 @@
         <h2 class="subtitle">{{board.description}}</h2>
       </div>
     </div>
+    <div class="hero-foot">
+      <div class="container">
+        <nav class="tabs is-boxed is-pulled-right">
+          <ul>
+            <li>
+              <a class="nav-item">
+                <span class="icon">
+                  <i class="fa fa-play"></i>
+                </span>
+                <span>
+                  Start Presenting
+                </span>
+              </a>
+            </li>
+            <li>
+              <a class="nav-item">
+                <span class="icon">
+                  <i class="fa fa-stop"></i>
+                </span>
+                <span>
+                  End Presenting
+                </span>
+              </a>
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <a class="nav-item">
+                <span class="icon">
+                  <i class="fa fa-angle-left"></i>
+                </span>
+                <span>Previous</span>
+              </a>
+            </li>
+            <li>
+              <a class="nav-item">
+                <span>Next</span>
+                <span class="icon">
+                  <i class="fa fa-angle-right"></i>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
   </section>
 
   <section class="section">
@@ -39,9 +85,7 @@
         <div *ngFor="let category of categories" class="column {{catColumnClass()}}">
           <p *ngFor="let item of itemsForCategory(category)" class="notification {{catColorClass(category)}}">
             <button class="delete"></button>
-            <span>
-              {{printSupporters(item)}}
-            </span>
+            {{printSupporters(item)}}
             <span class="icon">
               <i class="fa {{supported(item) ? 'fa-heart' : 'fa-heart-o'}}" (click)="toggleSupport(item)"></i>
             </span>

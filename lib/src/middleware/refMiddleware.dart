@@ -4,11 +4,14 @@ import '../state/app.dart';
 import '../state/users.dart';
 import '../state/boards.dart';
 import '../state/sessions.dart';
+import '../state/items.dart';
+
 import '../firebaseClient.dart';
+
 import '../models/user.dart';
 import '../models/board.dart';
 import '../models/session.dart';
-import '../state/items.dart';
+import '../models/item.dart';
 
 ////////////////////
 /// Action Map
@@ -17,8 +20,13 @@ import '../state/items.dart';
 createRefMiddleware(FirebaseClient client) => (new MiddlwareBuilder<App, AppBuilder, AppActions>()
       ..add<String>(ItemsActionsNames.addSupport, _addSupport(client))
       ..add<String>(ItemsActionsNames.removeSupport, _removeSupport(client))
-      ..add<String>(UsersActionsNames.setCurrent, _onSetCurrentUser(client))
+
+      ..add<String>(SessionsActionsNames.start, _startSession(client))
+      ..add<String>(SessionsActionsNames.end, _endSession(client))
+      ..add<String>(SessionsActionsNames.present, _present(client))
+
       ..add<User>(UsersActionsNames.update, _onUpdateUser(client))
+      ..add<String>(UsersActionsNames.setCurrent, _onSetCurrentUser(client))
       ..add<Board>(BoardsActionsNames.update, _onUpdateBoard(client))
       ..add<String>(BoardsActionsNames.setCurrent, _onSetCurrentBoard(client))
       ..add<Session>(SessionsActionsNames.update, _onUpdateSession(client))
@@ -98,29 +106,6 @@ _onSetCurrentSession(FirebaseClient client) => (
   _updateCurrentSessionSubs(client, api);
 };
 
-_addSupport(FirebaseClient client) => (
-  MiddlewareApi<App, AppBuilder, AppActions> api,
-  ActionHandler next,
-  Action<String> action) {
-    var userUid = api.state.users.currentUid;
-    var boardUid = api.state.boards.currentUid;
-    var sessionUid = api.state.sessions.currentUid;
-    var itemUid = action.payload;
-    return client.addSupport(userUid, boardUid, sessionUid, itemUid);
-  };
-
-_removeSupport(FirebaseClient client) => (
-  MiddlewareApi<App, AppBuilder, AppActions> api,
-  ActionHandler next,
-  Action<String> action) {
-    var userUid = api.state.users.currentUid;
-    var boardUid = api.state.boards.currentUid;
-    var sessionUid = api.state.sessions.currentUid;
-    var itemUid = action.payload;
-    return client.removeSupport(userUid, boardUid, sessionUid, itemUid);
-  };
-
-
 // Shared functionality
 
 _updateCurrentUserSubs(FirebaseClient client, MiddlewareApi<App, AppBuilder, AppActions> api) {
@@ -146,3 +131,78 @@ _updateCurrentSessionSubs(FirebaseClient client, MiddlewareApi<App, AppBuilder, 
     client.subToNotes(session.boardUid, session.uid);
   }
 }
+
+// Update Ref Properties
+
+_addSupport(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    var userUid = api.state.users.currentUid;
+    Item item = api.state.items.map[action.payload];
+    if (item != null && userUid != "") {
+      return client.addSupport(userUid, item);
+    }
+    return null;
+  };
+
+_removeSupport(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    var userUid = api.state.users.currentUid;
+    Item item = api.state.items.map[action.payload];
+    if (item != null && userUid != "") {
+      return client.removeSupport(userUid, item);
+    }
+    return null;
+  };
+
+_startSession(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    var epoch = now();
+    Session session = api.state.sessions.current;
+    if (session == null) {
+      client.startSession(session, epoch);
+    }
+  };
+
+_endSession(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    var epoch = now();
+    Session session = api.state.sessions.current;
+    if (session == null) {
+      client.endSession(session, epoch);
+    }
+  };
+
+_present(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    var epoch = now();
+    Session session = api.state.sessions.current;
+    if (session != null) {
+      String oldItemUid = api.state.sessions.current.presentedUid;
+      if (action.payload != oldItemUid) {
+        if (oldItemUid != "") {
+          int oldItemStartTime = api.state.sessions.current.presentedDate;
+          Item oldItem = api.state.items.map[oldItemUid];
+          if (oldItem != null) {
+            client.updateItemTime(oldItem, epoch - oldItemStartTime);
+          }
+        }
+      }
+      // present new item
+      if (action.payload != "") {
+        Item newItem = api.state.items.map[action.payload];
+        if (newItem != null) {
+          client.present(newItem, epoch);
+        }
+      }
+    }
+  };

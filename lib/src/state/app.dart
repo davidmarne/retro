@@ -147,6 +147,8 @@ abstract class App extends BuiltReducer<App, AppBuilder>
       new BuiltList<Note>(
         notes.map.values.where((Note n) => n.sessionUid == sessions.currentUid),
       );
+
+  Item get heroItem => items.map[sessions.current?.presentedUid];
 }
 
 ////////////////////

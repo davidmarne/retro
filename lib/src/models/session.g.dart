@@ -36,17 +36,17 @@ class _$SessionSerializer implements StructuredSerializer<Session> {
       'endTime',
       serializers.serialize(object.endTime, specifiedType: const FullType(int)),
     ];
-    if (object.presenterUid != null) {
-      result
-        ..add('presenterUid')
-        ..add(serializers.serialize(object.presenterUid,
-            specifiedType: const FullType(String)));
-    }
     if (object.presentedUid != null) {
       result
         ..add('presentedUid')
         ..add(serializers.serialize(object.presentedUid,
             specifiedType: const FullType(String)));
+    }
+    if (object.presentedDate != null) {
+      result
+        ..add('presentedDate')
+        ..add(serializers.serialize(object.presentedDate,
+            specifiedType: const FullType(int)));
     }
 
     return result;
@@ -71,14 +71,6 @@ class _$SessionSerializer implements StructuredSerializer<Session> {
           result.boardUid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'presenterUid':
-          result.presenterUid = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
-          break;
-        case 'presentedUid':
-          result.presentedUid = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
-          break;
         case 'createdDate':
           result.createdDate = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
@@ -93,6 +85,14 @@ class _$SessionSerializer implements StructuredSerializer<Session> {
           break;
         case 'endTime':
           result.endTime = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'presentedUid':
+          result.presentedUid = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'presentedDate':
+          result.presentedDate = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
       }
@@ -113,10 +113,6 @@ class _$Session extends Session {
   @override
   final String boardUid;
   @override
-  final String presenterUid;
-  @override
-  final String presentedUid;
-  @override
   final int createdDate;
   @override
   final int targetTime;
@@ -124,6 +120,10 @@ class _$Session extends Session {
   final int startTime;
   @override
   final int endTime;
+  @override
+  final String presentedUid;
+  @override
+  final int presentedDate;
   bool __started;
   bool __completed;
   String __state;
@@ -134,12 +134,12 @@ class _$Session extends Session {
   _$Session._(
       {this.uid,
       this.boardUid,
-      this.presenterUid,
-      this.presentedUid,
       this.createdDate,
       this.targetTime,
       this.startTime,
-      this.endTime})
+      this.endTime,
+      this.presentedUid,
+      this.presentedDate})
       : super._() {
     if (uid == null) throw new ArgumentError.notNull('uid');
     if (boardUid == null) throw new ArgumentError.notNull('boardUid');
@@ -171,12 +171,12 @@ class _$Session extends Session {
     if (other is! Session) return false;
     return uid == other.uid &&
         boardUid == other.boardUid &&
-        presenterUid == other.presenterUid &&
-        presentedUid == other.presentedUid &&
         createdDate == other.createdDate &&
         targetTime == other.targetTime &&
         startTime == other.startTime &&
-        endTime == other.endTime;
+        endTime == other.endTime &&
+        presentedUid == other.presentedUid &&
+        presentedDate == other.presentedDate;
   }
 
   @override
@@ -187,12 +187,12 @@ class _$Session extends Session {
                 $jc(
                     $jc(
                         $jc($jc($jc(0, uid.hashCode), boardUid.hashCode),
-                            presenterUid.hashCode),
-                        presentedUid.hashCode),
-                    createdDate.hashCode),
-                targetTime.hashCode),
-            startTime.hashCode),
-        endTime.hashCode));
+                            createdDate.hashCode),
+                        targetTime.hashCode),
+                    startTime.hashCode),
+                endTime.hashCode),
+            presentedUid.hashCode),
+        presentedDate.hashCode));
   }
 
   @override
@@ -200,12 +200,12 @@ class _$Session extends Session {
     return (newBuiltValueToStringHelper('Session')
           ..add('uid', uid)
           ..add('boardUid', boardUid)
-          ..add('presenterUid', presenterUid)
-          ..add('presentedUid', presentedUid)
           ..add('createdDate', createdDate)
           ..add('targetTime', targetTime)
           ..add('startTime', startTime)
-          ..add('endTime', endTime))
+          ..add('endTime', endTime)
+          ..add('presentedUid', presentedUid)
+          ..add('presentedDate', presentedDate))
         .toString();
   }
 }
@@ -220,14 +220,6 @@ class SessionBuilder implements Builder<Session, SessionBuilder> {
   String _boardUid;
   String get boardUid => _$this._boardUid;
   set boardUid(String boardUid) => _$this._boardUid = boardUid;
-
-  String _presenterUid;
-  String get presenterUid => _$this._presenterUid;
-  set presenterUid(String presenterUid) => _$this._presenterUid = presenterUid;
-
-  String _presentedUid;
-  String get presentedUid => _$this._presentedUid;
-  set presentedUid(String presentedUid) => _$this._presentedUid = presentedUid;
 
   int _createdDate;
   int get createdDate => _$this._createdDate;
@@ -245,18 +237,26 @@ class SessionBuilder implements Builder<Session, SessionBuilder> {
   int get endTime => _$this._endTime;
   set endTime(int endTime) => _$this._endTime = endTime;
 
+  String _presentedUid;
+  String get presentedUid => _$this._presentedUid;
+  set presentedUid(String presentedUid) => _$this._presentedUid = presentedUid;
+
+  int _presentedDate;
+  int get presentedDate => _$this._presentedDate;
+  set presentedDate(int presentedDate) => _$this._presentedDate = presentedDate;
+
   SessionBuilder();
 
   SessionBuilder get _$this {
     if (_$v != null) {
       _uid = _$v.uid;
       _boardUid = _$v.boardUid;
-      _presenterUid = _$v.presenterUid;
-      _presentedUid = _$v.presentedUid;
       _createdDate = _$v.createdDate;
       _targetTime = _$v.targetTime;
       _startTime = _$v.startTime;
       _endTime = _$v.endTime;
+      _presentedUid = _$v.presentedUid;
+      _presentedDate = _$v.presentedDate;
       _$v = null;
     }
     return this;
@@ -279,12 +279,12 @@ class SessionBuilder implements Builder<Session, SessionBuilder> {
         new _$Session._(
             uid: uid,
             boardUid: boardUid,
-            presenterUid: presenterUid,
-            presentedUid: presentedUid,
             createdDate: createdDate,
             targetTime: targetTime,
             startTime: startTime,
-            endTime: endTime);
+            endTime: endTime,
+            presentedUid: presentedUid,
+            presentedDate: presentedDate);
     replace(result);
     return result;
   }

@@ -21,6 +21,9 @@ abstract class SessionsActions extends ReduxActions {
   // update endData
   // add Category
   // remove Category
+  ActionDispatcher<Null> start;
+  ActionDispatcher<Null> end;
+  ActionDispatcher<String> present; // uid of item to be presented.
 
   // factory to create on instance of the generated implementation of BoardsActions
   SessionsActions._();
