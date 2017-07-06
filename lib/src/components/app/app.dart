@@ -9,7 +9,6 @@ import '../sessionDashboard/sessionDashboard.dart';
 import '../../store.dart';
 
 import '../../models/board.dart';
-import '../../models/session.dart';
 
 import '../../state/app.dart';
 

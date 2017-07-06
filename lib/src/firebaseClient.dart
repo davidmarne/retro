@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:firebase/firebase.dart' as firebase;
 
 import './refs.dart';
@@ -14,7 +13,6 @@ import './models/category.dart';
 import './models/board.dart';
 import './models/user.dart';
 import './models/session.dart';
-import './models/dateIntervalKinds.dart';
 
 const int DEFAULT_SESSION_DURATION = 3600;
 

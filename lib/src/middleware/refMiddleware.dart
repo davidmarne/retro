@@ -138,6 +138,7 @@ _addSupport(FirebaseClient client) => (
   MiddlewareApi<App, AppBuilder, AppActions> api,
   ActionHandler next,
   Action<String> action) {
+    next(action);
     var userUid = api.state.users.currentUid;
     Item item = api.state.items.map[action.payload];
     if (item != null && userUid != "") {
@@ -150,6 +151,7 @@ _removeSupport(FirebaseClient client) => (
   MiddlewareApi<App, AppBuilder, AppActions> api,
   ActionHandler next,
   Action<String> action) {
+    next(action);
     var userUid = api.state.users.currentUid;
     Item item = api.state.items.map[action.payload];
     if (item != null && userUid != "") {
@@ -162,6 +164,7 @@ _startSession(FirebaseClient client) => (
   MiddlewareApi<App, AppBuilder, AppActions> api,
   ActionHandler next,
   Action<String> action) {
+    next(action);
     var epoch = now();
     Session session = api.state.sessions.current;
     if (session != null) {
@@ -173,6 +176,7 @@ _endSession(FirebaseClient client) => (
   MiddlewareApi<App, AppBuilder, AppActions> api,
   ActionHandler next,
   Action<String> action) {
+    next(action);
     var epoch = now();
     Session session = api.state.sessions.current;
     if (session != null) {
@@ -184,6 +188,7 @@ _present(FirebaseClient client) => (
   MiddlewareApi<App, AppBuilder, AppActions> api,
   ActionHandler next,
   Action<String> action) {
+    next(action);
     var epoch = now();
     Session session = api.state.sessions.current;
     if (session != null) {

@@ -4,7 +4,6 @@ import 'package:built_redux/built_redux.dart';
 
 import '../firebaseClient.dart';
 import '../state/app.dart';
-import '../models/dateIntervalKinds.dart';
 
 part 'creationMiddleware.g.dart';
 
