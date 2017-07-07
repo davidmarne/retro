@@ -1,4 +1,4 @@
-import 'dart:async';
+import 'dart:html';
 import 'dart:math';
 
 import 'package:angular2/core.dart';
@@ -34,9 +34,11 @@ class SessionDashboardComponent implements OnInit {
   final Store<App, AppBuilder, AppActions> _store;
   final RouteParams _routeParams;
 
-  int heroTimeProgress = 100;
+  double heroTimeProgress = 100.0;
 
-  Timer periodic;
+  int itemsCovered = 1;
+  
+  int itemsRemaining = 1;
 
   SessionDashboardComponent(StoreService storeService, this._routeParams)
       : _store = storeService.store;
@@ -44,22 +46,36 @@ class SessionDashboardComponent implements OnInit {
   void ngOnInit() {
     if (buid != _store.state.boards.currentUid) _store.actions.boards.setCurrent(buid);
     if (suid != _store.state.sessions.currentUid) _store.actions.sessions.setCurrent(suid);
-    periodic = new Timer.periodic(new Duration(milliseconds: 60), tick);
+    tick();
   }
 
-  void tick(_) {
+  void tick([_]) {
+    window.requestAnimationFrame(tick);
     if (!inProgress()) return;
     Item heroItem = _store.state.heroItem;
     if (heroItem == null) return;
 
-    int count = 0;
+    var epoch = now();
+    itemsCovered = 0;
+    itemsRemaining = 0;
+    var remainingPoints = 0;
+    int otherItemTime = 0;
     items.forEach((item) {
-      count += item.supporterUids.length + 1;
+      if (item != heroItem) {
+        if (isItemCovered(item)) {
+          itemsCovered++;
+        } else {
+          itemsRemaining++;
+          remainingPoints += item.supporterUids.length + 1;
+        }
+        otherItemTime += item.time;
+      }
     });
-    // TODO: come up with a better formula
-    var heroTargetTime = (heroItem.supporterUids.length + 1) * (session.targetTime / count);
-    var heroActualTime = heroItem.time + (now() - session.presentedDate);
-    heroTimeProgress = (heroActualTime / max(heroTargetTime, heroActualTime) * 100).toInt();
+    var heroActualTime = heroItem.time + (epoch - session.presentedDate);
+    var heroPoints = heroItem.supporterUids.length + 1;
+    var remainingTime = max(0, session.targetTime - otherItemTime - heroActualTime);
+    var heroTargetTime = heroPoints * (remainingTime / (remainingPoints + heroPoints));
+    heroTimeProgress = (heroActualTime / max(heroTargetTime, heroActualTime) * 100.0);
   }
 
   // url params
@@ -120,6 +136,8 @@ class SessionDashboardComponent implements OnInit {
       _store.actions.items.addSupport(item.uid);
     }
   }
+
+  bool isItemCovered(Item item) => item.time > 3000;
 
   bool isItemOwner(Item item) => item.ownerUid == _store.state.users.currentUid;
 
