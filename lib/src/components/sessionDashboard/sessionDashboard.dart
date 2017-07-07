@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:angular2/core.dart';
 import 'package:angular2/router.dart';
 import 'package:built_redux/built_redux.dart';
@@ -31,12 +34,32 @@ class SessionDashboardComponent implements OnInit {
   final Store<App, AppBuilder, AppActions> _store;
   final RouteParams _routeParams;
 
+  int heroTimeProgress = 100;
+
+  Timer periodic;
+
   SessionDashboardComponent(StoreService storeService, this._routeParams)
       : _store = storeService.store;
 
   void ngOnInit() {
     if (buid != _store.state.boards.currentUid) _store.actions.boards.setCurrent(buid);
     if (suid != _store.state.sessions.currentUid) _store.actions.sessions.setCurrent(suid);
+    periodic = new Timer.periodic(new Duration(milliseconds: 60), tick);
+  }
+
+  void tick(_) {
+    if (!inProgress()) return;
+    Item heroItem = _store.state.heroItem;
+    if (heroItem == null) return;
+
+    int count = 0;
+    items.forEach((item) {
+      count += item.supporterUids.length + 1;
+    });
+    // TODO: come up with a better formula
+    var heroTargetTime = (heroItem.supporterUids.length + 1) * (session.targetTime / count);
+    var heroActualTime = heroItem.time + (now() - session.presentedDate);
+    heroTimeProgress = (heroActualTime / max(heroTargetTime, heroActualTime) * 100).toInt();
   }
 
   // url params
@@ -134,6 +157,8 @@ class SessionDashboardComponent implements OnInit {
   bool started() => session != null ? session.started : false;
 
   bool completed() => session != null ? session.completed : false;
+
+  bool inProgress() => started() && !completed();
 
   void startSession() {
     _store.actions.sessions.start(null);

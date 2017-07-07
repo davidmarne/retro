@@ -3,10 +3,11 @@
   <section class="hero is-dark">
     <div class="hero-body">
       <div class="container">
-        <h1 *ngIf="!started() || completed()" class="title">{{board.title}}</h1>
-        <h2 *ngIf="!started() || completed()" class="subtitle">{{board.description}}</h2>
-        <h1 *ngIf="started() && !completed()" class="title">"{{heroText()}}"</h1>
-        <h2 *ngIf="started() && !completed()" class="subtitle">{{heroAuthor()}}</h2>
+        <h1 *ngIf="!inProgress()" class="title">{{board.title}}</h1>
+        <h2 *ngIf="!inProgress()" class="subtitle">{{board.description}}</h2>
+        <h1 *ngIf="inProgress()" class="title">"{{heroText()}}"</h1>
+        <h2 *ngIf="inProgress()" class="subtitle">{{heroAuthor()}}</h2>
+        <progress *ngIf="inProgress()" class="progress" value="{{heroTimeProgress}}" max="100">{{heroTimeProgress}}%</progress>
       </div>
     </div>
     <div class="hero-foot">

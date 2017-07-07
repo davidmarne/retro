@@ -14,7 +14,7 @@ import './models/board.dart';
 import './models/user.dart';
 import './models/session.dart';
 
-const int DEFAULT_SESSION_DURATION = 3600;
+const int DEFAULT_SESSION_DURATION = 1800000;
 
 class FirebaseClient {
   final Refs _refs;
