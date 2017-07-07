@@ -81,7 +81,7 @@
           <p class="subtitle is-6 is-hidden-tablet">{{category.description}}</p>
 
           <p *ngFor="let item of itemsForCategory(category)" class="notification {{catColorClass(category)}}">
-            <button class="delete"></button>
+            <button *ngIf="isItemOwner(item)" class="delete" (click)="hideItem(item)"></button>
             {{printSupporters(item)}}
             <span class="icon">
               <i class="fa {{supported(item) ? 'fa-heart' : 'fa-heart-o'}}" (click)="toggleSupport(item)"></i>

@@ -20,6 +20,7 @@ import '../models/item.dart';
 createRefMiddleware(FirebaseClient client) => (new MiddlwareBuilder<App, AppBuilder, AppActions>()
       ..add<String>(ItemsActionsNames.addSupport, _addSupport(client))
       ..add<String>(ItemsActionsNames.removeSupport, _removeSupport(client))
+      ..add<String>(ItemsActionsNames.hide, _hide(client))
 
       ..add<Null>(SessionsActionsNames.start, _startSession(client))
       ..add<Null>(SessionsActionsNames.end, _endSession(client))
@@ -142,9 +143,8 @@ _addSupport(FirebaseClient client) => (
     var userUid = api.state.users.currentUid;
     Item item = api.state.items.map[action.payload];
     if (item != null && userUid != "") {
-      return client.addSupport(userUid, item);
+      client.addSupport(userUid, item);
     }
-    return null;
   };
 
 _removeSupport(FirebaseClient client) => (
@@ -155,9 +155,19 @@ _removeSupport(FirebaseClient client) => (
     var userUid = api.state.users.currentUid;
     Item item = api.state.items.map[action.payload];
     if (item != null && userUid != "") {
-      return client.removeSupport(userUid, item);
+      client.removeSupport(userUid, item);
     }
-    return null;
+  };
+
+_hide(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    next(action);
+    var item = api.state.items.map[action.payload];
+    if (item != null) {
+      client.hideItem(item);
+    }
   };
 
 _startSession(FirebaseClient client) => (

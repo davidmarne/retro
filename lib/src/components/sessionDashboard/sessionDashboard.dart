@@ -98,6 +98,12 @@ class SessionDashboardComponent implements OnInit {
     }
   }
 
+  bool isItemOwner(Item item) => item.ownerUid == _store.state.users.currentUid;
+
+  void hideItem(Item item) {
+    _store.actions.items.hide(item.uid);
+  }
+
   String printSupporters(Item item) {
     if(item.supporterUids.isEmpty) return "";
     else return "+${item.supporterUids.length}";

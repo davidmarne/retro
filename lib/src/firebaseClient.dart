@@ -173,6 +173,10 @@ class FirebaseClient {
     await _refs.item(item.boardUid, item.sessionUid, item.uid).child("supporterUids").child(userUid).remove();
   }
 
+  Future hideItem(Item item) async {
+    await _refs.item(item.boardUid, item.sessionUid, item.uid).child("visible").set(false);
+  }
+
   Future setSessionTarget(Session session, int targetTime) async {
     await await _refs.session(session.boardUid, session.uid).child("targetTime").set(targetTime);
   }

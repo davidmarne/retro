@@ -8,8 +8,8 @@ part of items;
 // **************************************************************************
 
 class _$ItemsActions extends ItemsActions {
-  ActionDispatcher<bool> setVisibility =
-      new ActionDispatcher<bool>('ItemsActions-setVisibility');
+  ActionDispatcher<String> hide =
+      new ActionDispatcher<String>('ItemsActions-hide');
 
   ActionDispatcher<String> removeSupport =
       new ActionDispatcher<String>('ItemsActions-removeSupport');
@@ -28,7 +28,7 @@ class _$ItemsActions extends ItemsActions {
   factory _$ItemsActions() => new _$ItemsActions._();
   _$ItemsActions._() : super._();
   syncWithStore(dispatcher) {
-    setVisibility.syncWithStore(dispatcher);
+    hide.syncWithStore(dispatcher);
     removeSupport.syncWithStore(dispatcher);
     addSupport.syncWithStore(dispatcher);
     setCurrent.syncWithStore(dispatcher);
@@ -38,8 +38,7 @@ class _$ItemsActions extends ItemsActions {
 }
 
 class ItemsActionsNames {
-  static ActionName setVisibility =
-      new ActionName<bool>('ItemsActions-setVisibility');
+  static ActionName hide = new ActionName<String>('ItemsActions-hide');
   static ActionName removeSupport =
       new ActionName<String>('ItemsActions-removeSupport');
   static ActionName addSupport =
