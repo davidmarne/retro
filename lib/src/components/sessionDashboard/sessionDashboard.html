@@ -7,42 +7,40 @@
         <h2 *ngIf="!inProgress()" class="subtitle">{{board.description}}</h2>
         <h1 *ngIf="inProgress()" class="title">"{{heroText()}}"</h1>
         <h2 *ngIf="inProgress()" class="subtitle">{{heroAuthor()}}</h2>
-        <progress *ngIf="inProgress()" class="progress" value="{{heroTimeProgress}}" max="100">{{heroTimeProgress}}%</progress>
+        <progress *ngIf="inProgress() && hero != null && !isItemCovered(hero)" class="progress" value="{{heroTimeProgress}}" max="100">{{heroTimeProgress}}%</progress>
       </div>
     </div>
     <div class="hero-foot">
       <div class="container">
         <nav class="tabs is-boxed is-pulled-right">
           <ul *ngIf="!completed()">
-            <li *ngIf="!started()">
-              <a class="nav-item" (click)="startSession()">
-                <span class="icon"><i class="fa fa-play"></i></span>
-                <span>Start Presenting</span>
-              </a>
-            </li>
             <li *ngIf="started()">
-              <a class="nav-item" (click)="endSession()">
-                <span class="icon"><i class="fa fa-stop"></i></span>
-                <span>Stop Presenting</span>
-              </a>
-            </li>
-          </ul>
-          <ul *ngIf="started() && !completed()">
-            <li>
               <a class="nav-item" (click)="prev()">
                 <span class="icon"><i class="fa fa-angle-left"></i></span>
                 <span>Previous</span>
               </a>
             </li>
-            <li>
+            <li *ngIf="started()">
               <a class="nav-item" (click)="next()">
                 <span>Next</span>
                 <span class="icon"><i class="fa fa-angle-right"></i></span>
               </a>
             </li>
+            <li *ngIf="!started()">
+              <a class="nav-item" (click)="startSession()">
+                <span class="icon"><i class="fa fa-play-circle-o"></i></span>
+                <span>Begin Session</span>
+              </a>
+            </li>
+            <li *ngIf="started()">
+              <a class="nav-item" (click)="endSession()">
+                <span class="icon"><i class="fa fa-stop-circle-o"></i></span>
+                <span>End Session</span>
+              </a>
+            </li>
           </ul>
           <ul *ngIf="completed()">
-            <li><a class="nav-item">Completed</a></li>
+            <li><a class="nav-item">This session has ended.</a></li>
           </ul>
         </nav>
       </div>
@@ -62,14 +60,14 @@
         </div>
 
         <div *ngIf="showAddCatMargins()" class="column">
-          <h1 class="subtitle">
+          <h4 *ngIf="!started()" class="subtitle is-4">
             <a (click)="initiateCategoryCreation()">
               <span class="icon">
                 <i class="fa fa-plus"></i>
               </span>
               <span>New Topic</span>
             </a>
-          </h1>
+          </h4>
         </div>
       </div>
 
@@ -89,14 +87,14 @@
             </span>
             {{item.text}}
           </p>
-          <h1 class="subtitle">
+          <h4 *ngIf="!started()" class="subtitle is-4">
             <a (click)="initiateItemCreation(category)">
               <span class="icon">
                 <i class="fa fa-plus"></i>
               </span>
               <span>New Item</span>
             </a>
-          </h1>
+          </h4>
         </div>
 
         <div *ngIf="showAddCatMargins()" class="column"></div>

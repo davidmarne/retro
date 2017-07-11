@@ -98,6 +98,8 @@ class SessionDashboardComponent implements OnInit {
   
   Iterable<Item> itemsForCategory(Category category) => items.where((item) => item.categoryUid == category.uid);
 
+  List<Item> get orderedItems => new List<Item>.from(categories.expand((category) => itemsForCategory(category)));
+
   // column class for category
   String catColumnClass() {
     switch(categories.length) {
@@ -168,9 +170,27 @@ class SessionDashboardComponent implements OnInit {
     _store.actions.showModal(CREATE_ITEM_MODAL);
   }
 
-  String heroText() => _store.state.heroItem?.text ?? "";
+  Item get hero => _store.state.heroItem;
 
-  String heroAuthor() => _store.state.users.map[_store.state.heroItem?.ownerUid]?.name ?? "";
+  String heroText() => hero?.text ?? "";
+
+  String heroAuthor() => _store.state.users.map[hero?.ownerUid]?.name ?? "";
+
+  Item nextHeroItem() {
+    print("nextHeroItem ${orderedItems.map((item) => item.text)}");
+    if (orderedItems.length == 0) return null;
+    int index = orderedItems.indexOf(hero);
+    if (index == -1) return orderedItems.first;
+    return orderedItems[(index + 1) % orderedItems.length];
+  }
+
+  Item prevHeroItem() {
+    print("prevHeroItem ${orderedItems.map((item) => item.text)}");
+    if (orderedItems.length == 0) return null;
+    int index = orderedItems.indexOf(hero);
+    if (index == -1) return orderedItems.last;
+    return orderedItems[(index - 1) % orderedItems.length];
+  }
 
   bool started() => session != null ? session.started : false;
 
@@ -180,27 +200,19 @@ class SessionDashboardComponent implements OnInit {
 
   void startSession() {
     _store.actions.sessions.start(null);
-    _store.actions.sessions.present(_store.state.items.map.values.first.uid);
+    present(nextHeroItem());
+  }
+
+  void present(Item item) {
+    _store.actions.sessions.present(item?.uid ?? "");
   }
 
   void endSession() {
-    _store.actions.sessions.present("");
+    present(null);
     _store.actions.sessions.end(null);
   }
 
-  void prev() {
-    int index = items.toList().indexOf(_store.state.heroItem);
-    if (index != -1) {
-      index = (index - 1) % items.length;
-      _store.actions.sessions.present(items.toList()[index].uid);
-    }
-  }
+  void next() => present(nextHeroItem());
 
-  void next() {
-    int index = items.toList().indexOf(_store.state.heroItem);
-    if (index != -1) {
-      index = (index + 1) % items.length;
-      _store.actions.sessions.present(items.toList()[index].uid);
-    }
-  }
+  void prev() => present(prevHeroItem());
 }
