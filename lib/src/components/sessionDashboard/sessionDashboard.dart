@@ -102,7 +102,6 @@ class SessionDashboardComponent implements OnInit {
 
   // column class for category
   String catColumnClass() {
-    print("categories ${categories.length}");
     switch(categories.length) {
       case 1:
       return "is-8";

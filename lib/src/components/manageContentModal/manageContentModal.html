@@ -1,42 +1,41 @@
 <div *ngIf="visible" class="modal-content">
   <div class="modal-content">
     <div class="box">
-      <div *ngFor="var category of categories">
-        <h4 class="title">
-          {{category.title}}
-          <a class="button is-white" [attr.disabled]="!category.visible ? true : null">
-            <span class="icon">
-              <i class="fa fa-pencil" title="edit"></i>
-            </span>
-          </a>
-          <a class="button is-white is-pulled-right" (click)="toggleCategoryVisibility(category)">
-            <span class="icon {{category.visible ? 'has-text-danger' : 'has-text-success'}}">
-              <i class="fa {{category.visible ? 'fa-trash' : 'fa-leaf'}} "></i>
-            </span>
-          </a>
-        </h4>
-
-        <div *ngFor="var item of itemsForCategory(category)" class="block">
-          <a class="button {{category.colorClass()}}" [attr.disabled]="!item.visible ? true : null">
-            {{item.text}}
-          </a>
-          <a class="button is-white" [attr.disabled]="!item.visible ? true : null">
-            <span class="icon is-small">
-              <i class="fa fa-pencil" title="edit"></i>
-            </span>
-          </a>
-          <a *ngIf="!item.visible" class="button is-white is-pulled-right" (click)="toggleItemVisibility(item)">
-            <span class="icon is-small has-text-success">
-              <i class="fa fa-leaf" title="restore"></i>
-            </span>
-          </a>
-        </div>
-        <hr>
-      </div>
-
       <label class="label has-text-centered">
         <p class="menu-label">Restore deleted content with the <span class="icon is-small has-text-success"><i class="fa fa-leaf" title="restore"></i></span> icon.</p>
       </label>
+    </div>
+
+    <div *ngFor="var category of categories" class="box">
+      <h4 class="title">
+        {{category.title}}
+        <a class="button is-white" [attr.disabled]="!category.visible ? true : null">
+          <span class="icon">
+            <i class="fa fa-pencil" title="edit"></i>
+          </span>
+        </a>
+        <a class="button is-white is-pulled-right" (click)="toggleCategoryVisibility(category)">
+          <span class="icon {{category.visible ? 'has-text-danger' : 'has-text-success'}}">
+            <i class="fa {{category.visible ? 'fa-trash' : 'fa-leaf'}} "></i>
+          </span>
+        </a>
+      </h4>
+
+      <div *ngFor="var item of itemsForCategory(category)" class="block">
+        <a class="button {{category.colorClass()}}" [attr.disabled]="!item.visible ? true : null">
+          {{item.text}}
+        </a>
+        <a class="button is-white" [attr.disabled]="!item.visible ? true : null">
+          <span class="icon is-small">
+            <i class="fa fa-pencil" title="edit"></i>
+          </span>
+        </a>
+        <a *ngIf="!item.visible" class="button is-white is-pulled-right" (click)="toggleItemVisibility(item)">
+          <span class="icon is-small has-text-success">
+            <i class="fa fa-leaf" title="restore"></i>
+          </span>
+        </a>
+      </div>
     </div>
   </div>
 </div>
