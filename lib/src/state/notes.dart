@@ -19,7 +19,8 @@ abstract class NotesActions extends ReduxActions {
   // update text
   // tag item with note
   // show / hide
-  ActionDispatcher<bool> setVisibility;
+  ActionDispatcher<String> hide;
+  ActionDispatcher<String> show;
 
   // factory to create on instance of the generated implementation of BoardsActions
   NotesActions._();

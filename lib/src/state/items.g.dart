@@ -8,6 +8,9 @@ part of items;
 // **************************************************************************
 
 class _$ItemsActions extends ItemsActions {
+  ActionDispatcher<String> show =
+      new ActionDispatcher<String>('ItemsActions-show');
+
   ActionDispatcher<String> hide =
       new ActionDispatcher<String>('ItemsActions-hide');
 
@@ -28,6 +31,7 @@ class _$ItemsActions extends ItemsActions {
   factory _$ItemsActions() => new _$ItemsActions._();
   _$ItemsActions._() : super._();
   syncWithStore(dispatcher) {
+    show.syncWithStore(dispatcher);
     hide.syncWithStore(dispatcher);
     removeSupport.syncWithStore(dispatcher);
     addSupport.syncWithStore(dispatcher);
@@ -38,6 +42,7 @@ class _$ItemsActions extends ItemsActions {
 }
 
 class ItemsActionsNames {
+  static ActionName show = new ActionName<String>('ItemsActions-show');
   static ActionName hide = new ActionName<String>('ItemsActions-hide');
   static ActionName removeSupport =
       new ActionName<String>('ItemsActions-removeSupport');

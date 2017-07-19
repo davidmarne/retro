@@ -8,8 +8,11 @@ part of notes;
 // **************************************************************************
 
 class _$NotesActions extends NotesActions {
-  ActionDispatcher<bool> setVisibility =
-      new ActionDispatcher<bool>('NotesActions-setVisibility');
+  ActionDispatcher<String> show =
+      new ActionDispatcher<String>('NotesActions-show');
+
+  ActionDispatcher<String> hide =
+      new ActionDispatcher<String>('NotesActions-hide');
 
   ActionDispatcher<String> remove =
       new ActionDispatcher<String>('NotesActions-remove');
@@ -19,15 +22,16 @@ class _$NotesActions extends NotesActions {
   factory _$NotesActions() => new _$NotesActions._();
   _$NotesActions._() : super._();
   syncWithStore(dispatcher) {
-    setVisibility.syncWithStore(dispatcher);
+    show.syncWithStore(dispatcher);
+    hide.syncWithStore(dispatcher);
     remove.syncWithStore(dispatcher);
     update.syncWithStore(dispatcher);
   }
 }
 
 class NotesActionsNames {
-  static ActionName setVisibility =
-      new ActionName<bool>('NotesActions-setVisibility');
+  static ActionName show = new ActionName<String>('NotesActions-show');
+  static ActionName hide = new ActionName<String>('NotesActions-hide');
   static ActionName remove = new ActionName<String>('NotesActions-remove');
   static ActionName update = new ActionName<Note>('NotesActions-update');
 }

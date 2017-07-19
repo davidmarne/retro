@@ -52,4 +52,7 @@ abstract class Category implements Built<Category, CategoryBuilder> {
   // Built value boilerplate
   Category._();
   factory Category([updates(CategoryBuilder b)]) = _$Category;
+
+  @memoized
+  colorClass() => color ?? CAT_COLOR_DEFAULT;
 }

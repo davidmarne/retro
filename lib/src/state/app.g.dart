@@ -68,8 +68,11 @@ class _$App extends App {
   Board __usersLatestBoard;
   Session __boardsLatestSession;
   BuiltList<Category> __currentSessionCategories;
+  BuiltList<Category> __manageableSessionCategories;
   BuiltList<Item> __currentSessionItems;
+  BuiltList<Item> __manageableSessionItems;
   BuiltList<Note> __currentSessionNotes;
+  BuiltList<Note> __manageableSessionNotes;
 
   factory _$App([void updates(AppBuilder b)]) =>
       (new AppBuilder()..update(updates)).build();
@@ -108,12 +111,24 @@ class _$App extends App {
       __currentSessionCategories ??= super.currentSessionCategories;
 
   @override
+  BuiltList<Category> get manageableSessionCategories =>
+      __manageableSessionCategories ??= super.manageableSessionCategories;
+
+  @override
   BuiltList<Item> get currentSessionItems =>
       __currentSessionItems ??= super.currentSessionItems;
 
   @override
+  BuiltList<Item> get manageableSessionItems =>
+      __manageableSessionItems ??= super.manageableSessionItems;
+
+  @override
   BuiltList<Note> get currentSessionNotes =>
       __currentSessionNotes ??= super.currentSessionNotes;
+
+  @override
+  BuiltList<Note> get manageableSessionNotes =>
+      __manageableSessionNotes ??= super.manageableSessionNotes;
 
   @override
   App rebuild(void updates(AppBuilder b)) =>

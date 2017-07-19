@@ -137,15 +137,33 @@ abstract class App extends BuiltReducer<App, AppBuilder>
       );
 
   @memoized
+  BuiltList<Category> get manageableSessionCategories =>
+      new BuiltList<Category>(
+        categories.map.values.where((Category c) => c.sessionUid == sessions.currentUid),
+      );
+
+  @memoized
   BuiltList<Item> get currentSessionItems =>
       new BuiltList<Item>(
         items.visible.where((Item i) => i.sessionUid == sessions.currentUid),
       );
 
   @memoized
+  BuiltList<Item> get manageableSessionItems =>
+      new BuiltList<Item>(
+        items.map.values.where((Item i) => i.sessionUid == sessions.currentUid),
+      );
+
+  @memoized
   BuiltList<Note> get currentSessionNotes =>
       new BuiltList<Note>(
         notes.visible.where((Note n) => n.sessionUid == sessions.currentUid),
+      );
+
+  @memoized
+  BuiltList<Note> get manageableSessionNotes =>
+      new BuiltList<Note>(
+        notes.map.values.where((Note n) => n.sessionUid == sessions.currentUid),
       );
 
   Item get heroItem => items.map[sessions.current?.presentedUid];

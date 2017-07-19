@@ -4,6 +4,7 @@ import '../state/app.dart';
 import '../state/users.dart';
 import '../state/boards.dart';
 import '../state/sessions.dart';
+import '../state/categories.dart';
 import '../state/items.dart';
 
 import '../firebaseClient.dart';
@@ -18,9 +19,13 @@ import '../models/item.dart';
 ///////////////////
 
 createRefMiddleware(FirebaseClient client) => (new MiddlwareBuilder<App, AppBuilder, AppActions>()
+      ..add<String>(CategoriesActionsNames.hide, _hideCategory(client))
+      ..add<String>(CategoriesActionsNames.show, _showCategory(client))
+
       ..add<String>(ItemsActionsNames.addSupport, _addSupport(client))
       ..add<String>(ItemsActionsNames.removeSupport, _removeSupport(client))
-      ..add<String>(ItemsActionsNames.hide, _hide(client))
+      ..add<String>(ItemsActionsNames.hide, _hideItem(client))
+      ..add<String>(ItemsActionsNames.show, _showItem(client))
 
       ..add<Null>(SessionsActionsNames.start, _startSession(client))
       ..add<Null>(SessionsActionsNames.end, _endSession(client))
@@ -28,8 +33,10 @@ createRefMiddleware(FirebaseClient client) => (new MiddlwareBuilder<App, AppBuil
 
       ..add<User>(UsersActionsNames.update, _onUpdateUser(client))
       ..add<String>(UsersActionsNames.setCurrent, _onSetCurrentUser(client))
+
       ..add<Board>(BoardsActionsNames.update, _onUpdateBoard(client))
       ..add<String>(BoardsActionsNames.setCurrent, _onSetCurrentBoard(client))
+
       ..add<Session>(SessionsActionsNames.update, _onUpdateSession(client))
       ..add<String>(SessionsActionsNames.setCurrent, _onSetCurrentSession(client)))
     .build();
@@ -159,7 +166,29 @@ _removeSupport(FirebaseClient client) => (
     }
   };
 
-_hide(FirebaseClient client) => (
+_hideCategory(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    next(action);
+    var category = api.state.categories.map[action.payload];
+    if (category != null) {
+      client.hideCategory(category);
+    }
+  };
+
+_showCategory(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    next(action);
+    var category = api.state.categories.map[action.payload];
+    if (category != null) {
+      client.showCategory(category);
+    }
+  };
+
+_hideItem(FirebaseClient client) => (
   MiddlewareApi<App, AppBuilder, AppActions> api,
   ActionHandler next,
   Action<String> action) {
@@ -167,6 +196,17 @@ _hide(FirebaseClient client) => (
     var item = api.state.items.map[action.payload];
     if (item != null) {
       client.hideItem(item);
+    }
+  };
+
+_showItem(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    next(action);
+    var item = api.state.items.map[action.payload];
+    if (item != null) {
+      client.showItem(item);
     }
   };
 

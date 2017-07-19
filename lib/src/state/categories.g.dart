@@ -8,8 +8,11 @@ part of categories;
 // **************************************************************************
 
 class _$CategoriesActions extends CategoriesActions {
-  ActionDispatcher<bool> setVisibility =
-      new ActionDispatcher<bool>('CategoriesActions-setVisibility');
+  ActionDispatcher<String> show =
+      new ActionDispatcher<String>('CategoriesActions-show');
+
+  ActionDispatcher<String> hide =
+      new ActionDispatcher<String>('CategoriesActions-hide');
 
   ActionDispatcher<String> setCurrent =
       new ActionDispatcher<String>('CategoriesActions-setCurrent');
@@ -22,7 +25,8 @@ class _$CategoriesActions extends CategoriesActions {
   factory _$CategoriesActions() => new _$CategoriesActions._();
   _$CategoriesActions._() : super._();
   syncWithStore(dispatcher) {
-    setVisibility.syncWithStore(dispatcher);
+    show.syncWithStore(dispatcher);
+    hide.syncWithStore(dispatcher);
     setCurrent.syncWithStore(dispatcher);
     remove.syncWithStore(dispatcher);
     update.syncWithStore(dispatcher);
@@ -30,8 +34,8 @@ class _$CategoriesActions extends CategoriesActions {
 }
 
 class CategoriesActionsNames {
-  static ActionName setVisibility =
-      new ActionName<bool>('CategoriesActions-setVisibility');
+  static ActionName show = new ActionName<String>('CategoriesActions-show');
+  static ActionName hide = new ActionName<String>('CategoriesActions-hide');
   static ActionName setCurrent =
       new ActionName<String>('CategoriesActions-setCurrent');
   static ActionName remove = new ActionName<String>('CategoriesActions-remove');

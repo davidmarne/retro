@@ -21,6 +21,8 @@ abstract class ItemsActions extends ReduxActions {
   ActionDispatcher<String> addSupport;
   ActionDispatcher<String> removeSupport;
   ActionDispatcher<String> hide;
+  ActionDispatcher<String> show;
+
   // update text
   // add duration to time
   // vote for item

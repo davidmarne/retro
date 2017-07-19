@@ -102,6 +102,7 @@ class SessionDashboardComponent implements OnInit {
 
   // column class for category
   String catColumnClass() {
+    print("categories ${categories.length}");
     switch(categories.length) {
       case 1:
       return "is-8";
@@ -114,8 +115,6 @@ class SessionDashboardComponent implements OnInit {
     }
     return "";
   }
-
-  String catColorClass(Category category) => category.color ?? CAT_COLOR_DEFAULT;
 
   bool supported(Item item) => item.supporterUids.containsKey(_store.state.users.currentUid);
 

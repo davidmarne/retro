@@ -174,8 +174,20 @@ class FirebaseClient {
     await _refs.item(item.boardUid, item.sessionUid, item.uid).child("supporterUids").child(userUid).remove();
   }
 
+  Future hideCategory(Category category) async {
+    await _refs.category(category.boardUid, category.sessionUid, category.uid).child("visible").set(false);
+  }
+
+  Future showCategory(Category category) async {
+    await _refs.category(category.boardUid, category.sessionUid, category.uid).child("visible").set(true);
+  }
+
   Future hideItem(Item item) async {
     await _refs.item(item.boardUid, item.sessionUid, item.uid).child("visible").set(false);
+  }
+
+  Future showItem(Item item) async {
+    await _refs.item(item.boardUid, item.sessionUid, item.uid).child("visible").set(true);
   }
 
   Future setSessionTarget(Session session, int targetTime) async {

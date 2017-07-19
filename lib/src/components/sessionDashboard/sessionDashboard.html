@@ -79,7 +79,7 @@
           <p class="title is-4 is-hidden-tablet">{{category.title}}</p>
           <p class="subtitle is-6 is-hidden-tablet">{{category.description}}</p>
 
-          <p *ngFor="let item of itemsForCategory(category)" class="notification {{catColorClass(category)}} {{inProgress() && isItemCovered(item) ? 'covered' : ''}}">
+          <p *ngFor="let item of itemsForCategory(category)" class="notification {{category.colorClass()}} {{inProgress() && isItemCovered(item) ? 'covered' : ''}}">
             <button *ngIf="isItemOwner(item)" class="delete" (click)="hideItem(item)"></button>
             {{printSupporters(item)}}
             <span class="icon">
@@ -93,6 +93,18 @@
                 <i class="fa fa-plus"></i>
               </span>
               <span>New Item</span>
+            </a>
+          </h4>
+        </div>
+
+        <!--Mobile only add topic-->
+        <div *ngIf="showAddCatMargins()" class="column is-hidden-tablet">
+          <h4 *ngIf="!started()" class="subtitle is-4">
+            <a (click)="initiateCategoryCreation()">
+              <span class="icon">
+                <i class="fa fa-plus"></i>
+              </span>
+              <span>New Topic</span>
             </a>
           </h4>
         </div>

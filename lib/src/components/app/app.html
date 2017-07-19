@@ -5,7 +5,7 @@
       <a *ngIf="showBoardCrumb()" class="nav-item is-tab" [routerLink]="['Board', {'buid': board?.uid}]">History</a>
     </div>
     <div class="nav-right nav-menu">
-      <a class="nav-item is-tab">Manage Content</a>
+      <a class="nav-item is-tab" (click)="showManageContentModal()">Manage Content</a>
       <a *ngIf="!loggedIn" class="nav-item is-tab" (click)="logIn()">Log In with Google</a>
     </div>
   </div>
@@ -29,6 +29,7 @@
     <div class="modal-background"></div>
     <item-create-modal></item-create-modal>
     <category-create-modal></category-create-modal>
+    <manage-content-modal></manage-content-modal>
     <button class="modal-close" (click)="hideModal()"></button>
 </div>
 

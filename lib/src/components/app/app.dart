@@ -5,6 +5,7 @@ import '../dashboard/dashboard.dart';
 import '../boardDashboard/boardDashboard.dart';
 import '../categoryCreateModal/categoryCreateModal.dart';
 import '../itemCreateModal/itemCreateModal.dart';
+import '../manageContentModal/manageContentModal.dart';
 import '../sessionDashboard/sessionDashboard.dart';
 import '../../store.dart';
 
@@ -15,7 +16,7 @@ import '../../state/app.dart';
 @Component(
     selector: 'app',
     templateUrl: 'app.html',
-    directives: const [ROUTER_DIRECTIVES, CategoryCreateModalComponent, ItemCreateModalComponent],
+    directives: const [ROUTER_DIRECTIVES, CategoryCreateModalComponent, ItemCreateModalComponent, ManageContentModalComponent],
     providers: const [StoreService])
 @RouteConfig(const [
   const Route(
@@ -52,4 +53,8 @@ class AppComponent {
   logOut() => _storeService.signOut();
 
   hideModal() => _storeService.store.actions.hideModal(null);
+
+  void showManageContentModal() {
+    _storeService.store.actions.showModal(MANAGE_CONTENT_MODAL);
+  }
 }

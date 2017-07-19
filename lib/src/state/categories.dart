@@ -20,8 +20,9 @@ abstract class CategoriesActions extends ReduxActions {
   // update title
   // update description
   // show / hide
-  ActionDispatcher<bool> setVisibility;
-  
+  ActionDispatcher<String> hide;
+  ActionDispatcher<String> show;
+
   // factory to create on instance of the generated implementation of BoardsActions
   CategoriesActions._();
   factory CategoriesActions() => new _$CategoriesActions();
