@@ -115,19 +115,7 @@ class SessionDashboardComponent implements OnInit {
     return "";
   }
 
-  String catColorClass(Category cat) {
-    switch(categories.toList().indexOf(cat)) {
-      case 0:
-      return "is-info";
-      case 1:
-      return "is-success";
-      case 2:
-      return "is-warning";
-      case 3:
-      return "is-danger";
-    }
-    return "is-dark";
-  }
+  String catColorClass(Category category) => category.color ?? CAT_COLOR_DEFAULT;
 
   bool supported(Item item) => item.supporterUids.containsKey(_store.state.users.currentUid);
 

@@ -37,6 +37,12 @@ class _$CategorySerializer implements StructuredSerializer<Category> {
       serializers.serialize(object.visible,
           specifiedType: const FullType(bool)),
     ];
+    if (object.color != null) {
+      result
+        ..add('color')
+        ..add(serializers.serialize(object.color,
+            specifiedType: const FullType(String)));
+    }
 
     return result;
   }
@@ -72,6 +78,10 @@ class _$CategorySerializer implements StructuredSerializer<Category> {
           result.description = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'color':
+          result.color = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
         case 'visible':
           result.visible = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool;
@@ -100,6 +110,8 @@ class _$Category extends Category {
   @override
   final String description;
   @override
+  final String color;
+  @override
   final bool visible;
 
   factory _$Category([void updates(CategoryBuilder b)]) =>
@@ -111,6 +123,7 @@ class _$Category extends Category {
       this.sessionUid,
       this.title,
       this.description,
+      this.color,
       this.visible})
       : super._() {
     if (uid == null) throw new ArgumentError.notNull('uid');
@@ -137,6 +150,7 @@ class _$Category extends Category {
         sessionUid == other.sessionUid &&
         title == other.title &&
         description == other.description &&
+        color == other.color &&
         visible == other.visible;
   }
 
@@ -145,10 +159,12 @@ class _$Category extends Category {
     return $jf($jc(
         $jc(
             $jc(
-                $jc($jc($jc(0, uid.hashCode), boardUid.hashCode),
-                    sessionUid.hashCode),
-                title.hashCode),
-            description.hashCode),
+                $jc(
+                    $jc($jc($jc(0, uid.hashCode), boardUid.hashCode),
+                        sessionUid.hashCode),
+                    title.hashCode),
+                description.hashCode),
+            color.hashCode),
         visible.hashCode));
   }
 
@@ -160,6 +176,7 @@ class _$Category extends Category {
           ..add('sessionUid', sessionUid)
           ..add('title', title)
           ..add('description', description)
+          ..add('color', color)
           ..add('visible', visible))
         .toString();
   }
@@ -188,6 +205,10 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
   String get description => _$this._description;
   set description(String description) => _$this._description = description;
 
+  String _color;
+  String get color => _$this._color;
+  set color(String color) => _$this._color = color;
+
   bool _visible;
   bool get visible => _$this._visible;
   set visible(bool visible) => _$this._visible = visible;
@@ -201,6 +222,7 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
       _sessionUid = _$v.sessionUid;
       _title = _$v.title;
       _description = _$v.description;
+      _color = _$v.color;
       _visible = _$v.visible;
       _$v = null;
     }
@@ -227,6 +249,7 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
             sessionUid: sessionUid,
             title: title,
             description: description,
+            color: color,
             visible: visible);
     replace(result);
     return result;

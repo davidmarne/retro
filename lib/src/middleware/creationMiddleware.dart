@@ -41,7 +41,8 @@ class CreateSessionPayload {
 class CreateCategoryPayload {
   final String title;
   final String description;
-  CreateCategoryPayload(this.title, this.description);
+  final String color;
+  CreateCategoryPayload(this.title, this.description, this.color);
 }
 
 class CreateItemPayload {
@@ -109,6 +110,7 @@ _createCategory(FirebaseClient client) => (
           api.state.sessions.currentUid,
           action.payload.title,
           action.payload.description,
+          action.payload.color,
         );
 
 _createSession(FirebaseClient client) => (

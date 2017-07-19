@@ -46,8 +46,9 @@ class FirebaseClient {
     String sessionUid,
     String title,
     String description,
+    String color,
   ) async {
-    var category = await _createCategory(boardUid, sessionUid, title, description);
+    var category = await _createCategory(boardUid, sessionUid, title, description, color);
     return category;
   }
 
@@ -250,6 +251,7 @@ class FirebaseClient {
     String sessionUid,
     String title,
     String description,
+    String color,
   ) async {
     final newCategoryRef = await _refs.categories(boardUid, sessionUid).push().future;
     final category = new Category((CategoryBuilder b) => b
@@ -258,6 +260,7 @@ class FirebaseClient {
       ..sessionUid = sessionUid
       ..title = title
       ..description = description
+      ..color = color
       ..visible = true);
 
     newCategoryRef.set(serializers.serializeWith(Category.serializer, category));

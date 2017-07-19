@@ -17,6 +17,15 @@
           <input [(ngModel)]="description" class="input" type="text" placeholder="Add some context...">
         </p>
       </div>
+
+      <div class="field">
+        <label class="label">Card Color</label>
+        <div class="field is-grouped">
+          <div *ngFor="var color of colors" class="control" (click)="changeColor(color)">
+            <button class="button {{color}} {{color != selectedColor ? 'is-outlined' : ''}}">{{colorLabel(color)}}</button>
+          </div>
+        </div>
+      </div>
     </section>
     <footer class="modal-card-foot">
       <a class="button is-success" (click)="addCategory()">Save</a>

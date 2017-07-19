@@ -1,6 +1,7 @@
 import 'package:angular2/core.dart';
 import 'package:built_redux/built_redux.dart';
 
+import '../../models/category.dart';
 import '../../state/app.dart';
 import '../../store.dart';
 import '../../middleware/creationMiddleware.dart';
@@ -20,11 +21,20 @@ class CategoryCreateModalComponent {
 
   String description = "";
 
+  String selectedColor = CAT_COLOR_DEFAULT;
+
+  List<String> colors = CAT_COLORS;
+
+  String colorLabel(String color) => catColorDescription(color);
+
+  void changeColor(String newColor) => selectedColor = newColor;
+
   void addCategory() {
     _store.actions.creation.category(
       new CreateCategoryPayload(
         title,
         description,
+        selectedColor,
       ),
     );
     resetCategoryForm();
