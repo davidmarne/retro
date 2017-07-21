@@ -20,6 +20,9 @@ class _$ItemsActions extends ItemsActions {
   ActionDispatcher<String> addSupport =
       new ActionDispatcher<String>('ItemsActions-addSupport');
 
+  ActionDispatcher<String> editText =
+      new ActionDispatcher<String>('ItemsActions-editText');
+
   ActionDispatcher<String> setCurrent =
       new ActionDispatcher<String>('ItemsActions-setCurrent');
 
@@ -35,6 +38,7 @@ class _$ItemsActions extends ItemsActions {
     hide.syncWithStore(dispatcher);
     removeSupport.syncWithStore(dispatcher);
     addSupport.syncWithStore(dispatcher);
+    editText.syncWithStore(dispatcher);
     setCurrent.syncWithStore(dispatcher);
     remove.syncWithStore(dispatcher);
     update.syncWithStore(dispatcher);
@@ -48,6 +52,7 @@ class ItemsActionsNames {
       new ActionName<String>('ItemsActions-removeSupport');
   static ActionName addSupport =
       new ActionName<String>('ItemsActions-addSupport');
+  static ActionName editText = new ActionName<String>('ItemsActions-editText');
   static ActionName setCurrent =
       new ActionName<String>('ItemsActions-setCurrent');
   static ActionName remove = new ActionName<String>('ItemsActions-remove');

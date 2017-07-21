@@ -18,6 +18,8 @@ abstract class ItemsActions extends ReduxActions {
   ActionDispatcher<String> remove;
   ActionDispatcher<String> setCurrent;
 
+    
+  ActionDispatcher<String> editText;
   ActionDispatcher<String> addSupport;
   ActionDispatcher<String> removeSupport;
   ActionDispatcher<String> hide;

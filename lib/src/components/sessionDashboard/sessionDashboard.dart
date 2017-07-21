@@ -90,11 +90,11 @@ class SessionDashboardComponent implements OnInit {
 
   Session get session => _store.state.sessions.current;
 
-  Iterable<Category> get categories => _store.state.currentSessionCategories;
+  Iterable<Category> get categories => _store.state.visibleSessionCategories;
 
-  Iterable<Item> get items => _store.state.currentSessionItems;
+  Iterable<Item> get items => _store.state.visibleSessionItems;
 
-  Iterable<Note> get notes => _store.state.currentSessionNotes;
+  Iterable<Note> get notes => _store.state.visibleSessionNotes;
   
   Iterable<Item> itemsForCategory(Category category) => items.where((item) => item.categoryUid == category.uid);
 
@@ -196,6 +196,10 @@ class SessionDashboardComponent implements OnInit {
   void endSession() {
     present(null);
     _store.actions.sessions.end(null);
+  }
+
+  void resetSession() {
+    _store.actions.sessions.reset(null);
   }
 
   void next() => present(nextHeroItem());

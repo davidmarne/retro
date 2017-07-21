@@ -41,6 +41,12 @@
           </ul>
           <ul *ngIf="completed()">
             <li><a class="nav-item">This session has ended.</a></li>
+            <li>
+              <a class="nav-item" (click)="resetSession()">
+                <span class="icon"><i class="fa fa-repeat"></i></span>
+                <span>Reset</span>
+              </a>
+            </li>
           </ul>
         </nav>
       </div>

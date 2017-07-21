@@ -21,7 +21,7 @@
       <div class="field">
         <label class="label">Card Color</label>
         <div class="field is-grouped">
-          <div *ngFor="var color of colors" class="control" (click)="changeColor(color)">
+          <div *ngFor="let color of colors" class="control" (click)="changeColor(color)">
             <button class="button {{color}} {{color != selectedColor ? 'is-outlined' : ''}}">{{colorLabel(color)}}</button>
           </div>
         </div>

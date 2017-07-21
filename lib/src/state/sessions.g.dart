@@ -11,6 +11,9 @@ class _$SessionsActions extends SessionsActions {
   ActionDispatcher<String> present =
       new ActionDispatcher<String>('SessionsActions-present');
 
+  ActionDispatcher<Null> reset =
+      new ActionDispatcher<Null>('SessionsActions-reset');
+
   ActionDispatcher<Null> end =
       new ActionDispatcher<Null>('SessionsActions-end');
 
@@ -29,6 +32,7 @@ class _$SessionsActions extends SessionsActions {
   _$SessionsActions._() : super._();
   syncWithStore(dispatcher) {
     present.syncWithStore(dispatcher);
+    reset.syncWithStore(dispatcher);
     end.syncWithStore(dispatcher);
     start.syncWithStore(dispatcher);
     setCurrent.syncWithStore(dispatcher);
@@ -39,6 +43,7 @@ class _$SessionsActions extends SessionsActions {
 
 class SessionsActionsNames {
   static ActionName present = new ActionName<String>('SessionsActions-present');
+  static ActionName reset = new ActionName<Null>('SessionsActions-reset');
   static ActionName end = new ActionName<Null>('SessionsActions-end');
   static ActionName start = new ActionName<Null>('SessionsActions-start');
   static ActionName setCurrent =

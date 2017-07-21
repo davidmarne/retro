@@ -19,7 +19,7 @@ class CategoryCreateComponent {
 
   String description = "";
 
-  String color = CAT_COLORS[0];
+  String color = CAT_COLOR_DEFAULT;
 
   void addCategory() {
     _store.actions.creation.category(
@@ -33,6 +33,8 @@ class CategoryCreateComponent {
   }
 
   void resetCategoryForm() {
+    title = "";
     description = "";
+    color = CAT_COLOR_DEFAULT;
   }
 }

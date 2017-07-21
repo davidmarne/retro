@@ -32,11 +32,15 @@ class ManageContentModalComponent {
     }
   }
 
-  void toggleItemVisibility(Item item) {
-    if (item.visible) {
-      _store.actions.items.hide(item.uid);
-    } else {
-      _store.actions.items.show(item.uid);
-    }
+  void makeItemVisible(Item item) {
+    _store.actions.items.show(item.uid);
+  }
+
+  void saveItemText(Item item, String text) {
+    if (text.length == 0) return;
+    _store.actions.categories.setCurrent(item.categoryUid);
+    _store.actions.items.setCurrent(item.uid);
+    _store.actions.items.editText(text);
+    print("saveItemDescription ${item.uid} \"$text\"");
   }
 }

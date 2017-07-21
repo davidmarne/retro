@@ -63,15 +63,19 @@ class _$App extends App {
   @override
   final Notes notes;
   @override
-  final String visibleModal;
+  final BuiltList<String> modalQueue;
+  String __visibleModal;
   BuiltList<Session> __currentBoardSessions;
   Board __usersLatestBoard;
   Session __boardsLatestSession;
-  BuiltList<Category> __currentSessionCategories;
+  BuiltList<Category> __sessionCategories;
+  BuiltList<Category> __visibleSessionCategories;
   BuiltList<Category> __manageableSessionCategories;
-  BuiltList<Item> __currentSessionItems;
+  BuiltList<Item> __sessionItems;
+  BuiltList<Item> __visibleSessionItems;
   BuiltList<Item> __manageableSessionItems;
-  BuiltList<Note> __currentSessionNotes;
+  BuiltList<Note> __sessionNotes;
+  BuiltList<Note> __visibleSessionNotes;
   BuiltList<Note> __manageableSessionNotes;
 
   factory _$App([void updates(AppBuilder b)]) =>
@@ -84,7 +88,7 @@ class _$App extends App {
       this.categories,
       this.items,
       this.notes,
-      this.visibleModal})
+      this.modalQueue})
       : super._() {
     if (users == null) throw new ArgumentError.notNull('users');
     if (boards == null) throw new ArgumentError.notNull('boards');
@@ -92,8 +96,11 @@ class _$App extends App {
     if (categories == null) throw new ArgumentError.notNull('categories');
     if (items == null) throw new ArgumentError.notNull('items');
     if (notes == null) throw new ArgumentError.notNull('notes');
-    if (visibleModal == null) throw new ArgumentError.notNull('visibleModal');
+    if (modalQueue == null) throw new ArgumentError.notNull('modalQueue');
   }
+
+  @override
+  String get visibleModal => __visibleModal ??= super.visibleModal;
 
   @override
   BuiltList<Session> get currentBoardSessions =>
@@ -107,24 +114,34 @@ class _$App extends App {
       __boardsLatestSession ??= super.boardsLatestSession;
 
   @override
-  BuiltList<Category> get currentSessionCategories =>
-      __currentSessionCategories ??= super.currentSessionCategories;
+  BuiltList<Category> get sessionCategories =>
+      __sessionCategories ??= super.sessionCategories;
+
+  @override
+  BuiltList<Category> get visibleSessionCategories =>
+      __visibleSessionCategories ??= super.visibleSessionCategories;
 
   @override
   BuiltList<Category> get manageableSessionCategories =>
       __manageableSessionCategories ??= super.manageableSessionCategories;
 
   @override
-  BuiltList<Item> get currentSessionItems =>
-      __currentSessionItems ??= super.currentSessionItems;
+  BuiltList<Item> get sessionItems => __sessionItems ??= super.sessionItems;
+
+  @override
+  BuiltList<Item> get visibleSessionItems =>
+      __visibleSessionItems ??= super.visibleSessionItems;
 
   @override
   BuiltList<Item> get manageableSessionItems =>
       __manageableSessionItems ??= super.manageableSessionItems;
 
   @override
-  BuiltList<Note> get currentSessionNotes =>
-      __currentSessionNotes ??= super.currentSessionNotes;
+  BuiltList<Note> get sessionNotes => __sessionNotes ??= super.sessionNotes;
+
+  @override
+  BuiltList<Note> get visibleSessionNotes =>
+      __visibleSessionNotes ??= super.visibleSessionNotes;
 
   @override
   BuiltList<Note> get manageableSessionNotes =>
@@ -147,7 +164,7 @@ class _$App extends App {
         categories == other.categories &&
         items == other.items &&
         notes == other.notes &&
-        visibleModal == other.visibleModal;
+        modalQueue == other.modalQueue;
   }
 
   @override
@@ -161,7 +178,7 @@ class _$App extends App {
                     categories.hashCode),
                 items.hashCode),
             notes.hashCode),
-        visibleModal.hashCode));
+        modalQueue.hashCode));
   }
 
   @override
@@ -173,7 +190,7 @@ class _$App extends App {
           ..add('categories', categories)
           ..add('items', items)
           ..add('notes', notes)
-          ..add('visibleModal', visibleModal))
+          ..add('modalQueue', modalQueue))
         .toString();
   }
 }
@@ -207,9 +224,11 @@ class AppBuilder implements Builder<App, AppBuilder> {
   NotesBuilder get notes => _$this._notes ??= new NotesBuilder();
   set notes(NotesBuilder notes) => _$this._notes = notes;
 
-  String _visibleModal;
-  String get visibleModal => _$this._visibleModal;
-  set visibleModal(String visibleModal) => _$this._visibleModal = visibleModal;
+  ListBuilder<String> _modalQueue;
+  ListBuilder<String> get modalQueue =>
+      _$this._modalQueue ??= new ListBuilder<String>();
+  set modalQueue(ListBuilder<String> modalQueue) =>
+      _$this._modalQueue = modalQueue;
 
   AppBuilder();
 
@@ -221,7 +240,7 @@ class AppBuilder implements Builder<App, AppBuilder> {
       _categories = _$v.categories?.toBuilder();
       _items = _$v.items?.toBuilder();
       _notes = _$v.notes?.toBuilder();
-      _visibleModal = _$v.visibleModal;
+      _modalQueue = _$v.modalQueue?.toBuilder();
       _$v = null;
     }
     return this;
@@ -248,7 +267,7 @@ class AppBuilder implements Builder<App, AppBuilder> {
             categories: categories?.build(),
             items: items?.build(),
             notes: notes?.build(),
-            visibleModal: visibleModal);
+            modalQueue: modalQueue?.build());
     replace(result);
     return result;
   }

@@ -166,6 +166,10 @@ class FirebaseClient {
     await _refs.board(boardUid).child("latestSessionUid").set(sessionUid);
   }
 
+  Future editItemText(String text, Item item) async {
+    await _refs.item(item.boardUid, item.sessionUid, item.uid).child("text").set(text);
+  }
+
   Future addSupport(String userUid, Item item) async {
     await _refs.item(item.boardUid, item.sessionUid, item.uid).child("supporterUids").child(userUid).set(true);
   }
@@ -191,15 +195,26 @@ class FirebaseClient {
   }
 
   Future setSessionTarget(Session session, int targetTime) async {
-    await await _refs.session(session.boardUid, session.uid).child("targetTime").set(targetTime);
+    await _refs.session(session.boardUid, session.uid).child("targetTime").set(targetTime);
   }
 
   Future startSession(Session session, int startTime) async {
-    await await _refs.session(session.boardUid, session.uid).child("startTime").set(startTime);
+    await _refs.session(session.boardUid, session.uid).child("startTime").set(startTime);
   }
 
   Future endSession(Session session, int endTime) async {
-    await await _refs.session(session.boardUid, session.uid).child("endTime").set(endTime);
+    await _refs.session(session.boardUid, session.uid).child("endTime").set(endTime);
+  }
+
+  Future resetSession(Session session, Iterable<Item> items) async {
+    await Future.forEach(items, (item) async {
+      await _refs.item(item.boardUid, item.sessionUid, item.uid).child("time").set(0);
+    });
+    // TODO: combine into one update.
+    await _refs.session(session.boardUid, session.uid).child("presentedUid").set("");
+    await _refs.session(session.boardUid, session.uid).child("presentedDate").set(0);
+    await _refs.session(session.boardUid, session.uid).child("startTime").set(0);
+    await _refs.session(session.boardUid, session.uid).child("endTime").set(0);
   }
 
   Future present(Item item, int startTime) async {

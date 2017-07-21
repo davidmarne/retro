@@ -91,7 +91,7 @@ abstract class App extends BuiltReducer<App, AppBuilder>
   /// [Notes]
   Notes get notes;
 
-  String get visibleModal;
+  BuiltList<String> get modalQueue;
 
   /// [reducer]
   get reducer => _reducer;
@@ -104,8 +104,10 @@ abstract class App extends BuiltReducer<App, AppBuilder>
     ..sessions = new Sessions().toBuilder()
     ..categories = new Categories().toBuilder()
     ..items = new Items().toBuilder()
-    ..notes = new Notes().toBuilder()
-    ..visibleModal = NO_MODAL);
+    ..notes = new Notes().toBuilder());
+
+  @memoized
+  String get visibleModal => modalQueue.isNotEmpty ? modalQueue.last: NO_MODAL;
 
   // TODO: do this or clear sessions everytime current board changes?
   @memoized
@@ -131,19 +133,28 @@ abstract class App extends BuiltReducer<App, AppBuilder>
   Session get boardsLatestSession => sessions.map[boards.current.latestSessionUid];
 
   @memoized
-  BuiltList<Category> get currentSessionCategories =>
-      new BuiltList<Category>(
-        categories.visible.where((Category c) => c.sessionUid == sessions.currentUid),
-      );
-
-  @memoized
-  BuiltList<Category> get manageableSessionCategories =>
+  BuiltList<Category> get sessionCategories =>
       new BuiltList<Category>(
         categories.map.values.where((Category c) => c.sessionUid == sessions.currentUid),
       );
 
   @memoized
-  BuiltList<Item> get currentSessionItems =>
+  BuiltList<Category> get visibleSessionCategories =>
+      new BuiltList<Category>(
+        categories.visible.where((Category c) => c.sessionUid == sessions.currentUid),
+      );
+
+  @memoized
+  BuiltList<Category> get manageableSessionCategories => sessionCategories;
+
+  @memoized
+  BuiltList<Item> get sessionItems =>
+      new BuiltList<Item>(
+        items.map.values.where((Item i) => i.sessionUid == sessions.currentUid),
+      );
+
+  @memoized
+  BuiltList<Item> get visibleSessionItems =>
       new BuiltList<Item>(
         items.visible.where((Item i) => i.sessionUid == sessions.currentUid),
       );
@@ -151,11 +162,17 @@ abstract class App extends BuiltReducer<App, AppBuilder>
   @memoized
   BuiltList<Item> get manageableSessionItems =>
       new BuiltList<Item>(
-        items.map.values.where((Item i) => i.sessionUid == sessions.currentUid),
+        sessionItems.where((Item i) => i.ownerUid == users.currentUid),
       );
 
   @memoized
-  BuiltList<Note> get currentSessionNotes =>
+  BuiltList<Note> get sessionNotes =>
+      new BuiltList<Note>(
+        notes.map.values.where((Note n) => n.sessionUid == sessions.currentUid),
+      );
+
+  @memoized
+  BuiltList<Note> get visibleSessionNotes =>
       new BuiltList<Note>(
         notes.visible.where((Note n) => n.sessionUid == sessions.currentUid),
       );
@@ -163,7 +180,7 @@ abstract class App extends BuiltReducer<App, AppBuilder>
   @memoized
   BuiltList<Note> get manageableSessionNotes =>
       new BuiltList<Note>(
-        notes.map.values.where((Note n) => n.sessionUid == sessions.currentUid),
+        sessionNotes.where((Note n) => n.ownerUid == users.currentUid),
       );
 
   Item get heroItem => items.map[sessions.current?.presentedUid];
@@ -195,14 +212,14 @@ _clear(App state, Action<Null> action, AppBuilder builder) => builder
 _showModal(App state, Action<String> action, AppBuilder builder) {
   switch(action.payload) {
     case CREATE_CATEGORY_MODAL:
-    return builder..visibleModal = CREATE_CATEGORY_MODAL;
+    return builder..modalQueue.add(CREATE_CATEGORY_MODAL);
     case CREATE_ITEM_MODAL:
-    return builder..visibleModal = CREATE_ITEM_MODAL;
+    return builder..modalQueue.add(CREATE_ITEM_MODAL);
     case MANAGE_CONTENT_MODAL:
-    return builder..visibleModal = MANAGE_CONTENT_MODAL;
+    return builder..modalQueue.add(MANAGE_CONTENT_MODAL);
   }
-  return builder..visibleModal = NO_MODAL;
+  builder;
 }
 
 _hideModal(App state, Action<String> action, AppBuilder builder) => builder
-    ..visibleModal = NO_MODAL;
+    ..modalQueue.removeLast();

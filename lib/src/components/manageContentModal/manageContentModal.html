@@ -6,14 +6,9 @@
       </label>
     </div>
 
-    <div *ngFor="var category of categories" class="box">
+    <div *ngFor="let category of categories" class="box">
       <h4 class="title">
         {{category.title}}
-        <a class="button is-white" [attr.disabled]="!category.visible ? true : null">
-          <span class="icon">
-            <i class="fa fa-pencil" title="edit"></i>
-          </span>
-        </a>
         <a class="button is-white is-pulled-right" (click)="toggleCategoryVisibility(category)">
           <span class="icon {{category.visible ? 'has-text-danger' : 'has-text-success'}}">
             <i class="fa {{category.visible ? 'fa-trash' : 'fa-leaf'}} "></i>
@@ -21,20 +16,30 @@
         </a>
       </h4>
 
-      <div *ngFor="var item of itemsForCategory(category)" class="block">
-        <a class="button {{category.colorClass()}}" [attr.disabled]="!item.visible ? true : null">
-          {{item.text}}
-        </a>
-        <a class="button is-white" [attr.disabled]="!item.visible ? true : null">
-          <span class="icon is-small">
-            <i class="fa fa-pencil" title="edit"></i>
-          </span>
-        </a>
-        <a *ngIf="!item.visible" class="button is-white is-pulled-right" (click)="toggleItemVisibility(item)">
-          <span class="icon is-small has-text-success">
-            <i class="fa fa-leaf" title="restore"></i>
-          </span>
-        </a>
+      <div *ngFor="let item of itemsForCategory(category)" class="field is-horizontal">
+        <div class="field-body">
+          <div class="field is-grouped">
+            <p class="control is-expanded">
+              <input #itemDescriptionInput class="input {{category.colorClass()}}" type="text" placeholder="{{item.text}}">
+            </p>
+            <div class="control">
+              <button class="button is-white"
+                  (click)="saveItemText(item, itemDescriptionInput.value); itemDescriptionInput.value = ''"
+                  [attr.disabled]="itemDescriptionInput.value.length == 0 ? true : null">
+                <span class="icon is-small">
+                  <i class="fa fa-floppy-o" title="save changes"></i>
+                </span>
+              </button>
+            </div>
+            <div class="control" [style.visibility]="!item.visible ? 'visible' : 'hidden'">
+              <button class="button is-white" (click)="makeItemVisible(item)">
+                <span class="icon is-small has-text-success">
+                  <i class="fa fa-leaf" title="restore"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

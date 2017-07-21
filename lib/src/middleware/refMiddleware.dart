@@ -22,6 +22,7 @@ createRefMiddleware(FirebaseClient client) => (new MiddlwareBuilder<App, AppBuil
       ..add<String>(CategoriesActionsNames.hide, _hideCategory(client))
       ..add<String>(CategoriesActionsNames.show, _showCategory(client))
 
+      ..add<String>(ItemsActionsNames.editText, _editItemText(client))
       ..add<String>(ItemsActionsNames.addSupport, _addSupport(client))
       ..add<String>(ItemsActionsNames.removeSupport, _removeSupport(client))
       ..add<String>(ItemsActionsNames.hide, _hideItem(client))
@@ -29,6 +30,7 @@ createRefMiddleware(FirebaseClient client) => (new MiddlwareBuilder<App, AppBuil
 
       ..add<Null>(SessionsActionsNames.start, _startSession(client))
       ..add<Null>(SessionsActionsNames.end, _endSession(client))
+      ..add<Null>(SessionsActionsNames.reset, _resetSession(client))
       ..add<String>(SessionsActionsNames.present, _present(client))
 
       ..add<User>(UsersActionsNames.update, _onUpdateUser(client))
@@ -154,6 +156,17 @@ _addSupport(FirebaseClient client) => (
     }
   };
 
+_editItemText(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    next(action);
+    Item item = api.state.items.current;
+    if (item != null) {
+      client.editItemText(action.payload, item);
+    }
+  };
+
 _removeSupport(FirebaseClient client) => (
   MiddlewareApi<App, AppBuilder, AppActions> api,
   ActionHandler next,
@@ -213,7 +226,7 @@ _showItem(FirebaseClient client) => (
 _startSession(FirebaseClient client) => (
   MiddlewareApi<App, AppBuilder, AppActions> api,
   ActionHandler next,
-  Action<String> action) {
+  Action<Null> action) {
     next(action);
     var epoch = now();
     Session session = api.state.sessions.current;
@@ -225,12 +238,24 @@ _startSession(FirebaseClient client) => (
 _endSession(FirebaseClient client) => (
   MiddlewareApi<App, AppBuilder, AppActions> api,
   ActionHandler next,
-  Action<String> action) {
+  Action<Null> action) {
     next(action);
     var epoch = now();
     Session session = api.state.sessions.current;
     if (session != null) {
       client.endSession(session, epoch);
+    }
+  };
+
+_resetSession(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    next(action);
+    Session session = api.state.sessions.current;
+    var items = api.state.sessionItems;
+    if (session != null) {
+      client.resetSession(session, items);
     }
   };
 

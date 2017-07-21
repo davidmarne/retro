@@ -42,7 +42,9 @@ class CategoryCreateModalComponent {
   }
 
   void resetCategoryForm() {
+    title = "";
     description = "";
+    selectedColor = CAT_COLOR_DEFAULT;
     _store.actions.hideModal(null);
   }
 }
