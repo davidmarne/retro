@@ -23,6 +23,7 @@ import '../middleware/creationMiddleware.dart';
 
 part 'app.g.dart';
 
+const String CONFIRM_SHRED_MODAL = "Confirm Shred Modal";
 const String CREATE_CATEGORY_MODAL = "Create Category Modal";
 const String CREATE_ITEM_MODAL = "Create Item Modal";
 const String MANAGE_CONTENT_MODAL = "Manage Content Modal";
@@ -209,17 +210,8 @@ _clear(App state, Action<Null> action, AppBuilder builder) => builder
   ..items = new Items().toBuilder()
   ..notes = new Notes().toBuilder();
 
-_showModal(App state, Action<String> action, AppBuilder builder) {
-  switch(action.payload) {
-    case CREATE_CATEGORY_MODAL:
-    return builder..modalQueue.add(CREATE_CATEGORY_MODAL);
-    case CREATE_ITEM_MODAL:
-    return builder..modalQueue.add(CREATE_ITEM_MODAL);
-    case MANAGE_CONTENT_MODAL:
-    return builder..modalQueue.add(MANAGE_CONTENT_MODAL);
-  }
-  builder;
-}
+_showModal(App state, Action<String> action, AppBuilder builder) => builder
+  ..modalQueue.add(action.payload);
 
 _hideModal(App state, Action<String> action, AppBuilder builder) => builder
     ..modalQueue.removeLast();

@@ -31,6 +31,7 @@ createRefMiddleware(FirebaseClient client) => (new MiddlwareBuilder<App, AppBuil
       ..add<Null>(SessionsActionsNames.start, _startSession(client))
       ..add<Null>(SessionsActionsNames.end, _endSession(client))
       ..add<Null>(SessionsActionsNames.reset, _resetSession(client))
+      ..add<Null>(SessionsActionsNames.shred, _shredSession(client))
       ..add<String>(SessionsActionsNames.present, _present(client))
 
       ..add<User>(UsersActionsNames.update, _onUpdateUser(client))
@@ -258,6 +259,21 @@ _resetSession(FirebaseClient client) => (
       client.resetSession(session, items);
     }
   };
+
+_shredSession(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    next(action);
+    Session session = api.state.sessions.current;
+    if (session != null) {
+      Board board = api.state.boards.map[session.boardUid];
+      if (board != null && board.latestSessionUid == session.uid) {
+        client.clearBoardsLatestSession(board.uid);
+      }
+      client.shredSession(session, board);
+    }
+};
 
 _present(FirebaseClient client) => (
   MiddlewareApi<App, AppBuilder, AppActions> api,

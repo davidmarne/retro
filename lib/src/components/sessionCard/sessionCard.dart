@@ -24,4 +24,9 @@ class SessionCardComponent {
   String lastActive() => dateTime(session.createdDate);
  
   bool isLatest() => _store.state.boardsLatestSession?.uid == session.uid;
+
+  void initiateShred() {
+    _store.actions.sessions.setCurrent(session.uid);
+    _store.actions.showModal(CONFIRM_SHRED_MODAL);
+  }
 }

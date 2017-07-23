@@ -166,6 +166,10 @@ class FirebaseClient {
     await _refs.board(boardUid).child("latestSessionUid").set(sessionUid);
   }
 
+  Future clearBoardsLatestSession(String boardUid) async {
+    await _refs.board(boardUid).child("latestSessionUid").remove();
+  }
+
   Future editItemText(String text, Item item) async {
     await _refs.item(item.boardUid, item.sessionUid, item.uid).child("text").set(text);
   }
@@ -215,6 +219,13 @@ class FirebaseClient {
     await _refs.session(session.boardUid, session.uid).child("presentedDate").set(0);
     await _refs.session(session.boardUid, session.uid).child("startTime").set(0);
     await _refs.session(session.boardUid, session.uid).child("endTime").set(0);
+  }
+
+  Future shredSession(Session session, Board board) async {
+    await _refs.categories(session.boardUid, session.uid).remove();
+    await _refs.items(session.boardUid, session.uid).remove();
+    await _refs.notes(session.boardUid, session.uid).remove();
+    await _refs.session(session.boardUid, session.uid).remove();
   }
 
   Future present(Item item, int startTime) async {

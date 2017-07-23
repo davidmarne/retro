@@ -24,6 +24,7 @@ abstract class SessionsActions extends ReduxActions {
   ActionDispatcher<Null> start;
   ActionDispatcher<Null> end;
   ActionDispatcher<Null> reset;
+  ActionDispatcher<Null> shred;
   ActionDispatcher<String> present; // uid of item to be presented.
 
   // factory to create on instance of the generated implementation of BoardsActions
@@ -61,6 +62,7 @@ abstract class Sessions extends BuiltReducer<Sessions, SessionsBuilder>
 
 var _reducer = (new ReducerBuilder<Sessions, SessionsBuilder>()
       ..add<Session>(SessionsActionsNames.update, _updateSession)
+      ..add<String>(SessionsActionsNames.remove, _removeSession)
       ..add<String>(SessionsActionsNames.setCurrent, _setCurrentSession))
     .build();
 
@@ -70,6 +72,9 @@ var _reducer = (new ReducerBuilder<Sessions, SessionsBuilder>()
 
 _updateSession(Sessions state, Action<Session> action, SessionsBuilder builder) =>
     builder..map[action.payload.uid] = action.payload;
+
+_removeSession(Sessions state, Action<String> action, SessionsBuilder builder) =>
+    builder..map.remove(action.payload);
 
 _setCurrentSession(Sessions state, Action<String> action, SessionsBuilder builder) =>
     builder..currentUid = action.payload;

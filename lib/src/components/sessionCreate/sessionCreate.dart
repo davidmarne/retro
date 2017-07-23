@@ -16,10 +16,10 @@ class SessionCreateComponent {
 
   SessionCreateComponent(StoreService storeService) : _store = storeService.store;
 
-  int targetTimeMinutes;
+  num targetTimeMinutes;
 
   void submit() {
-    _store.actions.creation.session(new CreateSessionPayload(targetTimeMinutes*60000));
+    _store.actions.creation.session(new CreateSessionPayload(targetTimeMinutes.toInt()*60000));
     resetForm();
   }
 
