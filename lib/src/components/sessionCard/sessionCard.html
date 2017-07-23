@@ -3,5 +3,5 @@
   <h5 class="subtitle">{{lastActive()}} {{isLatest() ? "(latest)" : ""}}</h5>
   <br>
   <a class="button is-primary" [routerLink]="['Session', {'buid': session.boardUid, 'suid': session.uid}]">Go!</a>
-  <a class="button is-danger" (click)="initiateShred()">Shred</a>
+  <a class="button is-danger is-pulled-right" (click)="initiateShred()">Shred</a>
 </div>
