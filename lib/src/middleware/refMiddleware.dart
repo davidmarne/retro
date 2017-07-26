@@ -122,6 +122,7 @@ _onSetCurrentSession(FirebaseClient client) => (
 _updateCurrentUserSubs(FirebaseClient client, MiddlewareApi<App, AppBuilder, AppActions> api) {
   var user = api.state.users.current;
   if (user != null) {
+    client.subToUser(user.uid);
     client.subToBoards(user.boardUids.keys);
   }
 }
