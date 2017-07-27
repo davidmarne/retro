@@ -18,6 +18,9 @@ class _$CreationMiddlewareActions extends CreationMiddlewareActions {
       new ActionDispatcher<CreateCategoryPayload>(
           'CreationMiddlewareActions-category');
 
+  ActionDispatcher<Null> cloneSession =
+      new ActionDispatcher<Null>('CreationMiddlewareActions-cloneSession');
+
   ActionDispatcher<CreateSessionPayload> session =
       new ActionDispatcher<CreateSessionPayload>(
           'CreationMiddlewareActions-session');
@@ -31,6 +34,7 @@ class _$CreationMiddlewareActions extends CreationMiddlewareActions {
     note.syncWithStore(dispatcher);
     item.syncWithStore(dispatcher);
     category.syncWithStore(dispatcher);
+    cloneSession.syncWithStore(dispatcher);
     session.syncWithStore(dispatcher);
     board.syncWithStore(dispatcher);
   }
@@ -43,6 +47,8 @@ class CreationMiddlewareActionsNames {
       new ActionName<CreateItemPayload>('CreationMiddlewareActions-item');
   static ActionName category = new ActionName<CreateCategoryPayload>(
       'CreationMiddlewareActions-category');
+  static ActionName cloneSession =
+      new ActionName<Null>('CreationMiddlewareActions-cloneSession');
   static ActionName session =
       new ActionName<CreateSessionPayload>('CreationMiddlewareActions-session');
   static ActionName board =

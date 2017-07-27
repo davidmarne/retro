@@ -6,6 +6,7 @@ import '../boardDashboard/boardDashboard.dart';
 import '../categoryCreateModal/categoryCreateModal.dart';
 import '../confirmShredModal/confirmShredModal.dart';
 import '../itemCreateModal/itemCreateModal.dart';
+import '../latestSessionDashboard/latestSessionDashboard.dart';
 import '../manageContentModal/manageContentModal.dart';
 import '../sessionDashboard/sessionDashboard.dart';
 import '../../store.dart';
@@ -35,6 +36,11 @@ import '../../state/app.dart';
     path: '/board/:buid/session/:suid',
     name: 'Session',
     component: SessionDashboardComponent,
+  ),
+  const Route(
+    path: '/board/:buid/latest',
+    name: 'LatestSession',
+    component: LatestSessionDashboardComponent,
   ),
 ])
 class AppComponent {

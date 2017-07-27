@@ -68,6 +68,7 @@ abstract class Items extends BuiltReducer<Items, ItemsBuilder>
 
 var _reducer = (new ReducerBuilder<Items, ItemsBuilder>()
       ..add<Item>(ItemsActionsNames.update, _updateItem)
+      ..add<String>(ItemsActionsNames.remove, _removeItem)
       ..add<String>(ItemsActionsNames.setCurrent, _setCurrentItem))
     .build();
 
@@ -77,6 +78,9 @@ var _reducer = (new ReducerBuilder<Items, ItemsBuilder>()
 
 _updateItem(Items state, Action<Item> action, ItemsBuilder builder) =>
     builder..map[action.payload.uid] = action.payload;
+
+_removeItem(Items state, Action<String> action, ItemsBuilder builder) =>
+    builder..map.remove(action.payload);
 
 _setCurrentItem(Items state, Action<String> action, ItemsBuilder builder) =>
     builder..currentUid = action.payload;

@@ -30,9 +30,10 @@ import '../../store.dart';
     ItemCardComponent,
   ],
 )
-class SessionDashboardComponent implements OnInit {
+class SessionDashboardComponent implements OnInit, OnDestroy {
   final Store<App, AppBuilder, AppActions> _store;
   final RouteParams _routeParams;
+  final Router _router;
 
   double heroTimeProgress = 100.0;
 
@@ -40,17 +41,24 @@ class SessionDashboardComponent implements OnInit {
   
   int itemsRemaining = 1;
 
-  SessionDashboardComponent(StoreService storeService, this._routeParams)
-      : _store = storeService.store;
+  bool ticking = false;
+
+  SessionDashboardComponent(StoreService storeService, this._routeParams, this._router) :
+    _store = storeService.store;
 
   void ngOnInit() {
     if (buid != _store.state.boards.currentUid) _store.actions.boards.setCurrent(buid);
     if (suid != _store.state.sessions.currentUid) _store.actions.sessions.setCurrent(suid);
+    ticking = true;
     tick();
   }
 
+  void ngOnDestroy() {
+    ticking = false;
+  }
+
   void tick([_]) {
-    window.requestAnimationFrame(tick);
+    if (ticking) window.requestAnimationFrame(tick);
     if (!inProgress()) return;
     Item heroItem = _store.state.heroItem;
     if (heroItem == null) return;
@@ -77,6 +85,10 @@ class SessionDashboardComponent implements OnInit {
     var heroTargetTime = heroPoints * (remainingTime / (remainingPoints + heroPoints));
     heroTimeProgress = (heroActualTime / max(heroTargetTime, heroActualTime) * 100.0);
   }
+
+  goToLatest() => _router.navigate(['LatestSession', {
+    'buid': _store.state.boards.currentUid,
+  }]);
 
   // url params
 
@@ -200,6 +212,11 @@ class SessionDashboardComponent implements OnInit {
 
   void resetSession() {
     _store.actions.sessions.reset(null);
+  }
+
+  void cloneSession() {
+    _store.actions.creation.cloneSession(null);
+    goToLatest();
   }
 
   void next() => present(nextHeroItem());

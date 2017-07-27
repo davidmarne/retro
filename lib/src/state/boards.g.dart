@@ -11,12 +11,16 @@ class _$BoardsActions extends BoardsActions {
   ActionDispatcher<String> setCurrent =
       new ActionDispatcher<String>('BoardsActions-setCurrent');
 
+  ActionDispatcher<String> remove =
+      new ActionDispatcher<String>('BoardsActions-remove');
+
   ActionDispatcher<Board> update =
       new ActionDispatcher<Board>('BoardsActions-update');
   factory _$BoardsActions() => new _$BoardsActions._();
   _$BoardsActions._() : super._();
   syncWithStore(dispatcher) {
     setCurrent.syncWithStore(dispatcher);
+    remove.syncWithStore(dispatcher);
     update.syncWithStore(dispatcher);
   }
 }
@@ -24,6 +28,7 @@ class _$BoardsActions extends BoardsActions {
 class BoardsActionsNames {
   static ActionName setCurrent =
       new ActionName<String>('BoardsActions-setCurrent');
+  static ActionName remove = new ActionName<String>('BoardsActions-remove');
   static ActionName update = new ActionName<Board>('BoardsActions-update');
 }
 

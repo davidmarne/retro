@@ -61,6 +61,7 @@ abstract class Categories extends BuiltReducer<Categories, CategoriesBuilder>
 
 var _reducer = (new ReducerBuilder<Categories, CategoriesBuilder>()
       ..add<Category>(CategoriesActionsNames.update, _updateCategory)
+      ..add<String>(CategoriesActionsNames.remove, _removeCategory)
       ..add<String>(CategoriesActionsNames.setCurrent, _setCurrentItem))
     .build();
 
@@ -70,6 +71,9 @@ var _reducer = (new ReducerBuilder<Categories, CategoriesBuilder>()
 
 _updateCategory(Categories state, Action<Category> action, CategoriesBuilder builder) =>
     builder..map[action.payload.uid] = action.payload;
+
+_removeCategory(Categories state, Action<String> action, CategoriesBuilder builder) =>
+    builder..map.remove(action.payload);
 
 _setCurrentItem(Categories state, Action<String> action, CategoriesBuilder builder) =>
     builder..currentUid = action.payload;

@@ -14,6 +14,9 @@ class _$UsersActions extends UsersActions {
   ActionDispatcher<String> setCurrent =
       new ActionDispatcher<String>('UsersActions-setCurrent');
 
+  ActionDispatcher<String> remove =
+      new ActionDispatcher<String>('UsersActions-remove');
+
   ActionDispatcher<User> update =
       new ActionDispatcher<User>('UsersActions-update');
   factory _$UsersActions() => new _$UsersActions._();
@@ -21,6 +24,7 @@ class _$UsersActions extends UsersActions {
   syncWithStore(dispatcher) {
     addBoardToCurrentUser.syncWithStore(dispatcher);
     setCurrent.syncWithStore(dispatcher);
+    remove.syncWithStore(dispatcher);
     update.syncWithStore(dispatcher);
   }
 }
@@ -30,6 +34,7 @@ class UsersActionsNames {
       new ActionName<String>('UsersActions-addBoardToCurrentUser');
   static ActionName setCurrent =
       new ActionName<String>('UsersActions-setCurrent');
+  static ActionName remove = new ActionName<String>('UsersActions-remove');
   static ActionName update = new ActionName<User>('UsersActions-update');
 }
 

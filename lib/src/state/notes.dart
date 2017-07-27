@@ -53,7 +53,8 @@ abstract class Notes extends BuiltReducer<Notes, NotesBuilder>
 ///////////////////
 
 var _reducer = (new ReducerBuilder<Notes, NotesBuilder>()
-      ..add<Note>(NotesActionsNames.update, _updateNote))
+      ..add<Note>(NotesActionsNames.update, _updateNote)
+      ..add<String>(NotesActionsNames.remove, _removeNote))
     .build();
 
 ////////////////////
@@ -62,3 +63,6 @@ var _reducer = (new ReducerBuilder<Notes, NotesBuilder>()
 
 _updateNote(Notes state, Action<Note> action, NotesBuilder builder) =>
     builder..map[action.payload.uid] = action.payload;
+
+_removeNote(Notes state, Action<String> action, NotesBuilder builder) =>
+    builder..map.remove(action.payload);

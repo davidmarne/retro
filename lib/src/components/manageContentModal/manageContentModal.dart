@@ -41,6 +41,5 @@ class ManageContentModalComponent {
     _store.actions.categories.setCurrent(item.categoryUid);
     _store.actions.items.setCurrent(item.uid);
     _store.actions.items.editText(text);
-    print("saveItemDescription ${item.uid} \"$text\"");
   }
 }

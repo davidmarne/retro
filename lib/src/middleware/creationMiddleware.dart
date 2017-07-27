@@ -1,8 +1,12 @@
 library creationMiddleware;
 
+import 'dart:async';
+
 import 'package:built_redux/built_redux.dart';
 
 import '../firebaseClient.dart';
+import '../models/category.dart';
+import '../models/session.dart';
 import '../state/app.dart';
 
 part 'creationMiddleware.g.dart';
@@ -15,6 +19,7 @@ part 'creationMiddleware.g.dart';
 abstract class CreationMiddlewareActions extends ReduxActions {
   ActionDispatcher<CreateBoardPayload> board;
   ActionDispatcher<CreateSessionPayload> session;
+  ActionDispatcher<Null> cloneSession;
   ActionDispatcher<CreateCategoryPayload> category;
   ActionDispatcher<CreateItemPayload> item;
   ActionDispatcher<CreateNotePayload> note;
@@ -65,6 +70,7 @@ createCreationMiddleware(FirebaseClient client) =>
           ..add<CreateBoardPayload>(CreationMiddlewareActionsNames.board, _createBoard(client))
           ..add<CreateSessionPayload>(
               CreationMiddlewareActionsNames.session, _createSession(client))
+          ..add<Null>(CreationMiddlewareActionsNames.cloneSession, _cloneSession(client))
           ..add<CreateCategoryPayload>(
               CreationMiddlewareActionsNames.category, _createCategory(client))
           ..add<CreateItemPayload>(CreationMiddlewareActionsNames.item, _createItem(client))
@@ -122,6 +128,34 @@ _createSession(FirebaseClient client) => (
           api.state.boards.currentUid,
           action.payload.targetTime,
         );
+
+  _cloneSession(FirebaseClient client) => (
+      MiddlewareApi<App, AppBuilder, AppActions> api,
+      ActionHandler next,
+      Action<Null> action
+    ) async {
+      Session session = api.state.sessions.current;
+      if (session != null) {
+        Session newSession = await client.createSession(
+          session.boardUid,
+          session.targetTime,
+        );
+        Iterable<Category> categories = api.state.categories.visible.where((cat) => cat.sessionUid == session.uid);
+        if (categories.length > 0) {
+          await Future.forEach(categories, (Category category) async {
+            await client.createCategory(
+              newSession.boardUid,
+              newSession.uid,
+              category.title,
+              category.description,
+              category.color,
+            );
+          });
+        }
+        return newSession;
+      }
+      return null;
+    };
 
 _createBoard(FirebaseClient client) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,

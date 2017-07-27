@@ -8,11 +8,11 @@ part of sessions;
 // **************************************************************************
 
 class _$SessionsActions extends SessionsActions {
-  ActionDispatcher<String> present =
-      new ActionDispatcher<String>('SessionsActions-present');
-
   ActionDispatcher<Null> shred =
       new ActionDispatcher<Null>('SessionsActions-shred');
+
+  ActionDispatcher<String> present =
+      new ActionDispatcher<String>('SessionsActions-present');
 
   ActionDispatcher<Null> reset =
       new ActionDispatcher<Null>('SessionsActions-reset');
@@ -34,8 +34,8 @@ class _$SessionsActions extends SessionsActions {
   factory _$SessionsActions() => new _$SessionsActions._();
   _$SessionsActions._() : super._();
   syncWithStore(dispatcher) {
-    present.syncWithStore(dispatcher);
     shred.syncWithStore(dispatcher);
+    present.syncWithStore(dispatcher);
     reset.syncWithStore(dispatcher);
     end.syncWithStore(dispatcher);
     start.syncWithStore(dispatcher);
@@ -46,8 +46,8 @@ class _$SessionsActions extends SessionsActions {
 }
 
 class SessionsActionsNames {
-  static ActionName present = new ActionName<String>('SessionsActions-present');
   static ActionName shred = new ActionName<Null>('SessionsActions-shred');
+  static ActionName present = new ActionName<String>('SessionsActions-present');
   static ActionName reset = new ActionName<Null>('SessionsActions-reset');
   static ActionName end = new ActionName<Null>('SessionsActions-end');
   static ActionName start = new ActionName<Null>('SessionsActions-start');

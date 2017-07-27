@@ -15,6 +15,7 @@ part 'users.g.dart';
 /// [UsersActions]
 abstract class UsersActions extends ReduxActions {
   ActionDispatcher<User> update;
+  ActionDispatcher<String> remove;
   ActionDispatcher<String> setCurrent;
   
   ActionDispatcher<String> addBoardToCurrentUser;
@@ -56,6 +57,7 @@ abstract class Users extends BuiltReducer<Users, UsersBuilder>
 
 var _reducer = (new ReducerBuilder<Users, UsersBuilder>()
       ..add<User>(UsersActionsNames.update, _updateUser)
+      ..add<String>(UsersActionsNames.remove, _removeUser)
       ..add<String>(UsersActionsNames.setCurrent, _setCurrentUser))
     .build();
 
@@ -65,6 +67,9 @@ var _reducer = (new ReducerBuilder<Users, UsersBuilder>()
 
 _updateUser(Users state, Action<User> action, UsersBuilder builder) =>
     builder..map[action.payload.uid] = action.payload;
+
+_removeUser(Users state, Action<String> action, UsersBuilder builder) =>
+    builder..map.remove(action.payload);
 
 _setCurrentUser(Users state, Action<String> action, UsersBuilder builder) =>
     builder..currentUid = action.payload;

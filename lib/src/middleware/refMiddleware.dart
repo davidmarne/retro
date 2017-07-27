@@ -31,9 +31,8 @@ createRefMiddleware(FirebaseClient client) => (new MiddlwareBuilder<App, AppBuil
       ..add<Null>(SessionsActionsNames.start, _startSession(client))
       ..add<Null>(SessionsActionsNames.end, _endSession(client))
       ..add<Null>(SessionsActionsNames.reset, _resetSession(client))
-      ..add<Null>(SessionsActionsNames.shred, _shredSession(client))
       ..add<String>(SessionsActionsNames.present, _present(client))
-
+      ..add<Null>(SessionsActionsNames.shred, _shredSession(client))
       ..add<User>(UsersActionsNames.update, _onUpdateUser(client))
       ..add<String>(UsersActionsNames.setCurrent, _onSetCurrentUser(client))
 
@@ -274,7 +273,7 @@ _shredSession(FirebaseClient client) => (
       }
       client.shredSession(session, board);
     }
-};
+  };
 
 _present(FirebaseClient client) => (
   MiddlewareApi<App, AppBuilder, AppActions> api,

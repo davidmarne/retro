@@ -15,6 +15,7 @@ part 'boards.g.dart';
 /// [BoardsActions]
 abstract class BoardsActions extends ReduxActions {
   ActionDispatcher<Board> update;
+  ActionDispatcher<String> remove;
   ActionDispatcher<String> setCurrent;
     // update title
     // update description
@@ -55,6 +56,7 @@ abstract class Boards extends BuiltReducer<Boards, BoardsBuilder>
 
 var _reducer = (new ReducerBuilder<Boards, BoardsBuilder>()
       ..add<Board>(BoardsActionsNames.update, _updateBoard)
+      ..add<String>(BoardsActionsNames.remove, _removeBoard)
       ..add<String>(BoardsActionsNames.setCurrent, _setCurrentBoard))
     .build();
 
@@ -64,6 +66,9 @@ var _reducer = (new ReducerBuilder<Boards, BoardsBuilder>()
 
 _updateBoard(Boards state, Action<Board> action, BoardsBuilder builder) =>
     builder..map[action.payload.uid] = action.payload;
+
+_removeBoard(Boards state, Action<String> action, BoardsBuilder builder) =>
+    builder..map.remove(action.payload);
 
 _setCurrentBoard(Boards state, Action<String> action, BoardsBuilder builder) =>
     builder..currentUid = action.payload;
