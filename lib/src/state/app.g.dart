@@ -15,6 +15,9 @@ class _$AppActions extends AppActions {
   SessionsActions sessions = new SessionsActions();
   BoardsActions boards = new BoardsActions();
   UsersActions users = new UsersActions();
+  ActionDispatcher<Null> toggleMobileMenu =
+      new ActionDispatcher<Null>('AppActions-toggleMobileMenu');
+
   ActionDispatcher<Null> hideModal =
       new ActionDispatcher<Null>('AppActions-hideModal');
 
@@ -32,6 +35,7 @@ class _$AppActions extends AppActions {
     sessions.syncWithStore(dispatcher);
     boards.syncWithStore(dispatcher);
     users.syncWithStore(dispatcher);
+    toggleMobileMenu.syncWithStore(dispatcher);
     hideModal.syncWithStore(dispatcher);
     showModal.syncWithStore(dispatcher);
     clear.syncWithStore(dispatcher);
@@ -39,6 +43,8 @@ class _$AppActions extends AppActions {
 }
 
 class AppActionsNames {
+  static ActionName toggleMobileMenu =
+      new ActionName<Null>('AppActions-toggleMobileMenu');
   static ActionName hideModal = new ActionName<Null>('AppActions-hideModal');
   static ActionName showModal = new ActionName<String>('AppActions-showModal');
   static ActionName clear = new ActionName<Null>('AppActions-clear');
@@ -62,6 +68,8 @@ class _$App extends App {
   final Items items;
   @override
   final Notes notes;
+  @override
+  final bool showMobileMenu;
   @override
   final BuiltList<String> modalQueue;
   String __visibleModal;
@@ -88,6 +96,7 @@ class _$App extends App {
       this.categories,
       this.items,
       this.notes,
+      this.showMobileMenu,
       this.modalQueue})
       : super._() {
     if (users == null) throw new ArgumentError.notNull('users');
@@ -96,6 +105,8 @@ class _$App extends App {
     if (categories == null) throw new ArgumentError.notNull('categories');
     if (items == null) throw new ArgumentError.notNull('items');
     if (notes == null) throw new ArgumentError.notNull('notes');
+    if (showMobileMenu == null)
+      throw new ArgumentError.notNull('showMobileMenu');
     if (modalQueue == null) throw new ArgumentError.notNull('modalQueue');
   }
 
@@ -164,6 +175,7 @@ class _$App extends App {
         categories == other.categories &&
         items == other.items &&
         notes == other.notes &&
+        showMobileMenu == other.showMobileMenu &&
         modalQueue == other.modalQueue;
   }
 
@@ -173,11 +185,13 @@ class _$App extends App {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, users.hashCode), boards.hashCode),
-                        sessions.hashCode),
-                    categories.hashCode),
-                items.hashCode),
-            notes.hashCode),
+                    $jc(
+                        $jc($jc($jc(0, users.hashCode), boards.hashCode),
+                            sessions.hashCode),
+                        categories.hashCode),
+                    items.hashCode),
+                notes.hashCode),
+            showMobileMenu.hashCode),
         modalQueue.hashCode));
   }
 
@@ -190,6 +204,7 @@ class _$App extends App {
           ..add('categories', categories)
           ..add('items', items)
           ..add('notes', notes)
+          ..add('showMobileMenu', showMobileMenu)
           ..add('modalQueue', modalQueue))
         .toString();
   }
@@ -224,6 +239,11 @@ class AppBuilder implements Builder<App, AppBuilder> {
   NotesBuilder get notes => _$this._notes ??= new NotesBuilder();
   set notes(NotesBuilder notes) => _$this._notes = notes;
 
+  bool _showMobileMenu;
+  bool get showMobileMenu => _$this._showMobileMenu;
+  set showMobileMenu(bool showMobileMenu) =>
+      _$this._showMobileMenu = showMobileMenu;
+
   ListBuilder<String> _modalQueue;
   ListBuilder<String> get modalQueue =>
       _$this._modalQueue ??= new ListBuilder<String>();
@@ -240,6 +260,7 @@ class AppBuilder implements Builder<App, AppBuilder> {
       _categories = _$v.categories?.toBuilder();
       _items = _$v.items?.toBuilder();
       _notes = _$v.notes?.toBuilder();
+      _showMobileMenu = _$v.showMobileMenu;
       _modalQueue = _$v.modalQueue?.toBuilder();
       _$v = null;
     }
@@ -267,6 +288,7 @@ class AppBuilder implements Builder<App, AppBuilder> {
             categories: categories?.build(),
             items: items?.build(),
             notes: notes?.build(),
+            showMobileMenu: showMobileMenu,
             modalQueue: modalQueue?.build());
     replace(result);
     return result;

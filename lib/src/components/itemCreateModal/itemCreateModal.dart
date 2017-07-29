@@ -7,7 +7,7 @@ import '../../store.dart';
 import '../../middleware/creationMiddleware.dart';
 
 @Component(
-  selector: 'item-create-modal',
+  selector: 'div[item-create-modal]',
   templateUrl: 'itemCreateModal.html',
 )
 class ItemCreateModalComponent {
@@ -16,8 +16,6 @@ class ItemCreateModalComponent {
   ItemCreateModalComponent(StoreService storeService) : _store = storeService.store;
 
   Category get category => _store.state.categories.current;
-
-  bool get visible => _store.state.visibleModal == CREATE_ITEM_MODAL;
 
   String description = "";
 
@@ -36,4 +34,6 @@ class ItemCreateModalComponent {
     description = "";
     _store.actions.hideModal(null);
   }
+
+  void hideModal() => _store.actions.hideModal(null);
 }

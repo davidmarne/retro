@@ -6,8 +6,6 @@ import 'package:angular2/router.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../itemCard/itemCard.dart';
-import '../itemCreate/itemCreate.dart';
-import '../categoryCreate/categoryCreate.dart';
 import '../noteCreate/noteCreate.dart';
 import '../../models/board.dart';
 import '../../models/session.dart';
@@ -24,9 +22,7 @@ import '../../store.dart';
   templateUrl: 'sessionDashboard.html',
   directives: const [
     ROUTER_DIRECTIVES,
-    CategoryCreateComponent,
     NoteCreateComponent,
-    ItemCreateComponent,
     ItemCardComponent,
   ],
 )

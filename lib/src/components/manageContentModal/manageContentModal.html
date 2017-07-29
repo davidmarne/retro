@@ -1,46 +1,46 @@
-<div *ngIf="visible" class="modal-content">
-  <div class="modal-content">
-    <div class="box">
-      <label class="label has-text-centered">
-        <p class="menu-label">Restore deleted content with the <span class="icon is-small has-text-success"><i class="fa fa-leaf" title="restore"></i></span> icon.</p>
-      </label>
-    </div>
+<div class="modal-background"></div>
+<div class="modal-content">
+  <div class="box">
+    <label class="label has-text-centered">
+      <p class="menu-label">Restore deleted content with the <span class="icon is-small has-text-success"><i class="fa fa-leaf" title="restore"></i></span> icon.</p>
+    </label>
+  </div>
 
-    <div *ngFor="let category of categories" class="box">
-      <h4 class="title">
-        {{category.title}}
-        <a class="button is-white is-pulled-right" (click)="toggleCategoryVisibility(category)">
-          <span class="icon {{category.visible ? 'has-text-danger' : 'has-text-success'}}">
-            <i class="fa {{category.visible ? 'fa-trash' : 'fa-leaf'}} "></i>
-          </span>
-        </a>
-      </h4>
+  <div *ngFor="let category of categories" class="box">
+    <h4 class="title">
+      {{category.title}}
+      <a class="button is-white is-pulled-right" (click)="toggleCategoryVisibility(category)">
+        <span class="icon {{category.visible ? 'has-text-danger' : 'has-text-success'}}">
+          <i class="fa {{category.visible ? 'fa-trash' : 'fa-leaf'}} "></i>
+        </span>
+      </a>
+    </h4>
 
-      <div *ngFor="let item of itemsForCategory(category)" class="field is-horizontal">
-        <div class="field-body">
-          <div class="field is-grouped">
-            <p class="control is-expanded">
-              <input #itemDescriptionInput class="input {{category.colorClass()}}" type="text" placeholder="{{item.text}}">
-            </p>
-            <div class="control">
-              <button class="button is-white"
-                  (click)="saveItemText(item, itemDescriptionInput.value); itemDescriptionInput.value = ''"
-                  [attr.disabled]="itemDescriptionInput.value.length == 0 ? true : null">
-                <span class="icon is-small">
-                  <i class="fa fa-floppy-o" title="save changes"></i>
-                </span>
-              </button>
-            </div>
-            <div class="control" [style.visibility]="!item.visible ? 'visible' : 'hidden'">
-              <button class="button is-white" (click)="makeItemVisible(item)">
-                <span class="icon is-small has-text-success">
-                  <i class="fa fa-leaf" title="restore"></i>
-                </span>
-              </button>
-            </div>
+    <div *ngFor="let item of itemsForCategory(category)" class="field is-horizontal">
+      <div class="field-body">
+        <div class="field is-grouped">
+          <p class="control is-expanded">
+            <input #itemDescriptionInput class="input {{category.colorClass()}}" type="text" placeholder="{{item.text}}">
+          </p>
+          <div class="control">
+            <button class="button is-white"
+                (click)="saveItemText(item, itemDescriptionInput.value); itemDescriptionInput.value = ''"
+                [attr.disabled]="itemDescriptionInput.value.length == 0 ? true : null">
+              <span class="icon is-small">
+                <i class="fa fa-floppy-o" title="save changes"></i>
+              </span>
+            </button>
+          </div>
+          <div class="control" [style.visibility]="!item.visible ? 'visible' : 'hidden'">
+            <button class="button is-white" (click)="makeItemVisible(item)">
+              <span class="icon is-small has-text-success">
+                <i class="fa fa-leaf" title="restore"></i>
+              </span>
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+<button class="modal-close" (click)="hideModal()"></button>

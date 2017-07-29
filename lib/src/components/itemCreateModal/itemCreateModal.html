@@ -1,18 +1,18 @@
-<div *ngIf="visible" class="modal-content">
-  <div class="modal-card">
-    <header class="modal-card-head">
-      <p class="modal-card-title">{{category.description}}</p>
-    </header>
-    <section class="modal-card-body">
-      <div class="field">
-        <p class="control">
-          <textarea [(ngModel)]="description" class="textarea" placeholder="Let it out"></textarea>
-        </p>
-      </div>
-    </section>
-    <footer class="modal-card-foot">
-      <a class="button is-success" (click)="addItem()">Save</a>
-      <a class="button" (click)="resetItemForm()">Discard</a>
-    </footer>
-  </div>
+<div class="modal-background"></div>
+<div class="modal-card">
+  <header class="modal-card-head">
+    <p class="modal-card-title">{{category.description}}</p>
+  </header>
+  <section class="modal-card-body">
+    <div class="field">
+      <p class="control">
+        <textarea [(ngModel)]="description" class="textarea" placeholder="Let it out"></textarea>
+      </p>
+    </div>
+  </section>
+  <footer class="modal-card-foot">
+    <a class="button is-success" (click)="addItem()">Save</a>
+    <a class="button" (click)="resetItemForm()">Discard</a>
+  </footer>
 </div>
+<button class="modal-close" (click)="hideModal()"></button>

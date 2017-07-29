@@ -1,13 +1,13 @@
-<div *ngIf="visible" class="modal-content">
-  <div class="modal-card">
-    <section class="modal-card-body">
-      <h1 class="title">Warning!</h1>
-      <h3 class="subtitle">Having a session shredded is a non-recoverable action!</h3>
-      <p>All session details will be perminently deleted. This includes any contributions made by other session participants.</p>
-    </section>
-    <footer class="modal-card-foot">
-      <a class="button is-danger" (click)="confirm()">Shred</a>
-      <a class="button" (click)="cancel()">Cancel</a>
-    </footer>
-  </div>
+<div class="modal-background"></div>
+<div class="modal-card">
+  <section class="modal-card-body">
+    <h1 class="title">Warning!</h1>
+    <h3 class="subtitle">Having a session shredded is a non-recoverable action!</h3>
+    <p>All session details will be perminently deleted. This includes any contributions made by other session participants.</p>
+  </section>
+  <footer class="modal-card-foot">
+    <a class="button is-danger" (click)="confirm()">Shred</a>
+    <a class="button" (click)="cancel()">Cancel</a>
+  </footer>
 </div>
+<button class="modal-close" (click)="hideModal()"></button>

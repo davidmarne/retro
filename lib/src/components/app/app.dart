@@ -46,6 +46,12 @@ import '../../state/app.dart';
 class AppComponent {
   final StoreService _storeService;
 
+  // template is scopes to this component, so const in app isn't visible.
+  final String confirm_shred_modal = CONFIRM_SHRED_MODAL;
+  final String create_category_modal = CREATE_CATEGORY_MODAL;
+  final String create_item_modal = CREATE_ITEM_MODAL;
+  final String manage_content_modal = MANAGE_CONTENT_MODAL;
+
   AppComponent(StoreService storeService) : _storeService = storeService;
 
   bool get loggedIn => _storeService.store.state.users.loggedIn;
@@ -53,13 +59,15 @@ class AppComponent {
   Board get board => _storeService.store.state.boards.current;
   bool showBoardCrumb() => _storeService.store.state.boards.currentUid != "";
 
-  bool get showModal => _storeService.store.state.visibleModal != NO_MODAL;
+  bool get showMobileMenu => _storeService.store.state.showMobileMenu;
+
+  bool showModal(String modal) => modal == _storeService.store.state.visibleModal;
 
   logIn() => _storeService.signIn();
 
   logOut() => _storeService.signOut();
 
-  hideModal() => _storeService.store.actions.hideModal(null);
+  toggleMobileMenu() => _storeService.store.actions.toggleMobileMenu(null);
 
   void showManageContentModal() {
     _storeService.store.actions.showModal(MANAGE_CONTENT_MODAL);

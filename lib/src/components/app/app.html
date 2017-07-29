@@ -1,13 +1,21 @@
 <nav class="nav">
-  <div class="container">
-    <div class="nav-left">
-      <a class="nav-item is-tab" [routerLink]="['Home']">Boards</a>
-      <a *ngIf="showBoardCrumb()" class="nav-item is-tab" [routerLink]="['Board', {'buid': board?.uid}]">History</a>
-    </div>
-    <div class="nav-right nav-menu">
-      <a class="nav-item is-tab" (click)="showManageContentModal()">Manage Content</a>
-      <a *ngIf="!loggedIn" class="nav-item is-tab" (click)="logIn()">Log In with Google</a>
-    </div>
+  <div class="nav-left">
+    <a class="nav-item is-tab" [routerLink]="['Home']">Boards</a>
+    <a *ngIf="showBoardCrumb()" class="nav-item is-tab" [routerLink]="['Board', {'buid': board?.uid}]">History</a>
+  </div>
+
+
+  <!-- This "nav-toggle" hamburger menu is only visible on mobile -->
+  <span class="nav-toggle" [class.is-active]="showMobileMenu" (click)="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+  </span>
+
+  <!-- This "nav-menu" is hidden on mobile -->
+  <div class="nav-right nav-menu" [class.is-active]="showMobileMenu">
+    <a class="nav-item is-tab" (click)="showManageContentModal()">Manage Content</a>
+    <a *ngIf="!loggedIn" class="nav-item is-tab" (click)="logIn()">Log In with Google</a>
   </div>
 </nav>
 
@@ -25,13 +33,8 @@
   </div>
 </footer>
 
-<div class="modal {{showModal ? 'is-active' : ''}}">
-    <div class="modal-background"></div>
-    <item-create-modal></item-create-modal>
-    <category-create-modal></category-create-modal>
-    <confirm-shred-modal></confirm-shred-modal>
-    <manage-content-modal></manage-content-modal>
-    <button class="modal-close" (click)="hideModal()"></button>
-</div>
-
-
+<!-- Modals -->
+<div *ngIf="showModal(create_item_modal)"  class="modal is-active" item-create-modal></div>
+<div *ngIf="showModal(create_category_modal)"  class="modal is-active" category-create-modal></div>
+<div *ngIf="showModal(confirm_shred_modal)"  class="modal is-active" confirm-shred-modal></div>
+<div *ngIf="showModal(manage_content_modal)"  class="modal is-active" manage-content-modal></div>

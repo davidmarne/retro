@@ -47,6 +47,7 @@ abstract class AppActions extends ReduxActions {
   ActionDispatcher<Null> clear;
   ActionDispatcher<String> showModal;
   ActionDispatcher<Null> hideModal;
+  ActionDispatcher<Null> toggleMobileMenu;
 
   UsersActions users;
   BoardsActions boards;
@@ -92,6 +93,8 @@ abstract class App extends BuiltReducer<App, AppBuilder>
   /// [Notes]
   Notes get notes;
 
+  bool get showMobileMenu;
+
   BuiltList<String> get modalQueue;
 
   /// [reducer]
@@ -105,7 +108,8 @@ abstract class App extends BuiltReducer<App, AppBuilder>
     ..sessions = new Sessions().toBuilder()
     ..categories = new Categories().toBuilder()
     ..items = new Items().toBuilder()
-    ..notes = new Notes().toBuilder());
+    ..notes = new Notes().toBuilder()
+    ..showMobileMenu = false);
 
   @memoized
   String get visibleModal => modalQueue.isNotEmpty ? modalQueue.last: NO_MODAL;
@@ -196,6 +200,7 @@ var _reducer =
       ..add<Null>(AppActionsNames.clear, _clear)
       ..add<String>(AppActionsNames.showModal, _showModal)
       ..add<Null>(AppActionsNames.hideModal, _hideModal)
+      ..add<Null>(AppActionsNames.toggleMobileMenu, _toggleMobileMenu)
     ).build();
 
 ////////////////////
@@ -215,3 +220,6 @@ _showModal(App state, Action<String> action, AppBuilder builder) => builder
 
 _hideModal(App state, Action<String> action, AppBuilder builder) => builder
     ..modalQueue.removeLast();
+
+_toggleMobileMenu(App state, Action<String> action, AppBuilder builder) => builder
+    ..showMobileMenu = !state.showMobileMenu;

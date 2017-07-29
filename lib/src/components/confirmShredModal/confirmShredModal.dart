@@ -5,15 +5,13 @@ import '../../state/app.dart';
 import '../../store.dart';
 
 @Component(
-  selector: 'confirm-shred-modal',
+  selector: 'div[confirm-shred-modal]',
   templateUrl: 'confirmShredModal.html',
 )
 class ConfirmShredModalComponent {
   final Store<App, AppBuilder, AppActions> _store;
 
   ConfirmShredModalComponent(StoreService storeService) : _store = storeService.store;
-
-  bool get visible => _store.state.visibleModal == CONFIRM_SHRED_MODAL;
 
   void confirm() {
     _store.actions.sessions.shred(null);
@@ -23,4 +21,6 @@ class ConfirmShredModalComponent {
   void cancel() {
     _store.actions.hideModal(null);
   }
+
+  void hideModal() => _store.actions.hideModal(null);
 }

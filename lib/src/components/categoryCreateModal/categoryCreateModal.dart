@@ -7,15 +7,13 @@ import '../../store.dart';
 import '../../middleware/creationMiddleware.dart';
 
 @Component(
-  selector: 'category-create-modal',
+  selector: 'div[category-create-modal]',
   templateUrl: 'categoryCreateModal.html',
 )
 class CategoryCreateModalComponent {
   final Store<App, AppBuilder, AppActions> _store;
 
   CategoryCreateModalComponent(StoreService storeService) : _store = storeService.store;
-
-  bool get visible => _store.state.visibleModal == CREATE_CATEGORY_MODAL;
 
   String title = "";
 
@@ -47,4 +45,6 @@ class CategoryCreateModalComponent {
     selectedColor = CAT_COLOR_DEFAULT;
     _store.actions.hideModal(null);
   }
+
+  void hideModal() => _store.actions.hideModal(null);
 }

@@ -5,18 +5,15 @@ import '../../models/category.dart';
 import '../../models/item.dart';
 import '../../state/app.dart';
 import '../../store.dart';
-import '../../middleware/creationMiddleware.dart';
 
 @Component(
-  selector: 'manage-content-modal',
+  selector: 'div[manage-content-modal]',
   templateUrl: 'manageContentModal.html',
 )
 class ManageContentModalComponent {
   final Store<App, AppBuilder, AppActions> _store;
 
   ManageContentModalComponent(StoreService storeService) : _store = storeService.store;
-
-  bool get visible => _store.state.visibleModal == MANAGE_CONTENT_MODAL;
 
   Iterable<Category> get categories => _store.state.manageableSessionCategories;
 
@@ -42,4 +39,6 @@ class ManageContentModalComponent {
     _store.actions.items.setCurrent(item.uid);
     _store.actions.items.editText(text);
   }
+
+  void hideModal() => _store.actions.hideModal(null);
 }
