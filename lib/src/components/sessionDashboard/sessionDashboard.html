@@ -67,7 +67,13 @@
 
         <!--Category Titles-->
         <div *ngFor="let category of categories" class="column {{catColumnClass()}}">
-          <h4 class="title is-4">{{category.title}}</h4>
+          <h4 class="title is-4">{{category.title}}
+            <a (click)="initiateItemCreation(category)" title="Add a new item.">
+              <span class="icon">
+                <i class="fa fa-plus"></i>
+              </span>
+            </a>
+          </h4>
           <h6 class="subtitle is-6">{{category.description}}</h6>
         </div>
 
@@ -88,7 +94,13 @@
 
         <!--Category Items-->
         <div *ngFor="let category of categories" class="column {{catColumnClass()}}">
-          <p class="title is-4 is-hidden-tablet">{{category.title}}</p>
+          <p class="title is-4 is-hidden-tablet">{{category.title}}
+            <a (click)="initiateItemCreation(category)" title="Add a new item.">
+              <span class="icon">
+                <i class="fa fa-plus"></i>
+              </span>
+            </a>
+          </p>
           <p class="subtitle is-6 is-hidden-tablet">{{category.description}}</p>
 
           <p *ngFor="let item of itemsForCategory(category)" class="notification {{category.colorClass()}} {{inProgress() && isItemCovered(item) ? 'covered' : ''}}">
@@ -99,14 +111,6 @@
             </span>
             {{item.text}}
           </p>
-          <h4 *ngIf="!started()" class="subtitle is-4">
-            <a (click)="initiateItemCreation(category)">
-              <span class="icon">
-                <i class="fa fa-plus"></i>
-              </span>
-              <span>New Item</span>
-            </a>
-          </h4>
         </div>
 
         <!--Mobile only add topic-->
