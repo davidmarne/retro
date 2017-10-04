@@ -32,6 +32,12 @@ abstract class Item implements Built<Item, ItemBuilder> {
 
   String get text;
 
+  /// Options for "Poll" items.
+  BuiltList<String> get pollOptions;
+
+  /// [pollChoicesUids] chosen option for each participating user.
+  BuiltMap<String, int> get pollChoicesUids;
+
   /// [visible] when false, prevent Item from appearing in any sets.
   bool get visible;
 

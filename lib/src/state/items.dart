@@ -22,6 +22,8 @@ abstract class ItemsActions extends ReduxActions {
   ActionDispatcher<String> editText;
   ActionDispatcher<String> addSupport;
   ActionDispatcher<String> removeSupport;
+  ActionDispatcher<PollResponse> addPollResponse;
+  ActionDispatcher<String> removePollResponse;
   ActionDispatcher<String> hide;
   ActionDispatcher<String> show;
 
@@ -35,6 +37,18 @@ abstract class ItemsActions extends ReduxActions {
   ItemsActions._();
   factory ItemsActions() => new _$ItemsActions();
 }
+
+////////////////////
+/// Payloads
+///////////////////
+
+class PollResponse {
+  final String itemUid;
+  final int optionIndex;
+
+  PollResponse(this.itemUid, this.optionIndex);
+}
+
 
 ////////////////////
 /// State
