@@ -49,10 +49,10 @@ class _$ItemSerializer implements StructuredSerializer<Item> {
       serializers.serialize(object.pollOptions,
           specifiedType:
               const FullType(BuiltList, const [const FullType(String)])),
-      'pollChoicesUids',
-      serializers.serialize(object.pollChoicesUids,
-          specifiedType: const FullType(
-              BuiltMap, const [const FullType(String), const FullType(int)])),
+      'pollResponses',
+      serializers.serialize(object.pollResponses,
+          specifiedType: const FullType(BuiltMap,
+              const [const FullType(String), const FullType(String)])),
       'visible',
       serializers.serialize(object.visible,
           specifiedType: const FullType(bool)),
@@ -120,12 +120,12 @@ class _$ItemSerializer implements StructuredSerializer<Item> {
                       const FullType(BuiltList, const [const FullType(String)]))
               as BuiltList<String>);
           break;
-        case 'pollChoicesUids':
-          result.pollChoicesUids.replace(serializers.deserialize(value,
+        case 'pollResponses':
+          result.pollResponses.replace(serializers.deserialize(value,
               specifiedType: const FullType(BuiltMap, const [
                 const FullType(String),
-                const FullType(int)
-              ])) as BuiltMap<String, int>);
+                const FullType(String)
+              ])) as BuiltMap<String, String>);
           break;
         case 'visible':
           result.visible = serializers.deserialize(value,
@@ -165,7 +165,7 @@ class _$Item extends Item {
   @override
   final BuiltList<String> pollOptions;
   @override
-  final BuiltMap<String, int> pollChoicesUids;
+  final BuiltMap<String, String> pollResponses;
   @override
   final bool visible;
 
@@ -183,7 +183,7 @@ class _$Item extends Item {
       this.time,
       this.text,
       this.pollOptions,
-      this.pollChoicesUids,
+      this.pollResponses,
       this.visible})
       : super._() {
     if (uid == null) throw new ArgumentError.notNull('uid');
@@ -196,8 +196,7 @@ class _$Item extends Item {
     if (time == null) throw new ArgumentError.notNull('time');
     if (text == null) throw new ArgumentError.notNull('text');
     if (pollOptions == null) throw new ArgumentError.notNull('pollOptions');
-    if (pollChoicesUids == null)
-      throw new ArgumentError.notNull('pollChoicesUids');
+    if (pollResponses == null) throw new ArgumentError.notNull('pollResponses');
     if (visible == null) throw new ArgumentError.notNull('visible');
   }
 
@@ -222,7 +221,7 @@ class _$Item extends Item {
         time == other.time &&
         text == other.text &&
         pollOptions == other.pollOptions &&
-        pollChoicesUids == other.pollChoicesUids &&
+        pollResponses == other.pollResponses &&
         visible == other.visible;
   }
 
@@ -248,7 +247,7 @@ class _$Item extends Item {
                         time.hashCode),
                     text.hashCode),
                 pollOptions.hashCode),
-            pollChoicesUids.hashCode),
+            pollResponses.hashCode),
         visible.hashCode));
   }
 
@@ -265,7 +264,7 @@ class _$Item extends Item {
           ..add('time', time)
           ..add('text', text)
           ..add('pollOptions', pollOptions)
-          ..add('pollChoicesUids', pollChoicesUids)
+          ..add('pollResponses', pollResponses)
           ..add('visible', visible))
         .toString();
   }
@@ -320,11 +319,11 @@ class ItemBuilder implements Builder<Item, ItemBuilder> {
   set pollOptions(ListBuilder<String> pollOptions) =>
       _$this._pollOptions = pollOptions;
 
-  MapBuilder<String, int> _pollChoicesUids;
-  MapBuilder<String, int> get pollChoicesUids =>
-      _$this._pollChoicesUids ??= new MapBuilder<String, int>();
-  set pollChoicesUids(MapBuilder<String, int> pollChoicesUids) =>
-      _$this._pollChoicesUids = pollChoicesUids;
+  MapBuilder<String, String> _pollResponses;
+  MapBuilder<String, String> get pollResponses =>
+      _$this._pollResponses ??= new MapBuilder<String, String>();
+  set pollResponses(MapBuilder<String, String> pollResponses) =>
+      _$this._pollResponses = pollResponses;
 
   bool _visible;
   bool get visible => _$this._visible;
@@ -344,7 +343,7 @@ class ItemBuilder implements Builder<Item, ItemBuilder> {
       _time = _$v.time;
       _text = _$v.text;
       _pollOptions = _$v.pollOptions?.toBuilder();
-      _pollChoicesUids = _$v.pollChoicesUids?.toBuilder();
+      _pollResponses = _$v.pollResponses?.toBuilder();
       _visible = _$v.visible;
       _$v = null;
     }
@@ -376,7 +375,7 @@ class ItemBuilder implements Builder<Item, ItemBuilder> {
             time: time,
             text: text,
             pollOptions: pollOptions?.build(),
-            pollChoicesUids: pollChoicesUids?.build(),
+            pollResponses: pollResponses?.build(),
             visible: visible);
     replace(result);
     return result;

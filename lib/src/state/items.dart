@@ -44,9 +44,9 @@ abstract class ItemsActions extends ReduxActions {
 
 class PollResponse {
   final String itemUid;
-  final int optionIndex;
+  final String option;
 
-  PollResponse(this.itemUid, this.optionIndex);
+  PollResponse(this.itemUid, this.option);
 }
 
 

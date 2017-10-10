@@ -25,8 +25,8 @@ createRefMiddleware(FirebaseClient client) => (new MiddlwareBuilder<App, AppBuil
       ..add<String>(ItemsActionsNames.editText, _editItemText(client))
       ..add<String>(ItemsActionsNames.addSupport, _addSupport(client))
       ..add<String>(ItemsActionsNames.removeSupport, _removeSupport(client))
-      ..add<PollResponse>(ItemsActionsNames.addSupport, _addPollResponse(client))
-      ..add<String>(ItemsActionsNames.removeSupport, _removePollResponse(client))
+      ..add<PollResponse>(ItemsActionsNames.addPollResponse, _addPollResponse(client))
+      ..add<String>(ItemsActionsNames.removePollResponse, _removePollResponse(client))
 
       ..add<String>(ItemsActionsNames.hide, _hideItem(client))
       ..add<String>(ItemsActionsNames.show, _showItem(client))
@@ -191,7 +191,7 @@ _addPollResponse(FirebaseClient client) => (
     var userUid = api.state.users.currentUid;
     Item item = api.state.items.map[action.payload.itemUid];
     if (item != null && userUid != "") {
-      client.addPollResponse(action.payload.optionIndex, userUid, item);
+      client.addPollResponse(action.payload.option, userUid, item);
     }
 };
 

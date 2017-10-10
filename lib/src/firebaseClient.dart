@@ -183,12 +183,12 @@ class FirebaseClient {
     await _refs.item(item.boardUid, item.sessionUid, item.uid).child("supporterUids").child(userUid).remove();
   }
 
-  Future addPollResponse(int index, String userUid, Item item) async {
-    await _refs.item(item.boardUid, item.sessionUid, item.uid).child("pollChoicesUids").child(userUid).set(index);
+  Future addPollResponse(String option, String userUid, Item item) async {
+    await _refs.item(item.boardUid, item.sessionUid, item.uid).child("pollResponses").child(userUid).set(option);
   }
 
   Future removePollResponse(String userUid, Item item) async {
-    await _refs.item(item.boardUid, item.sessionUid, item.uid).child("pollChoicesUids").child(userUid).remove();
+    await _refs.item(item.boardUid, item.sessionUid, item.uid).child("pollResponses").child(userUid).remove();
   }
 
   Future hideCategory(Category category) async {
