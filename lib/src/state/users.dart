@@ -17,7 +17,7 @@ abstract class UsersActions extends ReduxActions {
   ActionDispatcher<User> update;
   ActionDispatcher<String> remove;
   ActionDispatcher<String> setCurrent;
-  
+
   ActionDispatcher<String> addBoardToCurrentUser;
 
   // factory to create on instance of the generated implementation of UsersActions
@@ -30,7 +30,7 @@ abstract class UsersActions extends ReduxActions {
 ///////////////////
 
 /// [Users]
-abstract class Users extends BuiltReducer<Users, UsersBuilder>
+abstract class Users extends ReducerBuilder<Users, UsersBuilder>
     implements Built<Users, UsersBuilder> {
   /// [map] contains a map of user.id to User
   BuiltMap<String, User> get map;
@@ -42,7 +42,8 @@ abstract class Users extends BuiltReducer<Users, UsersBuilder>
 
   // Built value boilerplate
   Users._();
-  factory Users([updates(UsersBuilder b)]) => new _$Users((UsersBuilder b) => b..currentUid = "");
+  factory Users([updates(UsersBuilder b)]) =>
+      new _$Users((UsersBuilder b) => b..currentUid = "");
 
   @memoized
   User get current => map[currentUid];

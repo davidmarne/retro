@@ -4,8 +4,15 @@ part of session;
 
 // **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: library session
 // **************************************************************************
+
+// ignore_for_file: always_put_control_body_on_new_line
+// ignore_for_file: annotate_overrides
+// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: avoid_returning_this
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 Serializer<Session> _$sessionSerializer = new _$SessionSerializer();
 
@@ -101,11 +108,6 @@ class _$SessionSerializer implements StructuredSerializer<Session> {
     return result.build();
   }
 }
-
-// **************************************************************************
-// Generator: BuiltValueGenerator
-// Target: abstract class Session
-// **************************************************************************
 
 class _$Session extends Session {
   @override
@@ -275,7 +277,7 @@ class SessionBuilder implements Builder<Session, SessionBuilder> {
 
   @override
   _$Session build() {
-    final result = _$v ??
+    final _$result = _$v ??
         new _$Session._(
             uid: uid,
             boardUid: boardUid,
@@ -285,7 +287,7 @@ class SessionBuilder implements Builder<Session, SessionBuilder> {
             endTime: endTime,
             presentedUid: presentedUid,
             presentedDate: presentedDate);
-    replace(result);
-    return result;
+    replace(_$result);
+    return _$result;
   }
 }

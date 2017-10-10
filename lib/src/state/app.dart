@@ -34,9 +34,11 @@ int now() => new DateTime.now().millisecondsSinceEpoch;
 final _dateFormat = new DateFormat.yMMMMd("en_US");
 final _timeFormat = new DateFormat.Hm("en_US");
 
-String date(int epoch) => _dateFormat.format(new DateTime.fromMillisecondsSinceEpoch(epoch));
+String date(int epoch) =>
+    _dateFormat.format(new DateTime.fromMillisecondsSinceEpoch(epoch));
 String dateTime(int epoch) => "${time(epoch)} on ${date(epoch)}";
-String time(int epoch) => _timeFormat.format(new DateTime.fromMillisecondsSinceEpoch(epoch));
+String time(int epoch) =>
+    _timeFormat.format(new DateTime.fromMillisecondsSinceEpoch(epoch));
 
 ////////////////////
 /// Actions
@@ -68,8 +70,7 @@ abstract class AppActions extends ReduxActions {
 ///////////////////
 
 /// [App]
-abstract class App extends BuiltReducer<App, AppBuilder>
-    with AppReduceChildren
+abstract class App extends ReducerBuilder<App, AppBuilder>
     implements Built<App, AppBuilder> {
   /// [users]
   Users get users;
@@ -112,13 +113,13 @@ abstract class App extends BuiltReducer<App, AppBuilder>
     ..showMobileMenu = false);
 
   @memoized
-  String get visibleModal => modalQueue.isNotEmpty ? modalQueue.last: NO_MODAL;
+  String get visibleModal => modalQueue.isNotEmpty ? modalQueue.last : NO_MODAL;
 
   // TODO: do this or clear sessions everytime current board changes?
   @memoized
-  BuiltList<Session> get currentBoardSessions =>
-      new BuiltList<Session>(
-        sessions.map.values.where((Session s) => s.boardUid == boards.currentUid),
+  BuiltList<Session> get currentBoardSessions => new BuiltList<Session>(
+        sessions.map.values
+            .where((Session s) => s.boardUid == boards.currentUid),
       );
 
   @memoized
@@ -135,56 +136,51 @@ abstract class App extends BuiltReducer<App, AppBuilder>
   }
 
   @memoized
-  Session get boardsLatestSession => sessions.map[boards.current.latestSessionUid];
+  Session get boardsLatestSession =>
+      sessions.map[boards.current.latestSessionUid];
 
   @memoized
-  BuiltList<Category> get sessionCategories =>
-      new BuiltList<Category>(
-        categories.map.values.where((Category c) => c.sessionUid == sessions.currentUid),
+  BuiltList<Category> get sessionCategories => new BuiltList<Category>(
+        categories.map.values
+            .where((Category c) => c.sessionUid == sessions.currentUid),
       );
 
   @memoized
-  BuiltList<Category> get visibleSessionCategories =>
-      new BuiltList<Category>(
-        categories.visible.where((Category c) => c.sessionUid == sessions.currentUid),
+  BuiltList<Category> get visibleSessionCategories => new BuiltList<Category>(
+        categories.visible
+            .where((Category c) => c.sessionUid == sessions.currentUid),
       );
 
   @memoized
   BuiltList<Category> get manageableSessionCategories => sessionCategories;
 
   @memoized
-  BuiltList<Item> get sessionItems =>
-      new BuiltList<Item>(
+  BuiltList<Item> get sessionItems => new BuiltList<Item>(
         items.map.values.where((Item i) => i.sessionUid == sessions.currentUid),
       );
 
   @memoized
-  BuiltList<Item> get visibleSessionItems =>
-      new BuiltList<Item>(
+  BuiltList<Item> get visibleSessionItems => new BuiltList<Item>(
         items.visible.where((Item i) => i.sessionUid == sessions.currentUid),
       );
 
   @memoized
-  BuiltList<Item> get manageableSessionItems =>
-      new BuiltList<Item>(
+  BuiltList<Item> get manageableSessionItems => new BuiltList<Item>(
         sessionItems.where((Item i) => i.ownerUid == users.currentUid),
       );
 
   @memoized
-  BuiltList<Note> get sessionNotes =>
-      new BuiltList<Note>(
+  BuiltList<Note> get sessionNotes => new BuiltList<Note>(
         notes.map.values.where((Note n) => n.sessionUid == sessions.currentUid),
       );
 
   @memoized
-  BuiltList<Note> get visibleSessionNotes =>
-      new BuiltList<Note>(
+  BuiltList<Note> get visibleSessionNotes => new BuiltList<Note>(
         notes.visible.where((Note n) => n.sessionUid == sessions.currentUid),
       );
 
   @memoized
-  BuiltList<Note> get manageableSessionNotes =>
-      new BuiltList<Note>(
+  BuiltList<Note> get manageableSessionNotes => new BuiltList<Note>(
         sessionNotes.where((Note n) => n.ownerUid == users.currentUid),
       );
 
@@ -195,13 +191,12 @@ abstract class App extends BuiltReducer<App, AppBuilder>
 /// Main Reducer
 ///////////////////
 
-var _reducer =
-    (new ReducerBuilder<App, AppBuilder>()
+var _reducer = (new ReducerBuilder<App, AppBuilder>()
       ..add<Null>(AppActionsNames.clear, _clear)
       ..add<String>(AppActionsNames.showModal, _showModal)
       ..add<Null>(AppActionsNames.hideModal, _hideModal)
-      ..add<Null>(AppActionsNames.toggleMobileMenu, _toggleMobileMenu)
-    ).build();
+      ..add<Null>(AppActionsNames.toggleMobileMenu, _toggleMobileMenu))
+    .build();
 
 ////////////////////
 /// Reducers
@@ -215,11 +210,11 @@ _clear(App state, Action<Null> action, AppBuilder builder) => builder
   ..items = new Items().toBuilder()
   ..notes = new Notes().toBuilder();
 
-_showModal(App state, Action<String> action, AppBuilder builder) => builder
-  ..modalQueue.add(action.payload);
+_showModal(App state, Action<String> action, AppBuilder builder) =>
+    builder..modalQueue.add(action.payload);
 
-_hideModal(App state, Action<String> action, AppBuilder builder) => builder
-    ..modalQueue.removeLast();
+_hideModal(App state, Action<String> action, AppBuilder builder) =>
+    builder..modalQueue.removeLast();
 
-_toggleMobileMenu(App state, Action<String> action, AppBuilder builder) => builder
-    ..showMobileMenu = !state.showMobileMenu;
+_toggleMobileMenu(App state, Action<String> action, AppBuilder builder) =>
+    builder..showMobileMenu = !state.showMobileMenu;

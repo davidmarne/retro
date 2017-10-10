@@ -1,4 +1,4 @@
-import 'package:angular2/core.dart';
+import 'package:angular/core.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../../models/category.dart';
@@ -13,7 +13,8 @@ import '../../middleware/creationMiddleware.dart';
 class CategoryCreateModalComponent {
   final Store<App, AppBuilder, AppActions> _store;
 
-  CategoryCreateModalComponent(StoreService storeService) : _store = storeService.store;
+  CategoryCreateModalComponent(StoreService storeService)
+      : _store = storeService.store;
 
   String title = "";
 

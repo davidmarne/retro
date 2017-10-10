@@ -33,7 +33,7 @@ abstract class CategoriesActions extends ReduxActions {
 ///////////////////
 
 /// [Categories]
-abstract class Categories extends BuiltReducer<Categories, CategoriesBuilder>
+abstract class Categories extends ReducerBuilder<Categories, CategoriesBuilder>
     implements Built<Categories, CategoriesBuilder> {
   /// [map] contains a map of category uid to Category.
   BuiltMap<String, Category> get map;

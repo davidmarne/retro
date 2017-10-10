@@ -4,8 +4,15 @@ part of item;
 
 // **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: library item
 // **************************************************************************
+
+// ignore_for_file: always_put_control_body_on_new_line
+// ignore_for_file: annotate_overrides
+// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: avoid_returning_this
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 Serializer<Item> _$itemSerializer = new _$ItemSerializer();
 
@@ -116,11 +123,6 @@ class _$ItemSerializer implements StructuredSerializer<Item> {
     return result.build();
   }
 }
-
-// **************************************************************************
-// Generator: BuiltValueGenerator
-// Target: abstract class Item
-// **************************************************************************
 
 class _$Item extends Item {
   @override
@@ -312,7 +314,7 @@ class ItemBuilder implements Builder<Item, ItemBuilder> {
 
   @override
   _$Item build() {
-    final result = _$v ??
+    final _$result = _$v ??
         new _$Item._(
             uid: uid,
             boardUid: boardUid,
@@ -324,7 +326,7 @@ class ItemBuilder implements Builder<Item, ItemBuilder> {
             time: time,
             text: text,
             visible: visible);
-    replace(result);
-    return result;
+    replace(_$result);
+    return _$result;
   }
 }

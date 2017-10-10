@@ -32,7 +32,7 @@ abstract class NotesActions extends ReduxActions {
 ///////////////////
 
 /// [Notes]
-abstract class Notes extends BuiltReducer<Notes, NotesBuilder>
+abstract class Notes extends ReducerBuilder<Notes, NotesBuilder>
     implements Built<Notes, NotesBuilder> {
   /// [map] contains a map of Note uid to Note.
   BuiltMap<String, Note> get map;

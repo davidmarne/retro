@@ -32,7 +32,7 @@ abstract class BoardsActions extends ReduxActions {
 ///////////////////
 
 /// [Boards]
-abstract class Boards extends BuiltReducer<Boards, BoardsBuilder>
+abstract class Boards extends ReducerBuilder<Boards, BoardsBuilder>
     implements Built<Boards, BoardsBuilder> {
   /// [map] contains a map of board.id to Board
   BuiltMap<String, Board> get map;

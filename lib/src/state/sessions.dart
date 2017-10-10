@@ -37,7 +37,7 @@ abstract class SessionsActions extends ReduxActions {
 ///////////////////
 
 /// [Sessions]
-abstract class Sessions extends BuiltReducer<Sessions, SessionsBuilder>
+abstract class Sessions extends ReducerBuilder<Sessions, SessionsBuilder>
     implements Built<Sessions, SessionsBuilder> {
   /// [map] contains a map of Session uid to Session.
   BuiltMap<String, Session> get map;

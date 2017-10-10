@@ -1,4 +1,4 @@
-import 'package:angular2/core.dart';
+import 'package:angular/core.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../../state/app.dart';

@@ -4,8 +4,15 @@ part of category;
 
 // **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: library category
 // **************************************************************************
+
+// ignore_for_file: always_put_control_body_on_new_line
+// ignore_for_file: annotate_overrides
+// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: avoid_returning_this
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 Serializer<Category> _$categorySerializer = new _$CategorySerializer();
 
@@ -92,11 +99,6 @@ class _$CategorySerializer implements StructuredSerializer<Category> {
     return result.build();
   }
 }
-
-// **************************************************************************
-// Generator: BuiltValueGenerator
-// Target: abstract class Category
-// **************************************************************************
 
 class _$Category extends Category {
   @override
@@ -242,7 +244,7 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
 
   @override
   _$Category build() {
-    final result = _$v ??
+    final _$result = _$v ??
         new _$Category._(
             uid: uid,
             boardUid: boardUid,
@@ -251,7 +253,7 @@ class CategoryBuilder implements Builder<Category, CategoryBuilder> {
             description: description,
             color: color,
             visible: visible);
-    replace(result);
-    return result;
+    replace(_$result);
+    return _$result;
   }
 }

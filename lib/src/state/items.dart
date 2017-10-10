@@ -41,7 +41,7 @@ abstract class ItemsActions extends ReduxActions {
 ///////////////////
 
 /// [Items]
-abstract class Items extends BuiltReducer<Items, ItemsBuilder>
+abstract class Items extends ReducerBuilder<Items, ItemsBuilder>
     implements Built<Items, ItemsBuilder> {
   /// [map] contains a map of Item uid to Item.
   BuiltMap<String, Item> get map;

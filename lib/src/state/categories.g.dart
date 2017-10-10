@@ -3,50 +3,16 @@
 part of categories;
 
 // **************************************************************************
-// Generator: BuiltReduxGenerator
-// Target: abstract class CategoriesActions
-// **************************************************************************
-
-class _$CategoriesActions extends CategoriesActions {
-  ActionDispatcher<String> show =
-      new ActionDispatcher<String>('CategoriesActions-show');
-
-  ActionDispatcher<String> hide =
-      new ActionDispatcher<String>('CategoriesActions-hide');
-
-  ActionDispatcher<String> setCurrent =
-      new ActionDispatcher<String>('CategoriesActions-setCurrent');
-
-  ActionDispatcher<String> remove =
-      new ActionDispatcher<String>('CategoriesActions-remove');
-
-  ActionDispatcher<Category> update =
-      new ActionDispatcher<Category>('CategoriesActions-update');
-  factory _$CategoriesActions() => new _$CategoriesActions._();
-  _$CategoriesActions._() : super._();
-  syncWithStore(dispatcher) {
-    show.syncWithStore(dispatcher);
-    hide.syncWithStore(dispatcher);
-    setCurrent.syncWithStore(dispatcher);
-    remove.syncWithStore(dispatcher);
-    update.syncWithStore(dispatcher);
-  }
-}
-
-class CategoriesActionsNames {
-  static ActionName show = new ActionName<String>('CategoriesActions-show');
-  static ActionName hide = new ActionName<String>('CategoriesActions-hide');
-  static ActionName setCurrent =
-      new ActionName<String>('CategoriesActions-setCurrent');
-  static ActionName remove = new ActionName<String>('CategoriesActions-remove');
-  static ActionName update =
-      new ActionName<Category>('CategoriesActions-update');
-}
-
-// **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: abstract class Categories
 // **************************************************************************
+
+// ignore_for_file: always_put_control_body_on_new_line
+// ignore_for_file: annotate_overrides
+// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: avoid_returning_this
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 class _$Categories extends Categories {
   @override
@@ -134,9 +100,55 @@ class CategoriesBuilder implements Builder<Categories, CategoriesBuilder> {
 
   @override
   _$Categories build() {
-    final result =
+    final _$result =
         _$v ?? new _$Categories._(map: map?.build(), currentUid: currentUid);
-    replace(result);
-    return result;
+    replace(_$result);
+    return _$result;
   }
+}
+
+// **************************************************************************
+// Generator: BuiltReduxGenerator
+// **************************************************************************
+
+class _$CategoriesActions extends CategoriesActions {
+  final ActionDispatcher<String> show =
+      new ActionDispatcher<String>('CategoriesActions-show');
+
+  final ActionDispatcher<String> hide =
+      new ActionDispatcher<String>('CategoriesActions-hide');
+
+  final ActionDispatcher<String> setCurrent =
+      new ActionDispatcher<String>('CategoriesActions-setCurrent');
+
+  final ActionDispatcher<String> remove =
+      new ActionDispatcher<String>('CategoriesActions-remove');
+
+  final ActionDispatcher<Category> update =
+      new ActionDispatcher<Category>('CategoriesActions-update');
+  factory _$CategoriesActions() => new _$CategoriesActions._();
+
+  _$CategoriesActions._() : super._();
+
+  @override
+  void setDispatcher(Dispatcher dispatcher) {
+    show.setDispatcher(dispatcher);
+    hide.setDispatcher(dispatcher);
+    setCurrent.setDispatcher(dispatcher);
+    remove.setDispatcher(dispatcher);
+    update.setDispatcher(dispatcher);
+  }
+}
+
+class CategoriesActionsNames {
+  static final ActionName<String> show =
+      new ActionName<String>('CategoriesActions-show');
+  static final ActionName<String> hide =
+      new ActionName<String>('CategoriesActions-hide');
+  static final ActionName<String> setCurrent =
+      new ActionName<String>('CategoriesActions-setCurrent');
+  static final ActionName<String> remove =
+      new ActionName<String>('CategoriesActions-remove');
+  static final ActionName<Category> update =
+      new ActionName<Category>('CategoriesActions-update');
 }

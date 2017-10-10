@@ -3,64 +3,16 @@
 part of sessions;
 
 // **************************************************************************
-// Generator: BuiltReduxGenerator
-// Target: abstract class SessionsActions
-// **************************************************************************
-
-class _$SessionsActions extends SessionsActions {
-  ActionDispatcher<Null> shred =
-      new ActionDispatcher<Null>('SessionsActions-shred');
-
-  ActionDispatcher<String> present =
-      new ActionDispatcher<String>('SessionsActions-present');
-
-  ActionDispatcher<Null> reset =
-      new ActionDispatcher<Null>('SessionsActions-reset');
-
-  ActionDispatcher<Null> end =
-      new ActionDispatcher<Null>('SessionsActions-end');
-
-  ActionDispatcher<Null> start =
-      new ActionDispatcher<Null>('SessionsActions-start');
-
-  ActionDispatcher<String> setCurrent =
-      new ActionDispatcher<String>('SessionsActions-setCurrent');
-
-  ActionDispatcher<String> remove =
-      new ActionDispatcher<String>('SessionsActions-remove');
-
-  ActionDispatcher<Session> update =
-      new ActionDispatcher<Session>('SessionsActions-update');
-  factory _$SessionsActions() => new _$SessionsActions._();
-  _$SessionsActions._() : super._();
-  syncWithStore(dispatcher) {
-    shred.syncWithStore(dispatcher);
-    present.syncWithStore(dispatcher);
-    reset.syncWithStore(dispatcher);
-    end.syncWithStore(dispatcher);
-    start.syncWithStore(dispatcher);
-    setCurrent.syncWithStore(dispatcher);
-    remove.syncWithStore(dispatcher);
-    update.syncWithStore(dispatcher);
-  }
-}
-
-class SessionsActionsNames {
-  static ActionName shred = new ActionName<Null>('SessionsActions-shred');
-  static ActionName present = new ActionName<String>('SessionsActions-present');
-  static ActionName reset = new ActionName<Null>('SessionsActions-reset');
-  static ActionName end = new ActionName<Null>('SessionsActions-end');
-  static ActionName start = new ActionName<Null>('SessionsActions-start');
-  static ActionName setCurrent =
-      new ActionName<String>('SessionsActions-setCurrent');
-  static ActionName remove = new ActionName<String>('SessionsActions-remove');
-  static ActionName update = new ActionName<Session>('SessionsActions-update');
-}
-
-// **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: abstract class Sessions
 // **************************************************************************
+
+// ignore_for_file: always_put_control_body_on_new_line
+// ignore_for_file: annotate_overrides
+// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: avoid_returning_this
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 class _$Sessions extends Sessions {
   @override
@@ -144,9 +96,73 @@ class SessionsBuilder implements Builder<Sessions, SessionsBuilder> {
 
   @override
   _$Sessions build() {
-    final result =
+    final _$result =
         _$v ?? new _$Sessions._(map: map?.build(), currentUid: currentUid);
-    replace(result);
-    return result;
+    replace(_$result);
+    return _$result;
   }
+}
+
+// **************************************************************************
+// Generator: BuiltReduxGenerator
+// **************************************************************************
+
+class _$SessionsActions extends SessionsActions {
+  final ActionDispatcher<Null> shred =
+      new ActionDispatcher<Null>('SessionsActions-shred');
+
+  final ActionDispatcher<String> present =
+      new ActionDispatcher<String>('SessionsActions-present');
+
+  final ActionDispatcher<Null> reset =
+      new ActionDispatcher<Null>('SessionsActions-reset');
+
+  final ActionDispatcher<Null> end =
+      new ActionDispatcher<Null>('SessionsActions-end');
+
+  final ActionDispatcher<Null> start =
+      new ActionDispatcher<Null>('SessionsActions-start');
+
+  final ActionDispatcher<String> setCurrent =
+      new ActionDispatcher<String>('SessionsActions-setCurrent');
+
+  final ActionDispatcher<String> remove =
+      new ActionDispatcher<String>('SessionsActions-remove');
+
+  final ActionDispatcher<Session> update =
+      new ActionDispatcher<Session>('SessionsActions-update');
+  factory _$SessionsActions() => new _$SessionsActions._();
+
+  _$SessionsActions._() : super._();
+
+  @override
+  void setDispatcher(Dispatcher dispatcher) {
+    shred.setDispatcher(dispatcher);
+    present.setDispatcher(dispatcher);
+    reset.setDispatcher(dispatcher);
+    end.setDispatcher(dispatcher);
+    start.setDispatcher(dispatcher);
+    setCurrent.setDispatcher(dispatcher);
+    remove.setDispatcher(dispatcher);
+    update.setDispatcher(dispatcher);
+  }
+}
+
+class SessionsActionsNames {
+  static final ActionName<Null> shred =
+      new ActionName<Null>('SessionsActions-shred');
+  static final ActionName<String> present =
+      new ActionName<String>('SessionsActions-present');
+  static final ActionName<Null> reset =
+      new ActionName<Null>('SessionsActions-reset');
+  static final ActionName<Null> end =
+      new ActionName<Null>('SessionsActions-end');
+  static final ActionName<Null> start =
+      new ActionName<Null>('SessionsActions-start');
+  static final ActionName<String> setCurrent =
+      new ActionName<String>('SessionsActions-setCurrent');
+  static final ActionName<String> remove =
+      new ActionName<String>('SessionsActions-remove');
+  static final ActionName<Session> update =
+      new ActionName<Session>('SessionsActions-update');
 }
