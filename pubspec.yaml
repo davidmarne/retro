@@ -12,6 +12,7 @@ dependencies:
 
 dev_dependencies:
   angular_test: ^1.0.0-beta+2
+  angular_forms: "^1.0.0"
   browser: ^0.10.0
   dart_to_js_script_rewriter: ^1.0.1
   mockito: ^2.0.2

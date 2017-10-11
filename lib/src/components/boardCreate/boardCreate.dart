@@ -1,4 +1,5 @@
-import 'package:angular/core.dart';
+import 'package:angular/angular.dart';
+import 'package:angular_forms/angular_forms.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../../state/app.dart';
@@ -7,9 +8,11 @@ import '../../middleware/creationMiddleware.dart';
 import '../../store.dart';
 
 @Component(
-  selector: 'board-create',
-  templateUrl: 'boardCreate.html',
-)
+    selector: 'board-create',
+    templateUrl: 'boardCreate.html',
+    directives: const [
+      formDirectives,
+    ])
 class BoardCreateComponent {
   final Store<App, AppBuilder, AppActions> _store;
 
@@ -37,5 +40,6 @@ class BoardCreateComponent {
     description = "";
   }
 
-  String dateIntervalKindString(DateIntervalKinds k) => dateIntervalKindToString(k);
+  String dateIntervalKindString(DateIntervalKinds k) =>
+      dateIntervalKindToString(k);
 }

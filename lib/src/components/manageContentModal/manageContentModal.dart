@@ -1,4 +1,4 @@
-import 'package:angular/core.dart';
+import 'package:angular/angular.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../../models/category.dart';
@@ -7,19 +7,21 @@ import '../../state/app.dart';
 import '../../store.dart';
 
 @Component(
-  selector: 'div[manage-content-modal]',
-  templateUrl: 'manageContentModal.html',
-)
+    selector: 'div[manage-content-modal]',
+    templateUrl: 'manageContentModal.html',
+    directives: const [COMMON_DIRECTIVES])
 class ManageContentModalComponent {
   final Store<App, AppBuilder, AppActions> _store;
 
-  ManageContentModalComponent(StoreService storeService) : _store = storeService.store;
+  ManageContentModalComponent(StoreService storeService)
+      : _store = storeService.store;
 
   Iterable<Category> get categories => _store.state.manageableSessionCategories;
 
   Iterable<Item> get items => _store.state.manageableSessionItems;
-  
-  Iterable<Item> itemsForCategory(Category category) => items.where((item) => item.categoryUid == category.uid);
+
+  Iterable<Item> itemsForCategory(Category category) =>
+      items.where((item) => item.categoryUid == category.uid);
 
   void toggleCategoryVisibility(Category category) {
     if (category.visible) {

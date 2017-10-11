@@ -1,4 +1,4 @@
-import 'package:angular/core.dart';
+import 'package:angular/angular.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../boardCreate/boardCreate.dart';
@@ -13,6 +13,7 @@ import '../../store.dart';
   directives: const [
     BoardCreateComponent,
     BoardCardComponent,
+    COMMON_DIRECTIVES,
   ],
 )
 class DashboardComponent implements OnInit {

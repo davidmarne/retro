@@ -1,7 +1,7 @@
 import 'dart:html';
 import 'dart:math';
 
-import 'package:angular/core.dart';
+import 'package:angular/angular.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:built_redux/built_redux.dart';
 
@@ -24,6 +24,7 @@ import '../../store.dart';
     ROUTER_DIRECTIVES,
     NoteCreateComponent,
     ItemCardComponent,
+    COMMON_DIRECTIVES,
   ],
 )
 class SessionDashboardComponent implements OnInit, OnDestroy {
@@ -34,17 +35,20 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
   double heroTimeProgress = 100.0;
 
   int itemsCovered = 1;
-  
+
   int itemsRemaining = 1;
 
   bool ticking = false;
 
-  SessionDashboardComponent(StoreService storeService, this._routeParams, this._router) :
-    _store = storeService.store;
+  SessionDashboardComponent(
+      StoreService storeService, this._routeParams, this._router)
+      : _store = storeService.store;
 
   void ngOnInit() {
-    if (buid != _store.state.boards.currentUid) _store.actions.boards.setCurrent(buid);
-    if (suid != _store.state.sessions.currentUid) _store.actions.sessions.setCurrent(suid);
+    if (buid != _store.state.boards.currentUid)
+      _store.actions.boards.setCurrent(buid);
+    if (suid != _store.state.sessions.currentUid)
+      _store.actions.sessions.setCurrent(suid);
     ticking = true;
     tick();
   }
@@ -77,14 +81,20 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
     });
     var heroActualTime = heroItem.time + (epoch - session.presentedDate);
     var heroPoints = heroItem.supporterUids.length + 1;
-    var remainingTime = max(0, session.targetTime - otherItemTime - heroActualTime);
-    var heroTargetTime = heroPoints * (remainingTime / (remainingPoints + heroPoints));
-    heroTimeProgress = (heroActualTime / max(heroTargetTime, heroActualTime) * 100.0);
+    var remainingTime =
+        max(0, session.targetTime - otherItemTime - heroActualTime);
+    var heroTargetTime =
+        heroPoints * (remainingTime / (remainingPoints + heroPoints));
+    heroTimeProgress =
+        (heroActualTime / max(heroTargetTime, heroActualTime) * 100.0);
   }
 
-  goToLatest() => _router.navigate(['LatestSession', {
-    'buid': _store.state.boards.currentUid,
-  }]);
+  goToLatest() => _router.navigate([
+        'LatestSession',
+        {
+          'buid': _store.state.boards.currentUid,
+        }
+      ]);
 
   // url params
 
@@ -103,27 +113,30 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
   Iterable<Item> get items => _store.state.visibleSessionItems;
 
   Iterable<Note> get notes => _store.state.visibleSessionNotes;
-  
-  Iterable<Item> itemsForCategory(Category category) => items.where((item) => item.categoryUid == category.uid);
 
-  List<Item> get orderedItems => new List<Item>.from(categories.expand((category) => itemsForCategory(category)));
+  Iterable<Item> itemsForCategory(Category category) =>
+      items.where((item) => item.categoryUid == category.uid);
+
+  List<Item> get orderedItems => new List<Item>.from(
+      categories.expand((category) => itemsForCategory(category)));
 
   // column class for category
   String catColumnClass() {
-    switch(categories.length) {
+    switch (categories.length) {
       case 1:
-      return "is-8";
+        return "is-8";
       case 2:
-      return "is-4";
+        return "is-4";
       case 3:
-      return "is-3";
+        return "is-3";
       case 4:
-      return "is-3";
+        return "is-3";
     }
     return "";
   }
 
-  bool supported(Item item) => item.supporterUids.containsKey(_store.state.users.currentUid);
+  bool supported(Item item) =>
+      item.supporterUids.containsKey(_store.state.users.currentUid);
 
   void toggleSupport(Item item) {
     if (supported(item)) {
@@ -142,8 +155,10 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
   }
 
   String printSupporters(Item item) {
-    if(item.supporterUids.isEmpty) return "";
-    else return "+${item.supporterUids.length}";
+    if (item.supporterUids.isEmpty)
+      return "";
+    else
+      return "+${item.supporterUids.length}";
   }
 
   bool showAddCatMargins() => categories.length < 4;
