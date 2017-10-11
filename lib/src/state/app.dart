@@ -188,7 +188,18 @@ abstract class App extends BuiltReducer<App, AppBuilder>
         sessionNotes.where((Note n) => n.ownerUid == users.currentUid),
       );
 
-  Item get heroItem => items.map[sessions.current?.presentedUid];
+  Item get hero => items.map[sessions.current?.presentedUid];
+
+  @memoized
+  BuiltMap<String, int> get heroPollResults {
+    MapBuilder<String, int> results = new MapBuilder<String, int>();
+    if (hero != null) {
+      hero.pollOptions.forEach((option) {
+        results[option] = hero.optionPercentage(option);
+      });
+    }
+    return results.build();
+  }
 }
 
 ////////////////////

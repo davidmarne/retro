@@ -1,13 +1,18 @@
 <div *ngIf="board != null">
 
-  <section class="hero is-dark">
+  <section class="hero is-dark is-bold">
     <div class="hero-body">
       <div class="container">
         <h1 *ngIf="!inProgress()" class="title">{{board.title}}</h1>
         <h2 *ngIf="!inProgress()" class="subtitle">{{board.description}}</h2>
-        <h1 *ngIf="inProgress()" class="title">"{{heroText()}}"</h1>
+        <h1 *ngIf="inProgress()" class="title"><span class="{{heroCss()}}">"</span>{{heroText()}}<span class="{{heroCss()}}">"</span></h1>
         <h2 *ngIf="inProgress()" class="subtitle">{{heroAuthor()}}</h2>
-        <progress *ngIf="inProgress() && hero != null && !isItemCovered(hero)" class="progress" value="{{heroTimeProgress}}" max="100">{{heroTimeProgress}}%</progress>
+
+        <p *ngFor="let option of heroPollOptions()"><span class="option-result"><b>{{heroOptionResult(option)}}%</b></span> {{option}}</p>
+        
+        <br>
+
+        <progress *ngIf="inProgress() && hero != null && !isItemCovered(hero)" class="progress is-extra-small" value="{{heroTimeProgress}}" max="100">{{heroTimeProgress}}%</progress>
       </div>
     </div>
     <div class="hero-foot">
@@ -110,6 +115,16 @@
               <i class="fa {{supported(item) ? 'fa-heart' : 'fa-heart-o'}}" (click)="toggleSupport(item)"></i>
             </span>
             {{item.text}}
+
+            <br>
+
+            <span *ngFor="let option of optionsForItem(item)">
+              <br>
+              <span class="icon" (click)="toggleResponse(item, option)">
+                <i class="fa {{optionIsUsersResponse(item, option) ? 'fa-check-square-o' : 'fa-square-o'}}" ></i>
+              </span>
+              {{option}}
+            </span>
           </p>
         </div>
 

@@ -28,6 +28,21 @@ String catColorDescription(String color) {
   }
 }
 
+String textCss(String color) {
+  switch(color) {
+    case CAT_COLOR_RED:
+    return "has-text-danger";
+    case CAT_COLOR_BLUE:
+    return "has-text-info";
+    case CAT_COLOR_YELLOW:
+    return "has-text-warning";
+    case CAT_COLOR_GREEN:
+    return "has-text-success";
+    default:
+    return "";
+  }
+}
+
 /// [Category]
 abstract class Category implements Built<Category, CategoryBuilder> {
   static Serializer<Category> get serializer => _$categorySerializer;

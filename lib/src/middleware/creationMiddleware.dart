@@ -52,8 +52,9 @@ class CreateCategoryPayload {
 
 class CreateItemPayload {
   final String text;
+  final List<String> options;
   final String categoryUid;
-  CreateItemPayload(this.text, this.categoryUid);
+  CreateItemPayload(this.text, this.options, this.categoryUid);
 }
 
 class CreateNotePayload {
@@ -104,6 +105,7 @@ _createItem(FirebaseClient client) => (
           api.state.users.currentUid,
           action.payload.categoryUid,
           action.payload.text,
+          action.payload.options,
         );
 
 _createCategory(FirebaseClient client) => (

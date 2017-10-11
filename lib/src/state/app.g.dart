@@ -85,6 +85,7 @@ class _$App extends App {
   BuiltList<Note> __sessionNotes;
   BuiltList<Note> __visibleSessionNotes;
   BuiltList<Note> __manageableSessionNotes;
+  BuiltMap<String, int> __heroPollResults;
 
   factory _$App([void updates(AppBuilder b)]) =>
       (new AppBuilder()..update(updates)).build();
@@ -157,6 +158,10 @@ class _$App extends App {
   @override
   BuiltList<Note> get manageableSessionNotes =>
       __manageableSessionNotes ??= super.manageableSessionNotes;
+
+  @override
+  BuiltMap<String, int> get heroPollResults =>
+      __heroPollResults ??= super.heroPollResults;
 
   @override
   App rebuild(void updates(AppBuilder b)) =>

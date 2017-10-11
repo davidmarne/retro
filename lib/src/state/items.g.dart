@@ -14,6 +14,12 @@ class _$ItemsActions extends ItemsActions {
   ActionDispatcher<String> hide =
       new ActionDispatcher<String>('ItemsActions-hide');
 
+  ActionDispatcher<String> removePollResponse =
+      new ActionDispatcher<String>('ItemsActions-removePollResponse');
+
+  ActionDispatcher<PollResponse> addPollResponse =
+      new ActionDispatcher<PollResponse>('ItemsActions-addPollResponse');
+
   ActionDispatcher<String> removeSupport =
       new ActionDispatcher<String>('ItemsActions-removeSupport');
 
@@ -36,6 +42,8 @@ class _$ItemsActions extends ItemsActions {
   syncWithStore(dispatcher) {
     show.syncWithStore(dispatcher);
     hide.syncWithStore(dispatcher);
+    removePollResponse.syncWithStore(dispatcher);
+    addPollResponse.syncWithStore(dispatcher);
     removeSupport.syncWithStore(dispatcher);
     addSupport.syncWithStore(dispatcher);
     editText.syncWithStore(dispatcher);
@@ -48,6 +56,10 @@ class _$ItemsActions extends ItemsActions {
 class ItemsActionsNames {
   static ActionName show = new ActionName<String>('ItemsActions-show');
   static ActionName hide = new ActionName<String>('ItemsActions-hide');
+  static ActionName removePollResponse =
+      new ActionName<String>('ItemsActions-removePollResponse');
+  static ActionName addPollResponse =
+      new ActionName<PollResponse>('ItemsActions-addPollResponse');
   static ActionName removeSupport =
       new ActionName<String>('ItemsActions-removeSupport');
   static ActionName addSupport =
