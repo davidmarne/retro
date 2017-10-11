@@ -103,7 +103,7 @@
           </p>
           <p class="subtitle is-6 is-hidden-tablet">{{category.description}}</p>
 
-          <p *ngFor="let item of itemsForCategory(category)" class="notification {{category.colorClass()}} {{inProgress() && isItemCovered(item) ? 'covered' : ''}} animated fadeInLeft fast">
+          <p *ngFor="let item of itemsForCategory(category)" class="notification {{category.colorClass()}} {{inProgress() && isItemCovered(item) ? 'covered' : ''}}">
             <button *ngIf="isItemOwner(item)" class="delete" (click)="hideItem(item)"></button>
             {{printSupporters(item)}}
             <span class="icon">

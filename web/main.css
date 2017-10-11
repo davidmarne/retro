@@ -8,11 +8,11 @@
 
 @media (max-width: 768px) {
   .modal-card {
-    -webkit-mask-image: -webkit-linear-gradient(45deg, rgba(0,0,0,1) 0%,rgba(0,0,0,1) 90%,rgba(0,0,0,.3) 90%,rgba(0,0,0,.3) 100%);
+    -webkit-mask-image: -webkit-linear-gradient(45deg, rgba(0,0,0,1) 0%,rgba(0,0,0,1) 90%,rgba(0,0,0,.3) 90%,rgba(0,0,0,.3) 100%); 
   }
 
   .modal-content {
-    -webkit-mask-image: -webkit-linear-gradient(45deg, rgba(0,0,0,1) 0%,rgba(0,0,0,1) 90%,rgba(0,0,0,.3) 90%,rgba(0,0,0,.3) 100%);
+    -webkit-mask-image: -webkit-linear-gradient(45deg, rgba(0,0,0,1) 0%,rgba(0,0,0,1) 90%,rgba(0,0,0,.3) 90%,rgba(0,0,0,.3) 100%); 
   }
 }
 
@@ -24,17 +24,4 @@
 .modal-content {
   max-height: 100vh;
   padding: 20px 0;
-}
-
-.slow {
-  -webkit-animation-duration: 10s;
-  -moz-animation-duration: 10s;
-}
-.quick {
-  -webkit-animation-duration: .8s;
-  -moz-animation-duration: .8s;
-}
-.fast {
-  -webkit-animation-duration: .3s;
-  -moz-animation-duration: .3s;
 }
