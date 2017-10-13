@@ -18,7 +18,7 @@ import '../models/item.dart';
 /// Action Map
 ///////////////////
 
-createRefMiddleware(FirebaseClient client) => (new MiddlwareBuilder<App, AppBuilder, AppActions>()
+createRefMiddleware(FirebaseClient client) => (new MiddlewareBuilder<App, AppBuilder, AppActions>()
       ..add<String>(CategoriesActionsNames.hide, _hideCategory(client))
       ..add<String>(CategoriesActionsNames.show, _showCategory(client))
 

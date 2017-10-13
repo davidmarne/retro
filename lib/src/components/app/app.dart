@@ -18,8 +18,9 @@ import '../../state/app.dart';
 @Component(
     selector: 'app',
     templateUrl: 'app.html',
-    directives: const [ROUTER_DIRECTIVES, CategoryCreateModalComponent, ItemCreateModalComponent, ManageContentModalComponent, ConfirmShredModalComponent],
-    providers: const [StoreService])
+    directives: const [ ROUTER_DIRECTIVES, CategoryCreateModalComponent, ItemCreateModalComponent, ManageContentModalComponent, ConfirmShredModalComponent],
+    providers: const [StoreService]
+)
 @RouteConfig(const [
   const Route(
     path: '/home',

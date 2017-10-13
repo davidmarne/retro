@@ -67,7 +67,7 @@ class CreateNotePayload {
 ///////////////////
 
 createCreationMiddleware(FirebaseClient client) =>
-    (new MiddlwareBuilder<App, AppBuilder, AppActions>()
+    (new MiddlewareBuilder<App, AppBuilder, AppActions>()
           ..add<CreateBoardPayload>(CreationMiddlewareActionsNames.board, _createBoard(client))
           ..add<CreateSessionPayload>(
               CreationMiddlewareActionsNames.session, _createSession(client))
