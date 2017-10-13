@@ -49,7 +49,6 @@ class PollResponse {
   PollResponse(this.itemUid, this.option);
 }
 
-
 ////////////////////
 /// State
 ///////////////////

@@ -81,8 +81,8 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
         otherItemTime += item.time;
       }
     });
-    var heroActualTime = heroItem.time + (epoch - session.presentedDate);
-    var heroPoints = heroItem.supporterUids.length + 1;
+    var heroActualTime = hero.time + (epoch - session.presentedDate);
+    var heroPoints = hero.supporterUids.length + 1;
     var remainingTime =
         max(0, session.targetTime - otherItemTime - heroActualTime);
     var heroTargetTime =
