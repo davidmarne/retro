@@ -5,6 +5,7 @@ import 'package:built_value/built_value.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../models/user.dart';
+import 'app.dart';
 
 part 'users.g.dart';
 
@@ -30,15 +31,11 @@ abstract class UsersActions extends ReduxActions {
 ///////////////////
 
 /// [Users]
-abstract class Users extends ReducerBuilder<Users, UsersBuilder>
-    implements Built<Users, UsersBuilder> {
+abstract class Users implements Built<Users, UsersBuilder> {
   /// [map] contains a map of user.id to User
   BuiltMap<String, User> get map;
 
   String get currentUid;
-
-  /// reducer
-  get reducer => _reducer;
 
   // Built value boilerplate
   Users._();
@@ -56,11 +53,15 @@ abstract class Users extends ReducerBuilder<Users, UsersBuilder>
 /// Main Reducer
 ///////////////////
 
-var _reducer = (new ReducerBuilder<Users, UsersBuilder>()
-      ..add<User>(UsersActionsNames.update, _updateUser)
-      ..add<String>(UsersActionsNames.remove, _removeUser)
-      ..add<String>(UsersActionsNames.setCurrent, _setCurrentUser))
-    .build();
+NestedReducerBuilder<App, AppBuilder, Users, UsersBuilder>
+    createUsersReducer() =>
+        new NestedReducerBuilder<App, AppBuilder, Users, UsersBuilder>(
+          (state) => state.users,
+          (builder) => builder.users,
+        )
+          ..add<User>(UsersActionsNames.update, _updateUser)
+          ..add<String>(UsersActionsNames.remove, _removeUser)
+          ..add<String>(UsersActionsNames.setCurrent, _setCurrentUser);
 
 ////////////////////
 /// Reducers

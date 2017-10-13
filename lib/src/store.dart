@@ -38,13 +38,16 @@ class StoreService {
     var actions = new AppActions();
     _client = new FirebaseClient(
         new Refs(_firebaseDatabase), new StreamSubManager(), actions);
-    var reducer = new ReducerBuilder<App, AppBuilder>().build();
-    store = new Store<App, AppBuilder, AppActions>(reducer, new App(), actions,
-        middleware: [
-          loggingMiddleware,
-          createRefMiddleware(_client),
-          createCreationMiddleware(_client),
-        ]);
+    store = new Store<App, AppBuilder, AppActions>(
+      createReducer(),
+      new App(),
+      actions,
+      middleware: [
+        loggingMiddleware,
+        createRefMiddleware(_client),
+        createCreationMiddleware(_client),
+      ],
+    );
   }
 
   Future signIn() async {

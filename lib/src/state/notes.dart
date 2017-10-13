@@ -5,6 +5,7 @@ import 'package:built_value/built_value.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../models/note.dart';
+import 'app.dart';
 
 part 'notes.g.dart';
 
@@ -32,30 +33,32 @@ abstract class NotesActions extends ReduxActions {
 ///////////////////
 
 /// [Notes]
-abstract class Notes extends ReducerBuilder<Notes, NotesBuilder>
-    implements Built<Notes, NotesBuilder> {
+abstract class Notes implements Built<Notes, NotesBuilder> {
   /// [map] contains a map of Note uid to Note.
   BuiltMap<String, Note> get map;
 
-  /// [reducer]
-  get reducer => _reducer;
-
   // Built value boilerplate
   Notes._();
-  factory Notes([updates(NotesBuilder b)]) => new _$Notes((NotesBuilder b) => b);
+  factory Notes([updates(NotesBuilder b)]) =>
+      new _$Notes((NotesBuilder b) => b);
 
   @memoized
-  BuiltList<Note> get visible => new BuiltList<Note>(map.values.where((value) => value.visible));
+  BuiltList<Note> get visible =>
+      new BuiltList<Note>(map.values.where((value) => value.visible));
 }
 
 ////////////////////
 /// Main Reducer
 ///////////////////
 
-var _reducer = (new ReducerBuilder<Notes, NotesBuilder>()
-      ..add<Note>(NotesActionsNames.update, _updateNote)
-      ..add<String>(NotesActionsNames.remove, _removeNote))
-    .build();
+NestedReducerBuilder<App, AppBuilder, Notes, NotesBuilder>
+    createNotesReducer() =>
+        new NestedReducerBuilder<App, AppBuilder, Notes, NotesBuilder>(
+          (state) => state.notes,
+          (builder) => builder.notes,
+        )
+          ..add<Note>(NotesActionsNames.update, _updateNote)
+          ..add<String>(NotesActionsNames.remove, _removeNote);
 
 ////////////////////
 /// Reducers

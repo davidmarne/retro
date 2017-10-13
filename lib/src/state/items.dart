@@ -5,6 +5,7 @@ import 'package:built_value/built_value.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../models/item.dart';
+import 'app.dart';
 
 part 'items.g.dart';
 
@@ -18,7 +19,6 @@ abstract class ItemsActions extends ReduxActions {
   ActionDispatcher<String> remove;
   ActionDispatcher<String> setCurrent;
 
-    
   ActionDispatcher<String> editText;
   ActionDispatcher<String> addSupport;
   ActionDispatcher<String> removeSupport;
@@ -41,36 +41,38 @@ abstract class ItemsActions extends ReduxActions {
 ///////////////////
 
 /// [Items]
-abstract class Items extends ReducerBuilder<Items, ItemsBuilder>
-    implements Built<Items, ItemsBuilder> {
+abstract class Items implements Built<Items, ItemsBuilder> {
   /// [map] contains a map of Item uid to Item.
   BuiltMap<String, Item> get map;
 
   String get currentUid;
 
-  /// [reducer]
-  get reducer => _reducer;
-
   // Built value boilerplate
   Items._();
-  factory Items([updates(ItemsBuilder b)]) => new _$Items((ItemsBuilder b) => b..currentUid = "");
+  factory Items([updates(ItemsBuilder b)]) =>
+      new _$Items((ItemsBuilder b) => b..currentUid = "");
 
   @memoized
   Item get current => map[currentUid];
 
   @memoized
-  BuiltList<Item> get visible => new BuiltList<Item>(map.values.where((value) => value.visible));
+  BuiltList<Item> get visible =>
+      new BuiltList<Item>(map.values.where((value) => value.visible));
 }
 
 ////////////////////
 /// Main Reducer
 ///////////////////
 
-var _reducer = (new ReducerBuilder<Items, ItemsBuilder>()
-      ..add<Item>(ItemsActionsNames.update, _updateItem)
-      ..add<String>(ItemsActionsNames.remove, _removeItem)
-      ..add<String>(ItemsActionsNames.setCurrent, _setCurrentItem))
-    .build();
+NestedReducerBuilder<App, AppBuilder, Items, ItemsBuilder>
+    createItemsReducer() =>
+        new NestedReducerBuilder<App, AppBuilder, Items, ItemsBuilder>(
+          (state) => state.items,
+          (builder) => builder.items,
+        )
+          ..add<Item>(ItemsActionsNames.update, _updateItem)
+          ..add<String>(ItemsActionsNames.remove, _removeItem)
+          ..add<String>(ItemsActionsNames.setCurrent, _setCurrentItem);
 
 ////////////////////
 /// Reducers

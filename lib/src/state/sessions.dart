@@ -5,6 +5,7 @@ import 'package:built_value/built_value.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../models/session.dart';
+import 'app.dart';
 
 part 'sessions.g.dart';
 
@@ -37,15 +38,11 @@ abstract class SessionsActions extends ReduxActions {
 ///////////////////
 
 /// [Sessions]
-abstract class Sessions extends ReducerBuilder<Sessions, SessionsBuilder>
-    implements Built<Sessions, SessionsBuilder> {
+abstract class Sessions implements Built<Sessions, SessionsBuilder> {
   /// [map] contains a map of Session uid to Session.
   BuiltMap<String, Session> get map;
 
   String get currentUid;
-
-  /// [reducer]
-  get reducer => _reducer;
 
   // Built value boilerplate
   Sessions._();
@@ -60,21 +57,28 @@ abstract class Sessions extends ReducerBuilder<Sessions, SessionsBuilder>
 /// Main Reducer
 ///////////////////
 
-var _reducer = (new ReducerBuilder<Sessions, SessionsBuilder>()
-      ..add<Session>(SessionsActionsNames.update, _updateSession)
-      ..add<String>(SessionsActionsNames.remove, _removeSession)
-      ..add<String>(SessionsActionsNames.setCurrent, _setCurrentSession))
-    .build();
+NestedReducerBuilder<App, AppBuilder, Sessions, SessionsBuilder>
+    createSessionsReducer() =>
+        new NestedReducerBuilder<App, AppBuilder, Sessions, SessionsBuilder>(
+          (state) => state.sessions,
+          (builder) => builder.sessions,
+        )
+          ..add<Session>(SessionsActionsNames.update, _updateSession)
+          ..add<String>(SessionsActionsNames.remove, _removeSession)
+          ..add<String>(SessionsActionsNames.setCurrent, _setCurrentSession);
 
 ////////////////////
 /// Reducers
 ///////////////////
 
-_updateSession(Sessions state, Action<Session> action, SessionsBuilder builder) =>
+_updateSession(
+        Sessions state, Action<Session> action, SessionsBuilder builder) =>
     builder..map[action.payload.uid] = action.payload;
 
-_removeSession(Sessions state, Action<String> action, SessionsBuilder builder) =>
+_removeSession(
+        Sessions state, Action<String> action, SessionsBuilder builder) =>
     builder..map.remove(action.payload);
 
-_setCurrentSession(Sessions state, Action<String> action, SessionsBuilder builder) =>
+_setCurrentSession(
+        Sessions state, Action<String> action, SessionsBuilder builder) =>
     builder..currentUid = action.payload;

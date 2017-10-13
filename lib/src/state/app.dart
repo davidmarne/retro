@@ -70,8 +70,7 @@ abstract class AppActions extends ReduxActions {
 ///////////////////
 
 /// [App]
-abstract class App extends ReducerBuilder<App, AppBuilder>
-    implements Built<App, AppBuilder> {
+abstract class App implements Built<App, AppBuilder> {
   /// [users]
   Users get users;
 
@@ -97,9 +96,6 @@ abstract class App extends ReducerBuilder<App, AppBuilder>
   bool get showMobileMenu;
 
   BuiltList<String> get modalQueue;
-
-  /// [reducer]
-  get reducer => _reducer;
 
   // Built value boilerplate
   App._();
@@ -191,12 +187,19 @@ abstract class App extends ReducerBuilder<App, AppBuilder>
 /// Main Reducer
 ///////////////////
 
-var _reducer = (new ReducerBuilder<App, AppBuilder>()
-      ..add<Null>(AppActionsNames.clear, _clear)
-      ..add<String>(AppActionsNames.showModal, _showModal)
-      ..add<Null>(AppActionsNames.hideModal, _hideModal)
-      ..add<Null>(AppActionsNames.toggleMobileMenu, _toggleMobileMenu))
-    .build();
+Reducer<App, AppBuilder, dynamic> createReducer() =>
+    (new ReducerBuilder<App, AppBuilder>()
+          ..add<Null>(AppActionsNames.clear, _clear)
+          ..add<String>(AppActionsNames.showModal, _showModal)
+          ..add<Null>(AppActionsNames.hideModal, _hideModal)
+          ..add<Null>(AppActionsNames.toggleMobileMenu, _toggleMobileMenu)
+          ..combineNested(createBoardsReducer())
+          ..combineNested(createCategoriesReducer())
+          ..combineNested(createItemsReducer())
+          ..combineNested(createNotesReducer())
+          ..combineNested(createSessionsReducer())
+          ..combineNested(createUsersReducer()))
+        .build();
 
 ////////////////////
 /// Reducers

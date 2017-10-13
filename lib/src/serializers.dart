@@ -13,5 +13,13 @@ import './models/note.dart';
 
 part 'serializers.g.dart';
 
-/// Collection of generated serializers for the built_json chat example.
-Serializers serializers = (_$serializers.toBuilder()..addPlugin(new StandardJsonPlugin())).build();
+@SerializersFor(const [
+  User,
+  Board,
+  Session,
+  Category,
+  Item,
+  Note,
+])
+final Serializers serializers =
+    (_$serializers.toBuilder()..addPlugin(new StandardJsonPlugin())).build();
