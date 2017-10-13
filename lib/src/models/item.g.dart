@@ -52,6 +52,14 @@ class _$ItemSerializer implements StructuredSerializer<Item> {
       serializers.serialize(object.time, specifiedType: const FullType(int)),
       'text',
       serializers.serialize(object.text, specifiedType: const FullType(String)),
+      'pollOptions',
+      serializers.serialize(object.pollOptions,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
+      'pollResponses',
+      serializers.serialize(object.pollResponses,
+          specifiedType: const FullType(BuiltMap,
+              const [const FullType(String), const FullType(String)])),
       'visible',
       serializers.serialize(object.visible,
           specifiedType: const FullType(bool)),
@@ -113,6 +121,19 @@ class _$ItemSerializer implements StructuredSerializer<Item> {
           result.text = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'pollOptions':
+          result.pollOptions.replace(serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(BuiltList, const [const FullType(String)]))
+              as BuiltList<String>);
+          break;
+        case 'pollResponses':
+          result.pollResponses.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltMap, const [
+                const FullType(String),
+                const FullType(String)
+              ])) as BuiltMap<String, String>);
+          break;
         case 'visible':
           result.visible = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool;
@@ -144,6 +165,10 @@ class _$Item extends Item {
   @override
   final String text;
   @override
+  final BuiltList<String> pollOptions;
+  @override
+  final BuiltMap<String, String> pollResponses;
+  @override
   final bool visible;
 
   factory _$Item([void updates(ItemBuilder b)]) =>
@@ -159,6 +184,8 @@ class _$Item extends Item {
       this.supporterUids,
       this.time,
       this.text,
+      this.pollOptions,
+      this.pollResponses,
       this.visible})
       : super._() {
     if (uid == null) throw new ArgumentError.notNull('uid');
@@ -170,6 +197,8 @@ class _$Item extends Item {
     if (supporterUids == null) throw new ArgumentError.notNull('supporterUids');
     if (time == null) throw new ArgumentError.notNull('time');
     if (text == null) throw new ArgumentError.notNull('text');
+    if (pollOptions == null) throw new ArgumentError.notNull('pollOptions');
+    if (pollResponses == null) throw new ArgumentError.notNull('pollResponses');
     if (visible == null) throw new ArgumentError.notNull('visible');
   }
 
@@ -193,6 +222,8 @@ class _$Item extends Item {
         supporterUids == other.supporterUids &&
         time == other.time &&
         text == other.text &&
+        pollOptions == other.pollOptions &&
+        pollResponses == other.pollResponses &&
         visible == other.visible;
   }
 
@@ -206,15 +237,19 @@ class _$Item extends Item {
                         $jc(
                             $jc(
                                 $jc(
-                                    $jc($jc(0, uid.hashCode),
-                                        boardUid.hashCode),
-                                    sessionUid.hashCode),
-                                ownerUid.hashCode),
-                            categoryUid.hashCode),
-                        noteUids.hashCode),
-                    supporterUids.hashCode),
-                time.hashCode),
-            text.hashCode),
+                                    $jc(
+                                        $jc(
+                                            $jc($jc(0, uid.hashCode),
+                                                boardUid.hashCode),
+                                            sessionUid.hashCode),
+                                        ownerUid.hashCode),
+                                    categoryUid.hashCode),
+                                noteUids.hashCode),
+                            supporterUids.hashCode),
+                        time.hashCode),
+                    text.hashCode),
+                pollOptions.hashCode),
+            pollResponses.hashCode),
         visible.hashCode));
   }
 
@@ -230,6 +265,8 @@ class _$Item extends Item {
           ..add('supporterUids', supporterUids)
           ..add('time', time)
           ..add('text', text)
+          ..add('pollOptions', pollOptions)
+          ..add('pollResponses', pollResponses)
           ..add('visible', visible))
         .toString();
   }
@@ -278,6 +315,18 @@ class ItemBuilder implements Builder<Item, ItemBuilder> {
   String get text => _$this._text;
   set text(String text) => _$this._text = text;
 
+  ListBuilder<String> _pollOptions;
+  ListBuilder<String> get pollOptions =>
+      _$this._pollOptions ??= new ListBuilder<String>();
+  set pollOptions(ListBuilder<String> pollOptions) =>
+      _$this._pollOptions = pollOptions;
+
+  MapBuilder<String, String> _pollResponses;
+  MapBuilder<String, String> get pollResponses =>
+      _$this._pollResponses ??= new MapBuilder<String, String>();
+  set pollResponses(MapBuilder<String, String> pollResponses) =>
+      _$this._pollResponses = pollResponses;
+
   bool _visible;
   bool get visible => _$this._visible;
   set visible(bool visible) => _$this._visible = visible;
@@ -295,6 +344,8 @@ class ItemBuilder implements Builder<Item, ItemBuilder> {
       _supporterUids = _$v.supporterUids?.toBuilder();
       _time = _$v.time;
       _text = _$v.text;
+      _pollOptions = _$v.pollOptions?.toBuilder();
+      _pollResponses = _$v.pollResponses?.toBuilder();
       _visible = _$v.visible;
       _$v = null;
     }
@@ -325,6 +376,8 @@ class ItemBuilder implements Builder<Item, ItemBuilder> {
             supporterUids: supporterUids?.build(),
             time: time,
             text: text,
+            pollOptions: pollOptions?.build(),
+            pollResponses: pollResponses?.build(),
             visible: visible);
     replace(_$result);
     return _$result;

@@ -24,10 +24,15 @@ class ItemCreateModalComponent {
 
   String description = "";
 
+  bool isPoll = false;
+
+  List<String> options = [];
+
   void addItem() {
     _store.actions.creation.item(
       new CreateItemPayload(
         description,
+        options,
         _store.state.categories.currentUid,
       ),
     );
@@ -37,7 +42,22 @@ class ItemCreateModalComponent {
 
   void resetItemForm() {
     description = "";
+    options = [];
     _store.actions.hideModal(null);
+  }
+
+  void addOption(String text) {
+    options.add(text);
+  }
+
+  void updateOption(String oldText, newText) {
+    for (int i = 0; i < options.length; i++) {
+      if (options[i] == oldText) options[i] = newText;
+    }
+  }
+
+  void removeOption(String text) {
+    options.removeWhere((option) => option == text);
   }
 
   void hideModal() => _store.actions.hideModal(null);

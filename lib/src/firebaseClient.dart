@@ -37,8 +37,9 @@ class FirebaseClient {
     String ownerUid,
     String categoryUid,
     String text,
+    List<String> options,
   ) =>
-      _createItem(boardUid, sessionUid, ownerUid, categoryUid, text);
+      _createItem(boardUid, sessionUid, ownerUid, categoryUid, text, options);
 
   /// [createCategory] creates a category and associates it with a session
   Future<Category> createCategory(
@@ -182,6 +183,14 @@ class FirebaseClient {
     await _refs.item(item.boardUid, item.sessionUid, item.uid).child("supporterUids").child(userUid).remove();
   }
 
+  Future addPollResponse(String option, String userUid, Item item) async {
+    await _refs.item(item.boardUid, item.sessionUid, item.uid).child("pollResponses").child(userUid).set(option);
+  }
+
+  Future removePollResponse(String userUid, Item item) async {
+    await _refs.item(item.boardUid, item.sessionUid, item.uid).child("pollResponses").child(userUid).remove();
+  }
+
   Future hideCategory(Category category) async {
     await _refs.category(category.boardUid, category.sessionUid, category.uid).child("visible").set(false);
   }
@@ -268,6 +277,7 @@ class FirebaseClient {
     String ownerUid,
     String categoryUid,
     String text,
+    List<String> options,
   ) async {
     final newItemRef = await _refs.items(boardUid, sessionUid).push().future;
     final item = new Item((ItemBuilder b) => b
@@ -278,6 +288,7 @@ class FirebaseClient {
       ..categoryUid = categoryUid
       ..time = 0
       ..text = text
+      ..pollOptions.addAll(options)
       ..visible = true);
 
     newItemRef.set(serializers.serializeWith(Item.serializer, item));

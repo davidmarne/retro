@@ -9,6 +9,56 @@
         <textarea [(ngModel)]="description" class="textarea" placeholder="Let it out"></textarea>
       </p>
     </div>
+
+    <label class="label has-text-centered">
+      <p class="menu-label">Want to make it a survey? Add some options, and your team can vote!</p>
+    </label>
+
+    <div *ngFor="let option of options" class="field is-horizontal">
+      <div class="field-body">
+        <div class="field is-grouped">
+          <p class="control is-expanded">
+            <input #optionTextInput class="input" type="text" placeholder="{{option}}">
+          </p>
+          <div class="control">
+            <button class="button is-white"
+                (click)="updateOption(option, optionTextInput.value); optionTextInput.value = ''"
+                [attr.disabled]="optionTextInput.value.length == 0 ? true : null">
+              <span class="icon is-small">
+                <i class="fa fa-floppy-o" title="save changes"></i>
+              </span>
+            </button>
+          </div>
+          <div class="control">
+            <button class="button is-white" (click)="removeOption(option)">
+              <span class="icon is-small has-text-danger">
+                <i class="fa fa-trash" title="remove"></i>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="field is-horizontal">
+      <div class="field-body">
+        <div class="field is-grouped">
+          <p class="control is-expanded">
+            <input #newOptionTextInput class="input" type="text" placeholder="option description...">
+          </p>
+          <div class="control">
+            <button class="button is-white"
+                (click)="addOption(newOptionTextInput.value); newOptionTextInput.value = ''"
+                [attr.disabled]="newOptionTextInput.value.length == 0 ? true : null">
+              <span class="icon is-small">
+                <i class="fa fa-plus" title="add option"></i>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </section>
   <footer class="modal-card-foot">
     <a class="button is-success" (click)="addItem()">Save</a>

@@ -26,6 +26,8 @@ createRefMiddleware(FirebaseClient client) =>
           ..add<String>(ItemsActionsNames.editText, _editItemText(client))
           ..add<String>(ItemsActionsNames.addSupport, _addSupport(client))
           ..add<String>(ItemsActionsNames.removeSupport, _removeSupport(client))
+          ..add<PollResponse>(ItemsActionsNames.addPollResponse, _addPollResponse(client))
+          ..add<String>(ItemsActionsNames.removePollResponse, _removePollResponse(client))
           ..add<String>(ItemsActionsNames.hide, _hideItem(client))
           ..add<String>(ItemsActionsNames.show, _showItem(client))
           ..add<Null>(SessionsActionsNames.start, _startSession(client))
@@ -142,124 +144,265 @@ _updateCurrentSessionSubs(
 
 // Update Ref Properties
 
-_addSupport(FirebaseClient client) =>
-    (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
-        Action<String> action) {
-      next(action);
-      var userUid = api.state.users.currentUid;
-      Item item = api.state.items.map[action.payload];
-      if (item != null && userUid != "") {
-        client.addSupport(userUid, item);
+_addSupport(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    next(action);
+    var userUid = api.state.users.currentUid;
+    Item item = api.state.items.map[action.payload];
+    if (item != null && userUid != "") {
+      client.addSupport(userUid, item);
+    }
+  };
+
+_editItemText(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    next(action);
+    Item item = api.state.items.current;
+    if (item != null) {
+      client.editItemText(action.payload, item);
+    }
+  };
+
+_removeSupport(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    next(action);
+    var userUid = api.state.users.currentUid;
+    Item item = api.state.items.map[action.payload];
+    if (item != null && userUid != "") {
+      client.removeSupport(userUid, item);
+    }
+  };
+
+_addPollResponse(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<PollResponse> action) {
+    next(action);
+    var userUid = api.state.users.currentUid;
+    Item item = api.state.items.map[action.payload.itemUid];
+    if (item != null && userUid != "") {
+      client.addPollResponse(action.payload.option, userUid, item);
+    }
+};
+
+_removePollResponse(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    next(action);
+    var userUid = api.state.users.currentUid;
+    Item item = api.state.items.map[action.payload];
+    if (item != null && userUid != "") {
+      client.removePollResponse(userUid, item);
+    }
+};
+
+_hideCategory(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    next(action);
+    var category = api.state.categories.map[action.payload];
+    if (category != null) {
+      client.hideCategory(category);
+    }
+  };
+
+_showCategory(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    next(action);
+    var category = api.state.categories.map[action.payload];
+    if (category != null) {
+      client.showCategory(category);
+    }
+  };
+
+_hideItem(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    next(action);
+    var item = api.state.items.map[action.payload];
+    if (item != null) {
+      client.hideItem(item);
+    }
+  };
+
+_showItem(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    next(action);
+    var item = api.state.items.map[action.payload];
+    if (item != null) {
+      client.showItem(item);
+    }
+  };
+
+_startSession(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<Null> action) {
+    next(action);
+    var epoch = now();
+    Session session = api.state.sessions.current;
+    if (session != null) {
+      client.startSession(session, epoch);
+    }
+  };
+
+_endSession(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<Null> action) {
+    next(action);
+    var epoch = now();
+    Session session = api.state.sessions.current;
+    if (session != null) {
+      client.endSession(session, epoch);
+    }
+  };
+
+_resetSession(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    next(action);
+    Session session = api.state.sessions.current;
+    var items = api.state.sessionItems;
+    if (session != null) {
+      client.resetSession(session, items);
+    }
+  };
+
+_shredSession(FirebaseClient client) => (
+  MiddlewareApi<App, AppBuilder, AppActions> api,
+  ActionHandler next,
+  Action<String> action) {
+    next(action);
+    Session session = api.state.sessions.current;
+    if (session != null) {
+      Board board = api.state.boards.map[session.boardUid];
+      if (board != null && board.latestSessionUid == session.uid) {
+        client.clearBoardsLatestSession(board.uid);
       }
     };
 
-_editItemText(FirebaseClient client) =>
-    (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
-        Action<String> action) {
-      next(action);
-      Item item = api.state.items.current;
-      if (item != null) {
-        client.editItemText(action.payload, item);
-      }
-    };
-
-_removeSupport(FirebaseClient client) =>
-    (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
-        Action<String> action) {
-      next(action);
-      var userUid = api.state.users.currentUid;
-      Item item = api.state.items.map[action.payload];
-      if (item != null && userUid != "") {
-        client.removeSupport(userUid, item);
-      }
-    };
-
-_hideCategory(FirebaseClient client) =>
-    (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
-        Action<String> action) {
-      next(action);
-      var category = api.state.categories.map[action.payload];
-      if (category != null) {
-        client.hideCategory(category);
-      }
-    };
-
-_showCategory(FirebaseClient client) =>
-    (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
-        Action<String> action) {
-      next(action);
-      var category = api.state.categories.map[action.payload];
-      if (category != null) {
-        client.showCategory(category);
-      }
-    };
-
-_hideItem(FirebaseClient client) =>
-    (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
-        Action<String> action) {
-      next(action);
-      var item = api.state.items.map[action.payload];
-      if (item != null) {
-        client.hideItem(item);
-      }
-    };
-
-_showItem(FirebaseClient client) =>
-    (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
-        Action<String> action) {
-      next(action);
-      var item = api.state.items.map[action.payload];
-      if (item != null) {
-        client.showItem(item);
-      }
-    };
-
-_startSession(FirebaseClient client) =>
-    (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
-        Action<Null> action) {
-      next(action);
-      var epoch = now();
-      Session session = api.state.sessions.current;
-      if (session != null) {
-        client.startSession(session, epoch);
-      }
-    };
-
-_endSession(FirebaseClient client) =>
-    (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
-        Action<Null> action) {
-      next(action);
-      var epoch = now();
-      Session session = api.state.sessions.current;
-      if (session != null) {
-        client.endSession(session, epoch);
-      }
-    };
-
-_resetSession(FirebaseClient client) =>
-    (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
-        Action<String> action) {
-      next(action);
-      Session session = api.state.sessions.current;
-      var items = api.state.sessionItems;
-      if (session != null) {
-        client.resetSession(session, items);
-      }
-    };
-
-_shredSession(FirebaseClient client) =>
-    (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
-        Action<String> action) {
-      next(action);
-      Session session = api.state.sessions.current;
-      if (session != null) {
-        Board board = api.state.boards.map[session.boardUid];
-        if (board != null && board.latestSessionUid == session.uid) {
-          client.clearBoardsLatestSession(board.uid);
-        }
-        client.shredSession(session, board);
-      }
-    };
+// _editItemText(FirebaseClient client) =>
+//     (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
+//         Action<String> action) {
+//       next(action);
+//       Item item = api.state.items.current;
+//       if (item != null) {
+//         client.editItemText(action.payload, item);
+//       }
+//     };
+//
+// _removeSupport(FirebaseClient client) =>
+//     (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
+//         Action<String> action) {
+//       next(action);
+//       var userUid = api.state.users.currentUid;
+//       Item item = api.state.items.map[action.payload];
+//       if (item != null && userUid != "") {
+//         client.removeSupport(userUid, item);
+//       }
+//     };
+//
+// _hideCategory(FirebaseClient client) =>
+//     (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
+//         Action<String> action) {
+//       next(action);
+//       var category = api.state.categories.map[action.payload];
+//       if (category != null) {
+//         client.hideCategory(category);
+//       }
+//     };
+//
+// _showCategory(FirebaseClient client) =>
+//     (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
+//         Action<String> action) {
+//       next(action);
+//       var category = api.state.categories.map[action.payload];
+//       if (category != null) {
+//         client.showCategory(category);
+//       }
+//     };
+//
+// _hideItem(FirebaseClient client) =>
+//     (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
+//         Action<String> action) {
+//       next(action);
+//       var item = api.state.items.map[action.payload];
+//       if (item != null) {
+//         client.hideItem(item);
+//       }
+//     };
+//
+// _showItem(FirebaseClient client) =>
+//     (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
+//         Action<String> action) {
+//       next(action);
+//       var item = api.state.items.map[action.payload];
+//       if (item != null) {
+//         client.showItem(item);
+//       }
+//     };
+//
+// _startSession(FirebaseClient client) =>
+//     (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
+//         Action<Null> action) {
+//       next(action);
+//       var epoch = now();
+//       Session session = api.state.sessions.current;
+//       if (session != null) {
+//         client.startSession(session, epoch);
+//       }
+//     };
+//
+// _endSession(FirebaseClient client) =>
+//     (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
+//         Action<Null> action) {
+//       next(action);
+//       var epoch = now();
+//       Session session = api.state.sessions.current;
+//       if (session != null) {
+//         client.endSession(session, epoch);
+//       }
+//     };
+//
+// _resetSession(FirebaseClient client) =>
+//     (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
+//         Action<String> action) {
+//       next(action);
+//       Session session = api.state.sessions.current;
+//       var items = api.state.sessionItems;
+//       if (session != null) {
+//         client.resetSession(session, items);
+//       }
+//     };
+//
+// _shredSession(FirebaseClient client) =>
+//     (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
+//         Action<String> action) {
+//       next(action);
+//       Session session = api.state.sessions.current;
+//       if (session != null) {
+//         Board board = api.state.boards.map[session.boardUid];
+//         if (board != null && board.latestSessionUid == session.uid) {
+//           client.clearBoardsLatestSession(board.uid);
+//         }
+//         client.shredSession(session, board);
+//       }
+//     };
 
 _present(FirebaseClient client) =>
     (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
@@ -286,4 +429,4 @@ _present(FirebaseClient client) =>
           }
         }
       }
-    };
+    };}

@@ -4,17 +4,19 @@ import 'dart:math';
 import 'package:angular/angular.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:built_redux/built_redux.dart';
+import 'package:built_collection/built_collection.dart';
 
 import '../itemCard/itemCard.dart';
 import '../noteCreate/noteCreate.dart';
+
 import '../../models/board.dart';
 import '../../models/session.dart';
-
 import '../../models/category.dart';
 import '../../models/item.dart';
 import '../../models/note.dart';
 
 import '../../state/app.dart';
+import '../../state/items.dart';
 import '../../store.dart';
 
 @Component(
@@ -60,8 +62,8 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
   void tick([_]) {
     if (ticking) window.requestAnimationFrame(tick);
     if (!inProgress()) return;
-    Item heroItem = _store.state.heroItem;
-    if (heroItem == null) return;
+    Item hero = _store.state.hero;
+    if (hero == null) return;
 
     var epoch = now();
     itemsCovered = 0;
@@ -69,7 +71,7 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
     var remainingPoints = 0;
     int otherItemTime = 0;
     items.forEach((item) {
-      if (item != heroItem) {
+      if (item != hero) {
         if (isItemCovered(item)) {
           itemsCovered++;
         } else {
@@ -120,6 +122,17 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
   List<Item> get orderedItems => new List<Item>.from(
       categories.expand((category) => itemsForCategory(category)));
 
+  Iterable<String> optionsForItem(Item item) => item.pollOptions;
+
+  bool didUserRespond(Item item) =>
+      item.pollResponses.containsKey(_store.state.users.currentUid);
+
+  String userResponse(Item item) =>
+      item.pollResponses[_store.state.users.currentUid];
+
+  bool optionIsUsersResponse(Item item, String option) =>
+      userResponse(item) == option;
+
   // column class for category
   String catColumnClass() {
     switch (categories.length) {
@@ -145,6 +158,20 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
       _store.actions.items.addSupport(item.uid);
     }
   }
+
+  void toggleResponse(Item item, String option) {
+    if (optionIsUsersResponse(item, option)) {
+      removePollResponse(item);
+    } else {
+      addPollResponse(item, option);
+    }
+  }
+
+  void addPollResponse(Item item, String option) =>
+      _store.actions.items.addPollResponse(new PollResponse(item.uid, option));
+
+  void removePollResponse(Item item) =>
+      _store.actions.items.removePollResponse(item.uid);
 
   bool isItemCovered(Item item) => item.time > 3000;
 
@@ -179,22 +206,39 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
     _store.actions.showModal(CREATE_ITEM_MODAL);
   }
 
-  Item get hero => _store.state.heroItem;
+  Item get hero => _store.state.hero;
 
   String heroText() => hero?.text ?? "";
 
+  String heroCss() {
+    if (hero != null) {
+      Category heroCat =
+          categories.firstWhere((category) => category.uid == hero.categoryUid);
+      return textCss(heroCat.color);
+    }
+    return '';
+  }
+
   String heroAuthor() => _store.state.users.map[hero?.ownerUid]?.name ?? "";
 
-  Item nextHeroItem() {
-    print("nextHeroItem ${orderedItems.map((item) => item.text)}");
+  Iterable<String> heroPollOptions() => _store.state.heroPollResults.keys;
+
+  int heroOptionResult(String option) => _store.state.heroPollResults[option];
+
+  Category heroCategory() => hero != null
+      ? categories.firstWhere((category) => category.uid == hero.categoryUid)
+      : null;
+
+  Item nextHero() {
+    print("nextHero ${orderedItems.map((item) => item.text)}");
     if (orderedItems.length == 0) return null;
     int index = orderedItems.indexOf(hero);
     if (index == -1) return orderedItems.first;
     return orderedItems[(index + 1) % orderedItems.length];
   }
 
-  Item prevHeroItem() {
-    print("prevHeroItem ${orderedItems.map((item) => item.text)}");
+  Item prevHero() {
+    print("prevHero ${orderedItems.map((item) => item.text)}");
     if (orderedItems.length == 0) return null;
     int index = orderedItems.indexOf(hero);
     if (index == -1) return orderedItems.last;
@@ -209,7 +253,7 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
 
   void startSession() {
     _store.actions.sessions.start(null);
-    present(nextHeroItem());
+    present(nextHero());
   }
 
   void present(Item item) {
@@ -230,7 +274,7 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
     goToLatest();
   }
 
-  void next() => present(nextHeroItem());
+  void next() => present(nextHero());
 
-  void prev() => present(prevHeroItem());
+  void prev() => present(prevHero());
 }
