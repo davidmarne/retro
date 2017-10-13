@@ -1,0 +1,18 @@
+@import "modal";
+
+.covered {
+  opacity: 0.5;
+}
+
+.is-extra-small {
+  height: 2px;
+}
+
+.option-result {
+  display: inline-block;
+  width: 3rem;
+}
+
+.fa-check-square-o {
+  transform: translate3d(0.1rem, 0, 0);
+}
