@@ -30,14 +30,3 @@ transformers:
 - test/pub_serve:
     $include: test/**_test.dart
 - dart_to_js_script_rewriter
- # - angular
-#     platform_directives:
-#     - 'package:angular/angular.dart#COMMON_DIRECTIVES'
-#     platform_pipes:
-#     - 'package:angular/angular.dart#COMMON_PIPES'
-#     entry_points: web/main.dart
-# - angular/transform/reflection_remover
-    # $include: test/**_test.dart
-# - test/pub_serve
-    # $include: test/**_test.dart
-# - dart_to_js_script_rewriter
