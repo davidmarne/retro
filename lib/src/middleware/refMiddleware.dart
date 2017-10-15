@@ -280,11 +280,15 @@ _shredSession(FirebaseClient client) =>
       Session session = api.state.sessions.current;
       if (session != null) {
         Board board = api.state.boards.map[session.boardUid];
-        if (board != null && board.latestSessionUid == session.uid) {
-          client.clearBoardsLatestSession(board.uid);
+        if (board != null) {
+          if (board.latestSessionUid == session.uid) {
+            client.clearBoardsLatestSession(board.uid);
+          }
+          client.shredSession(session, board);
         }
       }
     };
+    
 _present(FirebaseClient client) =>
     (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
         Action<String> action) {
