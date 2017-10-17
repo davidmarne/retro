@@ -3,43 +3,16 @@
 part of notes;
 
 // **************************************************************************
-// Generator: BuiltReduxGenerator
-// Target: abstract class NotesActions
-// **************************************************************************
-
-class _$NotesActions extends NotesActions {
-  ActionDispatcher<String> show =
-      new ActionDispatcher<String>('NotesActions-show');
-
-  ActionDispatcher<String> hide =
-      new ActionDispatcher<String>('NotesActions-hide');
-
-  ActionDispatcher<String> remove =
-      new ActionDispatcher<String>('NotesActions-remove');
-
-  ActionDispatcher<Note> update =
-      new ActionDispatcher<Note>('NotesActions-update');
-  factory _$NotesActions() => new _$NotesActions._();
-  _$NotesActions._() : super._();
-  syncWithStore(dispatcher) {
-    show.syncWithStore(dispatcher);
-    hide.syncWithStore(dispatcher);
-    remove.syncWithStore(dispatcher);
-    update.syncWithStore(dispatcher);
-  }
-}
-
-class NotesActionsNames {
-  static ActionName show = new ActionName<String>('NotesActions-show');
-  static ActionName hide = new ActionName<String>('NotesActions-hide');
-  static ActionName remove = new ActionName<String>('NotesActions-remove');
-  static ActionName update = new ActionName<Note>('NotesActions-update');
-}
-
-// **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: abstract class Notes
 // **************************************************************************
+
+// ignore_for_file: always_put_control_body_on_new_line
+// ignore_for_file: annotate_overrides
+// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: avoid_returning_this
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 class _$Notes extends Notes {
   @override
@@ -112,8 +85,48 @@ class NotesBuilder implements Builder<Notes, NotesBuilder> {
 
   @override
   _$Notes build() {
-    final result = _$v ?? new _$Notes._(map: map?.build());
-    replace(result);
-    return result;
+    final _$result = _$v ?? new _$Notes._(map: map?.build());
+    replace(_$result);
+    return _$result;
   }
+}
+
+// **************************************************************************
+// Generator: BuiltReduxGenerator
+// **************************************************************************
+
+class _$NotesActions extends NotesActions {
+  final ActionDispatcher<String> show =
+      new ActionDispatcher<String>('NotesActions-show');
+
+  final ActionDispatcher<String> hide =
+      new ActionDispatcher<String>('NotesActions-hide');
+
+  final ActionDispatcher<String> remove =
+      new ActionDispatcher<String>('NotesActions-remove');
+
+  final ActionDispatcher<Note> update =
+      new ActionDispatcher<Note>('NotesActions-update');
+  factory _$NotesActions() => new _$NotesActions._();
+
+  _$NotesActions._() : super._();
+
+  @override
+  void setDispatcher(Dispatcher dispatcher) {
+    show.setDispatcher(dispatcher);
+    hide.setDispatcher(dispatcher);
+    remove.setDispatcher(dispatcher);
+    update.setDispatcher(dispatcher);
+  }
+}
+
+class NotesActionsNames {
+  static final ActionName<String> show =
+      new ActionName<String>('NotesActions-show');
+  static final ActionName<String> hide =
+      new ActionName<String>('NotesActions-hide');
+  static final ActionName<String> remove =
+      new ActionName<String>('NotesActions-remove');
+  static final ActionName<Note> update =
+      new ActionName<Note>('NotesActions-update');
 }

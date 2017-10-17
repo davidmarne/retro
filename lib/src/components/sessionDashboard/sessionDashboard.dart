@@ -1,8 +1,8 @@
 import 'dart:html';
 import 'dart:math';
 
-import 'package:angular2/core.dart';
-import 'package:angular2/router.dart';
+import 'package:angular/angular.dart';
+import 'package:angular_router/angular_router.dart';
 import 'package:built_redux/built_redux.dart';
 import 'package:built_collection/built_collection.dart';
 
@@ -26,6 +26,7 @@ import '../../store.dart';
     ROUTER_DIRECTIVES,
     NoteCreateComponent,
     ItemCardComponent,
+    COMMON_DIRECTIVES,
   ],
 )
 class SessionDashboardComponent implements OnInit, OnDestroy {
@@ -36,17 +37,20 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
   double heroTimeProgress = 100.0;
 
   int itemsCovered = 1;
-  
+
   int itemsRemaining = 1;
 
   bool ticking = false;
 
-  SessionDashboardComponent(StoreService storeService, this._routeParams, this._router) :
-    _store = storeService.store;
+  SessionDashboardComponent(
+      StoreService storeService, this._routeParams, this._router)
+      : _store = storeService.store;
 
   void ngOnInit() {
-    if (buid != _store.state.boards.currentUid) _store.actions.boards.setCurrent(buid);
-    if (suid != _store.state.sessions.currentUid) _store.actions.sessions.setCurrent(suid);
+    if (buid != _store.state.boards.currentUid)
+      _store.actions.boards.setCurrent(buid);
+    if (suid != _store.state.sessions.currentUid)
+      _store.actions.sessions.setCurrent(suid);
     ticking = true;
     tick();
   }
@@ -79,14 +83,20 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
     });
     var heroActualTime = hero.time + (epoch - session.presentedDate);
     var heroPoints = hero.supporterUids.length + 1;
-    var remainingTime = max(0, session.targetTime - otherItemTime - heroActualTime);
-    var heroTargetTime = heroPoints * (remainingTime / (remainingPoints + heroPoints));
-    heroTimeProgress = (heroActualTime / max(heroTargetTime, heroActualTime) * 100.0);
+    var remainingTime =
+        max(0, session.targetTime - otherItemTime - heroActualTime);
+    var heroTargetTime =
+        heroPoints * (remainingTime / (remainingPoints + heroPoints));
+    heroTimeProgress =
+        (heroActualTime / max(heroTargetTime, heroActualTime) * 100.0);
   }
 
-  goToLatest() => _router.navigate(['LatestSession', {
-    'buid': _store.state.boards.currentUid,
-  }]);
+  goToLatest() => _router.navigate([
+        'LatestSession',
+        {
+          'buid': _store.state.boards.currentUid,
+        }
+      ]);
 
   // url params
 
@@ -105,35 +115,41 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
   Iterable<Item> get items => _store.state.visibleSessionItems;
 
   Iterable<Note> get notes => _store.state.visibleSessionNotes;
-  
-  Iterable<Item> itemsForCategory(Category category) => items.where((item) => item.categoryUid == category.uid);
 
-  List<Item> get orderedItems => new List<Item>.from(categories.expand((category) => itemsForCategory(category)));
+  Iterable<Item> itemsForCategory(Category category) =>
+      items.where((item) => item.categoryUid == category.uid);
+
+  List<Item> get orderedItems => new List<Item>.from(
+      categories.expand((category) => itemsForCategory(category)));
 
   Iterable<String> optionsForItem(Item item) => item.pollOptions;
 
-  bool didUserRespond(Item item) => item.pollResponses.containsKey(_store.state.users.currentUid);
+  bool didUserRespond(Item item) =>
+      item.pollResponses.containsKey(_store.state.users.currentUid);
 
-  String userResponse(Item item) => item.pollResponses[_store.state.users.currentUid];
+  String userResponse(Item item) =>
+      item.pollResponses[_store.state.users.currentUid];
 
-  bool optionIsUsersResponse(Item item, String option) => userResponse(item) == option;
+  bool optionIsUsersResponse(Item item, String option) =>
+      userResponse(item) == option;
 
   // column class for category
   String catColumnClass() {
-    switch(categories.length) {
+    switch (categories.length) {
       case 1:
-      return "is-8";
+        return "is-8";
       case 2:
-      return "is-4";
+        return "is-4";
       case 3:
-      return "is-3";
+        return "is-3";
       case 4:
-      return "is-3";
+        return "is-3";
     }
     return "";
   }
 
-  bool supported(Item item) => item.supporterUids.containsKey(_store.state.users.currentUid);
+  bool supported(Item item) =>
+      item.supporterUids.containsKey(_store.state.users.currentUid);
 
   void toggleSupport(Item item) {
     if (supported(item)) {
@@ -151,9 +167,11 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  void addPollResponse(Item item, String option) => _store.actions.items.addPollResponse(new PollResponse(item.uid, option));
+  void addPollResponse(Item item, String option) =>
+      _store.actions.items.addPollResponse(new PollResponse(item.uid, option));
 
-  void removePollResponse(Item item) => _store.actions.items.removePollResponse(item.uid);
+  void removePollResponse(Item item) =>
+      _store.actions.items.removePollResponse(item.uid);
 
   bool isItemCovered(Item item) => item.time > 3000;
 
@@ -164,8 +182,10 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
   }
 
   String printSupporters(Item item) {
-    if(item.supporterUids.isEmpty) return "";
-    else return "+${item.supporterUids.length}";
+    if (item.supporterUids.isEmpty)
+      return "";
+    else
+      return "+${item.supporterUids.length}";
   }
 
   bool showAddCatMargins() => categories.length < 4;
@@ -192,7 +212,8 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
 
   String heroCss() {
     if (hero != null) {
-      Category heroCat = categories.firstWhere((category) => category.uid == hero.categoryUid);
+      Category heroCat =
+          categories.firstWhere((category) => category.uid == hero.categoryUid);
       return textCss(heroCat.color);
     }
     return '';
@@ -204,7 +225,9 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
 
   int heroOptionResult(String option) => _store.state.heroPollResults[option];
 
-  Category heroCategory() => hero != null ? categories.firstWhere((category) => category.uid == hero.categoryUid) : null;
+  Category heroCategory() => hero != null
+      ? categories.firstWhere((category) => category.uid == hero.categoryUid)
+      : null;
 
   Item nextHero() {
     print("nextHero ${orderedItems.map((item) => item.text)}");

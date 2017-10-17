@@ -3,57 +3,16 @@
 part of app;
 
 // **************************************************************************
-// Generator: BuiltReduxGenerator
-// Target: abstract class AppActions
-// **************************************************************************
-
-class _$AppActions extends AppActions {
-  CreationMiddlewareActions creation = new CreationMiddlewareActions();
-  NotesActions notes = new NotesActions();
-  ItemsActions items = new ItemsActions();
-  CategoriesActions categories = new CategoriesActions();
-  SessionsActions sessions = new SessionsActions();
-  BoardsActions boards = new BoardsActions();
-  UsersActions users = new UsersActions();
-  ActionDispatcher<Null> toggleMobileMenu =
-      new ActionDispatcher<Null>('AppActions-toggleMobileMenu');
-
-  ActionDispatcher<Null> hideModal =
-      new ActionDispatcher<Null>('AppActions-hideModal');
-
-  ActionDispatcher<String> showModal =
-      new ActionDispatcher<String>('AppActions-showModal');
-
-  ActionDispatcher<Null> clear = new ActionDispatcher<Null>('AppActions-clear');
-  factory _$AppActions() => new _$AppActions._();
-  _$AppActions._() : super._();
-  syncWithStore(dispatcher) {
-    creation.syncWithStore(dispatcher);
-    notes.syncWithStore(dispatcher);
-    items.syncWithStore(dispatcher);
-    categories.syncWithStore(dispatcher);
-    sessions.syncWithStore(dispatcher);
-    boards.syncWithStore(dispatcher);
-    users.syncWithStore(dispatcher);
-    toggleMobileMenu.syncWithStore(dispatcher);
-    hideModal.syncWithStore(dispatcher);
-    showModal.syncWithStore(dispatcher);
-    clear.syncWithStore(dispatcher);
-  }
-}
-
-class AppActionsNames {
-  static ActionName toggleMobileMenu =
-      new ActionName<Null>('AppActions-toggleMobileMenu');
-  static ActionName hideModal = new ActionName<Null>('AppActions-hideModal');
-  static ActionName showModal = new ActionName<String>('AppActions-showModal');
-  static ActionName clear = new ActionName<Null>('AppActions-clear');
-}
-
-// **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: abstract class App
 // **************************************************************************
+
+// ignore_for_file: always_put_control_body_on_new_line
+// ignore_for_file: annotate_overrides
+// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: avoid_returning_this
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 class _$App extends App {
   @override
@@ -285,7 +244,7 @@ class AppBuilder implements Builder<App, AppBuilder> {
 
   @override
   _$App build() {
-    final result = _$v ??
+    final _$result = _$v ??
         new _$App._(
             users: users?.build(),
             boards: boards?.build(),
@@ -295,23 +254,61 @@ class AppBuilder implements Builder<App, AppBuilder> {
             notes: notes?.build(),
             showMobileMenu: showMobileMenu,
             modalQueue: modalQueue?.build());
-    replace(result);
-    return result;
+    replace(_$result);
+    return _$result;
   }
 }
 
 // **************************************************************************
 // Generator: BuiltReduxGenerator
-// Target: abstract class App
 // **************************************************************************
 
-class AppReduceChildren {
-  reduceChildren(App state, Action<dynamic> a, AppBuilder builder) {
-    state.notes.reduce(state.notes, a, builder.notes);
-    state.items.reduce(state.items, a, builder.items);
-    state.categories.reduce(state.categories, a, builder.categories);
-    state.sessions.reduce(state.sessions, a, builder.sessions);
-    state.boards.reduce(state.boards, a, builder.boards);
-    state.users.reduce(state.users, a, builder.users);
+class _$AppActions extends AppActions {
+  final CreationMiddlewareActions creation = new CreationMiddlewareActions();
+  final NotesActions notes = new NotesActions();
+  final ItemsActions items = new ItemsActions();
+  final CategoriesActions categories = new CategoriesActions();
+  final SessionsActions sessions = new SessionsActions();
+  final BoardsActions boards = new BoardsActions();
+  final UsersActions users = new UsersActions();
+  final ActionDispatcher<Null> toggleMobileMenu =
+      new ActionDispatcher<Null>('AppActions-toggleMobileMenu');
+
+  final ActionDispatcher<Null> hideModal =
+      new ActionDispatcher<Null>('AppActions-hideModal');
+
+  final ActionDispatcher<String> showModal =
+      new ActionDispatcher<String>('AppActions-showModal');
+
+  final ActionDispatcher<Null> clear =
+      new ActionDispatcher<Null>('AppActions-clear');
+  factory _$AppActions() => new _$AppActions._();
+
+  _$AppActions._() : super._();
+
+  @override
+  void setDispatcher(Dispatcher dispatcher) {
+    creation.setDispatcher(dispatcher);
+    notes.setDispatcher(dispatcher);
+    items.setDispatcher(dispatcher);
+    categories.setDispatcher(dispatcher);
+    sessions.setDispatcher(dispatcher);
+    boards.setDispatcher(dispatcher);
+    users.setDispatcher(dispatcher);
+    toggleMobileMenu.setDispatcher(dispatcher);
+    hideModal.setDispatcher(dispatcher);
+    showModal.setDispatcher(dispatcher);
+    clear.setDispatcher(dispatcher);
   }
+}
+
+class AppActionsNames {
+  static final ActionName<Null> toggleMobileMenu =
+      new ActionName<Null>('AppActions-toggleMobileMenu');
+  static final ActionName<Null> hideModal =
+      new ActionName<Null>('AppActions-hideModal');
+  static final ActionName<String> showModal =
+      new ActionName<String>('AppActions-showModal');
+  static final ActionName<Null> clear =
+      new ActionName<Null>('AppActions-clear');
 }

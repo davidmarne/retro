@@ -1,4 +1,5 @@
-import 'package:angular2/core.dart';
+import 'package:angular/angular.dart';
+import 'package:angular_forms/angular_forms.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../../state/app.dart';
@@ -7,13 +8,17 @@ import '../../store.dart';
 import '../../middleware/creationMiddleware.dart';
 
 @Component(
-  selector: 'div[item-create-modal]',
-  templateUrl: 'itemCreateModal.html',
-)
+    selector: 'div[item-create-modal]',
+    templateUrl: 'itemCreateModal.html',
+    directives: const [
+      COMMON_DIRECTIVES,
+      formDirectives,
+    ])
 class ItemCreateModalComponent {
   final Store<App, AppBuilder, AppActions> _store;
 
-  ItemCreateModalComponent(StoreService storeService) : _store = storeService.store;
+  ItemCreateModalComponent(StoreService storeService)
+      : _store = storeService.store;
 
   Category get category => _store.state.categories.current;
 

@@ -1,5 +1,5 @@
-import 'package:angular2/core.dart';
-import 'package:angular2/router.dart';
+import 'package:angular/angular.dart';
+import 'package:angular_router/angular_router.dart';
 
 import '../dashboard/dashboard.dart';
 import '../boardDashboard/boardDashboard.dart';
@@ -15,11 +15,16 @@ import '../../models/board.dart';
 
 import '../../state/app.dart';
 
-@Component(
-    selector: 'app',
-    templateUrl: 'app.html',
-    directives: const [ROUTER_DIRECTIVES, CategoryCreateModalComponent, ItemCreateModalComponent, ManageContentModalComponent, ConfirmShredModalComponent],
-    providers: const [StoreService])
+@Component(selector: 'app', templateUrl: 'app.html', directives: const [
+  ROUTER_DIRECTIVES,
+  CORE_DIRECTIVES,
+  CategoryCreateModalComponent,
+  ItemCreateModalComponent,
+  ManageContentModalComponent,
+  ConfirmShredModalComponent
+], providers: const [
+  StoreService
+])
 @RouteConfig(const [
   const Route(
     path: '/home',
@@ -61,7 +66,8 @@ class AppComponent {
 
   bool get showMobileMenu => _storeService.store.state.showMobileMenu;
 
-  bool showModal(String modal) => modal == _storeService.store.state.visibleModal;
+  bool showModal(String modal) =>
+      modal == _storeService.store.state.visibleModal;
 
   logIn() => _storeService.signIn();
 

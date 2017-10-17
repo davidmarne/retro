@@ -5,6 +5,7 @@ import 'package:built_value/built_value.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../models/board.dart';
+import 'app.dart';
 
 part 'boards.g.dart';
 
@@ -17,10 +18,10 @@ abstract class BoardsActions extends ReduxActions {
   ActionDispatcher<Board> update;
   ActionDispatcher<String> remove;
   ActionDispatcher<String> setCurrent;
-    // update title
-    // update description
-    // add / remove User
-    // create new Session
+  // update title
+  // update description
+  // add / remove User
+  // create new Session
 
   // factory to create on instance of the generated implementation of BoardsActions
   BoardsActions._();
@@ -32,19 +33,16 @@ abstract class BoardsActions extends ReduxActions {
 ///////////////////
 
 /// [Boards]
-abstract class Boards extends BuiltReducer<Boards, BoardsBuilder>
-    implements Built<Boards, BoardsBuilder> {
+abstract class Boards implements Built<Boards, BoardsBuilder> {
   /// [map] contains a map of board.id to Board
   BuiltMap<String, Board> get map;
 
   String get currentUid;
 
-  /// [reducer]
-  get reducer => _reducer;
-
   // Built value boilerplate
   Boards._();
-  factory Boards([updates(BoardsBuilder b)]) => new _$Boards((BoardsBuilder b) => b..currentUid = "");
+  factory Boards([updates(BoardsBuilder b)]) =>
+      new _$Boards((BoardsBuilder b) => b..currentUid = "");
 
   @memoized
   Board get current => map[currentUid];
@@ -54,11 +52,15 @@ abstract class Boards extends BuiltReducer<Boards, BoardsBuilder>
 /// Main Reducer
 ///////////////////
 
-var _reducer = (new ReducerBuilder<Boards, BoardsBuilder>()
-      ..add<Board>(BoardsActionsNames.update, _updateBoard)
-      ..add<String>(BoardsActionsNames.remove, _removeBoard)
-      ..add<String>(BoardsActionsNames.setCurrent, _setCurrentBoard))
-    .build();
+NestedReducerBuilder<App, AppBuilder, Boards, BoardsBuilder>
+    createBoardsReducer() =>
+        new NestedReducerBuilder<App, AppBuilder, Boards, BoardsBuilder>(
+          (state) => state.boards,
+          (builder) => builder.boards,
+        )
+          ..add<Board>(BoardsActionsNames.update, _updateBoard)
+          ..add<String>(BoardsActionsNames.remove, _removeBoard)
+          ..add<String>(BoardsActionsNames.setCurrent, _setCurrentBoard);
 
 ////////////////////
 /// Reducers

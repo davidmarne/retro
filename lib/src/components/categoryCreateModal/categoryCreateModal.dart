@@ -1,4 +1,5 @@
-import 'package:angular2/core.dart';
+import 'package:angular/angular.dart';
+import 'package:angular_forms/angular_forms.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../../models/category.dart';
@@ -7,13 +8,17 @@ import '../../store.dart';
 import '../../middleware/creationMiddleware.dart';
 
 @Component(
-  selector: 'div[category-create-modal]',
-  templateUrl: 'categoryCreateModal.html',
-)
+    selector: 'div[category-create-modal]',
+    templateUrl: 'categoryCreateModal.html',
+    directives: const [
+      COMMON_DIRECTIVES,
+      formDirectives,
+    ])
 class CategoryCreateModalComponent {
   final Store<App, AppBuilder, AppActions> _store;
 
-  CategoryCreateModalComponent(StoreService storeService) : _store = storeService.store;
+  CategoryCreateModalComponent(StoreService storeService)
+      : _store = storeService.store;
 
   String title = "";
 

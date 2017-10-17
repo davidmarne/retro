@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:angular2/core.dart';
+import 'package:angular/core.dart';
 import 'package:built_redux/built_redux.dart';
 import 'package:firebase/firebase.dart' as firebase;
 
@@ -36,12 +36,18 @@ class StoreService {
     _firebaseAuth.onAuthStateChanged.listen(_authChanged);
 
     var actions = new AppActions();
-    _client = new FirebaseClient(new Refs(_firebaseDatabase), new StreamSubManager(), actions);
-    store = new Store<App, AppBuilder, AppActions>(new App(), actions, middleware: [
-      loggingMiddleware,
-      createRefMiddleware(_client),
-      createCreationMiddleware(_client),
-    ]);
+    _client = new FirebaseClient(
+        new Refs(_firebaseDatabase), new StreamSubManager(), actions);
+    store = new Store<App, AppBuilder, AppActions>(
+      createReducer(),
+      new App(),
+      actions,
+      middleware: [
+        loggingMiddleware,
+        createRefMiddleware(_client),
+        createCreationMiddleware(_client),
+      ],
+    );
   }
 
   Future signIn() async {

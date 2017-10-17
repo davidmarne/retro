@@ -3,45 +3,16 @@
 part of users;
 
 // **************************************************************************
-// Generator: BuiltReduxGenerator
-// Target: abstract class UsersActions
-// **************************************************************************
-
-class _$UsersActions extends UsersActions {
-  ActionDispatcher<String> addBoardToCurrentUser =
-      new ActionDispatcher<String>('UsersActions-addBoardToCurrentUser');
-
-  ActionDispatcher<String> setCurrent =
-      new ActionDispatcher<String>('UsersActions-setCurrent');
-
-  ActionDispatcher<String> remove =
-      new ActionDispatcher<String>('UsersActions-remove');
-
-  ActionDispatcher<User> update =
-      new ActionDispatcher<User>('UsersActions-update');
-  factory _$UsersActions() => new _$UsersActions._();
-  _$UsersActions._() : super._();
-  syncWithStore(dispatcher) {
-    addBoardToCurrentUser.syncWithStore(dispatcher);
-    setCurrent.syncWithStore(dispatcher);
-    remove.syncWithStore(dispatcher);
-    update.syncWithStore(dispatcher);
-  }
-}
-
-class UsersActionsNames {
-  static ActionName addBoardToCurrentUser =
-      new ActionName<String>('UsersActions-addBoardToCurrentUser');
-  static ActionName setCurrent =
-      new ActionName<String>('UsersActions-setCurrent');
-  static ActionName remove = new ActionName<String>('UsersActions-remove');
-  static ActionName update = new ActionName<User>('UsersActions-update');
-}
-
-// **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: abstract class Users
 // **************************************************************************
+
+// ignore_for_file: always_put_control_body_on_new_line
+// ignore_for_file: annotate_overrides
+// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: avoid_returning_this
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 class _$Users extends Users {
   @override
@@ -129,9 +100,49 @@ class UsersBuilder implements Builder<Users, UsersBuilder> {
 
   @override
   _$Users build() {
-    final result =
+    final _$result =
         _$v ?? new _$Users._(map: map?.build(), currentUid: currentUid);
-    replace(result);
-    return result;
+    replace(_$result);
+    return _$result;
   }
+}
+
+// **************************************************************************
+// Generator: BuiltReduxGenerator
+// **************************************************************************
+
+class _$UsersActions extends UsersActions {
+  final ActionDispatcher<String> addBoardToCurrentUser =
+      new ActionDispatcher<String>('UsersActions-addBoardToCurrentUser');
+
+  final ActionDispatcher<String> setCurrent =
+      new ActionDispatcher<String>('UsersActions-setCurrent');
+
+  final ActionDispatcher<String> remove =
+      new ActionDispatcher<String>('UsersActions-remove');
+
+  final ActionDispatcher<User> update =
+      new ActionDispatcher<User>('UsersActions-update');
+  factory _$UsersActions() => new _$UsersActions._();
+
+  _$UsersActions._() : super._();
+
+  @override
+  void setDispatcher(Dispatcher dispatcher) {
+    addBoardToCurrentUser.setDispatcher(dispatcher);
+    setCurrent.setDispatcher(dispatcher);
+    remove.setDispatcher(dispatcher);
+    update.setDispatcher(dispatcher);
+  }
+}
+
+class UsersActionsNames {
+  static final ActionName<String> addBoardToCurrentUser =
+      new ActionName<String>('UsersActions-addBoardToCurrentUser');
+  static final ActionName<String> setCurrent =
+      new ActionName<String>('UsersActions-setCurrent');
+  static final ActionName<String> remove =
+      new ActionName<String>('UsersActions-remove');
+  static final ActionName<User> update =
+      new ActionName<User>('UsersActions-update');
 }

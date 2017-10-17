@@ -5,6 +5,7 @@ import 'package:built_value/built_value.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../models/category.dart';
+import 'app.dart';
 
 part 'categories.g.dart';
 
@@ -33,15 +34,11 @@ abstract class CategoriesActions extends ReduxActions {
 ///////////////////
 
 /// [Categories]
-abstract class Categories extends BuiltReducer<Categories, CategoriesBuilder>
-    implements Built<Categories, CategoriesBuilder> {
+abstract class Categories implements Built<Categories, CategoriesBuilder> {
   /// [map] contains a map of category uid to Category.
   BuiltMap<String, Category> get map;
 
   String get currentUid;
-
-  /// [reducer]
-  get reducer => _reducer;
 
   // Built value boilerplate
   Categories._();
@@ -52,28 +49,36 @@ abstract class Categories extends BuiltReducer<Categories, CategoriesBuilder>
   Category get current => map[currentUid];
 
   @memoized
-  BuiltList<Category> get visible => new BuiltList<Category>(map.values.where((value) => value.visible));
+  BuiltList<Category> get visible =>
+      new BuiltList<Category>(map.values.where((value) => value.visible));
 }
 
 ////////////////////
 /// Main Reducer
 ///////////////////
 
-var _reducer = (new ReducerBuilder<Categories, CategoriesBuilder>()
-      ..add<Category>(CategoriesActionsNames.update, _updateCategory)
-      ..add<String>(CategoriesActionsNames.remove, _removeCategory)
-      ..add<String>(CategoriesActionsNames.setCurrent, _setCurrentItem))
-    .build();
+NestedReducerBuilder<App, AppBuilder, Categories, CategoriesBuilder>
+    createCategoriesReducer() => new NestedReducerBuilder<App, AppBuilder,
+            Categories, CategoriesBuilder>(
+          (state) => state.categories,
+          (builder) => builder.categories,
+        )
+          ..add(CategoriesActionsNames.update, _updateCategory)
+          ..add(CategoriesActionsNames.remove, _removeCategory)
+          ..add(CategoriesActionsNames.setCurrent, _setCurrentItem);
 
 ////////////////////
 /// Reducers
 ///////////////////
 
-_updateCategory(Categories state, Action<Category> action, CategoriesBuilder builder) =>
+_updateCategory(
+        Categories state, Action<Category> action, CategoriesBuilder builder) =>
     builder..map[action.payload.uid] = action.payload;
 
-_removeCategory(Categories state, Action<String> action, CategoriesBuilder builder) =>
+_removeCategory(
+        Categories state, Action<String> action, CategoriesBuilder builder) =>
     builder..map.remove(action.payload);
 
-_setCurrentItem(Categories state, Action<String> action, CategoriesBuilder builder) =>
+_setCurrentItem(
+        Categories state, Action<String> action, CategoriesBuilder builder) =>
     builder..currentUid = action.payload;

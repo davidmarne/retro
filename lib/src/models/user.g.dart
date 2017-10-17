@@ -4,8 +4,15 @@ part of user;
 
 // **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: library user
 // **************************************************************************
+
+// ignore_for_file: always_put_control_body_on_new_line
+// ignore_for_file: annotate_overrides
+// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: avoid_returning_this
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 Serializer<User> _$userSerializer = new _$UserSerializer();
 
@@ -64,11 +71,6 @@ class _$UserSerializer implements StructuredSerializer<User> {
     return result.build();
   }
 }
-
-// **************************************************************************
-// Generator: BuiltValueGenerator
-// Target: abstract class User
-// **************************************************************************
 
 class _$User extends User {
   @override
@@ -161,9 +163,9 @@ class UserBuilder implements Builder<User, UserBuilder> {
 
   @override
   _$User build() {
-    final result = _$v ??
+    final _$result = _$v ??
         new _$User._(uid: uid, boardUids: boardUids?.build(), name: name);
-    replace(result);
-    return result;
+    replace(_$result);
+    return _$result;
   }
 }

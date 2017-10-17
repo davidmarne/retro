@@ -66,16 +66,21 @@ class CreateNotePayload {
 /// Action Map
 ///////////////////
 
-createCreationMiddleware(FirebaseClient client) =>
-    (new MiddlwareBuilder<App, AppBuilder, AppActions>()
-          ..add<CreateBoardPayload>(CreationMiddlewareActionsNames.board, _createBoard(client))
+createCreationMiddleware(
+        FirebaseClient client) =>
+    (new MiddlewareBuilder<App, AppBuilder, AppActions>()
+          ..add<CreateBoardPayload>(
+              CreationMiddlewareActionsNames.board, _createBoard(client))
           ..add<CreateSessionPayload>(
               CreationMiddlewareActionsNames.session, _createSession(client))
-          ..add<Null>(CreationMiddlewareActionsNames.cloneSession, _cloneSession(client))
+          ..add<Null>(CreationMiddlewareActionsNames.cloneSession,
+              _cloneSession(client))
           ..add<CreateCategoryPayload>(
               CreationMiddlewareActionsNames.category, _createCategory(client))
-          ..add<CreateItemPayload>(CreationMiddlewareActionsNames.item, _createItem(client))
-          ..add<CreateNotePayload>(CreationMiddlewareActionsNames.note, _createNote(client)))
+          ..add<CreateItemPayload>(
+              CreationMiddlewareActionsNames.item, _createItem(client))
+          ..add<CreateNotePayload>(
+              CreationMiddlewareActionsNames.note, _createNote(client)))
         .build();
 
 ////////////////////
@@ -131,18 +136,17 @@ _createSession(FirebaseClient client) => (
           action.payload.targetTime,
         );
 
-  _cloneSession(FirebaseClient client) => (
-      MiddlewareApi<App, AppBuilder, AppActions> api,
-      ActionHandler next,
-      Action<Null> action
-    ) async {
+_cloneSession(FirebaseClient client) =>
+    (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
+        Action<Null> action) async {
       Session session = api.state.sessions.current;
       if (session != null) {
         Session newSession = await client.createSession(
           session.boardUid,
           session.targetTime,
         );
-        Iterable<Category> categories = api.state.categories.visible.where((cat) => cat.sessionUid == session.uid);
+        Iterable<Category> categories = api.state.categories.visible
+            .where((cat) => cat.sessionUid == session.uid);
         if (categories.length > 0) {
           await Future.forEach(categories, (Category category) async {
             await client.createCategory(

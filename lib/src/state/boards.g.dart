@@ -3,39 +3,16 @@
 part of boards;
 
 // **************************************************************************
-// Generator: BuiltReduxGenerator
-// Target: abstract class BoardsActions
-// **************************************************************************
-
-class _$BoardsActions extends BoardsActions {
-  ActionDispatcher<String> setCurrent =
-      new ActionDispatcher<String>('BoardsActions-setCurrent');
-
-  ActionDispatcher<String> remove =
-      new ActionDispatcher<String>('BoardsActions-remove');
-
-  ActionDispatcher<Board> update =
-      new ActionDispatcher<Board>('BoardsActions-update');
-  factory _$BoardsActions() => new _$BoardsActions._();
-  _$BoardsActions._() : super._();
-  syncWithStore(dispatcher) {
-    setCurrent.syncWithStore(dispatcher);
-    remove.syncWithStore(dispatcher);
-    update.syncWithStore(dispatcher);
-  }
-}
-
-class BoardsActionsNames {
-  static ActionName setCurrent =
-      new ActionName<String>('BoardsActions-setCurrent');
-  static ActionName remove = new ActionName<String>('BoardsActions-remove');
-  static ActionName update = new ActionName<Board>('BoardsActions-update');
-}
-
-// **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: abstract class Boards
 // **************************************************************************
+
+// ignore_for_file: always_put_control_body_on_new_line
+// ignore_for_file: annotate_overrides
+// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: avoid_returning_this
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 class _$Boards extends Boards {
   @override
@@ -119,9 +96,43 @@ class BoardsBuilder implements Builder<Boards, BoardsBuilder> {
 
   @override
   _$Boards build() {
-    final result =
+    final _$result =
         _$v ?? new _$Boards._(map: map?.build(), currentUid: currentUid);
-    replace(result);
-    return result;
+    replace(_$result);
+    return _$result;
   }
+}
+
+// **************************************************************************
+// Generator: BuiltReduxGenerator
+// **************************************************************************
+
+class _$BoardsActions extends BoardsActions {
+  final ActionDispatcher<String> setCurrent =
+      new ActionDispatcher<String>('BoardsActions-setCurrent');
+
+  final ActionDispatcher<String> remove =
+      new ActionDispatcher<String>('BoardsActions-remove');
+
+  final ActionDispatcher<Board> update =
+      new ActionDispatcher<Board>('BoardsActions-update');
+  factory _$BoardsActions() => new _$BoardsActions._();
+
+  _$BoardsActions._() : super._();
+
+  @override
+  void setDispatcher(Dispatcher dispatcher) {
+    setCurrent.setDispatcher(dispatcher);
+    remove.setDispatcher(dispatcher);
+    update.setDispatcher(dispatcher);
+  }
+}
+
+class BoardsActionsNames {
+  static final ActionName<String> setCurrent =
+      new ActionName<String>('BoardsActions-setCurrent');
+  static final ActionName<String> remove =
+      new ActionName<String>('BoardsActions-remove');
+  static final ActionName<Board> update =
+      new ActionName<Board>('BoardsActions-update');
 }

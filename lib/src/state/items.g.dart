@@ -3,78 +3,16 @@
 part of items;
 
 // **************************************************************************
-// Generator: BuiltReduxGenerator
-// Target: abstract class ItemsActions
-// **************************************************************************
-
-class _$ItemsActions extends ItemsActions {
-  ActionDispatcher<String> show =
-      new ActionDispatcher<String>('ItemsActions-show');
-
-  ActionDispatcher<String> hide =
-      new ActionDispatcher<String>('ItemsActions-hide');
-
-  ActionDispatcher<String> removePollResponse =
-      new ActionDispatcher<String>('ItemsActions-removePollResponse');
-
-  ActionDispatcher<PollResponse> addPollResponse =
-      new ActionDispatcher<PollResponse>('ItemsActions-addPollResponse');
-
-  ActionDispatcher<String> removeSupport =
-      new ActionDispatcher<String>('ItemsActions-removeSupport');
-
-  ActionDispatcher<String> addSupport =
-      new ActionDispatcher<String>('ItemsActions-addSupport');
-
-  ActionDispatcher<String> editText =
-      new ActionDispatcher<String>('ItemsActions-editText');
-
-  ActionDispatcher<String> setCurrent =
-      new ActionDispatcher<String>('ItemsActions-setCurrent');
-
-  ActionDispatcher<String> remove =
-      new ActionDispatcher<String>('ItemsActions-remove');
-
-  ActionDispatcher<Item> update =
-      new ActionDispatcher<Item>('ItemsActions-update');
-  factory _$ItemsActions() => new _$ItemsActions._();
-  _$ItemsActions._() : super._();
-  syncWithStore(dispatcher) {
-    show.syncWithStore(dispatcher);
-    hide.syncWithStore(dispatcher);
-    removePollResponse.syncWithStore(dispatcher);
-    addPollResponse.syncWithStore(dispatcher);
-    removeSupport.syncWithStore(dispatcher);
-    addSupport.syncWithStore(dispatcher);
-    editText.syncWithStore(dispatcher);
-    setCurrent.syncWithStore(dispatcher);
-    remove.syncWithStore(dispatcher);
-    update.syncWithStore(dispatcher);
-  }
-}
-
-class ItemsActionsNames {
-  static ActionName show = new ActionName<String>('ItemsActions-show');
-  static ActionName hide = new ActionName<String>('ItemsActions-hide');
-  static ActionName removePollResponse =
-      new ActionName<String>('ItemsActions-removePollResponse');
-  static ActionName addPollResponse =
-      new ActionName<PollResponse>('ItemsActions-addPollResponse');
-  static ActionName removeSupport =
-      new ActionName<String>('ItemsActions-removeSupport');
-  static ActionName addSupport =
-      new ActionName<String>('ItemsActions-addSupport');
-  static ActionName editText = new ActionName<String>('ItemsActions-editText');
-  static ActionName setCurrent =
-      new ActionName<String>('ItemsActions-setCurrent');
-  static ActionName remove = new ActionName<String>('ItemsActions-remove');
-  static ActionName update = new ActionName<Item>('ItemsActions-update');
-}
-
-// **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: abstract class Items
 // **************************************************************************
+
+// ignore_for_file: always_put_control_body_on_new_line
+// ignore_for_file: annotate_overrides
+// ignore_for_file: avoid_annotating_with_dynamic
+// ignore_for_file: avoid_returning_this
+// ignore_for_file: omit_local_variable_types
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 class _$Items extends Items {
   @override
@@ -162,9 +100,85 @@ class ItemsBuilder implements Builder<Items, ItemsBuilder> {
 
   @override
   _$Items build() {
-    final result =
+    final _$result =
         _$v ?? new _$Items._(map: map?.build(), currentUid: currentUid);
-    replace(result);
-    return result;
+    replace(_$result);
+    return _$result;
   }
+}
+
+// **************************************************************************
+// Generator: BuiltReduxGenerator
+// **************************************************************************
+
+class _$ItemsActions extends ItemsActions {
+  final ActionDispatcher<String> show =
+      new ActionDispatcher<String>('ItemsActions-show');
+
+  final ActionDispatcher<String> hide =
+      new ActionDispatcher<String>('ItemsActions-hide');
+
+  final ActionDispatcher<String> removePollResponse =
+      new ActionDispatcher<String>('ItemsActions-removePollResponse');
+
+  final ActionDispatcher<PollResponse> addPollResponse =
+      new ActionDispatcher<PollResponse>('ItemsActions-addPollResponse');
+
+  final ActionDispatcher<String> removeSupport =
+      new ActionDispatcher<String>('ItemsActions-removeSupport');
+
+  final ActionDispatcher<String> addSupport =
+      new ActionDispatcher<String>('ItemsActions-addSupport');
+
+  final ActionDispatcher<String> editText =
+      new ActionDispatcher<String>('ItemsActions-editText');
+
+  final ActionDispatcher<String> setCurrent =
+      new ActionDispatcher<String>('ItemsActions-setCurrent');
+
+  final ActionDispatcher<String> remove =
+      new ActionDispatcher<String>('ItemsActions-remove');
+
+  final ActionDispatcher<Item> update =
+      new ActionDispatcher<Item>('ItemsActions-update');
+  factory _$ItemsActions() => new _$ItemsActions._();
+
+  _$ItemsActions._() : super._();
+
+  @override
+  void setDispatcher(Dispatcher dispatcher) {
+    show.setDispatcher(dispatcher);
+    hide.setDispatcher(dispatcher);
+    removePollResponse.setDispatcher(dispatcher);
+    addPollResponse.setDispatcher(dispatcher);
+    removeSupport.setDispatcher(dispatcher);
+    addSupport.setDispatcher(dispatcher);
+    editText.setDispatcher(dispatcher);
+    setCurrent.setDispatcher(dispatcher);
+    remove.setDispatcher(dispatcher);
+    update.setDispatcher(dispatcher);
+  }
+}
+
+class ItemsActionsNames {
+  static final ActionName<String> show =
+      new ActionName<String>('ItemsActions-show');
+  static final ActionName<String> hide =
+      new ActionName<String>('ItemsActions-hide');
+  static final ActionName<String> removePollResponse =
+      new ActionName<String>('ItemsActions-removePollResponse');
+  static final ActionName<PollResponse> addPollResponse =
+      new ActionName<PollResponse>('ItemsActions-addPollResponse');
+  static final ActionName<String> removeSupport =
+      new ActionName<String>('ItemsActions-removeSupport');
+  static final ActionName<String> addSupport =
+      new ActionName<String>('ItemsActions-addSupport');
+  static final ActionName<String> editText =
+      new ActionName<String>('ItemsActions-editText');
+  static final ActionName<String> setCurrent =
+      new ActionName<String>('ItemsActions-setCurrent');
+  static final ActionName<String> remove =
+      new ActionName<String>('ItemsActions-remove');
+  static final ActionName<Item> update =
+      new ActionName<Item>('ItemsActions-update');
 }

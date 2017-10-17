@@ -1,4 +1,4 @@
-import 'package:angular2/core.dart';
+import 'package:angular/core.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../../state/app.dart';
@@ -11,7 +11,8 @@ import '../../store.dart';
 class ConfirmShredModalComponent {
   final Store<App, AppBuilder, AppActions> _store;
 
-  ConfirmShredModalComponent(StoreService storeService) : _store = storeService.store;
+  ConfirmShredModalComponent(StoreService storeService)
+      : _store = storeService.store;
 
   void confirm() {
     _store.actions.sessions.shred(null);
