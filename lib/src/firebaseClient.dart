@@ -207,6 +207,22 @@ class FirebaseClient {
     await _refs.item(item.boardUid, item.sessionUid, item.uid).child("visible").set(true);
   }
 
+  Future hideNote(Note note) async {
+    await _refs.note(note.boardUid, note.sessionUid, note.uid).child("visible").set(false);
+  }
+
+  Future showNote(Note note) async {
+    await _refs.note(note.boardUid, note.sessionUid, note.uid).child("visible").set(true);
+  }
+
+  Future pair(Item item, Note note) async {
+    await _refs.note(note.boardUid, note.sessionUid, note.uid).child("itemUids").child(item.uid).set(true);
+  }
+
+  Future unpair(Item item, Note note) async {
+    await _refs.note(note.boardUid, note.sessionUid, note.uid).child("itemUids").child(item.uid).remove();
+  }
+
   Future setSessionTarget(Session session, int targetTime) async {
     await _refs.session(session.boardUid, session.uid).child("targetTime").set(targetTime);
   }

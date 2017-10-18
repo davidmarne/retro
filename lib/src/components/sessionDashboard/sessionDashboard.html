@@ -64,6 +64,17 @@
     </div>
   </section>
 
+  <section class="section notes">
+    <div class="container">
+      <div class="field is-pulled-right is-grouped is-grouped-multiline">
+        <div *ngFor="let note of notes" class="control">
+          <div [item]="hero" [note]="note" note-tag></div>
+        </div>
+        <a (click)="initiateNoteCreation()"><span class="icon" title="Add a note"><i class="fa fa-pencil"></i></span></a>
+      </div>
+    </div>
+  </section>
+
   <section class="section">
     <div class="container">
       <!--non-mobile category headers-->

@@ -5,8 +5,6 @@ import 'package:angular_router/angular_router.dart';
 import 'package:built_redux/built_redux.dart';
 
 import '../itemCard/itemCard.dart';
-import '../noteCreate/noteCreate.dart';
-
 import '../../state/app.dart';
 import '../../store.dart';
 
@@ -15,7 +13,6 @@ import '../../store.dart';
   templateUrl: 'latestSessionDashboard.html',
   directives: const [
     ROUTER_DIRECTIVES,
-    NoteCreateComponent,
     ItemCardComponent,
   ],
 )

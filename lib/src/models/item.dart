@@ -21,9 +21,6 @@ abstract class Item implements Built<Item, ItemBuilder> {
 
   String get categoryUid;
 
-  /// [noteUids] note uids tagged to this item.
-  BuiltMap<String, bool> get noteUids;
-
   /// [supporterUids] uids of supportive users.
   BuiltMap<String, bool> get supporterUids;
 

@@ -8,6 +8,7 @@ import '../confirmShredModal/confirmShredModal.dart';
 import '../itemCreateModal/itemCreateModal.dart';
 import '../latestSessionDashboard/latestSessionDashboard.dart';
 import '../manageContentModal/manageContentModal.dart';
+import '../noteCreateModal/noteCreateModal.dart';
 import '../sessionDashboard/sessionDashboard.dart';
 import '../../store.dart';
 
@@ -21,6 +22,7 @@ import '../../state/app.dart';
   CategoryCreateModalComponent,
   ItemCreateModalComponent,
   ManageContentModalComponent,
+  NoteCreateModalComponent,
   ConfirmShredModalComponent
 ], providers: const [
   StoreService
@@ -55,6 +57,7 @@ class AppComponent {
   final String confirm_shred_modal = CONFIRM_SHRED_MODAL;
   final String create_category_modal = CREATE_CATEGORY_MODAL;
   final String create_item_modal = CREATE_ITEM_MODAL;
+  final String create_note_modal = CREATE_NOTE_MODAL;
   final String manage_content_modal = MANAGE_CONTENT_MODAL;
 
   AppComponent(StoreService storeService) : _storeService = storeService;

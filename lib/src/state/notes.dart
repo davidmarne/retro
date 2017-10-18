@@ -17,15 +17,26 @@ part 'notes.g.dart';
 abstract class NotesActions extends ReduxActions {
   ActionDispatcher<Note> update;
   ActionDispatcher<String> remove;
-  // update text
-  // tag item with note
-  // show / hide
+
+  ActionDispatcher<PairNotePayload> pair;
+  ActionDispatcher<PairNotePayload> unpair;
+
   ActionDispatcher<String> hide;
   ActionDispatcher<String> show;
 
   // factory to create on instance of the generated implementation of BoardsActions
   NotesActions._();
   factory NotesActions() => new _$NotesActions();
+}
+
+////////////////////
+/// Payloads
+///////////////////
+
+class PairNotePayload {
+  final String itemUid;
+  final String noteUid;
+  PairNotePayload(this.itemUid, this.noteUid);
 }
 
 ////////////////////

@@ -22,7 +22,7 @@ abstract class CreationMiddlewareActions extends ReduxActions {
   ActionDispatcher<Null> cloneSession;
   ActionDispatcher<CreateCategoryPayload> category;
   ActionDispatcher<CreateItemPayload> item;
-  ActionDispatcher<CreateNotePayload> note;
+  ActionDispatcher<String> note;
 
   CreationMiddlewareActions._();
   factory CreationMiddlewareActions() => new _$CreationMiddlewareActions();
@@ -57,11 +57,6 @@ class CreateItemPayload {
   CreateItemPayload(this.text, this.options, this.categoryUid);
 }
 
-class CreateNotePayload {
-  final String text;
-  CreateNotePayload(this.text);
-}
-
 ////////////////////
 /// Action Map
 ///////////////////
@@ -79,24 +74,24 @@ createCreationMiddleware(
               CreationMiddlewareActionsNames.category, _createCategory(client))
           ..add<CreateItemPayload>(
               CreationMiddlewareActionsNames.item, _createItem(client))
-          ..add<CreateNotePayload>(
+          ..add<String>(
               CreationMiddlewareActionsNames.note, _createNote(client)))
         .build();
 
 ////////////////////
 /// Handlers
 ///////////////////
-///
+
 _createNote(FirebaseClient client) => (
       MiddlewareApi<App, AppBuilder, AppActions> api,
       ActionHandler next,
-      Action<CreateNotePayload> action,
+      Action<String> action,
     ) =>
         client.createNote(
           api.state.boards.currentUid,
           api.state.sessions.currentUid,
           api.state.users.currentUid,
-          action.payload.text,
+          action.payload,
         );
 
 _createItem(FirebaseClient client) => (
