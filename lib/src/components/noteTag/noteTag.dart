@@ -47,7 +47,6 @@ class NoteTagComponent {
 
   void removeNote(MouseEvent event) {
     _store.actions.notes.hide(note.uid);
-    print(event);
     event.stopPropagation();
   }
 }
