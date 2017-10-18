@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:angular/angular.dart';
 import 'package:angular_forms/angular_forms.dart';
 import 'package:built_redux/built_redux.dart';
@@ -14,7 +16,7 @@ import '../../middleware/creationMiddleware.dart';
       COMMON_DIRECTIVES,
       formDirectives,
     ])
-class CategoryCreateModalComponent {
+class CategoryCreateModalComponent implements OnInit {
   final Store<App, AppBuilder, AppActions> _store;
 
   CategoryCreateModalComponent(StoreService storeService)
@@ -27,6 +29,10 @@ class CategoryCreateModalComponent {
   String selectedColor = CAT_COLOR_DEFAULT;
 
   List<String> colors = CAT_COLORS;
+
+  void ngOnInit() {
+    querySelector('.is-autofocused').focus();
+  }
 
   String colorLabel(String color) => catColorDescription(color);
 

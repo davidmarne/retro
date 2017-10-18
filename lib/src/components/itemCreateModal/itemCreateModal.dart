@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:angular/angular.dart';
 import 'package:angular_forms/angular_forms.dart';
 import 'package:built_redux/built_redux.dart';
@@ -14,7 +16,7 @@ import '../../middleware/creationMiddleware.dart';
       COMMON_DIRECTIVES,
       formDirectives,
     ])
-class ItemCreateModalComponent {
+class ItemCreateModalComponent implements OnInit {
   final Store<App, AppBuilder, AppActions> _store;
 
   ItemCreateModalComponent(StoreService storeService)
@@ -27,6 +29,10 @@ class ItemCreateModalComponent {
   bool isPoll = false;
 
   List<String> options = [];
+
+  void ngOnInit() {
+    querySelector('.is-autofocused').focus();
+  }
 
   void addItem() {
     _store.actions.creation.item(
