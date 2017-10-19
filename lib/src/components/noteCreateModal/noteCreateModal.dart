@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:angular/angular.dart';
 import 'package:angular_forms/angular_forms.dart';
 import 'package:built_redux/built_redux.dart';
@@ -13,7 +15,7 @@ import '../../store.dart';
       COMMON_DIRECTIVES,
       formDirectives,
     ])
-class NoteCreateModalComponent {
+class NoteCreateModalComponent implements OnInit {
   final Store<App, AppBuilder, AppActions> _store;
 
   NoteCreateModalComponent(StoreService storeService)
@@ -22,6 +24,10 @@ class NoteCreateModalComponent {
   Category get category => _store.state.categories.current;
 
   String text = "";
+
+  void ngOnInit() {
+    querySelector('.is-autofocused').focus();
+  }
 
   void addNote() {
     _store.actions.creation.note(text);
