@@ -102,6 +102,12 @@ class _$NotesActions extends NotesActions {
   final ActionDispatcher<String> hide =
       new ActionDispatcher<String>('NotesActions-hide');
 
+  final ActionDispatcher<PairNotePayload> unpair =
+      new ActionDispatcher<PairNotePayload>('NotesActions-unpair');
+
+  final ActionDispatcher<PairNotePayload> pair =
+      new ActionDispatcher<PairNotePayload>('NotesActions-pair');
+
   final ActionDispatcher<String> remove =
       new ActionDispatcher<String>('NotesActions-remove');
 
@@ -115,6 +121,8 @@ class _$NotesActions extends NotesActions {
   void setDispatcher(Dispatcher dispatcher) {
     show.setDispatcher(dispatcher);
     hide.setDispatcher(dispatcher);
+    unpair.setDispatcher(dispatcher);
+    pair.setDispatcher(dispatcher);
     remove.setDispatcher(dispatcher);
     update.setDispatcher(dispatcher);
   }
@@ -125,6 +133,10 @@ class NotesActionsNames {
       new ActionName<String>('NotesActions-show');
   static final ActionName<String> hide =
       new ActionName<String>('NotesActions-hide');
+  static final ActionName<PairNotePayload> unpair =
+      new ActionName<PairNotePayload>('NotesActions-unpair');
+  static final ActionName<PairNotePayload> pair =
+      new ActionName<PairNotePayload>('NotesActions-pair');
   static final ActionName<String> remove =
       new ActionName<String>('NotesActions-remove');
   static final ActionName<Note> update =

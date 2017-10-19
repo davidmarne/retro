@@ -53,7 +53,7 @@ class Refs {
 
   /// [note] is a ref to an note in a given board in a given session
   firebase.DatabaseReference note(String boardUid, String sessionUid, String noteUid) =>
-      _ref('items/$boardUid/$sessionUid/$noteUid/');
+      _ref('notes/$boardUid/$sessionUid/$noteUid/');
 
   firebase.DatabaseReference _ref(String uid) => _db.ref(uid);
 }

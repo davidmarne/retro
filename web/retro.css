@@ -12,6 +12,9 @@
   max-height: 100vh;
   padding: 20px 0; }
 
+.notes {
+  padding: 1rem; }
+
 .covered {
   opacity: 0.5; }
 

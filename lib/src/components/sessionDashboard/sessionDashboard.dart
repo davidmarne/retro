@@ -4,10 +4,9 @@ import 'dart:math';
 import 'package:angular/angular.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:built_redux/built_redux.dart';
-import 'package:built_collection/built_collection.dart';
 
 import '../itemCard/itemCard.dart';
-import '../noteCreate/noteCreate.dart';
+import '../noteTag/noteTag.dart';
 
 import '../../models/board.dart';
 import '../../models/session.dart';
@@ -24,8 +23,8 @@ import '../../store.dart';
   templateUrl: 'sessionDashboard.html',
   directives: const [
     ROUTER_DIRECTIVES,
-    NoteCreateComponent,
     ItemCardComponent,
+    NoteTagComponent,
     COMMON_DIRECTIVES,
   ],
 )
@@ -204,6 +203,10 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
   void initiateItemCreation(Category category) {
     _store.actions.categories.setCurrent(category.uid);
     _store.actions.showModal(CREATE_ITEM_MODAL);
+  }
+
+  void initiateNoteCreation() {
+    _store.actions.showModal(CREATE_NOTE_MODAL);
   }
 
   Item get hero => _store.state.hero;

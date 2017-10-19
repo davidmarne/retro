@@ -46,16 +46,13 @@ class CategoryCreateModalComponent implements OnInit {
         selectedColor,
       ),
     );
-    resetCategoryForm();
-    _store.actions.hideModal(null);
+    hideModal();
   }
 
-  void resetCategoryForm() {
+  void hideModal() {
     title = "";
     description = "";
     selectedColor = CAT_COLOR_DEFAULT;
     _store.actions.hideModal(null);
   }
-
-  void hideModal() => _store.actions.hideModal(null);
 }

@@ -42,14 +42,7 @@ class ItemCreateModalComponent implements OnInit {
         _store.state.categories.currentUid,
       ),
     );
-    resetItemForm();
-    _store.actions.hideModal(null);
-  }
-
-  void resetItemForm() {
-    description = "";
-    options = [];
-    _store.actions.hideModal(null);
+    hideModal();
   }
 
   void addOption(String text) {
@@ -66,5 +59,9 @@ class ItemCreateModalComponent implements OnInit {
     options.removeWhere((option) => option == text);
   }
 
-  void hideModal() => _store.actions.hideModal(null);
+  void hideModal() {
+    description = "";
+    options = [];
+    _store.actions.hideModal(null);
+  }
 }

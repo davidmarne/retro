@@ -7,8 +7,8 @@ part of creationMiddleware;
 // **************************************************************************
 
 class _$CreationMiddlewareActions extends CreationMiddlewareActions {
-  final ActionDispatcher<CreateNotePayload> note =
-      new ActionDispatcher<CreateNotePayload>('CreationMiddlewareActions-note');
+  final ActionDispatcher<String> note =
+      new ActionDispatcher<String>('CreationMiddlewareActions-note');
 
   final ActionDispatcher<CreateItemPayload> item =
       new ActionDispatcher<CreateItemPayload>('CreationMiddlewareActions-item');
@@ -43,8 +43,8 @@ class _$CreationMiddlewareActions extends CreationMiddlewareActions {
 }
 
 class CreationMiddlewareActionsNames {
-  static final ActionName<CreateNotePayload> note =
-      new ActionName<CreateNotePayload>('CreationMiddlewareActions-note');
+  static final ActionName<String> note =
+      new ActionName<String>('CreationMiddlewareActions-note');
   static final ActionName<CreateItemPayload> item =
       new ActionName<CreateItemPayload>('CreationMiddlewareActions-item');
   static final ActionName<CreateCategoryPayload> category =

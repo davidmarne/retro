@@ -37,6 +37,10 @@ class _$NoteSerializer implements StructuredSerializer<Note> {
       'ownerUid',
       serializers.serialize(object.ownerUid,
           specifiedType: const FullType(String)),
+      'itemUids',
+      serializers.serialize(object.itemUids,
+          specifiedType: const FullType(
+              BuiltMap, const [const FullType(String), const FullType(bool)])),
       'text',
       serializers.serialize(object.text, specifiedType: const FullType(String)),
       'visible',
@@ -74,6 +78,13 @@ class _$NoteSerializer implements StructuredSerializer<Note> {
           result.ownerUid = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'itemUids':
+          result.itemUids.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltMap, const [
+                const FullType(String),
+                const FullType(bool)
+              ])) as BuiltMap<String, bool>);
+          break;
         case 'text':
           result.text = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
@@ -99,6 +110,8 @@ class _$Note extends Note {
   @override
   final String ownerUid;
   @override
+  final BuiltMap<String, bool> itemUids;
+  @override
   final String text;
   @override
   final bool visible;
@@ -111,6 +124,7 @@ class _$Note extends Note {
       this.boardUid,
       this.sessionUid,
       this.ownerUid,
+      this.itemUids,
       this.text,
       this.visible})
       : super._() {
@@ -118,6 +132,7 @@ class _$Note extends Note {
     if (boardUid == null) throw new ArgumentError.notNull('boardUid');
     if (sessionUid == null) throw new ArgumentError.notNull('sessionUid');
     if (ownerUid == null) throw new ArgumentError.notNull('ownerUid');
+    if (itemUids == null) throw new ArgumentError.notNull('itemUids');
     if (text == null) throw new ArgumentError.notNull('text');
     if (visible == null) throw new ArgumentError.notNull('visible');
   }
@@ -137,6 +152,7 @@ class _$Note extends Note {
         boardUid == other.boardUid &&
         sessionUid == other.sessionUid &&
         ownerUid == other.ownerUid &&
+        itemUids == other.itemUids &&
         text == other.text &&
         visible == other.visible;
   }
@@ -146,9 +162,11 @@ class _$Note extends Note {
     return $jf($jc(
         $jc(
             $jc(
-                $jc($jc($jc(0, uid.hashCode), boardUid.hashCode),
-                    sessionUid.hashCode),
-                ownerUid.hashCode),
+                $jc(
+                    $jc($jc($jc(0, uid.hashCode), boardUid.hashCode),
+                        sessionUid.hashCode),
+                    ownerUid.hashCode),
+                itemUids.hashCode),
             text.hashCode),
         visible.hashCode));
   }
@@ -160,6 +178,7 @@ class _$Note extends Note {
           ..add('boardUid', boardUid)
           ..add('sessionUid', sessionUid)
           ..add('ownerUid', ownerUid)
+          ..add('itemUids', itemUids)
           ..add('text', text)
           ..add('visible', visible))
         .toString();
@@ -185,6 +204,12 @@ class NoteBuilder implements Builder<Note, NoteBuilder> {
   String get ownerUid => _$this._ownerUid;
   set ownerUid(String ownerUid) => _$this._ownerUid = ownerUid;
 
+  MapBuilder<String, bool> _itemUids;
+  MapBuilder<String, bool> get itemUids =>
+      _$this._itemUids ??= new MapBuilder<String, bool>();
+  set itemUids(MapBuilder<String, bool> itemUids) =>
+      _$this._itemUids = itemUids;
+
   String _text;
   String get text => _$this._text;
   set text(String text) => _$this._text = text;
@@ -201,6 +226,7 @@ class NoteBuilder implements Builder<Note, NoteBuilder> {
       _boardUid = _$v.boardUid;
       _sessionUid = _$v.sessionUid;
       _ownerUid = _$v.ownerUid;
+      _itemUids = _$v.itemUids?.toBuilder();
       _text = _$v.text;
       _visible = _$v.visible;
       _$v = null;
@@ -227,6 +253,7 @@ class NoteBuilder implements Builder<Note, NoteBuilder> {
             boardUid: boardUid,
             sessionUid: sessionUid,
             ownerUid: ownerUid,
+            itemUids: itemUids?.build(),
             text: text,
             visible: visible);
     replace(_$result);

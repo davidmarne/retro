@@ -14,6 +14,6 @@ Future main(List<String> args) async {
           new BuiltReduxGenerator(),
         ]),
         'retro',
-        inputs: const ['lib/src/*.dart'])
+        inputs: const ['lib/**/*.dart'])
   ], deleteFilesByDefault: true);
 }

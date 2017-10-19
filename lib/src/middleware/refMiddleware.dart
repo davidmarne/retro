@@ -7,6 +7,7 @@ import '../state/boards.dart';
 import '../state/sessions.dart';
 import '../state/categories.dart';
 import '../state/items.dart';
+import '../state/notes.dart';
 
 import '../firebaseClient.dart';
 
@@ -32,6 +33,10 @@ createRefMiddleware(FirebaseClient client) =>
               ItemsActionsNames.removePollResponse, _removePollResponse(client))
           ..add<String>(ItemsActionsNames.hide, _hideItem(client))
           ..add<String>(ItemsActionsNames.show, _showItem(client))
+          ..add<String>(NotesActionsNames.hide, _hideNote(client))
+          ..add<String>(NotesActionsNames.show, _showNote(client))
+          ..add<PairNotePayload>(NotesActionsNames.pair, _pair(client))
+          ..add<PairNotePayload>(NotesActionsNames.unpair, _unpair(client))
           ..add<Null>(SessionsActionsNames.start, _startSession(client))
           ..add<Null>(SessionsActionsNames.end, _endSession(client))
           ..add<Null>(SessionsActionsNames.reset, _resetSession(client))
@@ -237,6 +242,52 @@ _showItem(FirebaseClient client) =>
       var item = api.state.items.map[action.payload];
       if (item != null) {
         client.showItem(item);
+      }
+    };
+
+_hideNote(FirebaseClient client) =>
+    (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
+        Action<String> action) {
+      next(action);
+      var note = api.state.notes.map[action.payload];
+      if (note != null) {
+        client.hideNote(note);
+      }
+    };
+
+_showNote(FirebaseClient client) =>
+    (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
+        Action<String> action) {
+      next(action);
+      var note = api.state.notes.map[action.payload];
+      if (note != null) {
+        client.showNote(note);
+      }
+    };
+
+_pair(FirebaseClient client) =>
+    (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
+        Action<PairNotePayload> action) {
+      next(action);
+      var item = api.state.items.map[action.payload.itemUid];
+      var note = api.state.notes.map[action.payload.noteUid];
+      if (item != null && note != null) {
+        if (!note.itemUids.containsKey(item.uid)) {
+          client.pair(item, note);
+        }
+      }
+    };
+
+_unpair(FirebaseClient client) =>
+    (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
+        Action<PairNotePayload> action) {
+      next(action);
+      var item = api.state.items.map[action.payload.itemUid];
+      var note = api.state.notes.map[action.payload.noteUid];
+      if (item != null && note != null) {
+        if (note.itemUids.containsKey(item.uid)) {
+          client.unpair(item, note);
+        }
       }
     };
 
