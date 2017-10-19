@@ -1,5 +1,5 @@
 <div class="tags has-addons" (click)="togglePair()">
-    <span class="tag {{paired() ? 'is-primary' : 'is-dark'}}">{{count}}</span>
+    <span class="tag {{paired() ? 'is-primary' : 'is-dark'}} is-unselectable">{{count}}</span>
     <span class="tag is-light">{{text}}
       <button class="delete is-small" (click)="removeNote($event)"></button>
     </span>
