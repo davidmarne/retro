@@ -14,7 +14,7 @@
     <div class="field">
       <label class="label">Description</label>
       <p class="control">
-        <input [(ngModel)]="description" class="input" type="text" placeholder="Add some context...">
+        <input [(ngModel)]="description" (keyup.enter)="addCategory()" class="input" type="text" placeholder="Add some context...">
       </p>
     </div>
 

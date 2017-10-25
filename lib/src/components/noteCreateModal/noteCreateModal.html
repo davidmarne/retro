@@ -7,7 +7,7 @@
   <section class="modal-card-body">
     <div class="field">
       <p class="control">
-        <input [(ngModel)]="text" class="input is-autofocused" type="text" placeholder="Type your note here...">
+        <input [(ngModel)]="text" (keyup.enter)="addNote()" class="input is-autofocused" type="text" placeholder="Type your note here...">
       </p>
     </div>
   </section>
