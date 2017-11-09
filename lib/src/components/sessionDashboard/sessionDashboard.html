@@ -64,9 +64,9 @@
     </div>
   </section>
 
-  <section class="section notes">
+  <section class="section reduced-vertical-padding">
     <div class="container">
-      <div class="field is-pulled-right is-grouped is-grouped-multiline">
+      <div class="field is-grouped is-grouped-multiline">
         <div *ngFor="let note of notes" class="control">
           <div [item]="hero" [note]="note" note-tag></div>
         </div>
@@ -75,7 +75,7 @@
     </div>
   </section>
 
-  <section class="section">
+  <section class="section reduced-vertical-padding">
     <div class="container">
       <!--non-mobile category headers-->
       <div class="columns is-hidden-mobile">
@@ -119,7 +119,7 @@
           </p>
           <p class="subtitle is-6 is-hidden-tablet">{{category.description}}</p>
 
-          <p *ngFor="let item of itemsForCategory(category)" class="notification {{category.colorClass()}} {{inProgress() && isItemCovered(item) ? 'covered' : ''}}">
+          <p *ngFor="let item of itemsForCategory(category)" class="notification {{category.colorClass()}} {{isItemCovered(item) ? 'covered' : ''}}">
             <button *ngIf="isItemOwner(item)" class="delete" (click)="hideItem(item)"></button>
             {{printSupporters(item)}}
             <span class="icon">

@@ -1,7 +1,12 @@
 @import "modal";
 
-.notes {
-  padding: 1rem;
+.reduced-vertical-padding {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.pointer-hand {
+  cursor: pointer;
 }
 
 .covered {

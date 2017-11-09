@@ -43,7 +43,7 @@ class StoreService {
       new App(),
       actions,
       middleware: [
-        loggingMiddleware,
+        // loggingMiddleware,
         createRefMiddleware(_client),
         createCreationMiddleware(_client),
       ],

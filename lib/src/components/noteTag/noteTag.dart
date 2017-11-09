@@ -33,6 +33,14 @@ class NoteTagComponent {
 
   int get count => note.itemCount();
 
+  void mouseEnter() {
+    _store.actions.notes.setCurrent(note.uid);
+  }
+
+  void mouseLeave() {
+    _store.actions.notes.setCurrent("");
+  }
+
   void togglePair() {
     if (item != null) {
       if (paired()) {

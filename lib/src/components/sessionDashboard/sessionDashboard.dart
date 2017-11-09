@@ -113,6 +113,10 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
 
   Iterable<Item> get items => _store.state.visibleSessionItems;
 
+  Item get item => _store.state.items.current;
+
+  Note get note => _store.state.notes.current;
+
   Iterable<Note> get notes => _store.state.visibleSessionNotes;
 
   Iterable<Item> itemsForCategory(Category category) =>
@@ -172,7 +176,14 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
   void removePollResponse(Item item) =>
       _store.actions.items.removePollResponse(item.uid);
 
-  bool isItemCovered(Item item) => item.time > 3000;
+  bool isItemCovered(Item item) {
+    if (inProgress()) {
+      return item.time > 3000;
+    } else if (completed() && note != null) {
+      return !note.itemUids.keys.contains(item.uid);
+    }
+    return false;
+  }
 
   bool isItemOwner(Item item) => item.ownerUid == _store.state.users.currentUid;
 
@@ -233,7 +244,6 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
       : null;
 
   Item nextHero() {
-    print("nextHero ${orderedItems.map((item) => item.text)}");
     if (orderedItems.length == 0) return null;
     int index = orderedItems.indexOf(hero);
     if (index == -1) return orderedItems.first;
@@ -241,7 +251,6 @@ class SessionDashboardComponent implements OnInit, OnDestroy {
   }
 
   Item prevHero() {
-    print("prevHero ${orderedItems.map((item) => item.text)}");
     if (orderedItems.length == 0) return null;
     int index = orderedItems.indexOf(hero);
     if (index == -1) return orderedItems.last;

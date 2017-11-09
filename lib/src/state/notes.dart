@@ -17,6 +17,7 @@ part 'notes.g.dart';
 abstract class NotesActions extends ReduxActions {
   ActionDispatcher<Note> update;
   ActionDispatcher<String> remove;
+  ActionDispatcher<String> setCurrent;
 
   ActionDispatcher<PairNotePayload> pair;
   ActionDispatcher<PairNotePayload> unpair;
@@ -48,10 +49,15 @@ abstract class Notes implements Built<Notes, NotesBuilder> {
   /// [map] contains a map of Note uid to Note.
   BuiltMap<String, Note> get map;
 
+  String get currentUid;
+
   // Built value boilerplate
   Notes._();
   factory Notes([updates(NotesBuilder b)]) =>
-      new _$Notes((NotesBuilder b) => b);
+      new _$Notes((NotesBuilder b) => b..currentUid = "");
+
+  @memoized
+  Note get current => map[currentUid];
 
   @memoized
   BuiltList<Note> get visible =>
@@ -69,7 +75,8 @@ NestedReducerBuilder<App, AppBuilder, Notes, NotesBuilder>
           (builder) => builder.notes,
         )
           ..add<Note>(NotesActionsNames.update, _updateNote)
-          ..add<String>(NotesActionsNames.remove, _removeNote);
+          ..add<String>(NotesActionsNames.remove, _removeNote)
+          ..add<String>(NotesActionsNames.setCurrent, _setCurrentNote);
 
 ////////////////////
 /// Reducers
@@ -80,3 +87,6 @@ _updateNote(Notes state, Action<Note> action, NotesBuilder builder) =>
 
 _removeNote(Notes state, Action<String> action, NotesBuilder builder) =>
     builder..map.remove(action.payload);
+
+_setCurrentNote(Notes state, Action<String> action, NotesBuilder builder) =>
+    builder..currentUid = action.payload;

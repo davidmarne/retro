@@ -17,13 +17,16 @@ part of notes;
 class _$Notes extends Notes {
   @override
   final BuiltMap<String, Note> map;
+  @override
+  final String currentUid;
   BuiltList<Note> __visible;
 
   factory _$Notes([void updates(NotesBuilder b)]) =>
       (new NotesBuilder()..update(updates)).build();
 
-  _$Notes._({this.map}) : super._() {
+  _$Notes._({this.map, this.currentUid}) : super._() {
     if (map == null) throw new ArgumentError.notNull('map');
+    if (currentUid == null) throw new ArgumentError.notNull('currentUid');
   }
 
   @override
@@ -40,17 +43,20 @@ class _$Notes extends Notes {
   bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
     if (other is! Notes) return false;
-    return map == other.map;
+    return map == other.map && currentUid == other.currentUid;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, map.hashCode));
+    return $jf($jc($jc(0, map.hashCode), currentUid.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('Notes')..add('map', map)).toString();
+    return (newBuiltValueToStringHelper('Notes')
+          ..add('map', map)
+          ..add('currentUid', currentUid))
+        .toString();
   }
 }
 
@@ -62,11 +68,16 @@ class NotesBuilder implements Builder<Notes, NotesBuilder> {
       _$this._map ??= new MapBuilder<String, Note>();
   set map(MapBuilder<String, Note> map) => _$this._map = map;
 
+  String _currentUid;
+  String get currentUid => _$this._currentUid;
+  set currentUid(String currentUid) => _$this._currentUid = currentUid;
+
   NotesBuilder();
 
   NotesBuilder get _$this {
     if (_$v != null) {
       _map = _$v.map?.toBuilder();
+      _currentUid = _$v.currentUid;
       _$v = null;
     }
     return this;
@@ -85,7 +96,8 @@ class NotesBuilder implements Builder<Notes, NotesBuilder> {
 
   @override
   _$Notes build() {
-    final _$result = _$v ?? new _$Notes._(map: map?.build());
+    final _$result =
+        _$v ?? new _$Notes._(map: map?.build(), currentUid: currentUid);
     replace(_$result);
     return _$result;
   }
@@ -108,6 +120,9 @@ class _$NotesActions extends NotesActions {
   final ActionDispatcher<PairNotePayload> pair =
       new ActionDispatcher<PairNotePayload>('NotesActions-pair');
 
+  final ActionDispatcher<String> setCurrent =
+      new ActionDispatcher<String>('NotesActions-setCurrent');
+
   final ActionDispatcher<String> remove =
       new ActionDispatcher<String>('NotesActions-remove');
 
@@ -123,6 +138,7 @@ class _$NotesActions extends NotesActions {
     hide.setDispatcher(dispatcher);
     unpair.setDispatcher(dispatcher);
     pair.setDispatcher(dispatcher);
+    setCurrent.setDispatcher(dispatcher);
     remove.setDispatcher(dispatcher);
     update.setDispatcher(dispatcher);
   }
@@ -137,6 +153,8 @@ class NotesActionsNames {
       new ActionName<PairNotePayload>('NotesActions-unpair');
   static final ActionName<PairNotePayload> pair =
       new ActionName<PairNotePayload>('NotesActions-pair');
+  static final ActionName<String> setCurrent =
+      new ActionName<String>('NotesActions-setCurrent');
   static final ActionName<String> remove =
       new ActionName<String>('NotesActions-remove');
   static final ActionName<Note> update =
