@@ -70,7 +70,9 @@
         <div *ngFor="let note of notes" class="control">
           <div [item]="hero" [note]="note" note-tag></div>
         </div>
-        <a (click)="initiateNoteCreation()"><span class="icon" title="Add a note"><i class="fa fa-pencil"></i></span></a>
+        <a (click)="initiateNoteCreation()">
+          <span class="icon" title="Add a note"><i class="fa fa-pencil"></i></span>
+        </a>
       </div>
     </div>
   </section>
