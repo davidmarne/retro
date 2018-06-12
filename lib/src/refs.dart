@@ -31,6 +31,10 @@ class Refs {
   firebase.DatabaseReference session(String boardUid, String sessionUid) =>
       _ref('sessions/$boardUid/$sessionUid');
 
+  /// [categoriesRoot] is a ref to all sessions for a given board in the categories directory
+  firebase.DatabaseReference categoriesRoot(String boardUid) =>
+      _ref('categories/$boardUid/');
+
   /// [categories] is a ref to all cetegories for a given board
   firebase.DatabaseReference categories(String boardUid, String sessionUid) =>
       _ref('categories/$boardUid/$sessionUid/');
@@ -39,6 +43,10 @@ class Refs {
   firebase.DatabaseReference category(String boardUid, String sessionUid, String categoryUid) =>
       _ref('categories/$boardUid/$sessionUid/$categoryUid/');
 
+  /// [itemsRoot] is a ref to all sessions for a given board in the items directory
+  firebase.DatabaseReference itemsRoot(String boardUid) =>
+      _ref('items/$boardUid/');
+
   /// [items] is a ref to the items for a given board and session
   firebase.DatabaseReference items(String boardUid, String sessionUid) =>
       _ref('items/$boardUid/$sessionUid/');
@@ -46,6 +54,10 @@ class Refs {
   /// [item] is a ref to an item in a given board in a given session
   firebase.DatabaseReference item(String boardUid, String sessionUid, String itemUid) =>
       _ref('items/$boardUid/$sessionUid/$itemUid/');
+
+  /// [notesRoot] is a ref to all sessions for a given board in the notes directory
+  firebase.DatabaseReference notesRoot(String boardUid) =>
+      _ref('notes/$boardUid/');
 
   /// [sessionNotes] is a ref to alll notes for a given board and session
   firebase.DatabaseReference notes(String boardUid, String sessionUid) =>

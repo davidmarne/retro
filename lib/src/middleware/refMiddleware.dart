@@ -47,6 +47,7 @@ createRefMiddleware(FirebaseClient client) =>
           ..add<Board>(BoardsActionsNames.update, _onUpdateBoard(client))
           ..add<String>(
               BoardsActionsNames.setCurrent, _onSetCurrentBoard(client))
+          ..add<Null>(BoardsActionsNames.shred, _shredBoard(client))
           ..add<Session>(SessionsActionsNames.update, _onUpdateSession(client))
           ..add<String>(
               SessionsActionsNames.setCurrent, _onSetCurrentSession(client)))
@@ -324,6 +325,16 @@ _resetSession(FirebaseClient client) =>
       }
     };
 
+_shredBoard(FirebaseClient client) =>
+    (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
+        Action<String> action) {
+      next(action);
+      Board board = api.state.boards.current;
+        if (board != null) {
+          client.shredBoard(board);
+        }
+    };
+
 _shredSession(FirebaseClient client) =>
     (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
         Action<String> action) {
@@ -339,7 +350,7 @@ _shredSession(FirebaseClient client) =>
         }
       }
     };
-    
+   
 _present(FirebaseClient client) =>
     (MiddlewareApi<App, AppBuilder, AppActions> api, ActionHandler next,
         Action<String> action) {

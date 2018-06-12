@@ -97,11 +97,20 @@ class FirebaseClient {
 
   /// [subToBoards] subscribes to boards
   subToBoards(Iterable<String> boardUids) {
-    boardUids.forEach((uid) => _subMgr.add<Board>(
+    _subMgr.addList<Board>(
+      _refs.boards(),
+      Board.serializer,
+      // onChildAdded: _actions.boards.update,
+      onChildRemoved: _actions.boards.remove,
+      // onChildChanged: _actions.boards.update,
+    );
+    boardUids.forEach((uid) {
+      _subMgr.add<Board>(
           _refs.board(uid),
           _actions.boards.update,
           Board.serializer,
-        ));
+        );
+    });
   }
 
   /// [subToUsers] subscribes to users
@@ -169,6 +178,17 @@ class FirebaseClient {
 
   Future clearBoardsLatestSession(String boardUid) async {
     await _refs.board(boardUid).child("latestSessionUid").remove();
+  }
+
+  Future shredBoard(Board board) async {
+    await _refs.categoriesRoot(board.uid).remove();
+    await _refs.itemsRoot(board.uid).remove();
+    await _refs.notesRoot(board.uid).remove();
+    await _refs.sessions(board.uid).remove();
+    for (final memberUid in board.memberUids.keys) {
+      await _refs.userBoards(memberUid).child(board.uid).remove();
+    }
+    await _refs.board(board.uid).remove();
   }
 
   Future editItemText(String text, Item item) async {
@@ -353,6 +373,7 @@ class FirebaseClient {
   }
 
   Future<User> _createUser(String uid, String name) async {
+    name ??= "Anon";
     final newUserRef = await _refs.user(uid);
     final user = new User((UserBuilder b) => b
       ..uid = uid

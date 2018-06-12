@@ -66,7 +66,18 @@ class StoreService {
     _firebaseAuth.signOut();
   }
 
+  Future signInWithEmail(String email, String password) async {
+    print("signInWithEmail $email $password");
+    await _firebaseAuth.signInWithEmailAndPassword(email, password);
+  }
+
+  Future createEmailAccount(String email, String password) async {
+    print("createEmailAccount $email $password");
+    await _firebaseAuth.createUserWithEmailAndPassword(email, password);
+  }
+
   Future _authChanged(firebase.AuthEvent e) async {
+    print("_authChanged ${e.user?.displayName} ${e.user?.uid}");
     if (e.user == null) {
       store.actions.clear(null);
       return;

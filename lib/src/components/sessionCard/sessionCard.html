@@ -1,7 +1,7 @@
 <div class="box is-primary">
-  <h3 class="title">{{session.state}}</h3>
-  <h5 class="subtitle">{{lastActive()}} {{isLatest() ? "(latest)" : ""}}</h5>
-  <br>
-  <a class="button is-primary" [routerLink]="['Session', {'buid': session.boardUid, 'suid': session.uid}]">Go!</a>
-  <a class="button is-danger is-pulled-right" (click)="initiateShred()">Shred</a>
+    <a *ngIf="canDeleteCard" class="button is-danger is-pulled-right" (click)="initiateShred()">Shred</a>
+    <h3 class="title">{{session.state}}</h3>
+    <h5 class="subtitle">{{lastActive()}} {{isLatest() ? "(latest)" : ""}}</h5>
+    <br>
+    <a class="button is-primary" [routerLink]="['Session', {'buid': session.boardUid, 'suid': session.uid}]">Go!</a>
 </div>

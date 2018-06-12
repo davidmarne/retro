@@ -22,6 +22,8 @@ abstract class BoardsActions extends ReduxActions {
   // update description
   // add / remove User
   // create new Session
+  
+  ActionDispatcher<Null> shred;
 
   // factory to create on instance of the generated implementation of BoardsActions
   BoardsActions._();

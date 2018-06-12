@@ -29,4 +29,11 @@ class BoardCardComponent {
   bool isLatest() => _store.state.usersLatestBoard?.uid == board.uid;
 
   bool hasLatestSession() => board.latestSessionUid != null;
+
+  bool get canDeleteCard => board?.ownerUid == _store.state.users.currentUid;
+  
+  void initiateShred() {
+    _store.actions.boards.setCurrent(board.uid);
+    _store.actions.showModal(CONFIRM_SHRED_BOARD_MODAL);
+  }
 }

@@ -19,6 +19,7 @@ class _$Notes extends Notes {
   final BuiltMap<String, Note> map;
   @override
   final String currentUid;
+  Note __current;
   BuiltList<Note> __visible;
 
   factory _$Notes([void updates(NotesBuilder b)]) =>
@@ -28,6 +29,9 @@ class _$Notes extends Notes {
     if (map == null) throw new ArgumentError.notNull('map');
     if (currentUid == null) throw new ArgumentError.notNull('currentUid');
   }
+
+  @override
+  Note get current => __current ??= super.current;
 
   @override
   BuiltList<Note> get visible => __visible ??= super.visible;

@@ -1,4 +1,18 @@
 {
+    "accounts": {
+        "$uid(account)": {
+            "title": "title",
+            "admins": {
+                "$uid(user)": 123456789 // added date
+            },
+            "members": {
+                "$uid(user)": 123456789 // added date
+            },
+            "boards": {
+                "$uid(board)": true
+            }
+        }
+    },
     "boards": {
         "$uid(board)" : {
             "title": "title",
@@ -6,9 +20,7 @@
             "owner": "$uid",
             "members": {
                 "$uid(user)": 123456789 // user's last activity
-            },
-            "interval": 123456789, // the interval on which new boards are automatically created. 0 if board doesnt repeated
-            "intervalKind": 123456789
+            }
         }
     },
     "join-board-request": {

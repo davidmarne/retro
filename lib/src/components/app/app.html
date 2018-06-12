@@ -1,9 +1,8 @@
-<nav class="nav">
+<nav *ngIf="loggedIn" class="nav">
   <div class="nav-left">
     <a class="nav-item is-tab" [routerLink]="['Home']">Boards</a>
-    <a *ngIf="showBoardCrumb()" class="nav-item is-tab" [routerLink]="['Board', {'buid': board?.uid}]">History</a>
+    <a *ngIf="showBoardCrumb" class="nav-item is-tab" [routerLink]="['Board', {'buid': board?.uid}]">History</a>
   </div>
-
 
   <!-- This "nav-toggle" hamburger menu is only visible on mobile -->
   <span class="nav-toggle" [class.is-active]="showMobileMenu" (click)="toggleMobileMenu()">
@@ -15,9 +14,78 @@
   <!-- This "nav-menu" is hidden on mobile -->
   <div class="nav-right nav-menu" [class.is-active]="showMobileMenu">
     <a class="nav-item is-tab" (click)="showManageContentModal()">Manage Content</a>
-    <a *ngIf="!loggedIn" class="nav-item is-tab" (click)="logIn()">Log In with Google</a>
+    <a class="nav-item is-tab" (click)="logOut()">Sign Out</a>
   </div>
 </nav>
+
+<div *ngIf="!loggedIn">
+    <section class="hero is-dark is-medium">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns">
+                    <div class="column is-half">
+                        <h1 class="title">Welcome to Retro Board</h1>
+                        <h5 class="subtitle is-h5">A collaborative whiteboard to help you and your team go over all the things that impact the way you operate.</h5>
+                    </div>
+                    <div class="column">
+                        <div class="box">
+                            <article class="media">
+                                <div class="media-content">
+                                    <div class="content">
+                                        <label class="label has-text-centered">
+                                            <img src="google_login/2x/btn_google_signin_dark_normal_web@2x.png" width="75%" height="75%" (click)="logIn()">
+                                        </label>
+
+                                        <hr>
+                                        <label class="label has-text-centered">
+                                            <h4>You can also use your email.</h4>
+                                        </label>
+                                        
+                                        <div class="field">
+                                            <label class="label">Email</label>
+                                            <div class="control has-icons-left has-icons-right">
+                                                <input [(ngModel)]="email" class="input" type="email" placeholder="you@email.com">
+                                                <span class="icon is-small is-left">
+                                                <i class="fa fa-envelope"></i>
+                                                </span>
+                                                <span class="icon is-small is-right">
+                                                <i class="fa fa-exclamation-triangle"></i>
+                                                </span>
+                                            </div>
+                                            <!-- <p class="help is-danger">This email is invalid</p> -->
+                                        </div>
+
+                                        <div class="field">
+                                            <label class="label">Password</label>
+                                            <div class="control has-icons-left has-icons-right">
+                                                <input [(ngModel)]="password" class="input" type="password" placeholder="Create a password">
+                                                <span class="icon is-small is-left">
+                                                <i class="fa fa-key"></i>
+                                                </span>
+                                                <span class="icon is-small is-right">
+                                                <i class="fa fa-check"></i>
+                                                </span>
+                                            </div>
+                                            <!-- <p class="help is-warning">Password meets length criteria</p> -->
+                                        </div>
+
+                                        <div class="field is-grouped">
+                                            <div class="control">
+                                                <button class="button is-success" (click)="signInWithEmail()">Sign In</button>
+                                                <button class="button is-link" (click)="createEmailAccount()">Sign Up</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+      
+</div>
 
 <div *ngIf="loggedIn">
   <router-outlet></router-outlet>
@@ -37,5 +105,6 @@
 <div *ngIf="showModal(create_category_modal)"  class="modal is-active" category-create-modal></div>
 <div *ngIf="showModal(create_item_modal)"  class="modal is-active" item-create-modal></div>
 <div *ngIf="showModal(create_note_modal)"  class="modal is-active" note-create-modal></div>
-<div *ngIf="showModal(confirm_shred_modal)"  class="modal is-active" confirm-shred-modal></div>
+<div *ngIf="showEitherModal(confirm_shred_board_modal, confirm_shred_session_modal)"  class="modal is-active" confirm-shred-modal></div>
 <div *ngIf="showModal(manage_content_modal)"  class="modal is-active" manage-content-modal></div>
+<div *ngIf="showModal(sign_in_modal)"  class="modal is-active" sign-in-modal></div>

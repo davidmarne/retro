@@ -108,6 +108,9 @@ class BoardsBuilder implements Builder<Boards, BoardsBuilder> {
 // **************************************************************************
 
 class _$BoardsActions extends BoardsActions {
+  final ActionDispatcher<Null> shred =
+      new ActionDispatcher<Null>('BoardsActions-shred');
+
   final ActionDispatcher<String> setCurrent =
       new ActionDispatcher<String>('BoardsActions-setCurrent');
 
@@ -122,6 +125,7 @@ class _$BoardsActions extends BoardsActions {
 
   @override
   void setDispatcher(Dispatcher dispatcher) {
+    shred.setDispatcher(dispatcher);
     setCurrent.setDispatcher(dispatcher);
     remove.setDispatcher(dispatcher);
     update.setDispatcher(dispatcher);
@@ -129,6 +133,8 @@ class _$BoardsActions extends BoardsActions {
 }
 
 class BoardsActionsNames {
+  static final ActionName<Null> shred =
+      new ActionName<Null>('BoardsActions-shred');
   static final ActionName<String> setCurrent =
       new ActionName<String>('BoardsActions-setCurrent');
   static final ActionName<String> remove =

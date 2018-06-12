@@ -14,8 +14,16 @@ class ConfirmShredModalComponent {
   ConfirmShredModalComponent(StoreService storeService)
       : _store = storeService.store;
 
+  String get typeToShred => _store.state.visibleModal == CONFIRM_SHRED_BOARD_MODAL
+      ? "board"
+      : "session";
+
   void confirm() {
-    _store.actions.sessions.shred(null);
+    if (_store.state.visibleModal == CONFIRM_SHRED_BOARD_MODAL) {
+      _store.actions.boards.shred(null);
+    } else if (_store.state.visibleModal == CONFIRM_SHRED_SESSION_MODAL) {
+      _store.actions.sessions.shred(null);
+    }
     _store.actions.hideModal(null);
   }
 

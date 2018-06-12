@@ -23,11 +23,13 @@ import '../middleware/creationMiddleware.dart';
 
 part 'app.g.dart';
 
-const String CONFIRM_SHRED_MODAL = "Confirm Shred Modal";
+const String CONFIRM_SHRED_BOARD_MODAL = "Confirm Shred Board Modal";
+const String CONFIRM_SHRED_SESSION_MODAL = "Confirm Shred Session Modal";
 const String CREATE_CATEGORY_MODAL = "Create Category Modal";
 const String CREATE_ITEM_MODAL = "Create Item Modal";
 const String CREATE_NOTE_MODAL = "Create Note Modal";
 const String MANAGE_CONTENT_MODAL = "Manage Content Modal";
+const String SIGN_IN_MODAL = "Sign In Modal";
 const String NO_MODAL = "No Modal";
 
 int now() => new DateTime.now().millisecondsSinceEpoch;
