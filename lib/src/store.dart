@@ -51,6 +51,7 @@ class StoreService {
   }
 
   Future signIn() async {
+    store.actions.setAuthStatus(AuthStatus.loading);
     try {
       await _firebaseAuth.signInWithRedirect(_firebaseGoogleAuthProvider);
     } catch (error) {
@@ -58,33 +59,36 @@ class StoreService {
         await _firebaseAuth.signInWithPopup(_firebaseGoogleAuthProvider);
       } catch (error) {
         print("Failed to login: $error}");
+        store.actions.setAuthStatus(AuthStatus.signedOut);
       }
     }
   }
 
   Future signOut() async {
+    store.actions.setAuthStatus(AuthStatus.loading);
     _firebaseAuth.signOut();
   }
 
   Future signInWithEmail(String email, String password) async {
-    print("signInWithEmail $email $password");
+    store.actions.setAuthStatus(AuthStatus.loading);
     await _firebaseAuth.signInWithEmailAndPassword(email, password);
   }
 
   Future createEmailAccount(String email, String password) async {
-    print("createEmailAccount $email $password");
+    store.actions.setAuthStatus(AuthStatus.loading);
     await _firebaseAuth.createUserWithEmailAndPassword(email, password);
   }
 
   Future _authChanged(firebase.AuthEvent e) async {
-    print("_authChanged ${e.user?.displayName} ${e.user?.uid}");
     if (e.user == null) {
       store.actions.clear(null);
+      store.actions.setAuthStatus(AuthStatus.signedOut);
       return;
     }
 
     final user = await _client.userFromFirebaseUser(e.user);
     store.actions.users.update(user);
     store.actions.users.setCurrent(user.uid);
+    store.actions.setAuthStatus(AuthStatus.signedIn);
   }
 }

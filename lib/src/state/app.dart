@@ -23,6 +23,14 @@ import '../middleware/creationMiddleware.dart';
 
 part 'app.g.dart';
 
+class AuthStatus {
+  static const String loading = "loading";
+
+  static const String signedIn = "signed in";
+
+  static const String signedOut = "signed out";
+}
+
 const String CONFIRM_SHRED_BOARD_MODAL = "Confirm Shred Board Modal";
 const String CONFIRM_SHRED_SESSION_MODAL = "Confirm Shred Session Modal";
 const String CREATE_CATEGORY_MODAL = "Create Category Modal";
@@ -49,10 +57,15 @@ String time(int epoch) =>
 
 /// [AppActions]
 abstract class AppActions extends ReduxActions {
+  ActionDispatcher<String> setAuthStatus;
+
   ActionDispatcher<Null> clear;
   ActionDispatcher<String> showModal;
   ActionDispatcher<Null> hideModal;
+
   ActionDispatcher<Null> toggleMobileMenu;
+  ActionDispatcher<Null> hideMobileMenu;
+  ActionDispatcher<Null> showMobileMenu;
 
   UsersActions users;
   BoardsActions boards;
@@ -74,6 +87,10 @@ abstract class AppActions extends ReduxActions {
 
 /// [App]
 abstract class App implements Built<App, AppBuilder> {
+
+  /// [authStatus] indicates the auth status
+  String get authStatus;
+
   /// [users]
   Users get users;
 
@@ -103,6 +120,7 @@ abstract class App implements Built<App, AppBuilder> {
   // Built value boilerplate
   App._();
   factory App([updates(AppBuilder b)]) => new _$App((AppBuilder b) => b
+    ..authStatus = AuthStatus.loading
     ..users = new Users().toBuilder()
     ..boards = new Boards().toBuilder()
     ..sessions = new Sessions().toBuilder()
@@ -203,10 +221,13 @@ abstract class App implements Built<App, AppBuilder> {
 
 Reducer<App, AppBuilder, dynamic> createReducer() =>
     (new ReducerBuilder<App, AppBuilder>()
+          ..add<String>(AppActionsNames.setAuthStatus, _setAuthStatus)
           ..add<Null>(AppActionsNames.clear, _clear)
           ..add<String>(AppActionsNames.showModal, _showModal)
           ..add<Null>(AppActionsNames.hideModal, _hideModal)
           ..add<Null>(AppActionsNames.toggleMobileMenu, _toggleMobileMenu)
+          ..add<Null>(AppActionsNames.hideMobileMenu, _hideMobileMenu)
+          ..add<Null>(AppActionsNames.showMobileMenu, _showMobileMenu)
           ..combineNested(createBoardsReducer())
           ..combineNested(createCategoriesReducer())
           ..combineNested(createItemsReducer())
@@ -219,7 +240,10 @@ Reducer<App, AppBuilder, dynamic> createReducer() =>
 /// Reducers
 ///////////////////
 
-_clear(App state, Action<Null> action, AppBuilder builder) => builder
+_setAuthStatus(App state, Action<String> action, AppBuilder b) => b
+    ..authStatus = action.payload;
+
+_clear(App state, Action<Null> action, AppBuilder b) => b
   ..users = new Users().toBuilder()
   ..boards = new Boards().toBuilder()
   ..sessions = new Sessions().toBuilder()
@@ -227,11 +251,17 @@ _clear(App state, Action<Null> action, AppBuilder builder) => builder
   ..items = new Items().toBuilder()
   ..notes = new Notes().toBuilder();
 
-_showModal(App state, Action<String> action, AppBuilder builder) =>
-    builder..modalQueue.add(action.payload);
+_showModal(App state, Action<String> action, AppBuilder b) => b
+    ..modalQueue.add(action.payload);
 
-_hideModal(App state, Action<String> action, AppBuilder builder) =>
-    builder..modalQueue.removeLast();
+_hideModal(App state, Action<String> action, AppBuilder b) => b
+    ..modalQueue.removeLast();
 
-_toggleMobileMenu(App state, Action<String> action, AppBuilder builder) =>
-    builder..showMobileMenu = !state.showMobileMenu;
+_toggleMobileMenu(App state, Action<String> action, AppBuilder b) => b
+    ..showMobileMenu = !state.showMobileMenu;
+
+_hideMobileMenu(App state, Action<Null> action, AppBuilder b) => b
+    ..showMobileMenu = false;
+
+_showMobileMenu(App state, Action<Null> action, AppBuilder b) => b
+    ..showMobileMenu = true;

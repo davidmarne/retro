@@ -16,6 +16,8 @@ part of app;
 
 class _$App extends App {
   @override
+  final String authStatus;
+  @override
   final Users users;
   @override
   final Boards boards;
@@ -50,7 +52,8 @@ class _$App extends App {
       (new AppBuilder()..update(updates)).build();
 
   _$App._(
-      {this.users,
+      {this.authStatus,
+      this.users,
       this.boards,
       this.sessions,
       this.categories,
@@ -59,6 +62,7 @@ class _$App extends App {
       this.showMobileMenu,
       this.modalQueue})
       : super._() {
+    if (authStatus == null) throw new ArgumentError.notNull('authStatus');
     if (users == null) throw new ArgumentError.notNull('users');
     if (boards == null) throw new ArgumentError.notNull('boards');
     if (sessions == null) throw new ArgumentError.notNull('sessions');
@@ -133,7 +137,8 @@ class _$App extends App {
   bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
     if (other is! App) return false;
-    return users == other.users &&
+    return authStatus == other.authStatus &&
+        users == other.users &&
         boards == other.boards &&
         sessions == other.sessions &&
         categories == other.categories &&
@@ -150,7 +155,11 @@ class _$App extends App {
             $jc(
                 $jc(
                     $jc(
-                        $jc($jc($jc(0, users.hashCode), boards.hashCode),
+                        $jc(
+                            $jc(
+                                $jc($jc(0, authStatus.hashCode),
+                                    users.hashCode),
+                                boards.hashCode),
                             sessions.hashCode),
                         categories.hashCode),
                     items.hashCode),
@@ -162,6 +171,7 @@ class _$App extends App {
   @override
   String toString() {
     return (newBuiltValueToStringHelper('App')
+          ..add('authStatus', authStatus)
           ..add('users', users)
           ..add('boards', boards)
           ..add('sessions', sessions)
@@ -176,6 +186,10 @@ class _$App extends App {
 
 class AppBuilder implements Builder<App, AppBuilder> {
   _$App _$v;
+
+  String _authStatus;
+  String get authStatus => _$this._authStatus;
+  set authStatus(String authStatus) => _$this._authStatus = authStatus;
 
   UsersBuilder _users;
   UsersBuilder get users => _$this._users ??= new UsersBuilder();
@@ -218,6 +232,7 @@ class AppBuilder implements Builder<App, AppBuilder> {
 
   AppBuilder get _$this {
     if (_$v != null) {
+      _authStatus = _$v.authStatus;
       _users = _$v.users?.toBuilder();
       _boards = _$v.boards?.toBuilder();
       _sessions = _$v.sessions?.toBuilder();
@@ -246,6 +261,7 @@ class AppBuilder implements Builder<App, AppBuilder> {
   _$App build() {
     final _$result = _$v ??
         new _$App._(
+            authStatus: authStatus,
             users: users?.build(),
             boards: boards?.build(),
             sessions: sessions?.build(),
@@ -264,51 +280,63 @@ class AppBuilder implements Builder<App, AppBuilder> {
 // **************************************************************************
 
 class _$AppActions extends AppActions {
-  final CreationMiddlewareActions creation = new CreationMiddlewareActions();
-  final NotesActions notes = new NotesActions();
-  final ItemsActions items = new ItemsActions();
-  final CategoriesActions categories = new CategoriesActions();
-  final SessionsActions sessions = new SessionsActions();
-  final BoardsActions boards = new BoardsActions();
-  final UsersActions users = new UsersActions();
-  final ActionDispatcher<Null> toggleMobileMenu =
-      new ActionDispatcher<Null>('AppActions-toggleMobileMenu');
+  factory _$AppActions() => new _$AppActions._();
+  _$AppActions._() : super._();
 
-  final ActionDispatcher<Null> hideModal =
-      new ActionDispatcher<Null>('AppActions-hideModal');
-
-  final ActionDispatcher<String> showModal =
-      new ActionDispatcher<String>('AppActions-showModal');
-
+  final ActionDispatcher<String> setAuthStatus =
+      new ActionDispatcher<String>('AppActions-setAuthStatus');
   final ActionDispatcher<Null> clear =
       new ActionDispatcher<Null>('AppActions-clear');
-  factory _$AppActions() => new _$AppActions._();
-
-  _$AppActions._() : super._();
+  final ActionDispatcher<String> showModal =
+      new ActionDispatcher<String>('AppActions-showModal');
+  final ActionDispatcher<Null> hideModal =
+      new ActionDispatcher<Null>('AppActions-hideModal');
+  final ActionDispatcher<Null> toggleMobileMenu =
+      new ActionDispatcher<Null>('AppActions-toggleMobileMenu');
+  final ActionDispatcher<Null> hideMobileMenu =
+      new ActionDispatcher<Null>('AppActions-hideMobileMenu');
+  final ActionDispatcher<Null> showMobileMenu =
+      new ActionDispatcher<Null>('AppActions-showMobileMenu');
+  final UsersActions users = new UsersActions();
+  final BoardsActions boards = new BoardsActions();
+  final SessionsActions sessions = new SessionsActions();
+  final CategoriesActions categories = new CategoriesActions();
+  final ItemsActions items = new ItemsActions();
+  final NotesActions notes = new NotesActions();
+  final CreationMiddlewareActions creation = new CreationMiddlewareActions();
 
   @override
   void setDispatcher(Dispatcher dispatcher) {
-    creation.setDispatcher(dispatcher);
-    notes.setDispatcher(dispatcher);
-    items.setDispatcher(dispatcher);
-    categories.setDispatcher(dispatcher);
-    sessions.setDispatcher(dispatcher);
-    boards.setDispatcher(dispatcher);
-    users.setDispatcher(dispatcher);
-    toggleMobileMenu.setDispatcher(dispatcher);
-    hideModal.setDispatcher(dispatcher);
-    showModal.setDispatcher(dispatcher);
+    setAuthStatus.setDispatcher(dispatcher);
     clear.setDispatcher(dispatcher);
+    showModal.setDispatcher(dispatcher);
+    hideModal.setDispatcher(dispatcher);
+    toggleMobileMenu.setDispatcher(dispatcher);
+    hideMobileMenu.setDispatcher(dispatcher);
+    showMobileMenu.setDispatcher(dispatcher);
+    users.setDispatcher(dispatcher);
+    boards.setDispatcher(dispatcher);
+    sessions.setDispatcher(dispatcher);
+    categories.setDispatcher(dispatcher);
+    items.setDispatcher(dispatcher);
+    notes.setDispatcher(dispatcher);
+    creation.setDispatcher(dispatcher);
   }
 }
 
 class AppActionsNames {
-  static final ActionName<Null> toggleMobileMenu =
-      new ActionName<Null>('AppActions-toggleMobileMenu');
-  static final ActionName<Null> hideModal =
-      new ActionName<Null>('AppActions-hideModal');
-  static final ActionName<String> showModal =
-      new ActionName<String>('AppActions-showModal');
+  static final ActionName<String> setAuthStatus =
+      new ActionName<String>('AppActions-setAuthStatus');
   static final ActionName<Null> clear =
       new ActionName<Null>('AppActions-clear');
+  static final ActionName<String> showModal =
+      new ActionName<String>('AppActions-showModal');
+  static final ActionName<Null> hideModal =
+      new ActionName<Null>('AppActions-hideModal');
+  static final ActionName<Null> toggleMobileMenu =
+      new ActionName<Null>('AppActions-toggleMobileMenu');
+  static final ActionName<Null> hideMobileMenu =
+      new ActionName<Null>('AppActions-hideMobileMenu');
+  static final ActionName<Null> showMobileMenu =
+      new ActionName<Null>('AppActions-showMobileMenu');
 }

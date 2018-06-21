@@ -2,6 +2,8 @@
 .pub
 .packages
 build
+web/.sass-cache
+web/retro.css.map
 
 .firebaserc
 firebase.json

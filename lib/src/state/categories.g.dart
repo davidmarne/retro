@@ -112,43 +112,39 @@ class CategoriesBuilder implements Builder<Categories, CategoriesBuilder> {
 // **************************************************************************
 
 class _$CategoriesActions extends CategoriesActions {
-  final ActionDispatcher<String> show =
-      new ActionDispatcher<String>('CategoriesActions-show');
-
-  final ActionDispatcher<String> hide =
-      new ActionDispatcher<String>('CategoriesActions-hide');
-
-  final ActionDispatcher<String> setCurrent =
-      new ActionDispatcher<String>('CategoriesActions-setCurrent');
-
-  final ActionDispatcher<String> remove =
-      new ActionDispatcher<String>('CategoriesActions-remove');
+  factory _$CategoriesActions() => new _$CategoriesActions._();
+  _$CategoriesActions._() : super._();
 
   final ActionDispatcher<Category> update =
       new ActionDispatcher<Category>('CategoriesActions-update');
-  factory _$CategoriesActions() => new _$CategoriesActions._();
-
-  _$CategoriesActions._() : super._();
+  final ActionDispatcher<String> remove =
+      new ActionDispatcher<String>('CategoriesActions-remove');
+  final ActionDispatcher<String> setCurrent =
+      new ActionDispatcher<String>('CategoriesActions-setCurrent');
+  final ActionDispatcher<String> hide =
+      new ActionDispatcher<String>('CategoriesActions-hide');
+  final ActionDispatcher<String> show =
+      new ActionDispatcher<String>('CategoriesActions-show');
 
   @override
   void setDispatcher(Dispatcher dispatcher) {
-    show.setDispatcher(dispatcher);
-    hide.setDispatcher(dispatcher);
-    setCurrent.setDispatcher(dispatcher);
-    remove.setDispatcher(dispatcher);
     update.setDispatcher(dispatcher);
+    remove.setDispatcher(dispatcher);
+    setCurrent.setDispatcher(dispatcher);
+    hide.setDispatcher(dispatcher);
+    show.setDispatcher(dispatcher);
   }
 }
 
 class CategoriesActionsNames {
-  static final ActionName<String> show =
-      new ActionName<String>('CategoriesActions-show');
-  static final ActionName<String> hide =
-      new ActionName<String>('CategoriesActions-hide');
-  static final ActionName<String> setCurrent =
-      new ActionName<String>('CategoriesActions-setCurrent');
-  static final ActionName<String> remove =
-      new ActionName<String>('CategoriesActions-remove');
   static final ActionName<Category> update =
       new ActionName<Category>('CategoriesActions-update');
+  static final ActionName<String> remove =
+      new ActionName<String>('CategoriesActions-remove');
+  static final ActionName<String> setCurrent =
+      new ActionName<String>('CategoriesActions-setCurrent');
+  static final ActionName<String> hide =
+      new ActionName<String>('CategoriesActions-hide');
+  static final ActionName<String> show =
+      new ActionName<String>('CategoriesActions-show');
 }

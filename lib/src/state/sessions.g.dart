@@ -108,61 +108,54 @@ class SessionsBuilder implements Builder<Sessions, SessionsBuilder> {
 // **************************************************************************
 
 class _$SessionsActions extends SessionsActions {
-  final ActionDispatcher<Null> shred =
-      new ActionDispatcher<Null>('SessionsActions-shred');
-
-  final ActionDispatcher<String> present =
-      new ActionDispatcher<String>('SessionsActions-present');
-
-  final ActionDispatcher<Null> reset =
-      new ActionDispatcher<Null>('SessionsActions-reset');
-
-  final ActionDispatcher<Null> end =
-      new ActionDispatcher<Null>('SessionsActions-end');
-
-  final ActionDispatcher<Null> start =
-      new ActionDispatcher<Null>('SessionsActions-start');
-
-  final ActionDispatcher<String> setCurrent =
-      new ActionDispatcher<String>('SessionsActions-setCurrent');
-
-  final ActionDispatcher<String> remove =
-      new ActionDispatcher<String>('SessionsActions-remove');
+  factory _$SessionsActions() => new _$SessionsActions._();
+  _$SessionsActions._() : super._();
 
   final ActionDispatcher<Session> update =
       new ActionDispatcher<Session>('SessionsActions-update');
-  factory _$SessionsActions() => new _$SessionsActions._();
-
-  _$SessionsActions._() : super._();
+  final ActionDispatcher<String> remove =
+      new ActionDispatcher<String>('SessionsActions-remove');
+  final ActionDispatcher<String> setCurrent =
+      new ActionDispatcher<String>('SessionsActions-setCurrent');
+  final ActionDispatcher<Null> start =
+      new ActionDispatcher<Null>('SessionsActions-start');
+  final ActionDispatcher<Null> end =
+      new ActionDispatcher<Null>('SessionsActions-end');
+  final ActionDispatcher<Null> reset =
+      new ActionDispatcher<Null>('SessionsActions-reset');
+  final ActionDispatcher<String> present =
+      new ActionDispatcher<String>('SessionsActions-present');
+  final ActionDispatcher<Null> shred =
+      new ActionDispatcher<Null>('SessionsActions-shred');
 
   @override
   void setDispatcher(Dispatcher dispatcher) {
-    shred.setDispatcher(dispatcher);
-    present.setDispatcher(dispatcher);
-    reset.setDispatcher(dispatcher);
-    end.setDispatcher(dispatcher);
-    start.setDispatcher(dispatcher);
-    setCurrent.setDispatcher(dispatcher);
-    remove.setDispatcher(dispatcher);
     update.setDispatcher(dispatcher);
+    remove.setDispatcher(dispatcher);
+    setCurrent.setDispatcher(dispatcher);
+    start.setDispatcher(dispatcher);
+    end.setDispatcher(dispatcher);
+    reset.setDispatcher(dispatcher);
+    present.setDispatcher(dispatcher);
+    shred.setDispatcher(dispatcher);
   }
 }
 
 class SessionsActionsNames {
-  static final ActionName<Null> shred =
-      new ActionName<Null>('SessionsActions-shred');
-  static final ActionName<String> present =
-      new ActionName<String>('SessionsActions-present');
-  static final ActionName<Null> reset =
-      new ActionName<Null>('SessionsActions-reset');
-  static final ActionName<Null> end =
-      new ActionName<Null>('SessionsActions-end');
-  static final ActionName<Null> start =
-      new ActionName<Null>('SessionsActions-start');
-  static final ActionName<String> setCurrent =
-      new ActionName<String>('SessionsActions-setCurrent');
-  static final ActionName<String> remove =
-      new ActionName<String>('SessionsActions-remove');
   static final ActionName<Session> update =
       new ActionName<Session>('SessionsActions-update');
+  static final ActionName<String> remove =
+      new ActionName<String>('SessionsActions-remove');
+  static final ActionName<String> setCurrent =
+      new ActionName<String>('SessionsActions-setCurrent');
+  static final ActionName<Null> start =
+      new ActionName<Null>('SessionsActions-start');
+  static final ActionName<Null> end =
+      new ActionName<Null>('SessionsActions-end');
+  static final ActionName<Null> reset =
+      new ActionName<Null>('SessionsActions-reset');
+  static final ActionName<String> present =
+      new ActionName<String>('SessionsActions-present');
+  static final ActionName<Null> shred =
+      new ActionName<Null>('SessionsActions-shred');
 }

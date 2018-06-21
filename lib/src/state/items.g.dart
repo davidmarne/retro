@@ -112,73 +112,64 @@ class ItemsBuilder implements Builder<Items, ItemsBuilder> {
 // **************************************************************************
 
 class _$ItemsActions extends ItemsActions {
-  final ActionDispatcher<String> show =
-      new ActionDispatcher<String>('ItemsActions-show');
-
-  final ActionDispatcher<String> hide =
-      new ActionDispatcher<String>('ItemsActions-hide');
-
-  final ActionDispatcher<String> removePollResponse =
-      new ActionDispatcher<String>('ItemsActions-removePollResponse');
-
-  final ActionDispatcher<PollResponse> addPollResponse =
-      new ActionDispatcher<PollResponse>('ItemsActions-addPollResponse');
-
-  final ActionDispatcher<String> removeSupport =
-      new ActionDispatcher<String>('ItemsActions-removeSupport');
-
-  final ActionDispatcher<String> addSupport =
-      new ActionDispatcher<String>('ItemsActions-addSupport');
-
-  final ActionDispatcher<String> editText =
-      new ActionDispatcher<String>('ItemsActions-editText');
-
-  final ActionDispatcher<String> setCurrent =
-      new ActionDispatcher<String>('ItemsActions-setCurrent');
-
-  final ActionDispatcher<String> remove =
-      new ActionDispatcher<String>('ItemsActions-remove');
+  factory _$ItemsActions() => new _$ItemsActions._();
+  _$ItemsActions._() : super._();
 
   final ActionDispatcher<Item> update =
       new ActionDispatcher<Item>('ItemsActions-update');
-  factory _$ItemsActions() => new _$ItemsActions._();
-
-  _$ItemsActions._() : super._();
+  final ActionDispatcher<String> remove =
+      new ActionDispatcher<String>('ItemsActions-remove');
+  final ActionDispatcher<String> setCurrent =
+      new ActionDispatcher<String>('ItemsActions-setCurrent');
+  final ActionDispatcher<String> editText =
+      new ActionDispatcher<String>('ItemsActions-editText');
+  final ActionDispatcher<String> addSupport =
+      new ActionDispatcher<String>('ItemsActions-addSupport');
+  final ActionDispatcher<String> removeSupport =
+      new ActionDispatcher<String>('ItemsActions-removeSupport');
+  final ActionDispatcher<PollResponse> addPollResponse =
+      new ActionDispatcher<PollResponse>('ItemsActions-addPollResponse');
+  final ActionDispatcher<String> removePollResponse =
+      new ActionDispatcher<String>('ItemsActions-removePollResponse');
+  final ActionDispatcher<String> hide =
+      new ActionDispatcher<String>('ItemsActions-hide');
+  final ActionDispatcher<String> show =
+      new ActionDispatcher<String>('ItemsActions-show');
 
   @override
   void setDispatcher(Dispatcher dispatcher) {
-    show.setDispatcher(dispatcher);
-    hide.setDispatcher(dispatcher);
-    removePollResponse.setDispatcher(dispatcher);
-    addPollResponse.setDispatcher(dispatcher);
-    removeSupport.setDispatcher(dispatcher);
-    addSupport.setDispatcher(dispatcher);
-    editText.setDispatcher(dispatcher);
-    setCurrent.setDispatcher(dispatcher);
-    remove.setDispatcher(dispatcher);
     update.setDispatcher(dispatcher);
+    remove.setDispatcher(dispatcher);
+    setCurrent.setDispatcher(dispatcher);
+    editText.setDispatcher(dispatcher);
+    addSupport.setDispatcher(dispatcher);
+    removeSupport.setDispatcher(dispatcher);
+    addPollResponse.setDispatcher(dispatcher);
+    removePollResponse.setDispatcher(dispatcher);
+    hide.setDispatcher(dispatcher);
+    show.setDispatcher(dispatcher);
   }
 }
 
 class ItemsActionsNames {
-  static final ActionName<String> show =
-      new ActionName<String>('ItemsActions-show');
-  static final ActionName<String> hide =
-      new ActionName<String>('ItemsActions-hide');
-  static final ActionName<String> removePollResponse =
-      new ActionName<String>('ItemsActions-removePollResponse');
-  static final ActionName<PollResponse> addPollResponse =
-      new ActionName<PollResponse>('ItemsActions-addPollResponse');
-  static final ActionName<String> removeSupport =
-      new ActionName<String>('ItemsActions-removeSupport');
-  static final ActionName<String> addSupport =
-      new ActionName<String>('ItemsActions-addSupport');
-  static final ActionName<String> editText =
-      new ActionName<String>('ItemsActions-editText');
-  static final ActionName<String> setCurrent =
-      new ActionName<String>('ItemsActions-setCurrent');
-  static final ActionName<String> remove =
-      new ActionName<String>('ItemsActions-remove');
   static final ActionName<Item> update =
       new ActionName<Item>('ItemsActions-update');
+  static final ActionName<String> remove =
+      new ActionName<String>('ItemsActions-remove');
+  static final ActionName<String> setCurrent =
+      new ActionName<String>('ItemsActions-setCurrent');
+  static final ActionName<String> editText =
+      new ActionName<String>('ItemsActions-editText');
+  static final ActionName<String> addSupport =
+      new ActionName<String>('ItemsActions-addSupport');
+  static final ActionName<String> removeSupport =
+      new ActionName<String>('ItemsActions-removeSupport');
+  static final ActionName<PollResponse> addPollResponse =
+      new ActionName<PollResponse>('ItemsActions-addPollResponse');
+  static final ActionName<String> removePollResponse =
+      new ActionName<String>('ItemsActions-removePollResponse');
+  static final ActionName<String> hide =
+      new ActionName<String>('ItemsActions-hide');
+  static final ActionName<String> show =
+      new ActionName<String>('ItemsActions-show');
 }

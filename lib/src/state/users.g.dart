@@ -112,37 +112,34 @@ class UsersBuilder implements Builder<Users, UsersBuilder> {
 // **************************************************************************
 
 class _$UsersActions extends UsersActions {
-  final ActionDispatcher<String> addBoardToCurrentUser =
-      new ActionDispatcher<String>('UsersActions-addBoardToCurrentUser');
-
-  final ActionDispatcher<String> setCurrent =
-      new ActionDispatcher<String>('UsersActions-setCurrent');
-
-  final ActionDispatcher<String> remove =
-      new ActionDispatcher<String>('UsersActions-remove');
+  factory _$UsersActions() => new _$UsersActions._();
+  _$UsersActions._() : super._();
 
   final ActionDispatcher<User> update =
       new ActionDispatcher<User>('UsersActions-update');
-  factory _$UsersActions() => new _$UsersActions._();
-
-  _$UsersActions._() : super._();
+  final ActionDispatcher<String> remove =
+      new ActionDispatcher<String>('UsersActions-remove');
+  final ActionDispatcher<String> setCurrent =
+      new ActionDispatcher<String>('UsersActions-setCurrent');
+  final ActionDispatcher<String> addBoardToCurrentUser =
+      new ActionDispatcher<String>('UsersActions-addBoardToCurrentUser');
 
   @override
   void setDispatcher(Dispatcher dispatcher) {
-    addBoardToCurrentUser.setDispatcher(dispatcher);
-    setCurrent.setDispatcher(dispatcher);
-    remove.setDispatcher(dispatcher);
     update.setDispatcher(dispatcher);
+    remove.setDispatcher(dispatcher);
+    setCurrent.setDispatcher(dispatcher);
+    addBoardToCurrentUser.setDispatcher(dispatcher);
   }
 }
 
 class UsersActionsNames {
-  static final ActionName<String> addBoardToCurrentUser =
-      new ActionName<String>('UsersActions-addBoardToCurrentUser');
-  static final ActionName<String> setCurrent =
-      new ActionName<String>('UsersActions-setCurrent');
-  static final ActionName<String> remove =
-      new ActionName<String>('UsersActions-remove');
   static final ActionName<User> update =
       new ActionName<User>('UsersActions-update');
+  static final ActionName<String> remove =
+      new ActionName<String>('UsersActions-remove');
+  static final ActionName<String> setCurrent =
+      new ActionName<String>('UsersActions-setCurrent');
+  static final ActionName<String> addBoardToCurrentUser =
+      new ActionName<String>('UsersActions-addBoardToCurrentUser');
 }

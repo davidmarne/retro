@@ -112,55 +112,49 @@ class NotesBuilder implements Builder<Notes, NotesBuilder> {
 // **************************************************************************
 
 class _$NotesActions extends NotesActions {
-  final ActionDispatcher<String> show =
-      new ActionDispatcher<String>('NotesActions-show');
-
-  final ActionDispatcher<String> hide =
-      new ActionDispatcher<String>('NotesActions-hide');
-
-  final ActionDispatcher<PairNotePayload> unpair =
-      new ActionDispatcher<PairNotePayload>('NotesActions-unpair');
-
-  final ActionDispatcher<PairNotePayload> pair =
-      new ActionDispatcher<PairNotePayload>('NotesActions-pair');
-
-  final ActionDispatcher<String> setCurrent =
-      new ActionDispatcher<String>('NotesActions-setCurrent');
-
-  final ActionDispatcher<String> remove =
-      new ActionDispatcher<String>('NotesActions-remove');
+  factory _$NotesActions() => new _$NotesActions._();
+  _$NotesActions._() : super._();
 
   final ActionDispatcher<Note> update =
       new ActionDispatcher<Note>('NotesActions-update');
-  factory _$NotesActions() => new _$NotesActions._();
-
-  _$NotesActions._() : super._();
+  final ActionDispatcher<String> remove =
+      new ActionDispatcher<String>('NotesActions-remove');
+  final ActionDispatcher<String> setCurrent =
+      new ActionDispatcher<String>('NotesActions-setCurrent');
+  final ActionDispatcher<PairNotePayload> pair =
+      new ActionDispatcher<PairNotePayload>('NotesActions-pair');
+  final ActionDispatcher<PairNotePayload> unpair =
+      new ActionDispatcher<PairNotePayload>('NotesActions-unpair');
+  final ActionDispatcher<String> hide =
+      new ActionDispatcher<String>('NotesActions-hide');
+  final ActionDispatcher<String> show =
+      new ActionDispatcher<String>('NotesActions-show');
 
   @override
   void setDispatcher(Dispatcher dispatcher) {
-    show.setDispatcher(dispatcher);
-    hide.setDispatcher(dispatcher);
-    unpair.setDispatcher(dispatcher);
-    pair.setDispatcher(dispatcher);
-    setCurrent.setDispatcher(dispatcher);
-    remove.setDispatcher(dispatcher);
     update.setDispatcher(dispatcher);
+    remove.setDispatcher(dispatcher);
+    setCurrent.setDispatcher(dispatcher);
+    pair.setDispatcher(dispatcher);
+    unpair.setDispatcher(dispatcher);
+    hide.setDispatcher(dispatcher);
+    show.setDispatcher(dispatcher);
   }
 }
 
 class NotesActionsNames {
-  static final ActionName<String> show =
-      new ActionName<String>('NotesActions-show');
-  static final ActionName<String> hide =
-      new ActionName<String>('NotesActions-hide');
-  static final ActionName<PairNotePayload> unpair =
-      new ActionName<PairNotePayload>('NotesActions-unpair');
-  static final ActionName<PairNotePayload> pair =
-      new ActionName<PairNotePayload>('NotesActions-pair');
-  static final ActionName<String> setCurrent =
-      new ActionName<String>('NotesActions-setCurrent');
-  static final ActionName<String> remove =
-      new ActionName<String>('NotesActions-remove');
   static final ActionName<Note> update =
       new ActionName<Note>('NotesActions-update');
+  static final ActionName<String> remove =
+      new ActionName<String>('NotesActions-remove');
+  static final ActionName<String> setCurrent =
+      new ActionName<String>('NotesActions-setCurrent');
+  static final ActionName<PairNotePayload> pair =
+      new ActionName<PairNotePayload>('NotesActions-pair');
+  static final ActionName<PairNotePayload> unpair =
+      new ActionName<PairNotePayload>('NotesActions-unpair');
+  static final ActionName<String> hide =
+      new ActionName<String>('NotesActions-hide');
+  static final ActionName<String> show =
+      new ActionName<String>('NotesActions-show');
 }
