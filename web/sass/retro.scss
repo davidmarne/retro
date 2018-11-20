@@ -25,3 +25,8 @@
 .fa-check-square-o {
   transform: translate3d(0.1rem, 0, 0);
 }
+
+// Adding word-wrap to bulma's notification class
+.notification {
+  word-wrap: break-word;
+}
