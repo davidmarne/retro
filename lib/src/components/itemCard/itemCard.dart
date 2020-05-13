@@ -9,7 +9,7 @@ import '../../models/item.dart';
 @Component(
   selector: 'item-card',
   templateUrl: 'itemCard.html',
-  directives: const [ROUTER_DIRECTIVES],
+  directives: const [routerDirectives],
   changeDetection: ChangeDetectionStrategy.OnPush,
 )
 class ItemCardComponent {

@@ -20,8 +20,8 @@ import '../../state/app.dart';
 
 @Component(selector: 'app', templateUrl: 'app.html', directives: const [
   formDirectives,
-  ROUTER_DIRECTIVES,
-  CORE_DIRECTIVES,
+  routerDirectives,
+  coreDirectives,
   CategoryCreateModalComponent,
   ItemCreateModalComponent,
   ManageContentModalComponent,

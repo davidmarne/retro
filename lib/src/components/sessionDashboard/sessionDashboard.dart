@@ -22,7 +22,7 @@ import '../../store.dart';
   selector: 'sessionDashboard',
   templateUrl: 'sessionDashboard.html',
   directives: const [
-    ROUTER_DIRECTIVES,
+    routerDirectives,
     ItemCardComponent,
     NoteTagComponent,
     COMMON_DIRECTIVES,

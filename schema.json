@@ -14,7 +14,7 @@
         }
     },
     "boards": {
-        "$uid(board)" : {
+        "$uid(board)": {
             "title": "title",
             "description": "description",
             "owner": "$uid",
@@ -43,7 +43,7 @@
     "categories": {
         "$uid(board)": {
             "$uid(session)": {
-                "$uid(category)" : {
+                "$uid(category)": {
                     "title": "title",
                     "description": "description"
                 }
@@ -53,7 +53,7 @@
     "items": {
         "$uid(board)": {
             "$uid(session)": {
-                "$uid(item)" : {
+                "$uid(item)": {
                     "owner": "$uid",
                     "text": "text",
                     "time": 3600, // amount of time spent discussing this item
@@ -85,6 +85,19 @@
             "name": "name",
             "boards": {
                 "$uid(board)": 123456789 // date user joined the board
+            }
+        }
+    },
+    "rules": {
+        "users": {
+            "$uid": {
+                ".write": "auth.uid == $uid",
+                "name": {
+                    ".read": true
+                },
+                "boardUids": {
+                    ".read": "auth.uid == $uid"
+                }
             }
         }
     }

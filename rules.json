@@ -1,0 +1,146 @@
+{
+    "rules": {
+        "users": {
+            "$uid": {
+                ".write": "auth.uid == $uid",
+                "name": {
+                    ".read": true,
+                    ".validate": "newData.isString()"
+                },
+                "boardUids": {
+                    ".read": "auth.uid == $uid",
+                    "$buid": {
+                        ".validate": "newData.isNumber()"
+                    }
+                },
+                "$other": {
+                    ".validate": false
+                }
+            }
+        },
+        "boards": {
+            "$buid": {
+              	".write": "auth != null",
+                ".read": "data.child('ownerUid').val() == auth.uid || data.child('memberUids').hasChild(auth.uid)",
+                "ownerUid": {
+                    ".validate": "!data.exists() && newData.val() == auth.uid"
+                },
+                "memberUids": {
+                    "$uid": {
+                        ".validate": "auth.uid == $uid && newData.isNumber()"
+                    }
+                }
+            }
+        },
+        "sessions": {
+            "$buid": {
+                ".write": "root.child('boards').child($buid).child('memberUids').hasChild(auth.uid)",
+                ".read": "root.child('boards').child($buid).child('memberUids').hasChild(auth.uid)",
+                "$suid": {
+                    "boardUid" : {
+                        ".validate": "newData.val() == $buid"
+                    },
+                    "uid" : {
+                        ".validate": "newData.val() == $suid"
+                    },
+                    "createdDate": {
+                        ".validate": "newData.isNumber()"
+                    },
+                    "endTime": {
+                        ".validate": "newData.isNumber()"
+                    },
+                    "presentedDate": {
+                        ".validate": "newData.isNumber()"
+                    },
+                    "startTime": {
+                        ".validate": "newData.isNumber()"
+                    },
+                    "targetTime": {
+                        ".validate": "newData.isNumber()"
+                    }
+                }
+            }
+        },
+        "categories": {
+            "$buid": {
+                ".write": "root.child('boards').child($buid).child('memberUids').hasChild(auth.uid)",
+                ".read": "root.child('boards').child($buid).child('memberUids').hasChild(auth.uid)",
+                "$suid": {
+                    "$uid": {
+                        "boardUid" : {
+                            ".validate": "newData.val() == $buid"
+                        },
+                        "sessionUid" : {
+                            ".validate": "newData.val() == $suid"
+                        },
+                        "uid" : {
+                            ".validate": "newData.val() == $uid"
+                        },
+                        "title": {
+                            ".validate": "newData.isString()"
+                        },
+                        "description": {
+                            ".validate": "newData.isString()"
+                        },
+                        "visible": {
+                            ".validate": "newData.isBoolean()"
+                        },
+                        "$other": {
+                            ".validate": false
+                        }
+                    }
+                }
+            }
+        },
+        "items": {
+            "$buid": {
+                ".write": "root.child('boards').child($buid).child('memberUids').hasChild(auth.uid)",
+                ".read": "root.child('boards').child($buid).child('memberUids').hasChild(auth.uid)",
+                "$suid": {
+                    "$uid": {
+                        "boardUid" : {
+                            ".validate": "newData.val() == $buid"
+                        },
+                        "sessionUid" : {
+                            ".validate": "newData.val() == $suid"
+                        },
+                        "uid" : {
+                            ".validate": "newData.val() == $uid"
+                        },
+                        "ownerUid": {
+                            ".validate": "!data.exists() && newData.val() == auth.uid"
+                        },
+                        "$other": {
+                            ".validate": "!data.exists() || data.parent().child('ownerUid').val() == auth.uid"
+                        }
+                    }
+                }
+            }
+        },
+        "notes": {
+            "$buid": {
+                ".write": "root.child('boards').child($buid).child('memberUids').hasChild(auth.uid)",
+                ".read": "root.child('boards').child($buid).child('memberUids').hasChild(auth.uid)",
+                "$suid": {
+                    "$uid": {
+                        "boardUid" : {
+                            ".validate": "newData.val() == $buid"
+                        },
+                        "sessionUid" : {
+                            ".validate": "newData.val() == $suid"
+                        },
+                        "uid" : {
+                            ".validate": "newData.val() == $uid"
+                        },
+                        "ownerUid": {
+                            ".validate": "!data.exists() && newData.val() == auth.uid"
+                        },
+                        "$other": {
+                            ".validate": "!data.exists() || data.parent().child('ownerUid').val() == auth.uid"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

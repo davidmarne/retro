@@ -1,0 +1,71 @@
+{
+    "boards": {
+        "-KpMz2LGLUeyDN3dofdE": {
+            "description": "How can we improve camping next time!",
+            "latestSessionUid": "-LgrrfKjwfzr3neTXy00",
+            "memberUids": {
+                "FqXdVy0G4fcz0k8V4qbQ4EmX62N2": 1588453843033
+            },
+            "ownerUid": "FqXdVy0G4fcz0k8V4qbQ4EmX62N2",
+            "title": "Camping Post-Op",
+            "uid": "-KpMz2LGLUeyDN3dofdE"
+        }
+    },
+    "categories": {
+        "-KpMz2LGLUeyDN3dofdE": {
+            "-KpMz4G8CcnLbrR2FG6u": {
+                "-KpMzA6u8DUOkwhsBRqS": {
+                    "boardUid": "-KpMz2LGLUeyDN3dofdE",
+                    "description": "What went well.",
+                    "sessionUid": "-KpMz4G8CcnLbrR2FG6u",
+                    "title": "The Good",
+                    "uid": "-KpMzA6u8DUOkwhsBRqS",
+                    "visible": true
+                }
+            }
+        }
+    },
+    "items": {
+        "-KpMz2LGLUeyDN3dofdE": {
+            "-KpMz4G8CcnLbrR2FG6u": {
+                "-KpMz_NdpeRN9eLt9e9C": {
+                    "boardUid": "-KpMz2LGLUeyDN3dofdE",
+                    "categoryUid": "-KpMzA6u8DUOkwhsBRqS",
+                    "ownerUid": "FqXdVy0G4fcz0k8V4qbQ4EmX62N2",
+                    "sessionUid": "-KpMz4G8CcnLbrR2FG6u",
+                    "text": "Little axe was more than enough axe. :)",
+                    "time": 0,
+                    "uid": "-KpMz_NdpeRN9eLt9e9C",
+                    "visible": false
+                }
+            }
+        }
+    },
+    "sessions": {
+        "-KpMz2LGLUeyDN3dofdE": {
+            "-KpMz4G8CcnLbrR2FG6u": {
+                "boardUid": "-KpMz2LGLUeyDN3dofdE",
+                "createdDate": 1500419741986,
+                "endTime": 1528757046822,
+                "presentedDate": 1528757045688,
+                "presentedUid": "-KpMziZKelgGSHUDjLGi",
+                "startTime": 1528757045683,
+                "targetTime": 900000,
+                "uid": "-KpMz4G8CcnLbrR2FG6u"
+            }
+        }
+    },
+    "users": {
+        "FqXdVy0G4fcz0k8V4qbQ4EmX62N2": {
+            "boardUids": {
+                "-KpMz2LGLUeyDN3dofdE": 1588453843033,
+                "-LElJ-15vJ5dLen_7RYy": 1556315811604,
+                "-LfQHePLAUnbN_2HSMkU": 1588479190659,
+                "-LgJhxQApLVDfvEJ02Dd": 1578423623676,
+                "hoc-retro": 1556315794350
+            },
+            "name": "Jerold A.",
+            "uid": "FqXdVy0G4fcz0k8V4qbQ4EmX62N2"
+        }
+    }
+}

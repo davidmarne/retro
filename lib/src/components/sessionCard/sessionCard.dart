@@ -12,7 +12,7 @@ import '../../store.dart';
 @Component(
   selector: 'session-card',
   templateUrl: 'sessionCard.html',
-  directives: const [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
+  directives: const [routerDirectives, coreDirectives],
   changeDetection: ChangeDetectionStrategy.OnPush,
 )
 class SessionCardComponent {

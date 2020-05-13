@@ -11,8 +11,8 @@ import '../../store.dart';
   selector: 'board-card',
   templateUrl: 'boardCard.html',
   directives: const [
-    ROUTER_DIRECTIVES,
-    CORE_DIRECTIVES,
+    routerDirectives,
+    coreDirectives,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 )

@@ -12,7 +12,7 @@ import '../../store.dart';
   selector: 'latestSessionDashboard',
   templateUrl: 'latestSessionDashboard.html',
   directives: const [
-    ROUTER_DIRECTIVES,
+    routerDirectives,
     ItemCardComponent,
   ],
 )
