@@ -35,3 +35,24 @@ Running this script will compile the css for all the sass rules defined in web/s
 [angular]: https://pub.dartlang.org/packages/angular
 [firebase]: https://pub.dartlang.org/packages/firebase
 [bulma]: http://bulma.io/
+
+
+##Dart 1:
+### Installing Dart 1 if you've only ever had Dart 2:
+```bash
+brew install dart@1
+brew unlink dart
+brew link -f dart@1
+echo 'export PATH="/usr/local/opt/dart@1/bin:$PATH"' >> ~/.zshrc
+```
+
+### Switching back to Dart 2:
+```bash
+brew unlink dart@1
+brew link dart
+```
+
+### Building for deployment needs the debug flag
+```bash
+pub build --mode=debug
+```

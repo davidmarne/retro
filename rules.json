@@ -1,0 +1,164 @@
+{
+    "rules": {
+        "users": {
+            ".read": "auth != null",
+            "$uid": {
+                ".write": "auth.uid == $uid",
+                "name": {
+                    ".validate": "newData.isString()"
+                },
+                "boardUids": {
+                    "$buid": {
+                        ".validate": "newData.isNumber()"
+                    }
+                },
+                "$other": {
+                    ".validate": false
+                }
+            }
+        },
+        "boards": {
+            ".read": "auth != null",
+            "$buid": {
+              ".write": "auth != null",
+                "ownerUid": {
+                    ".validate": "!data.exists() && newData.val() == auth.uid"
+                },
+                "memberUids": {
+                    "$uid": {
+                        ".validate": "auth.uid == $uid && newData.isNumber()"
+                    }
+                }
+            }
+        },
+        "sessions": {
+            "$buid": {
+                ".write": "auth != null && root.child('boards').child($buid).child('memberUids').hasChild(auth.uid)",
+                ".read": "auth != null && root.child('boards').child($buid).child('memberUids').hasChild(auth.uid)",
+                "$suid": {
+                    "boardUid" : {
+                        ".validate": "newData.val() == $buid"
+                    },
+                    "uid" : {
+                        ".validate": "newData.val() == $suid"
+                    },
+                    "createdDate": {
+                        ".validate": "newData.isNumber()"
+                    },
+                    "endTime": {
+                        ".validate": "newData.isNumber()"
+                    },
+                    "presentedUid": {
+                        ".validate": true
+                    },
+                    "presentedDate": {
+                        ".validate": "newData.isNumber()"
+                    },
+                    "startTime": {
+                        ".validate": "newData.isNumber()"
+                    },
+                    "targetTime": {
+                        ".validate": "newData.isNumber()"
+                    }
+                }
+            }
+        },
+        "categories": {
+            "$buid": {
+                ".write": "auth != null && root.child('boards').child($buid).child('memberUids').hasChild(auth.uid)",
+                ".read": "auth != null && root.child('boards').child($buid).child('memberUids').hasChild(auth.uid)",
+                "$suid": {
+                    "$uid": {
+                        "boardUid" : {
+                            ".validate": "newData.val() == $buid"
+                        },
+                        "sessionUid" : {
+                            ".validate": "newData.val() == $suid"
+                        },
+                        "uid" : {
+                            ".validate": "newData.val() == $uid"
+                        },
+                        "title": {
+                            ".validate": "newData.isString()"
+                        },
+                        "description": {
+                            ".validate": "newData.isString()"
+                        },
+                        "visible": {
+                            ".validate": "newData.isBoolean()"
+                        },
+                        "color": {
+                            ".validate": "newData.isString()"
+                        },
+                        "$other": {
+                            ".validate": false
+                        }
+                    }
+                }
+            }
+        },
+        "items": {
+            "$buid": {
+                ".write": "auth != null && root.child('boards').child($buid).child('memberUids').hasChild(auth.uid)",
+                ".read": "auth != null && root.child('boards').child($buid).child('memberUids').hasChild(auth.uid)",
+                "$suid": {
+                    "$uid": {
+                        "boardUid" : {
+                            ".validate": "newData.val() == $buid"
+                        },
+                        "sessionUid" : {
+                            ".validate": "newData.val() == $suid"
+                        },
+                        "uid" : {
+                            ".validate": "newData.val() == $uid"
+                        },
+                        "ownerUid": {
+                            ".validate": "!data.exists() && newData.val() == auth.uid"
+                        },
+                        "supporterUids": {
+                            ".validate": true
+                        },
+                        "pollResponses": {
+                            ".validate": true
+                        },
+                        "time": {
+                            ".validate": "newData.isNumber()"
+                        },
+                        "$other": {
+                            ".validate": "!data.exists() || data.parent().child('ownerUid').val() == auth.uid"
+                        }
+                    }
+                }
+            }
+        },
+        "notes": {
+            "$buid": {
+                ".write": "auth != null && root.child('boards').child($buid).child('memberUids').hasChild(auth.uid)",
+                ".read": "auth != null && root.child('boards').child($buid).child('memberUids').hasChild(auth.uid)",
+                "$suid": {
+                    "$uid": {
+                        "boardUid" : {
+                            ".validate": "newData.val() == $buid"
+                        },
+                        "sessionUid" : {
+                            ".validate": "newData.val() == $suid"
+                        },
+                        "uid" : {
+                            ".validate": "newData.val() == $uid"
+                        },
+                        "ownerUid": {
+                            ".validate": "!data.exists() && newData.val() == auth.uid"
+                        },
+                        "$other": {
+                            ".validate": "!data.exists() || data.parent().child('ownerUid').val() == auth.uid"
+                        }
+                    }
+                }
+            }
+        },
+        "$other": {
+            ".read": false,
+            ".write": false
+        }
+    }
+}
