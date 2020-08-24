@@ -91,6 +91,8 @@ class AppComponent {
 
   signInWithEmail() => _storeService.signInWithEmail(email, password);
 
+  initiatePasswordReset() => _storeService.initiatePasswordReset(email);
+
   toggleMobileMenu() => _storeService.store.actions.toggleMobileMenu(null);
 
   void showSignInModal() {
